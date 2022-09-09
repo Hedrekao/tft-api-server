@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model augments {
+  id                   Int                    @id
+  name                 String                 @db.VarChar(50)
+  augments_composition augments_composition[]
+}
+
+model augments_composition {
+  augment_id     Int
+  composition_id Int
+  avg_place      Decimal      @db.Decimal(3, 1)
+  winrate        Decimal      @db.Decimal(4, 1)
+  frequency      Decimal      @db.Decimal(4, 1)
+  augments       augments     @relation(fields: [augment_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  compositions   compositions @relation(fields: [composition_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([augment_id, composition_id])
+}
+
+model champions {
+  id                    String                  @id @db.VarChar(100)
+  name                  String?                 @db.VarChar(50)
+  cost                  Int?
+  champions_composition champions_composition[]
+  champions_items       champions_items[]
+  champions_traits      champions_traits[]
+}
+
+model champions_composition {
+  champion_id     String       @db.VarChar(100)
+  composition_id  Int
+  is_three_star   Boolean?
+  x_grid_position Int?
+  y_grid_position Int?
+  champions       champions    @relation(fields: [champion_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  compositions    compositions @relation(fields: [composition_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([champion_id, composition_id])
+}
+
+model champions_items {
+  champion_id            String    @db.VarChar(100)
+  item_id                Int
+  play_ratio             Decimal?  @db.Decimal(4, 1)
+  number_of_games_played Int
+  isbis                  Boolean?
+  champions              champions @relation(fields: [champion_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  items                  items     @relation(fields: [item_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([champion_id, item_id])
+}
+
+model champions_traits {
+  champion_id String    @db.VarChar(100)
+  trait_id    String    @db.VarChar(100)
+  champions   champions @relation(fields: [champion_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  traits      traits    @relation(fields: [trait_id], references: [name], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([champion_id, trait_id])
+}
+
+model compositions {
+  id                    Int                     @id @default(autoincrement())
+  avg_placement         Int?
+  top4_ratio            Int?
+  play_ratio            Int?
+  winrate               Int?
+  augments_composition  augments_composition[]
+  champions_composition champions_composition[]
+  traits_composition    traits_composition[]
+}
+
+model general_data {
+  match_id String @id
+}
+
+model items {
+  id              Int               @id
+  name            String?           @db.VarChar(50)
+  description     String?           @db.VarChar(200)
+  champions_items champions_items[]
+}
+
+model traits {
+  name      String @id @db.VarChar(100)
+  max_trait Int
+
+  champions_traits   champions_traits[]
+  traits_composition traits_composition[]
+}
+
+model traits_composition {
+  trait_id       String
+  composition_id Int
+  style          Int
+  current_trait  Decimal
+  traits         traits       @relation(fields: [trait_id], references: [name], onDelete: NoAction, onUpdate: NoAction)
+  compositions   compositions @relation(fields: [composition_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([trait_id, composition_id])
+}

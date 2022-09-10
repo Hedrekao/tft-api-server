@@ -20,7 +20,7 @@ app.get('/summoner/:region/:name', async (req: any, res) => {
   return getSummonersData(req.params.name, req.params.region);
 });
 
-app.listen({ port: process.env.PORT }, (err) => {
+app.listen({ port: process.env.PORT || 3001 }, (err) => {
   console.log('Server is running');
 });
 

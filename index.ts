@@ -10,6 +10,7 @@ dotenv.config();
 const app = fastify();
 app.register(sensible);
 app.register(cors);
+const port = process.env.PORT || 3001;
 const prisma = new PrismaClient();
 
 app.get('/comps', async (req, res) => {
@@ -20,7 +21,7 @@ app.get('/summoner/:region/:name', async (req: any, res) => {
   return getSummonersData(req.params.name, req.params.region);
 });
 
-app.listen({ port: process.env.PORT || 3001 }, (err) => {
+app.listen({ port: port, host: '0.0.0.0' }, (err) => {
   console.log('Server is running');
 });
 

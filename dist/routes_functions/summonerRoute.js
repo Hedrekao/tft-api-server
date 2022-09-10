@@ -32,7 +32,9 @@ const getSummonersData = async (name, region) => {
             name: name,
             region: region,
             icon: iconId,
-            rank: tier + ' ' + division,
+            rank: `${tier}${tier === 'MASTER' || tier === 'GRANDMASTER' || tier === 'CHALLENGER'
+                ? ''
+                : ` ${division}`}`,
             lp: lp,
             ranking: leagueInfo + 1
         };

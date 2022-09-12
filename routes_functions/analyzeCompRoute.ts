@@ -1,13 +1,24 @@
+import { prisma } from '@prisma/client';
 import axios from 'axios';
 
-const findMatchingComposition = async (inputData: Array<any>) => {
+const findMatchingComposition = async (
+  inputData: Array<any>,
+  sampleSize: number
+) => {
   try {
-    const result = [];
+    const result = {
+      augments: [],
+      items: [],
+      variation: { top4Ratio: 0, avgPlacement: 0 }
+    };
     const challengerDataResponse = await axios.get(
       `https://euw1.api.riotgames.com/tft/league/v1/challenger?api_key=${process.env.API_KEY}`
     );
+    let placementOverall = 0;
+    let top4Count = 0;
 
     const challengersData: Array<any> = challengerDataResponse.data['entries'];
+    let numberOfMatchingComps = 0;
 
     for (const challengerData of challengersData) {
       const summonerPuuidResponse = await axios.get(
@@ -29,18 +40,17 @@ const findMatchingComposition = async (inputData: Array<any>) => {
 
         const participants = matchData['participants'];
 
-        for (const composition of participants) {
-          let isCompositionMatchingInput = true;
+        let isCompositionMatchingInput = true;
 
+        for (const composition of participants) {
           const compositionUnits = composition['units'].reduce(
             (object: Object, item: Object) => {
               const name = item['character_id'];
               object[name] = {
-                name: {
-                  level: item['tier'],
-                  items: item['items']
-                }
+                level: item['tier'],
+                items: item['items']
               };
+
               return object;
             },
             {}
@@ -61,7 +71,7 @@ const findMatchingComposition = async (inputData: Array<any>) => {
                 isCompositionMatchingInput = false;
                 break;
               }
-              const items: Array<number> = unit['items'];
+              const items: Array<number> = unit['items']['id'];
               if (
                 !items.every((item) => {
                   return compositionUnits[unit['character_id']][
@@ -75,16 +85,43 @@ const findMatchingComposition = async (inputData: Array<any>) => {
             }
           }
           if (isCompositionMatchingInput) {
-            totalNumberOfMatches++;
-            // analyzeComposition(composition) // TO DO!!
+            numberOfMatchingComps++;
+            placementOverall += composition['placement'];
+            if (composition['placement'] <= 4) {
+              top4Count++;
+            }
+            analyzeCompositionAugments(composition, result);
+          }
+          if (numberOfMatchingComps == sampleSize) {
+            const top4Procentage = (
+              (top4Count / totalNumberOfMatches) *
+              100
+            ).toFixed(2);
+
+            const avgPlacement = (
+              placementOverall / totalNumberOfMatches
+            ).toFixed(2);
+
+            result['variation']['top4Ratio'] = parseInt(top4Procentage);
+            result['variation']['avgPlacement'] = parseInt(avgPlacement);
+
+            return result;
           }
         }
-
-        result.push(matchData);
+        if (isCompositionMatchingInput) {
+          totalNumberOfMatches++;
+        }
       }
       return result;
     }
   } catch (error: any) {
     console.log(error.message);
+  }
+};
+
+const analyzeCompositionAugments = (composition: Object, result: Object) => {
+  for (const augment of composition['augments']) {
+    // ADD CHECKING IN DATABASE AUGMENT AND IF IT IS NOT THERE ADD IT TO THE LIST!!!
+    result['augments'][augment]++;
   }
 };

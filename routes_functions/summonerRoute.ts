@@ -1,13 +1,18 @@
 import timeSince from '../helper_functions/timeSince.js';
 import mapTraits from '../helper_functions/mapTraits.js';
 import mapUnits from '../helper_functions/mapUnits.js';
+import getMatchRegion from '../helper_functions/getMatchRegion.js';
+import getFullNameOfRegion from '../helper_functions/getFullNameOfRegion.js';
 import axios from 'axios';
 
 const getSummonersData = async (name: string, region: string) => {
   try {
     const transformedName = name.replaceAll(' ', '%20');
+
     const summonerDataResponse = await axios.get(
-      `https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${transformedName}?api_key=${process.env.API_KEY}`
+      encodeURI(
+        `https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${transformedName}?api_key=${process.env.API_KEY}`
+      )
     );
     const summonerData: Object = summonerDataResponse.data;
     const puuid: string = summonerData['puuid'];
@@ -56,7 +61,7 @@ const getSummonersData = async (name: string, region: string) => {
 
     const profile = {
       name: name,
-      region: region,
+      region: getFullNameOfRegion(region),
       icon: iconId,
       rank: `${tier}${
         tier === 'MASTER' || tier === 'GRANDMASTER' || tier === 'CHALLENGER'
@@ -95,8 +100,10 @@ const getPreviousMatchesData = async (
   region: string,
   generalData?: boolean
 ) => {
+  const matchRegion = getMatchRegion(region);
+
   const matchesIdResponse = await axios.get(
-    `https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${puuid}/ids?start=0&count=${count}&api_key=${process.env.API_KEY}`
+    `https://${matchRegion}.api.riotgames.com/tft/match/v1/matches/by-puuid/${puuid}/ids?start=0&count=${count}&api_key=${process.env.API_KEY}`
   );
   const matchesId = matchesIdResponse.data;
   const placements = [];
@@ -108,7 +115,7 @@ const getPreviousMatchesData = async (
 
   for (const matchId of matchesId) {
     const matchDataResponse = await axios.get(
-      `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}?api_key=${process.env.API_KEY}`
+      `https://${matchRegion}.api.riotgames.com/tft/match/v1/matches/${matchId}?api_key=${process.env.API_KEY}`
     );
     const matchData = matchDataResponse.data;
     const participants: Array<any> = matchData['info']['participants'];
@@ -119,11 +126,8 @@ const getPreviousMatchesData = async (
     const placement = playerInfo['placement'];
 
     if (!generalData) {
-      const filteredParticipants = participants.filter((participant) => {
-        return participant['puuid'] != playerInfo['puuid'];
-      });
       const otherCompositions = await Promise.all(
-        filteredParticipants.map(async (item) => {
+        participants.map(async (item) => {
           let eliminated;
           const summonerResponse = await axios.get(
             `https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${item['puuid']}?api_key=${process.env.API_KEY}`
@@ -152,6 +156,15 @@ const getPreviousMatchesData = async (
           return result;
         })
       );
+      otherCompositions.sort((a, b) => {
+        if (a['placement'] < b['placement']) {
+          return -1;
+        }
+        if (a['placement'] < b['placement']) {
+          return 1;
+        }
+        return 0;
+      });
       const match = {
         players: otherCompositions,
         timeAgo: timeSince(matchData['info']['game_datetime']),
@@ -161,7 +174,8 @@ const getPreviousMatchesData = async (
             : 'Normal',
         placement: placement,
         trait: mapTraits(playerInfo['traits']),
-        units: mapUnits(playerInfo['units'])
+        units: mapUnits(playerInfo['units']),
+        augments: playerInfo['augments']
       };
       allComps.push(match);
     }

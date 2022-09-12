@@ -7,11 +7,9 @@ import axios from 'axios';
 
 const getSummonersData = async (name: string, region: string) => {
   try {
-    const transformedName = name.replaceAll(' ', '%20');
-
     const summonerDataResponse = await axios.get(
       encodeURI(
-        `https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${transformedName}?api_key=${process.env.API_KEY}`
+        `https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${name}?api_key=${process.env.API_KEY}`
       )
     );
     const summonerData: Object = summonerDataResponse.data;

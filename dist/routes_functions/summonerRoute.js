@@ -6,7 +6,6 @@ import getFullNameOfRegion from '../helper_functions/getFullNameOfRegion.js';
 import axios from 'axios';
 const getSummonersData = async (name, region) => {
     try {
-        // const transformedName = name.replaceAll(' ', '%20');
         const summonerDataResponse = await axios.get(encodeURI(`https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${name}?api_key=${process.env.API_KEY}`));
         const summonerData = summonerDataResponse.data;
         const puuid = summonerData['puuid'];

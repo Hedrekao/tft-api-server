@@ -1,7 +1,20 @@
 import getCostOfUnit from './getCostOfUnit.js';
 import mapItems from './mapItems.js';
-const mapUnits = (rawUnits) => {
-    const units = rawUnits.map((unit) => {
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
+const mapUnits = async (rawUnits) => {
+    const units = await Promise.all(rawUnits.map(async (unit) => {
+        try {
+            await prisma.champions.create({
+                data: {
+                    id: unit['character_id'],
+                    cost: getCostOfUnit(unit['rarity'])
+                }
+            });
+        }
+        catch (e) {
+            console.log('Character already in db');
+        }
         const result = {
             id: unit['character_id'],
             level: unit['tier'],
@@ -9,7 +22,7 @@ const mapUnits = (rawUnits) => {
             items: mapItems(unit['itemNames'], unit['items'])
         };
         return result;
-    });
+    }));
     units.sort((a, b) => {
         if (a['level'] > b['level']) {
             return -1;

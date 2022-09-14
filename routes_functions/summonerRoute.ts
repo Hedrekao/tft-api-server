@@ -146,7 +146,7 @@ const getPreviousMatchesData = async (
             goldLeft: item['gold_left'],
             placement: item['placement'],
             traits: mapTraits(item['traits']),
-            units: mapUnits(item['units']),
+            units: await mapUnits(item['units']),
             eliminated: eliminated,
             summonerName: name,
             summonerIcon: summonerIcon

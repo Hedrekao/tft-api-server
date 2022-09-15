@@ -95,7 +95,7 @@ const getPreviousMatchesData = async (puuid, count, region, generalData) => {
                     goldLeft: item['gold_left'],
                     placement: item['placement'],
                     traits: mapTraits(item['traits']),
-                    units: await mapUnits(item['units']),
+                    units: mapUnits(item['units']),
                     eliminated: eliminated,
                     summonerName: name,
                     summonerIcon: summonerIcon

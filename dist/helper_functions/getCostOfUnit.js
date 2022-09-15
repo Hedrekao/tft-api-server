@@ -17,5 +17,6 @@ const getCostOfUnit = (rarity) => {
         case 7:
             return 8;
     }
+    return -1;
 };
 export default getCostOfUnit;

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import isCompositionMatchingInput from 'helper_functions/analyzeRoute/isCompositionMatchingInput.js';
+import isCompositionMatchingInput from '../helper_functions/analyzeRoute/isCompositionMatchingInput.js';
 import transformUnitsData from '../helper_functions/analyzeRoute/transformUnitsData.js';
 import collectDataAboutItems from '../helper_functions/analyzeRoute/collectDataAboutItems.js';
 import prepareAnalysisResult from '../helper_functions/analyzeRoute/prepareAnalysisResult.js';

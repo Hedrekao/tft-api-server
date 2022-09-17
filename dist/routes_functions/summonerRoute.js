@@ -1,8 +1,8 @@
-import timeSince from '../helper_functions/timeSince.js';
-import mapTraits from '../helper_functions/mapTraits.js';
-import mapUnits from '../helper_functions/mapUnits.js';
-import getMatchRegion from '../helper_functions/getMatchRegion.js';
-import getFullNameOfRegion from '../helper_functions/getFullNameOfRegion.js';
+import timeSince from '../helper_functions/summonerRoute/timeSince.js';
+import mapTraits from '../helper_functions/summonerRoute/mapTraits.js';
+import mapUnits from '../helper_functions/summonerRoute/mapUnits.js';
+import getMatchRegion from '../helper_functions/summonerRoute/getMatchRegion.js';
+import getFullNameOfRegion from '../helper_functions/summonerRoute/getFullNameOfRegion.js';
 import axios from 'axios';
 const getSummonersData = async (name, region) => {
     try {

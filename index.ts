@@ -4,6 +4,7 @@ import sensible from '@fastify/sensible';
 import { PrismaClient } from '@prisma/client';
 import cors from '@fastify/cors';
 import getSummonersData from './routes_functions/summonerRoute.js';
+import analyzeComposition from './routes_functions/analyzeCompRoute.js';
 
 dotenv.config();
 
@@ -13,8 +14,8 @@ app.register(cors);
 const port = process.env.PORT || 3001;
 const prisma = new PrismaClient();
 
-app.get('/comps', async (req, res) => {
-  // return findMatchingComposition('baginski');
+app.get('/comps', async (req: any, res) => {
+  return analyzeComposition(req.body.inputData, 10, 20);
 });
 
 app.get('/summoner/:region/:name', async (req: any, res) => {

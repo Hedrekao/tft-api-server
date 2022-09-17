@@ -22,6 +22,10 @@ app.get('/summoner/:region/:name', async (req: any, res) => {
   return getSummonersData(req.params.name, req.params.region);
 });
 
+app.get('/units', async (req, res) => {
+  return await commitToDb(prisma.champions.findMany());
+});
+
 app.listen({ port: port, host: '0.0.0.0' }, (err) => {
   console.log('Server is running');
 });

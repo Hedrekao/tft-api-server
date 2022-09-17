@@ -26,6 +26,16 @@ app.get('/units', async (req, res) => {
   return await commitToDb(prisma.champions.findMany());
 });
 
+app.get('/unit/:id', async (req: any, res) => {
+  return await commitToDb(
+    prisma.champions.findUnique({
+      where: {
+        id: req.params.id
+      }
+    })
+  );
+});
+
 app.listen({ port: port, host: '0.0.0.0' }, (err) => {
   console.log('Server is running');
 });

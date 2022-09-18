@@ -57,6 +57,7 @@ const analyzeComposition = async (
 
           if (isAMatch) {
             numberOfMatchingComps++;
+
             if (firstCompositionInMatch) {
               totalNumberOfMatches++;
               firstCompositionInMatch = false;
@@ -69,7 +70,12 @@ const analyzeComposition = async (
               }
             }
             collectDataAboutAugments(composition, augmentsData);
-            collectDataAboutItems(composition, inputData, itemsData);
+            collectDataAboutItems(
+              composition,
+              inputData,
+              itemsData,
+              compositionUnits
+            );
           }
           if (
             numberOfMatchingComps == sampleSize ||

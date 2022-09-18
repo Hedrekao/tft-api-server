@@ -1,15 +1,20 @@
-const collectDataAboutItems = (composition, inputData, itemsData) => {
+const collectDataAboutItems = (composition, inputData, itemsData, compositionUnits) => {
     for (const unit of inputData) {
-        for (const item of unit['item']) {
+        if (!itemsData.hasOwnProperty(unit['name'])) {
+            itemsData[unit['name']] = {};
+        }
+        for (const item of compositionUnits[unit['name']]['items']) {
             const unitItems = itemsData[unit['name']];
-            if (unitItems.hasOwnProperty(item['number'])) {
-                unitItems[item['number']]['sumOfPlacements'] +=
-                    composition['placement'];
-                unitItems[item['number']]['numberOfComps'] += 1;
+            if (unitItems.hasOwnProperty(item)) {
+                unitItems[item]['sumOfPlacements'] += composition['placement'];
+                unitItems[item]['numberOfComps'] += 1;
             }
             else {
-                unitItems[item['number']]['sumOfPlacements'] = composition['placement'];
-                unitItems[item['number']]['numberOfComps'] = 1;
+                unitItems[item] = {
+                    name: compositionUnits[unit['name']]['itemsNames'][compositionUnits[unit['name']]['items'].indexOf(item)]
+                };
+                unitItems[item]['sumOfPlacements'] = composition['placement'];
+                unitItems[item]['numberOfComps'] = 1;
             }
         }
     }

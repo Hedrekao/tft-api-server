@@ -6,15 +6,16 @@ const analyzeAugments = (
 
   for (const augmentData in augmentsData) {
     const augment = {};
+    augment['name'] = augmentData;
     augment['avgPlace'] = (
-      augmentData['sumOfPlacements'] / totalNumberOfMatches
+      augmentsData[augmentData]['sumOfPlacements'] / totalNumberOfMatches
     ).toFixed(2);
     augment['winRate'] = (
-      (augmentData['numberOfWins'] / totalNumberOfMatches) *
+      (augmentsData[augmentData]['numberOfWins'] / totalNumberOfMatches) *
       100
     ).toFixed(2);
     augment['playRate'] = (
-      (augmentData['numberOfComps'] / totalNumberOfMatches) *
+      (augmentsData[augmentData]['numberOfComps'] / totalNumberOfMatches) *
       100
     ).toFixed(2);
     result.push(augment);

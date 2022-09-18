@@ -10,6 +10,7 @@ const collectDataAboutAugments = (
         augmentsData[augment]['numberOfWins'] += 1;
       }
     } else {
+      augmentsData[augment] = {};
       augmentsData[augment]['sumOfPlacements'] = composition['placement'];
       augmentsData[augment]['numberOfComps'] = 1;
       if (composition['placement'] == 1) {

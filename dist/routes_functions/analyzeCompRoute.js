@@ -43,7 +43,7 @@ const analyzeComposition = async (inputData, sampleSize, maxNumberOfMatches) => 
                             }
                         }
                         collectDataAboutAugments(composition, augmentsData);
-                        collectDataAboutItems(composition, inputData, itemsData);
+                        collectDataAboutItems(composition, inputData, itemsData, compositionUnits);
                     }
                     if (numberOfMatchingComps == sampleSize ||
                         totalNumberOfMatches == maxNumberOfMatches - 1) {

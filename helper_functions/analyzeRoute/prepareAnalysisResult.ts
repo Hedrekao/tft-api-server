@@ -11,6 +11,9 @@ const prepareAnalysisResult = (
   itemsData: Object,
   augmentsData: Object
 ) => {
+  if (numberOfMatchingComps == 0) {
+    return { info: 'no matches with this composition were found' };
+  }
   const result = {};
   const top4Procentage = ((top4Count / totalNumberOfMatches) * 100).toFixed(2);
 
@@ -23,7 +26,7 @@ const prepareAnalysisResult = (
   result['top4Ratio'] = parseFloat(top4Procentage);
   result['winRate'] = parseFloat(winsProcentage);
   result['avgPlace'] = parseFloat(avgPlacement);
-  result['playRate'] = parseFloat(playRate);
+  result['playRate'] = parseFloat(playRate); // this should include matches that were also without this comp? also how tf u actually calculate this
 
   analyzeItems(inputData, itemsData, totalNumberOfMatches);
 

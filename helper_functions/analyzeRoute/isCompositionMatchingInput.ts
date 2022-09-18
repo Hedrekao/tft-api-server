@@ -6,30 +6,32 @@ const isCompositionMatchingInput = (
 ): boolean => {
   let isCompositionMatchingInput = true;
   for (const unit of inputData) {
-    const unitIndex = Object.keys(compositionUnits).indexOf(
-      unit['character_id']
-    );
+    const unitIndex = Object.keys(compositionUnits).indexOf(unit['name']);
     if (unitIndex == -1) {
       isCompositionMatchingInput = false;
       break;
     } else {
       if (
         unit['level'] != 0 &&
-        compositionUnits[unit['character_id']]['level'] != unit['level']
+        compositionUnits[unit['name']]['level'] != unit['level']
       ) {
         isCompositionMatchingInput = false;
         break;
       }
-      const providedItems: Array<Object> = unit['item'];
-      const items: Array<number> = providedItems.map((item) => {
+      const providedItems: Array<Object> = unit['items'];
+      const items: Array<number> = providedItems?.map((item) => {
         return item['id'];
       });
+
       if (
+        items.length != 0 &&
         !items.every((item) => {
-          return compositionUnits[unit['character_id']]['items'].indexOf(item);
+          return compositionUnits[unit['name']]['items'].indexOf(item) != -1;
         })
       ) {
         isCompositionMatchingInput = false;
+        console.log(3);
+
         break;
       }
     }

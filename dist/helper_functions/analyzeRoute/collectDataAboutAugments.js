@@ -8,6 +8,7 @@ const collectDataAboutAugments = (composition, augmentsData) => {
             }
         }
         else {
+            augmentsData[augment] = {};
             augmentsData[augment]['sumOfPlacements'] = composition['placement'];
             augmentsData[augment]['numberOfComps'] = 1;
             if (composition['placement'] == 1) {

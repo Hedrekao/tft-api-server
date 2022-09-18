@@ -3,7 +3,8 @@ const transformUnitsData = (units: Array<Object>) => {
     const name = item['character_id'];
     object[name] = {
       level: item['tier'],
-      items: item['items']
+      items: item['items'],
+      itemsNames: item['itemNames']
     };
 
     return object;

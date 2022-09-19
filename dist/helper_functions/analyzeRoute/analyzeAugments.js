@@ -1,27 +1,29 @@
-const analyzeAugments = (augmentsData, totalNumberOfMatches) => {
+const analyzeAugments = (augmentsData, numberOfMatchingComps) => {
     const result = [];
     for (const augmentData in augmentsData) {
         const augment = {};
         augment['name'] = augmentData;
-        augment['avgPlace'] = (augmentsData[augmentData]['sumOfPlacements'] / totalNumberOfMatches).toFixed(2);
-        augment['winRate'] = ((augmentsData[augmentData]['numberOfWins'] / totalNumberOfMatches) *
+        augment['avgPlace'] = (augmentsData[augmentData]['sumOfPlacements'] /
+            augmentsData[augmentData]['numberOfComps']).toFixed(2);
+        augment['winRate'] = ((augmentsData[augmentData]['numberOfWins'] /
+            augmentsData[augmentData]['numberOfComps']) *
             100).toFixed(2);
-        augment['playRate'] = ((augmentsData[augmentData]['numberOfComps'] / totalNumberOfMatches) *
+        augment['playRate'] = ((augmentsData[augmentData]['numberOfComps'] / numberOfMatchingComps) *
             100).toFixed(2);
         result.push(augment);
     }
     result.sort((a, b) => {
-        if (a['avgPlace'] > b['avgPlace']) {
+        if (parseFloat(a['avgPlace']) > parseFloat(b['avgPlace'])) {
             return -1;
         }
-        else if (a['avgPlace'] < b['avgPlace']) {
+        else if (parseFloat(a['avgPlace']) < parseFloat(b['avgPlace'])) {
             return 1;
         }
         else {
-            if (a['winRate'] > b['winRate']) {
+            if (parseFloat(a['winRate']) > parseFloat(b['winRate'])) {
                 return -1;
             }
-            else if (a['winRate'] < b['winRate']) {
+            else if (parseFloat(a['winRate']) < parseFloat(b['winRate'])) {
                 return 1;
             }
         }

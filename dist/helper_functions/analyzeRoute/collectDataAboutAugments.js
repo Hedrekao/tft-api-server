@@ -14,6 +14,9 @@ const collectDataAboutAugments = (composition, augmentsData) => {
             if (composition['placement'] == 1) {
                 augmentsData[augment]['numberOfWins'] = 1;
             }
+            else {
+                augmentsData[augment]['numberOfWins'] = 0;
+            }
         }
     }
 };

@@ -27,7 +27,7 @@ const analyzeCompositionTest = async (
     const summonerPuuid: string = summonerPuuidResponse.data['puuid'];
 
     const matchesIdResponse =
-      await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=2&api_key=${process.env.API_KEY}
+      await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=40&api_key=${process.env.API_KEY}
 `);
     const matchesId: Array<string> = matchesIdResponse.data;
     for (const matchId of matchesId) {
@@ -39,7 +39,6 @@ const analyzeCompositionTest = async (
       let firstCompositionInMatch = true;
 
       const participants = matchData['info']['participants']; // ADDED INFO BEFORE PARTICIPAnts
-
       for (const composition of participants) {
         const compositionUnits = transformUnitsData(composition['units']);
 
@@ -51,7 +50,6 @@ const analyzeCompositionTest = async (
         // console.log(isAMatch);
         if (isAMatch) {
           numberOfMatchingComps++;
-
           if (firstCompositionInMatch) {
             totalNumberOfMatches++;
             firstCompositionInMatch = false;

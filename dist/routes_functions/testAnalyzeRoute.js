@@ -16,7 +16,7 @@ const analyzeCompositionTest = async (inputData, sampleSize, maxNumberOfMatches)
         const augmentsData = {};
         const summonerPuuidResponse = await axios.get(`https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/AGO%20zbrojson?api_key=${process.env.API_KEY}`);
         const summonerPuuid = summonerPuuidResponse.data['puuid'];
-        const matchesIdResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=2&api_key=${process.env.API_KEY}
+        const matchesIdResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=40&api_key=${process.env.API_KEY}
 `);
         const matchesId = matchesIdResponse.data;
         for (const matchId of matchesId) {

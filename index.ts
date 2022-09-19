@@ -28,7 +28,7 @@ app.get('/units', async (req, res) => {
 });
 
 app.post('/test', async (req: any, res) => {
-  return await testAnalyzeRoute(req.body.input, 10, 2);
+  return await testAnalyzeRoute(req.body.input, 20, 40);
 });
 
 app.get('/unit/:id', async (req: any, res) => {

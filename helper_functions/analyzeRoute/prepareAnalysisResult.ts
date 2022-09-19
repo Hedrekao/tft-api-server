@@ -28,10 +28,10 @@ const prepareAnalysisResult = (
   result['avgPlace'] = parseFloat(avgPlacement);
   result['playRate'] = parseFloat(playRate); // this should include matches that were also without this comp? also how tf u actually calculate this
 
-  analyzeItems(inputData, itemsData, totalNumberOfMatches);
+  analyzeItems(inputData, itemsData, numberOfMatchingComps);
 
   result['units'] = inputData;
-  result['augments'] = analyzeAugments(augmentsData, totalNumberOfMatches);
+  result['augments'] = analyzeAugments(augmentsData, numberOfMatchingComps);
 
   return result;
 };

@@ -22,7 +22,7 @@ app.get('/units', async (req, res) => {
     return await commitToDb(prisma.champions.findMany());
 });
 app.post('/test', async (req, res) => {
-    return await testAnalyzeRoute(req.body.input, 10, 2);
+    return await testAnalyzeRoute(req.body.input, 20, 40);
 });
 app.get('/unit/:id', async (req, res) => {
     return await commitToDb(prisma.champions.findUnique({

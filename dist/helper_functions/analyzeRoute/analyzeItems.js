@@ -1,43 +1,35 @@
-const analyzeItems = (inputData, itemsData, totalNumberOfMatches) => {
+const analyzeItems = (inputData, itemsData, numberOfMatchingComps) => {
     for (const unit of inputData) {
         const items = itemsData[unit['name']];
-        const analyzedItems = [];
+        let analyzedItems = [];
         for (const item in items) {
             const analyzedItem = {
                 id: item,
                 name: items[item]['name'],
-                playRate: ((items[item]['numberOfComps'] / totalNumberOfMatches) *
+                playRate: ((items[item]['numberOfComps'] / numberOfMatchingComps) *
                     100).toFixed(2),
-                avgPlace: (items[item]['sumOfPlacements'] / totalNumberOfMatches).toFixed(2)
+                avgPlace: (items[item]['sumOfPlacements'] / items[item]['numberOfComps']).toFixed(2)
             };
-            // item['playRate'] = (
-            //   (itemsData[unit['name']][item['id']]['numberOfComps'] /
-            //     totalNumberOfMatches) *
-            //   100
-            // ).toFixed(2);
-            // item['avgPlace'] = (
-            //   itemsData[unit['name']][item['id']]['sumOfPlacements'] /
-            //   totalNumberOfMatches
-            // ).toFixed(2);
             analyzedItems.push(analyzedItem);
         }
         analyzedItems.sort((a, b) => {
-            if (a['playRate'] > b['playRate']) {
+            if (parseFloat(a['playRate']) > parseFloat(b['playRate'])) {
                 return -1;
             }
-            else if (a['playRate'] < b['playRate']) {
+            else if (parseFloat(a['playRate']) < parseFloat(b['playRate'])) {
                 return 1;
             }
             else {
-                if (a['avgPlace'] > b['avgPlace']) {
+                if (parseFloat(a['avgPlace']) > parseFloat(b['avgPlace'])) {
                     return -1;
                 }
-                else if (a['avgPlace'] < b['avgPlace']) {
+                else if (parseFloat(a['avgPlace']) < parseFloat(b['avgPlace'])) {
                     return 1;
                 }
             }
             return 0;
         });
+        analyzedItems = analyzedItems.slice(0, 5);
         unit['items'] = analyzedItems;
     }
 };

@@ -21,6 +21,7 @@ const analyzeComposition = async (
     let winCount = 0;
     let numberOfMatchingComps = 0;
     let totalNumberOfMatches = 0;
+    let totalNumberOfMatchesOverall = 0;
 
     const itemsData = {};
     const augmentsData = {};
@@ -45,7 +46,7 @@ const analyzeComposition = async (
         const matchData: Object = matchDataResponse.data;
         let firstCompositionInMatch = true;
 
-        const participants = matchData['participants'];
+        const participants = matchData['info']['participants'];
 
         for (const composition of participants) {
           const compositionUnits = transformUnitsData(composition['units']);
@@ -77,23 +78,35 @@ const analyzeComposition = async (
               compositionUnits
             );
           }
-          if (
-            numberOfMatchingComps == sampleSize ||
-            totalNumberOfMatches == maxNumberOfMatches! - 1
-          ) {
+          if (numberOfMatchingComps == sampleSize) {
             totalNumberOfMatches++;
-            // return prepareAnalysisResult(
-            //   top4Count,
-            //   winCount,
-            //   placementOverall,
-            //   numberOfMatchingComps,
-            //   totalNumberOfMatches,
-            //   inputData,
-            //   itemsData,
-            //   augmentsData
-            // );
+            return prepareAnalysisResult(
+              top4Count,
+              winCount,
+              placementOverall,
+              numberOfMatchingComps,
+              totalNumberOfMatches,
+              totalNumberOfMatchesOverall + 1,
+              inputData,
+              itemsData,
+              augmentsData
+            );
           }
         }
+        if (totalNumberOfMatchesOverall == maxNumberOfMatches! - 1) {
+          return prepareAnalysisResult(
+            top4Count,
+            winCount,
+            placementOverall,
+            numberOfMatchingComps,
+            totalNumberOfMatches,
+            totalNumberOfMatchesOverall + 1,
+            inputData,
+            itemsData,
+            augmentsData
+          );
+        }
+        totalNumberOfMatchesOverall++;
       }
     }
   } catch (error: any) {

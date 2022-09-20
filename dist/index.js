@@ -5,15 +5,15 @@ import { PrismaClient } from '@prisma/client';
 import cors from '@fastify/cors';
 import getSummonersData from './routes_functions/summonerRoute.js';
 import analyzeComposition from './routes_functions/analyzeCompRoute.js';
-import testAnalyzeRoute from './routes_functions/testAnalyzeRoute.js';
+import testAnalyzeRoute from './test_routes_functions/testAnalyzeRoute.js';
 dotenv.config();
 const app = fastify();
 app.register(sensible);
 app.register(cors);
 const port = process.env.PORT || 3001;
 const prisma = new PrismaClient();
-app.get('/comps', async (req, res) => {
-    return await analyzeComposition(req.body.inputData, 10, 20);
+app.post('/comps', async (req, res) => {
+    return await analyzeComposition(req.body.inputData, 30, 80);
 });
 app.get('/summoner/:region/:name', async (req, res) => {
     return await getSummonersData(req.params.name, req.params.region);

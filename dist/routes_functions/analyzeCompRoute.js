@@ -2,6 +2,7 @@ import axios from 'axios';
 import isCompositionMatchingInput from '../helper_functions/analyzeRoute/isCompositionMatchingInput.js';
 import transformUnitsData from '../helper_functions/analyzeRoute/transformUnitsData.js';
 import collectDataAboutItems from '../helper_functions/analyzeRoute/collectDataAboutItems.js';
+import prepareAnalysisResult from '../helper_functions/analyzeRoute/prepareAnalysisResult.js';
 import collectDataAboutAugments from '../helper_functions/analyzeRoute/collectDataAboutAugments.js';
 const analyzeComposition = async (inputData, sampleSize, maxNumberOfMatches) => {
     try {
@@ -11,6 +12,7 @@ const analyzeComposition = async (inputData, sampleSize, maxNumberOfMatches) => 
         let winCount = 0;
         let numberOfMatchingComps = 0;
         let totalNumberOfMatches = 0;
+        let totalNumberOfMatchesOverall = 0;
         const itemsData = {};
         const augmentsData = {};
         const challengersData = challengerDataResponse.data['entries'];
@@ -24,7 +26,7 @@ const analyzeComposition = async (inputData, sampleSize, maxNumberOfMatches) => 
                 const matchDataResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}?api_key=${process.env.API_KEY}`);
                 const matchData = matchDataResponse.data;
                 let firstCompositionInMatch = true;
-                const participants = matchData['participants'];
+                const participants = matchData['info']['participants'];
                 for (const composition of participants) {
                     const compositionUnits = transformUnitsData(composition['units']);
                     const isAMatch = isCompositionMatchingInput(inputData, compositionUnits);
@@ -44,21 +46,15 @@ const analyzeComposition = async (inputData, sampleSize, maxNumberOfMatches) => 
                         collectDataAboutAugments(composition, augmentsData);
                         collectDataAboutItems(composition, inputData, itemsData, compositionUnits);
                     }
-                    if (numberOfMatchingComps == sampleSize ||
-                        totalNumberOfMatches == maxNumberOfMatches - 1) {
+                    if (numberOfMatchingComps == sampleSize) {
                         totalNumberOfMatches++;
-                        // return prepareAnalysisResult(
-                        //   top4Count,
-                        //   winCount,
-                        //   placementOverall,
-                        //   numberOfMatchingComps,
-                        //   totalNumberOfMatches,
-                        //   inputData,
-                        //   itemsData,
-                        //   augmentsData
-                        // );
+                        return prepareAnalysisResult(top4Count, winCount, placementOverall, numberOfMatchingComps, totalNumberOfMatches, totalNumberOfMatchesOverall + 1, inputData, itemsData, augmentsData);
                     }
                 }
+                if (totalNumberOfMatchesOverall == maxNumberOfMatches - 1) {
+                    return prepareAnalysisResult(top4Count, winCount, placementOverall, numberOfMatchingComps, totalNumberOfMatches, totalNumberOfMatchesOverall + 1, inputData, itemsData, augmentsData);
+                }
+                totalNumberOfMatchesOverall++;
             }
         }
     }

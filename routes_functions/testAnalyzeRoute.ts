@@ -82,6 +82,7 @@ const analyzeCompositionTest = async (
             placementOverall,
             numberOfMatchingComps,
             totalNumberOfMatches,
+            totalNumberOfMatchesOverall + 1,
             inputData,
             itemsData,
             augmentsData
@@ -98,6 +99,7 @@ const analyzeCompositionTest = async (
           placementOverall,
           numberOfMatchingComps,
           totalNumberOfMatches,
+          totalNumberOfMatchesOverall + 1,
           inputData,
           itemsData,
           augmentsData

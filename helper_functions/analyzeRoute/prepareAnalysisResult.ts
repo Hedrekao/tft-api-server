@@ -7,6 +7,7 @@ const prepareAnalysisResult = (
   placementOverall: number,
   numberOfMatchingComps: number,
   totalNumberOfMatches: number,
+  totalNumberOfMatchesOverall: number,
   inputData: Array<Object>,
   itemsData: Object,
   augmentsData: Object
@@ -21,7 +22,9 @@ const prepareAnalysisResult = (
 
   const avgPlacement = (placementOverall / totalNumberOfMatches).toFixed(2);
 
-  const playRate = (numberOfMatchingComps / totalNumberOfMatches).toFixed(2);
+  const playRate = (
+    numberOfMatchingComps / totalNumberOfMatchesOverall
+  ).toFixed(2);
 
   result['top4Ratio'] = parseFloat(top4Procentage);
   result['winRate'] = parseFloat(winsProcentage);

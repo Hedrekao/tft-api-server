@@ -50,14 +50,14 @@ const analyzeCompositionTest = async (inputData, sampleSize, maxNumberOfMatches)
                     //   totalNumberOfMatches++; // delete this line
                     // console.log(itemsData);
                     // console.log(augmentsData);
-                    return prepareAnalysisResult(top4Count, winCount, placementOverall, numberOfMatchingComps, totalNumberOfMatches, inputData, itemsData, augmentsData);
+                    return prepareAnalysisResult(top4Count, winCount, placementOverall, numberOfMatchingComps, totalNumberOfMatches, totalNumberOfMatchesOverall + 1, inputData, itemsData, augmentsData);
                 }
             }
             if (totalNumberOfMatchesOverall == maxNumberOfMatches - 1) {
                 // console.log(itemsData);
                 // console.log(augmentsData);
                 // console.log(numberOfMatchingComps);
-                return prepareAnalysisResult(top4Count, winCount, placementOverall, numberOfMatchingComps, totalNumberOfMatches, inputData, itemsData, augmentsData);
+                return prepareAnalysisResult(top4Count, winCount, placementOverall, numberOfMatchingComps, totalNumberOfMatches, totalNumberOfMatchesOverall + 1, inputData, itemsData, augmentsData);
             } // added this shit
             totalNumberOfMatchesOverall++; // increment after every match
         }

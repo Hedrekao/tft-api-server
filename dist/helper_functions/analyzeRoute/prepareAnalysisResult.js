@@ -1,6 +1,6 @@
 import analyzeItems from './analyzeItems.js';
 import analyzeAugments from './analyzeAugments.js';
-const prepareAnalysisResult = (top4Count, winCount, placementOverall, numberOfMatchingComps, totalNumberOfMatches, inputData, itemsData, augmentsData) => {
+const prepareAnalysisResult = (top4Count, winCount, placementOverall, numberOfMatchingComps, totalNumberOfMatches, totalNumberOfMatchesOverall, inputData, itemsData, augmentsData) => {
     if (numberOfMatchingComps == 0) {
         return { info: 'no matches with this composition were found' };
     }
@@ -8,7 +8,7 @@ const prepareAnalysisResult = (top4Count, winCount, placementOverall, numberOfMa
     const top4Procentage = ((top4Count / totalNumberOfMatches) * 100).toFixed(2);
     const winsProcentage = ((winCount / totalNumberOfMatches) * 100).toFixed(2);
     const avgPlacement = (placementOverall / totalNumberOfMatches).toFixed(2);
-    const playRate = (numberOfMatchingComps / totalNumberOfMatches).toFixed(2);
+    const playRate = (numberOfMatchingComps / totalNumberOfMatchesOverall).toFixed(2);
     result['top4Ratio'] = parseFloat(top4Procentage);
     result['winRate'] = parseFloat(winsProcentage);
     result['avgPlace'] = parseFloat(avgPlacement);

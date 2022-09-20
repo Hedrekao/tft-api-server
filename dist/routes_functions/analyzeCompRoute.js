@@ -2,7 +2,6 @@ import axios from 'axios';
 import isCompositionMatchingInput from '../helper_functions/analyzeRoute/isCompositionMatchingInput.js';
 import transformUnitsData from '../helper_functions/analyzeRoute/transformUnitsData.js';
 import collectDataAboutItems from '../helper_functions/analyzeRoute/collectDataAboutItems.js';
-import prepareAnalysisResult from '../helper_functions/analyzeRoute/prepareAnalysisResult.js';
 import collectDataAboutAugments from '../helper_functions/analyzeRoute/collectDataAboutAugments.js';
 const analyzeComposition = async (inputData, sampleSize, maxNumberOfMatches) => {
     try {
@@ -48,7 +47,16 @@ const analyzeComposition = async (inputData, sampleSize, maxNumberOfMatches) => 
                     if (numberOfMatchingComps == sampleSize ||
                         totalNumberOfMatches == maxNumberOfMatches - 1) {
                         totalNumberOfMatches++;
-                        return prepareAnalysisResult(top4Count, winCount, placementOverall, numberOfMatchingComps, totalNumberOfMatches, inputData, itemsData, augmentsData);
+                        // return prepareAnalysisResult(
+                        //   top4Count,
+                        //   winCount,
+                        //   placementOverall,
+                        //   numberOfMatchingComps,
+                        //   totalNumberOfMatches,
+                        //   inputData,
+                        //   itemsData,
+                        //   augmentsData
+                        // );
                     }
                 }
             }

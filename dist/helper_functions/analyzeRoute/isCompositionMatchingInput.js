@@ -21,7 +21,6 @@ const isCompositionMatchingInput = (inputData, compositionUnits) => {
                     return compositionUnits[unit['name']]['items'].indexOf(item) != -1;
                 })) {
                 isCompositionMatchingInput = false;
-                console.log(3);
                 break;
             }
         }

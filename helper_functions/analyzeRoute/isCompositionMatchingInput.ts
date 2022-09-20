@@ -1,5 +1,3 @@
-import { stringify } from 'querystring';
-
 const isCompositionMatchingInput = (
   inputData: Array<Object>,
   compositionUnits: Object
@@ -30,8 +28,6 @@ const isCompositionMatchingInput = (
         })
       ) {
         isCompositionMatchingInput = false;
-        console.log(3);
-
         break;
       }
     }

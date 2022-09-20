@@ -82,16 +82,16 @@ const analyzeComposition = async (
             totalNumberOfMatches == maxNumberOfMatches! - 1
           ) {
             totalNumberOfMatches++;
-            return prepareAnalysisResult(
-              top4Count,
-              winCount,
-              placementOverall,
-              numberOfMatchingComps,
-              totalNumberOfMatches,
-              inputData,
-              itemsData,
-              augmentsData
-            );
+            // return prepareAnalysisResult(
+            //   top4Count,
+            //   winCount,
+            //   placementOverall,
+            //   numberOfMatchingComps,
+            //   totalNumberOfMatches,
+            //   inputData,
+            //   itemsData,
+            //   augmentsData
+            // );
           }
         }
       }

@@ -36,8 +36,6 @@ const analyzeItems = (
       return 0;
     });
 
-    analyzedItems = analyzedItems.slice(0, 5);
-
     unit['items'] = analyzedItems;
   }
 };

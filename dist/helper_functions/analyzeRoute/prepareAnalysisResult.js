@@ -5,9 +5,9 @@ const prepareAnalysisResult = (top4Count, winCount, placementOverall, numberOfMa
         return { info: 'no matches with this composition were found' };
     }
     const result = {};
-    const top4Procentage = ((top4Count / totalNumberOfMatches) * 100).toFixed(2);
-    const winsProcentage = ((winCount / totalNumberOfMatches) * 100).toFixed(2);
-    const avgPlacement = (placementOverall / totalNumberOfMatches).toFixed(2);
+    const top4Procentage = ((top4Count / numberOfMatchingComps) * 100).toFixed(2);
+    const winsProcentage = ((winCount / numberOfMatchingComps) * 100).toFixed(2);
+    const avgPlacement = (placementOverall / numberOfMatchingComps).toFixed(2);
     const playRate = (numberOfMatchingComps / totalNumberOfMatchesOverall).toFixed(2);
     result['top4Ratio'] = parseFloat(top4Procentage);
     result['winRate'] = parseFloat(winsProcentage);

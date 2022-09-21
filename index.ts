@@ -16,6 +16,7 @@ const port = process.env.PORT || 3001;
 const prisma = new PrismaClient();
 
 app.post('/comps', async (req: any, res) => {
+  console.log(req.body.inputData);
   return await analyzeComposition(req.body.inputData, 30, 80);
 });
 

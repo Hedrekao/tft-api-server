@@ -2,7 +2,7 @@ import analyzeItems from './analyzeItems.js';
 import analyzeAugments from './analyzeAugments.js';
 const prepareAnalysisResult = (top4Count, winCount, placementOverall, numberOfMatchingComps, totalNumberOfMatches, totalNumberOfMatchesOverall, inputData, itemsData, augmentsData) => {
     if (numberOfMatchingComps == 0) {
-        return { info: 'no matches with this composition were found' };
+        return { info: 'No matches' };
     }
     const result = {};
     const top4Procentage = ((top4Count / numberOfMatchingComps) * 100).toFixed(2);

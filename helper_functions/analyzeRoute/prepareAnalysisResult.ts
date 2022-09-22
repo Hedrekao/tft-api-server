@@ -13,7 +13,7 @@ const prepareAnalysisResult = (
   augmentsData: Object
 ) => {
   if (numberOfMatchingComps == 0) {
-    return { info: 'no matches with this composition were found' };
+    return { info: 'No matches' };
   }
   const result = {};
   const top4Procentage = ((top4Count / numberOfMatchingComps) * 100).toFixed(2);

@@ -60,6 +60,7 @@ const analyzeComposition = async (inputData, sampleSize, maxNumberOfMatches) => 
     }
     catch (error) {
         console.log(error.message);
+        return { error: `error - ${error.message}` };
     }
 };
 export default analyzeComposition;

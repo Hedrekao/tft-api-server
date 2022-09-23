@@ -111,6 +111,7 @@ const analyzeComposition = async (
     }
   } catch (error: any) {
     console.log(error.message);
+    return { error: `error - ${error.message}` };
   }
 };
 

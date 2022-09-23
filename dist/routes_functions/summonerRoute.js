@@ -57,7 +57,7 @@ const getSummonersData = async (name, region) => {
     }
     catch (error) {
         console.log('wtf');
-        return error.message;
+        return { error: `error - ${error.message}` };
     }
 };
 const getPreviousMatchesData = async (puuid, count, region, generalData) => {

@@ -3,9 +3,11 @@ import dotenv from 'dotenv';
 import sensible from '@fastify/sensible';
 import { PrismaClient } from '@prisma/client';
 import cors from '@fastify/cors';
+import cron from 'node-cron';
 import getSummonersData from './routes_functions/summonerRoute.js';
 import analyzeComposition from './routes_functions/analyzeCompRoute.js';
 import testAnalyzeRoute from './test_routes_functions/testAnalyzeRoute.js';
+import collectDataAboutRankings from './task_functions/collectDataAboutRankings.js';
 
 dotenv.config();
 
@@ -28,8 +30,65 @@ app.get('/units', async (req, res) => {
   return await commitToDb(prisma.champions.findMany());
 });
 
-app.post('/test', async (req: any, res) => {
-  return await testAnalyzeRoute(req.body.input, 20, 40);
+app.get('/units-ranking', async (req, res) => {
+  const data = await prisma.champions_ranking.findMany();
+  data.sort((a, b) => {
+    if (a['avg_place'] < b['avg_place']) {
+      return -1;
+    } else if (a['avg_place'] > b['avg_place']) {
+      return 1;
+    } else {
+      if (a['frequency'] > b['frequency']) {
+        return -1;
+      } else if (a['frequency'] < b['frequency']) {
+        return 1;
+      }
+    }
+    return 0;
+  });
+  return data;
+});
+
+app.get('/items-ranking', async (req, res) => {
+  const data = await prisma.items_ranking.findMany();
+  data.sort((a, b) => {
+    if (a['avg_place'] < b['avg_place']) {
+      return -1;
+    } else if (a['avg_place'] > b['avg_place']) {
+      return 1;
+    } else {
+      if (a['frequency'] > b['frequency']) {
+        return -1;
+      } else if (a['frequency'] < b['frequency']) {
+        return 1;
+      }
+    }
+    return 0;
+  });
+  return data;
+});
+
+app.get('/augments-ranking', async (req, res) => {
+  const data = await prisma.augments_ranking.findMany();
+  data.sort((a, b) => {
+    if (a['avg_place'] < b['avg_place']) {
+      return -1;
+    } else if (a['avg_place'] > b['avg_place']) {
+      return 1;
+    } else {
+      if (a['frequency'] > b['frequency']) {
+        return -1;
+      } else if (a['frequency'] < b['frequency']) {
+        return 1;
+      }
+    }
+    return 0;
+  });
+  return data;
+});
+
+app.get('/test', async (req: any, res) => {
+  collectDataAboutRankings(70);
 });
 
 app.get('/unit/:id', async (req: any, res) => {
@@ -52,3 +111,7 @@ async function commitToDb(promise: Promise<any>) {
   if (error) return app.httpErrors.internalServerError(error.message);
   return data;
 }
+
+cron.schedule('0 */12 * * *', () => {
+  collectDataAboutRankings(70);
+});

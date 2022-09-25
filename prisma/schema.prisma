@@ -12,3 +12,24 @@ model champions {
   name String? @db.VarChar(50)
   cost Int?
 }
+
+model champions_ranking {
+  id        String  @id @db.VarChar
+  avg_place Decimal @db.Decimal
+  winrate   Decimal @db.Decimal
+  frequency Decimal @db.Decimal
+}
+
+model items_ranking {
+  id        Int     @id
+  avg_place Decimal @db.Decimal
+  winrate   Decimal @db.Decimal
+  frequency Decimal @db.Decimal
+}
+
+model augments_ranking {
+  id        String  @id @db.VarChar
+  avg_place Decimal @db.Decimal
+  winrate   Decimal @db.Decimal
+  frequency Decimal @db.Decimal
+}

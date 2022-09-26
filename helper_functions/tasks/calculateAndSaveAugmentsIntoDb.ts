@@ -2,49 +2,38 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-const calculateAndSaveAugmentsDataIntoDb = async (
-  augmentsObject: Object,
-  numberOfComps: number
-) => {
-  for (const id in augmentsObject) {
-    try {
-      const augment = await prisma.augments_ranking.upsert({
-        where: {
-          id: id
-        },
-        update: {
-          avg_place: (
-            augmentsObject[id]['sumOfPlacement'] /
-            augmentsObject[id]['frequency']
-          ).toFixed(2),
-          winrate: (
-            (augmentsObject[id]['winrate'] / augmentsObject[id]['frequency']) *
-            100
-          ).toFixed(2),
-          frequency: (
-            (augmentsObject[id]['frequency'] / numberOfComps) *
-            100
-          ).toFixed(2)
-        },
-        create: {
-          id: id,
-          avg_place: (
-            augmentsObject[id]['sumOfPlacement'] /
-            augmentsObject[id]['frequency']
-          ).toFixed(2),
-          winrate: (
-            (augmentsObject[id]['winrate'] / augmentsObject[id]['frequency']) *
-            100
-          ).toFixed(2),
-          frequency: (
-            (augmentsObject[id]['frequency'] / numberOfComps) *
-            100
-          ).toFixed(2)
-        }
+const calculateAndSaveAugmentsDataIntoDb = async (augmentsObject: Object) => {
+  try {
+    for (const id in augmentsObject) {
+      const numOfRecords = await prisma.augments_ranking.count({
+        where: { id: id }
       });
-    } catch (error: any) {
-      console.log(error.message);
+      if (numOfRecords == 1) {
+        await prisma.augments_ranking.update({
+          where: { id: id },
+          data: {
+            sumOfPlacements: {
+              increment: augmentsObject[id]['sumOfPlacement']
+            },
+            sumOfWins: { increment: augmentsObject[id]['winrate'] },
+            numberOfAppearances: {
+              increment: augmentsObject[id]['frequency']
+            }
+          }
+        });
+      } else {
+        await prisma.augments_ranking.create({
+          data: {
+            id: id,
+            sumOfPlacements: augmentsObject[id]['sumOfPlacement'],
+            numberOfAppearances: augmentsObject[id]['frequency'],
+            sumOfWins: augmentsObject[id]['winrate']
+          }
+        });
+      }
     }
+  } catch (error: any) {
+    console.log(error.message);
   }
 };
 

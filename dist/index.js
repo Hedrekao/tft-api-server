@@ -24,7 +24,20 @@ app.get('/units', async (req, res) => {
     return await commitToDb(prisma.champions.findMany());
 });
 app.get('/units-ranking', async (req, res) => {
-    const data = await prisma.champions_ranking.findMany();
+    const numberOfCompsQuery = await prisma.general_data.findUnique({
+        where: { id: 1 }
+    });
+    const numberOfComps = numberOfCompsQuery?.totalNumberOfComps;
+    const result = await prisma.champions_ranking.findMany();
+    const data = result.map((unit) => {
+        const object = {
+            id: unit.id,
+            avg_place: (unit.sumOfPlacements / unit.numberOfAppearances).toFixed(2),
+            frequency: ((unit.numberOfAppearances / numberOfComps) * 100).toFixed(2),
+            winrate: ((unit.sumOfWins / unit.numberOfAppearances) * 100).toFixed(2)
+        };
+        return object;
+    });
     data.sort((a, b) => {
         if (a['avg_place'] < b['avg_place']) {
             return -1;
@@ -45,7 +58,20 @@ app.get('/units-ranking', async (req, res) => {
     return data;
 });
 app.get('/items-ranking', async (req, res) => {
-    const data = await prisma.items_ranking.findMany();
+    const numberOfCompsQuery = await prisma.general_data.findUnique({
+        where: { id: 1 }
+    });
+    const numberOfComps = numberOfCompsQuery?.totalNumberOfComps;
+    const result = await prisma.items_ranking.findMany();
+    const data = result.map((item) => {
+        const object = {
+            id: item.id,
+            avg_place: (item.sumOfPlacements / item.numberOfAppearances).toFixed(2),
+            frequency: ((item.numberOfAppearances / numberOfComps) * 100).toFixed(2),
+            winrate: ((item.sumOfWins / item.numberOfAppearances) * 100).toFixed(2)
+        };
+        return object;
+    });
     data.sort((a, b) => {
         if (a['avg_place'] < b['avg_place']) {
             return -1;
@@ -66,7 +92,21 @@ app.get('/items-ranking', async (req, res) => {
     return data;
 });
 app.get('/augments-ranking', async (req, res) => {
-    const data = await prisma.augments_ranking.findMany();
+    const numberOfCompsQuery = await prisma.general_data.findUnique({
+        where: { id: 1 }
+    });
+    const numberOfComps = numberOfCompsQuery?.totalNumberOfComps;
+    const result = await prisma.augments_ranking.findMany();
+    const data = result.map((augment) => {
+        const object = {
+            id: augment.id,
+            avg_place: (augment.sumOfPlacements / augment.numberOfAppearances).toFixed(2),
+            frequency: ((augment.numberOfAppearances / numberOfComps) * 100).toFixed(2),
+            winrate: ((augment.sumOfWins / augment.numberOfAppearances) *
+                100).toFixed(2)
+        };
+        return object;
+    });
     data.sort((a, b) => {
         if (a['avg_place'] < b['avg_place']) {
             return -1;

@@ -5,6 +5,7 @@ import calculateAndSaveAugmentsDataIntoDb from '../helper_functions/tasks/calcul
 import calculateAndSaveItemsDataIntoDb from '../helper_functions/tasks/calculateAndSaveItemsDataIntoDb.js';
 import analyzeAugmentsPerformance from '../helper_functions/tasks/analyzeAugmentsPerformance.js';
 import analyzeItemsPerformance from '../helper_functions/tasks/analyzeItemsPerformance.js';
+import saveTotalNumberOfMatches from '../helper_functions/tasks/saveTotalNumberOfMatches.js';
 
 const collectDataAboutRankings = async (limitOfMatches: number) => {
   try {
@@ -46,9 +47,10 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
         }
         totalNumberOfMatches++;
         if (totalNumberOfMatches == limitOfMatches) {
-          calculateAndSaveUnitsDataIntoDb(unitsObject, numberOfComps);
-          calculateAndSaveItemsDataIntoDb(itemsObject, numberOfComps);
-          calculateAndSaveAugmentsDataIntoDb(augmentsObject, numberOfComps);
+          saveTotalNumberOfMatches(totalNumberOfMatches, numberOfComps);
+          calculateAndSaveUnitsDataIntoDb(unitsObject);
+          calculateAndSaveItemsDataIntoDb(itemsObject);
+          calculateAndSaveAugmentsDataIntoDb(augmentsObject);
         }
       }
     }

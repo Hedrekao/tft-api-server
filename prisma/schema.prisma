@@ -14,22 +14,28 @@ model champions {
 }
 
 model champions_ranking {
-  id        String  @id @db.VarChar
-  avg_place Decimal @db.Decimal
-  winrate   Decimal @db.Decimal
-  frequency Decimal @db.Decimal
+  id                  String @id @db.VarChar
+  sumOfPlacements     Int    @default(0)
+  sumOfWins           Int    @default(0)
+  numberOfAppearances Int    @default(0)
 }
 
 model items_ranking {
-  id        Int     @id
-  avg_place Decimal @db.Decimal
-  winrate   Decimal @db.Decimal
-  frequency Decimal @db.Decimal
+  id                  Int @id
+  sumOfPlacements     Int @default(0)
+  sumOfWins           Int @default(0)
+  numberOfAppearances Int @default(0)
 }
 
 model augments_ranking {
-  id        String  @id @db.VarChar
-  avg_place Decimal @db.Decimal
-  winrate   Decimal @db.Decimal
-  frequency Decimal @db.Decimal
+  id                  String @id @db.VarChar
+  sumOfPlacements     Int    @default(0)
+  sumOfWins           Int    @default(0)
+  numberOfAppearances Int    @default(0)
+}
+
+model general_data {
+  id                   Int @id
+  totalNumberOfMatches Int
+  totalNumberOfComps   Int @default(0)
 }

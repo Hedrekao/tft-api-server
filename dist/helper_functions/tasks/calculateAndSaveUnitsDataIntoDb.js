@@ -1,28 +1,35 @@
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
-const calculateAndSaveUnitsDataIntoDb = async (unitsObject, numberOfComps) => {
+const calculateAndSaveUnitsDataIntoDb = async (unitsObject) => {
     for (const id in unitsObject) {
         try {
-            const unit = await prisma.champions_ranking.upsert({
-                where: {
-                    id: id
-                },
-                update: {
-                    avg_place: (unitsObject[id]['sumOfPlacement'] / unitsObject[id]['frequency']).toFixed(2),
-                    winrate: ((unitsObject[id]['winrate'] / unitsObject[id]['frequency']) *
-                        100).toFixed(2),
-                    frequency: ((unitsObject[id]['frequency'] / numberOfComps) *
-                        100).toFixed(2)
-                },
-                create: {
-                    id: id,
-                    avg_place: (unitsObject[id]['sumOfPlacement'] / unitsObject[id]['frequency']).toFixed(2),
-                    winrate: ((unitsObject[id]['winrate'] / unitsObject[id]['frequency']) *
-                        100).toFixed(2),
-                    frequency: ((unitsObject[id]['frequency'] / numberOfComps) *
-                        100).toFixed(2)
-                }
+            const numOfRecords = await prisma.champions_ranking.count({
+                where: { id: id }
             });
+            if (numOfRecords == 1) {
+                await prisma.champions_ranking.update({
+                    where: { id: id },
+                    data: {
+                        sumOfPlacements: {
+                            increment: unitsObject[id]['sumOfPlacement']
+                        },
+                        sumOfWins: { increment: unitsObject[id]['winrate'] },
+                        numberOfAppearances: {
+                            increment: unitsObject[id]['frequency']
+                        }
+                    }
+                });
+            }
+            else {
+                await prisma.champions_ranking.create({
+                    data: {
+                        id: id,
+                        sumOfPlacements: unitsObject[id]['sumOfPlacement'],
+                        numberOfAppearances: unitsObject[id]['frequency'],
+                        sumOfWins: unitsObject[id]['winrate']
+                    }
+                });
+            }
         }
         catch (error) {
             console.log(error.message);

@@ -32,9 +32,12 @@ app.get('/units-ranking', async (req, res) => {
     const data = result.map((unit) => {
         const object = {
             id: unit.id,
-            avg_place: (unit.sumOfPlacements / unit.numberOfAppearances).toFixed(2),
+            avg_place: (unit.sumOfPlacements /
+                (unit.numberOfAppearances != 0 ? unit.numberOfAppearances : 1)).toFixed(2),
             frequency: ((unit.numberOfAppearances / numberOfComps) * 100).toFixed(2),
-            winrate: ((unit.sumOfWins / unit.numberOfAppearances) * 100).toFixed(2)
+            winrate: ((unit.sumOfWins /
+                (unit.numberOfAppearances != 0 ? unit.numberOfAppearances : 1)) *
+                100).toFixed(2)
         };
         return object;
     });
@@ -62,13 +65,19 @@ app.get('/items-ranking', async (req, res) => {
         where: { id: 1 }
     });
     const numberOfComps = numberOfCompsQuery?.totalNumberOfComps;
-    const result = await prisma.items_ranking.findMany();
+    let result = await prisma.items_ranking.findMany();
+    result = result.filter((item) => {
+        return item.id != 88 && item.id != 10006 && item.id > 10;
+    });
     const data = result.map((item) => {
         const object = {
             id: item.id,
-            avg_place: (item.sumOfPlacements / item.numberOfAppearances).toFixed(2),
+            avg_place: (item.sumOfPlacements /
+                (item.numberOfAppearances != 0 ? item.numberOfAppearances : 1)).toFixed(2),
             frequency: ((item.numberOfAppearances / numberOfComps) * 100).toFixed(2),
-            winrate: ((item.sumOfWins / item.numberOfAppearances) * 100).toFixed(2)
+            winrate: ((item.sumOfWins /
+                (item.numberOfAppearances != 0 ? item.numberOfAppearances : 1)) *
+                100).toFixed(2)
         };
         return object;
     });
@@ -100,9 +109,13 @@ app.get('/augments-ranking', async (req, res) => {
     const data = result.map((augment) => {
         const object = {
             id: augment.id,
-            avg_place: (augment.sumOfPlacements / augment.numberOfAppearances).toFixed(2),
+            avg_place: (augment.sumOfPlacements /
+                (augment.numberOfAppearances != 0 ? augment.numberOfAppearances : 1)).toFixed(2),
             frequency: ((augment.numberOfAppearances / numberOfComps) * 100).toFixed(2),
-            winrate: ((augment.sumOfWins / augment.numberOfAppearances) *
+            winrate: ((augment.sumOfWins /
+                (augment.numberOfAppearances != 0
+                    ? augment.numberOfAppearances
+                    : 1)) *
                 100).toFixed(2)
         };
         return object;

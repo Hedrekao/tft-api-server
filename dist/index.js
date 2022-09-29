@@ -8,6 +8,7 @@ import getSummonersData from './routes_functions/summonerRoute.js';
 import analyzeComposition from './routes_functions/analyzeCompRoute.js';
 import collectDataAboutRankings from './task_functions/collectDataAboutRankings.js';
 import getStatsAndAugmentsForCoreUnits from './routes_functions/cmsRoute.js';
+import saveCompositionIntoDatabase from './routes_functions/cmsSaveRoute.js';
 dotenv.config();
 const app = fastify();
 app.register(sensible);
@@ -26,6 +27,15 @@ app.get('/units', async (req, res) => {
 });
 app.post('/cms', async (req, res) => {
     return await getStatsAndAugmentsForCoreUnits(req.body.inputData, 30, 80);
+});
+app.post('/cms/save', async (req, res) => {
+    try {
+        await saveCompositionIntoDatabase(req.body.composition);
+        return { info: 'data succesfully saved' };
+    }
+    catch (e) {
+        return { error: e.message };
+    }
 });
 app.get('/units-ranking', async (req, res) => {
     const numberOfCompsQuery = await prisma.general_data.findUnique({

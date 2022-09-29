@@ -1,6 +1,6 @@
 import analyzeItems from './analyzeItems.js';
 import analyzeAugments from './analyzeAugments.js';
-const prepareAnalysisResult = (top4Count, winCount, placementOverall, numberOfMatchingComps, totalNumberOfMatches, totalNumberOfMatchesOverall, inputData, itemsData, augmentsData) => {
+const prepareAnalysisResult = (top4Count, winCount, placementOverall, numberOfMatchingComps, totalNumberOfMatches, totalNumberOfMatchesOverall, inputData, augmentsData, itemsData) => {
     if (numberOfMatchingComps == 0) {
         return { info: 'No matches' };
     }
@@ -13,8 +13,10 @@ const prepareAnalysisResult = (top4Count, winCount, placementOverall, numberOfMa
     result['winRate'] = parseFloat(winsProcentage);
     result['avgPlace'] = parseFloat(avgPlacement);
     result['playRate'] = parseFloat(playRate); // this should include matches that were also without this comp? also how tf u actually calculate this
-    analyzeItems(inputData, itemsData, numberOfMatchingComps);
-    result['units'] = inputData;
+    if (itemsData != undefined) {
+        analyzeItems(inputData, itemsData, numberOfMatchingComps);
+        result['units'] = inputData;
+    }
     result['augments'] = analyzeAugments(augmentsData, numberOfMatchingComps);
     return result;
 };

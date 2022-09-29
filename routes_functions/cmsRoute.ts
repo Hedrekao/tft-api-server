@@ -1,12 +1,10 @@
-import { prisma } from '@prisma/client';
 import axios from 'axios';
-import isCompositionMatchingInput from '../helper_functions/analyzeRoute/isCompositionMatchingInput.js';
 import transformUnitsData from '../helper_functions/analyzeRoute/transformUnitsData.js';
-import collectDataAboutItems from '../helper_functions/analyzeRoute/collectDataAboutItems.js';
-import prepareAnalysisResult from '../helper_functions/analyzeRoute/prepareAnalysisResult.js';
+import isCompositionMatchingInput from '../helper_functions/analyzeRoute/isCompositionMatchingInput.js';
 import collectDataAboutAugments from '../helper_functions/analyzeRoute/collectDataAboutAugments.js';
+import prepareAnalysisResult from '../helper_functions/analyzeRoute/prepareAnalysisResult.js';
 
-const analyzeComposition = async (
+const getStatsAndAugmentsForCoreUnits = async (
   inputData: Array<Object>,
   sampleSize?: number,
   maxNumberOfMatches?: number
@@ -23,7 +21,6 @@ const analyzeComposition = async (
     let totalNumberOfMatches = 0;
     let totalNumberOfMatchesOverall = 0;
 
-    const itemsData = {};
     const augmentsData = {};
 
     const challengersData: Array<any> = challengerDataResponse.data['entries'];
@@ -71,12 +68,6 @@ const analyzeComposition = async (
               }
             }
             collectDataAboutAugments(composition, augmentsData);
-            collectDataAboutItems(
-              composition,
-              inputData,
-              itemsData,
-              compositionUnits
-            );
           }
           if (numberOfMatchingComps == sampleSize) {
             totalNumberOfMatches++;
@@ -88,8 +79,7 @@ const analyzeComposition = async (
               totalNumberOfMatches,
               totalNumberOfMatchesOverall + 1,
               inputData,
-              augmentsData,
-              itemsData
+              augmentsData
             );
           }
         }
@@ -102,8 +92,7 @@ const analyzeComposition = async (
             totalNumberOfMatches,
             totalNumberOfMatchesOverall + 1,
             inputData,
-            augmentsData,
-            itemsData
+            augmentsData
           );
         }
         totalNumberOfMatchesOverall++;
@@ -115,4 +104,4 @@ const analyzeComposition = async (
   }
 };
 
-export default analyzeComposition;
+export default getStatsAndAugmentsForCoreUnits;

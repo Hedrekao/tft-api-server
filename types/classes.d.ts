@@ -1,3 +1,5 @@
+import json5 from 'json5';
+
 class Item {
   id: number;
   name: string;
@@ -7,6 +9,10 @@ class Item {
     this.id = id;
     this.name = name;
     this.url = url;
+  }
+
+  changeToJSON() {
+    return JSON.stringify(this);
   }
 }
 
@@ -51,6 +57,10 @@ class Unit {
     this.url = url;
     this.level = level;
     this.items = items;
+  }
+
+  changeToJSON() {
+    return JSON.stringify(this);
   }
 }
 
@@ -217,8 +227,7 @@ class Profile {
   name: string;
   region: string;
   icon: string;
-  rank: number;
-  tier: string;
+  rank: string;
   lp: number;
   top: number;
   ranking: number;
@@ -228,8 +237,7 @@ class Profile {
     name: string,
     region: string,
     icon: string,
-    rank: number,
-    tier: string,
+    rank: string,
     lp: number,
     top: number,
     ranking: number,
@@ -238,7 +246,6 @@ class Profile {
     this.name = name;
     this.icon = icon;
     this.rank = rank;
-    this.tier = tier;
     this.lp = lp;
     this.top = top;
     this.ranking = ranking;
@@ -272,6 +279,162 @@ class Stats {
   }
 }
 
+class Last20 {
+  placements: number[];
+  avgPlacement: number;
+  top4Placements: number;
+  top4Procentage: number;
+  wins: number;
+  winsProcentage: number;
+
+  constructor(
+    placements: number[],
+    avgPlacement: number,
+    top4Placements: number,
+    top4Procentage: number,
+    wins: number,
+    winsProcentage: number
+  ) {
+    this.placements = placements;
+    this.avgPlacement = avgPlacement;
+    this.top4Placements = top4Placements;
+    this.top4Procentage = top4Procentage;
+    this.wins = wins;
+    this.winsProcentage = winsProcentage;
+  }
+}
+
+class BuilderTrait {
+  name: string;
+  active: number;
+  breakpoints: number[];
+  style: number;
+  constructor(
+    name: string,
+    active: number,
+    breakpoints: number[],
+    style: number
+  ) {
+    this.name = name;
+    this.active = active;
+    this.breakpoints = breakpoints;
+    this.style = style;
+  }
+}
+
+class AnalysisItem {
+  name: string;
+  id: number;
+  avgPlacement: string;
+  playRatio: string;
+
+  constructor(
+    name: string,
+    id: number,
+    avgPlacement: string,
+    playRatio: string
+  ) {
+    this.name = name;
+    this.id = id;
+    this.avgPlacement = avgPlacement;
+    this.playRatio = playRatio;
+  }
+}
+
+class AnalysisUnit {
+  name: string;
+  id: string;
+  items: AnalysisItem[];
+  constructor(name: string, id: string, items: AnalysisItem[]) {
+    this.name = name;
+    this.id = id;
+    this.items = items;
+  }
+}
+
+class Analysis {
+  top4Ratio: number;
+  winRate: number;
+  avgPlace: number;
+  playRate: number;
+  units: AnalysisUnit[];
+  augments: Augment[];
+  constructor(
+    top4Ratio: number,
+    winRate: number,
+    avgPlace: number,
+    playRate: number,
+    units: AnalysisUnit[],
+    augments: Augment[]
+  ) {
+    this.augments = augments;
+    this.avgPlace = avgPlace;
+    this.winRate = winRate;
+    this.top4Ratio = top4Ratio;
+    this.playRate = playRate;
+    this.units = units;
+  }
+}
+
+class AnalysisAugment {
+  src: string;
+  name: string;
+  avgPlacement: string;
+  winrate: string;
+  frequency: string;
+
+  constructor(
+    src: string,
+    name: string,
+    avgPlacement: string,
+    winrate: string,
+    frequency: string
+  ) {
+    this.src = src;
+    this.name = name;
+    this.avgPlacement = avgPlacement;
+    this.winrate = winrate;
+    this.frequency = frequency;
+  }
+}
+
+class Comp {
+  units: Unit[];
+  traits: Trait[];
+  avgPlacement: number;
+  top4Ratio: number;
+  winrate: number;
+  playrate: number;
+  positioning: UnitHex[][];
+  items: UnitItems[];
+  augments: Augment[];
+  variations: Variation[];
+
+  constructor(
+    units: Unit[],
+    traits: Trait[],
+    avgPlacement: number,
+    top4Ratio: number,
+    winrate: number,
+    playrate: number,
+    positioning: UnitHex[][],
+    items: UnitItems[],
+    augments: Augment[],
+    variations: Variation[]
+  ) {
+    this.units = units;
+    this.traits = traits;
+    this.avgPlacement = avgPlacement;
+    this.top4Ratio = top4Ratio;
+    this.winrate = winrate;
+    this.playrate = playrate;
+    this.positioning = positioning;
+    this.items = items;
+    this.augments = augments;
+    this.variations = variations;
+  }
+}
+
 export {
   Item,
   Trait,
@@ -284,5 +447,12 @@ export {
   Companion,
   Match,
   Profile,
-  Stats
+  Stats,
+  Last20,
+  BuilderTrait,
+  AnalysisUnit,
+  AnalysisItem,
+  Analysis,
+  AnalysisAugment,
+  Comp
 };

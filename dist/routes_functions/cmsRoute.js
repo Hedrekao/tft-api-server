@@ -1,10 +1,9 @@
 import axios from 'axios';
-import isCompositionMatchingInput from '../helper_functions/analyzeRoute/isCompositionMatchingInput.js';
 import transformUnitsData from '../helper_functions/analyzeRoute/transformUnitsData.js';
-import collectDataAboutItems from '../helper_functions/analyzeRoute/collectDataAboutItems.js';
-import prepareAnalysisResult from '../helper_functions/analyzeRoute/prepareAnalysisResult.js';
+import isCompositionMatchingInput from '../helper_functions/analyzeRoute/isCompositionMatchingInput.js';
 import collectDataAboutAugments from '../helper_functions/analyzeRoute/collectDataAboutAugments.js';
-const analyzeComposition = async (inputData, sampleSize, maxNumberOfMatches) => {
+import prepareAnalysisResult from '../helper_functions/analyzeRoute/prepareAnalysisResult.js';
+const getStatsAndAugmentsForCoreUnits = async (inputData, sampleSize, maxNumberOfMatches) => {
     try {
         const challengerDataResponse = await axios.get(`https://euw1.api.riotgames.com/tft/league/v1/challenger?api_key=${process.env.API_KEY}`);
         let placementOverall = 0;
@@ -13,7 +12,6 @@ const analyzeComposition = async (inputData, sampleSize, maxNumberOfMatches) => 
         let numberOfMatchingComps = 0;
         let totalNumberOfMatches = 0;
         let totalNumberOfMatchesOverall = 0;
-        const itemsData = {};
         const augmentsData = {};
         const challengersData = challengerDataResponse.data['entries'];
         for (const challengerData of challengersData) {
@@ -44,15 +42,14 @@ const analyzeComposition = async (inputData, sampleSize, maxNumberOfMatches) => 
                             }
                         }
                         collectDataAboutAugments(composition, augmentsData);
-                        collectDataAboutItems(composition, inputData, itemsData, compositionUnits);
                     }
                     if (numberOfMatchingComps == sampleSize) {
                         totalNumberOfMatches++;
-                        return prepareAnalysisResult(top4Count, winCount, placementOverall, numberOfMatchingComps, totalNumberOfMatches, totalNumberOfMatchesOverall + 1, inputData, augmentsData, itemsData);
+                        return prepareAnalysisResult(top4Count, winCount, placementOverall, numberOfMatchingComps, totalNumberOfMatches, totalNumberOfMatchesOverall + 1, inputData, augmentsData);
                     }
                 }
                 if (totalNumberOfMatchesOverall == maxNumberOfMatches - 1) {
-                    return prepareAnalysisResult(top4Count, winCount, placementOverall, numberOfMatchingComps, totalNumberOfMatches, totalNumberOfMatchesOverall + 1, inputData, augmentsData, itemsData);
+                    return prepareAnalysisResult(top4Count, winCount, placementOverall, numberOfMatchingComps, totalNumberOfMatches, totalNumberOfMatchesOverall + 1, inputData, augmentsData);
                 }
                 totalNumberOfMatchesOverall++;
             }
@@ -63,4 +60,4 @@ const analyzeComposition = async (inputData, sampleSize, maxNumberOfMatches) => 
         return { error: `error - ${error.message}` };
     }
 };
-export default analyzeComposition;
+export default getStatsAndAugmentsForCoreUnits;

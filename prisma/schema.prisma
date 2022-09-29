@@ -7,6 +7,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model augments {
+  src          String?     @db.VarChar
+  name         String      @db.VarChar
+  avgplacement Decimal?    @db.Decimal
+  winrate      Decimal?    @db.Decimal
+  frequency    Decimal?    @db.Decimal
+  compid       Int
+  composition  composition @relation(fields: [compid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([name, compid])
+}
+
+model augments_ranking {
+  id                  String @id @db.VarChar
+  numberOfAppearances Int    @default(0)
+  sumOfPlacements     Int    @default(0)
+  sumOfWins           Int    @default(0)
+}
+
 model champions {
   id   String  @id @db.VarChar(100)
   name String? @db.VarChar(50)
@@ -15,27 +34,114 @@ model champions {
 
 model champions_ranking {
   id                  String @id @db.VarChar
+  numberOfAppearances Int    @default(0)
   sumOfPlacements     Int    @default(0)
   sumOfWins           Int    @default(0)
-  numberOfAppearances Int    @default(0)
+}
+
+model composition {
+  id           Int         @id @default(autoincrement())
+  avgplacement Decimal?    @db.Decimal
+  top4ratio    Decimal?    @db.Decimal
+  playrate     Decimal?    @db.Decimal
+  augments     augments[]
+  traits       traits[]
+  unit         unit[]
+  unithex      unithex[]
+  unititems    unititems[]
+  variation    variation[]
+}
+
+model general_data {
+  totalNumberOfMatches Int
+  id                   Int @id
+  totalNumberOfComps   Int @default(0)
+}
+
+model item {
+  id        Int      @id @default(autoincrement())
+  itemId    Int
+  name      String?  @db.VarChar
+  url       String?  @db.VarChar
+  unitid    Int?
+  unit      unit?    @relation(fields: [unitid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  unithexid Int?
+  unithex   unithex? @relation(fields: [unithexid], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model items_ranking {
   id                  Int @id
+  numberOfAppearances Int @default(0)
   sumOfPlacements     Int @default(0)
   sumOfWins           Int @default(0)
-  numberOfAppearances Int @default(0)
 }
 
-model augments_ranking {
-  id                  String @id @db.VarChar
-  sumOfPlacements     Int    @default(0)
-  sumOfWins           Int    @default(0)
-  numberOfAppearances Int    @default(0)
+model itemunit {
+  src        String    @db.VarChar
+  name       String?   @db.VarChar
+  rate       Decimal?  @db.Decimal
+  isbis      Boolean
+  unititemid Int
+  unititems  unititems @relation(fields: [unititemid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([src, unititemid, isbis])
 }
 
-model general_data {
-  id                   Int @id
-  totalNumberOfMatches Int
-  totalNumberOfComps   Int @default(0)
+model traits {
+  id           Int          @id @default(autoincrement())
+  name         String?      @db.VarChar
+  currenttrait Int?
+  traitstyle   Int?
+  url          String?      @db.VarChar
+  variationid  Int?
+  compid       Int?
+  composition  composition? @relation(fields: [compid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  variation    variation?   @relation(fields: [variationid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model unit {
+  id          Int          @id @default(autoincrement())
+  name        String?      @db.VarChar
+  url         String?      @db.VarChar
+  cost        Int?
+  level       Int?
+  variationid Int?
+  compid      Int?
+  composition composition? @relation(fields: [compid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  variation   variation?   @relation(fields: [variationid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  item        item[]
+}
+
+model unithex {
+  id          Int         @id @default(autoincrement())
+  idGiven     Int
+  name        String?     @db.VarChar
+  cost        Int?
+  url         String?     @db.VarChar
+  xposition   Int?
+  yposition   Int?
+  level       Int?
+  compid      Int
+  composition composition @relation(fields: [compid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  item        item[]
+}
+
+model unititems {
+  id          Int          @id @default(autoincrement())
+  unitname    String?      @db.VarChar
+  unitsrc     String?      @db.VarChar
+  cost        Int?
+  compid      Int?
+  composition composition? @relation(fields: [compid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  itemunit    itemunit[]
+}
+
+model variation {
+  id           Int          @id @default(autoincrement())
+  avgPlacement Decimal?     @db.Decimal
+  top4Ratio    Decimal?     @db.Decimal
+  compid       Int?
+  composition  composition? @relation(fields: [compid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  traits       traits[]
+  unit         unit[]
 }

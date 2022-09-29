@@ -8,6 +8,8 @@ import getSummonersData from './routes_functions/summonerRoute.js';
 import analyzeComposition from './routes_functions/analyzeCompRoute.js';
 import testAnalyzeRoute from './test_routes_functions/testAnalyzeRoute.js';
 import collectDataAboutRankings from './task_functions/collectDataAboutRankings.js';
+import getStatsAndAugmentsForCoreUnits from './routes_functions/cmsRoute.js';
+import saveCompositionIntoDatabase from './routes_functions/cmsSaveRoute.js';
 
 dotenv.config();
 
@@ -28,6 +30,19 @@ app.get('/summoner/:region/:name', async (req: any, res) => {
 
 app.get('/units', async (req, res) => {
   return await commitToDb(prisma.champions.findMany());
+});
+
+app.post('/cms', async (req: any, res) => {
+  return await getStatsAndAugmentsForCoreUnits(req.body.inputData, 30, 80);
+});
+
+app.post('/cms/save', async (req: any, res) => {
+  try {
+    await saveCompositionIntoDatabase(req.body.composition);
+    return { info: 'data succesfully saved' };
+  } catch (e: any) {
+    return { error: e.message };
+  }
 });
 
 app.get('/units-ranking', async (req, res) => {

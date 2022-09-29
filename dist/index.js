@@ -7,6 +7,7 @@ import cron from 'node-cron';
 import getSummonersData from './routes_functions/summonerRoute.js';
 import analyzeComposition from './routes_functions/analyzeCompRoute.js';
 import collectDataAboutRankings from './task_functions/collectDataAboutRankings.js';
+import getStatsAndAugmentsForCoreUnits from './routes_functions/cmsRoute.js';
 dotenv.config();
 const app = fastify();
 app.register(sensible);
@@ -22,6 +23,9 @@ app.get('/summoner/:region/:name', async (req, res) => {
 });
 app.get('/units', async (req, res) => {
     return await commitToDb(prisma.champions.findMany());
+});
+app.post('/cms', async (req, res) => {
+    return await getStatsAndAugmentsForCoreUnits(req.body.inputData, 30, 80);
 });
 app.get('/units-ranking', async (req, res) => {
     const numberOfCompsQuery = await prisma.general_data.findUnique({

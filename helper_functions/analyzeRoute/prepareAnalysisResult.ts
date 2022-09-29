@@ -9,8 +9,8 @@ const prepareAnalysisResult = (
   totalNumberOfMatches: number,
   totalNumberOfMatchesOverall: number,
   inputData: Array<Object>,
-  itemsData: Object,
-  augmentsData: Object
+  augmentsData: Object,
+  itemsData?: Object
 ) => {
   if (numberOfMatchingComps == 0) {
     return { info: 'No matches' };
@@ -31,9 +31,11 @@ const prepareAnalysisResult = (
   result['avgPlace'] = parseFloat(avgPlacement);
   result['playRate'] = parseFloat(playRate); // this should include matches that were also without this comp? also how tf u actually calculate this
 
-  analyzeItems(inputData, itemsData, numberOfMatchingComps);
+  if (itemsData != undefined) {
+    analyzeItems(inputData, itemsData, numberOfMatchingComps);
+    result['units'] = inputData;
+  }
 
-  result['units'] = inputData;
   result['augments'] = analyzeAugments(augmentsData, numberOfMatchingComps);
 
   return result;

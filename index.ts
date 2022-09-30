@@ -39,7 +39,7 @@ app.post('/cms', async (req: any, res) => {
 
 app.post('/cms/save', async (req: any, res) => {
   try {
-    console.log(req.body.composition);
+    console.log(JSON.stringify(req.body.composition, null, 4));
     await saveCompositionIntoDatabase(req.body.composition);
     return { info: 'data succesfully saved' };
   } catch (e: any) {

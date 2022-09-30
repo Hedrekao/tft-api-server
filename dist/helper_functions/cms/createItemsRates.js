@@ -13,7 +13,13 @@ const createItemsRates = (compositionInput, numberOfComps, itemsData) => {
                 100).toFixed(1);
             const src = `https://ittledul.sirv.com/Images/items/${item}.png`;
             const itemNameObject = itemsDataJson.find((val) => val['id'] == item);
-            const name = itemNameObject['name'];
+            let name;
+            if (itemNameObject != null && itemNameObject.hasOwnProperty('name')) {
+                name = itemNameObject['name'];
+            }
+            else {
+                name = '';
+            }
             const itemUnit = new ItemUnit(src, name, parseFloat(rate));
             itemRates.push(itemUnit);
         }
@@ -33,7 +39,13 @@ const createItemsRates = (compositionInput, numberOfComps, itemsData) => {
             for (const item of unit.items) {
                 const src = `https://ittledul.sirv.com/Images/items/${item.id}.png`;
                 const itemNameObject = itemsDataJson.find((val) => val['id'] == item.id);
-                const name = itemNameObject['name'];
+                let name;
+                if (itemNameObject != null && itemNameObject.hasOwnProperty('name')) {
+                    name = itemNameObject['name'];
+                }
+                else {
+                    name = '';
+                }
                 const itemUnit = new ItemUnit(src, name, null);
                 itemsBIS.push(itemUnit);
             }

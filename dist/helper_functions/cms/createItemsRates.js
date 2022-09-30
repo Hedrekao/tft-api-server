@@ -1,5 +1,7 @@
-import { ItemUnit } from 'types/classes';
-import itemsJson from '../../static/Items.json';
+import { ItemUnit } from '../../types/classes.js';
+import { createRequire } from 'module'; // Bring in the ability to create the 'require' method
+const require = createRequire(import.meta.url); // construct the require method
+const itemsJson = require('../../static/Items.json');
 const createItemsRates = (compositionInput, numberOfComps, itemsData) => {
     for (const unitItems of compositionInput.items) {
         let array = [];

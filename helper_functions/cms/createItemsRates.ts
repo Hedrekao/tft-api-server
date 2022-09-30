@@ -1,5 +1,7 @@
-import { Comp, ItemUnit } from 'types/classes';
-import itemsJson from '../../static/Items.json';
+import { Comp, ItemUnit } from '../../types/classes.js';
+import { createRequire } from 'module'; // Bring in the ability to create the 'require' method
+const require = createRequire(import.meta.url); // construct the require method
+const itemsJson = require('../../static/Items.json');
 
 const createItemsRates = (
   compositionInput: Comp,
@@ -13,9 +15,11 @@ const createItemsRates = (
         (itemsData[unitItems.unitName][item]['numberOfComps'] / numberOfComps) *
         100
       ).toFixed(1);
-      const src = itemsJson.items.find((val) => val.id == parseInt(item))?.icon;
+      const src = itemsJson.items.find(
+        (val: any) => val.id == parseInt(item)
+      )?.icon;
       const name = itemsJson.items.find(
-        (val) => val.id == parseInt(item)
+        (val: any) => val.id == parseInt(item)
       )?.name;
 
       const itemUnit = new ItemUnit(src!, name!, parseFloat(rate));

@@ -1,31 +1,31 @@
-import { Comp, ItemUnit } from '../../types/classes.js';
+import { Comp, ItemUnit, UnitItems } from '../../types/classes.js';
 import { createRequire } from 'module'; // Bring in the ability to create the 'require' method
 const require = createRequire(import.meta.url); // construct the require method
-const itemsJson = require('../../static/Items.json');
+const itemsJson: Object = require('../../static/Items.json');
+const itemsDataJson: Array<Object> = itemsJson['items'];
 
 const createItemsRates = (
   compositionInput: Comp,
   numberOfComps: number,
   itemsData: Object
 ) => {
-  for (const unitItems of compositionInput.items) {
-    let array = [];
-    for (const item in itemsData[unitItems.unitName]['items']) {
+  const unitItemsArr = [];
+  for (const unit of compositionInput.units) {
+    let itemRates: Array<ItemUnit> = [];
+    for (const item in itemsData[unit.id]['items']) {
       const rate = (
-        (itemsData[unitItems.unitName][item]['numberOfComps'] / numberOfComps) *
+        (itemsData[unit.id][item]['numberOfComps'] / numberOfComps) *
         100
       ).toFixed(1);
-      const src = itemsJson.items.find(
-        (val: any) => val.id == parseInt(item)
-      )?.icon;
-      const name = itemsJson.items.find(
-        (val: any) => val.id == parseInt(item)
-      )?.name;
+      const src = `https://ittledul.sirv.com/Images/items/${item}.png`;
+      const itemNameObject = itemsDataJson.find((val) => val['id'] == item);
+      const name = itemNameObject!['name'];
 
-      const itemUnit = new ItemUnit(src!, name!, parseFloat(rate));
-      array.push(itemUnit);
+      const itemUnit = new ItemUnit(src, name, parseFloat(rate));
+      itemRates.push(itemUnit);
     }
-    array.sort((a, b) => {
+
+    itemRates.sort((a, b) => {
       if (a.rate! > b.rate!) {
         return -1;
       }
@@ -35,11 +35,32 @@ const createItemsRates = (
       return 0;
     });
 
-    itemsJson;
-    array = array.slice(0, 6);
+    itemRates = itemRates.slice(0, 6);
 
-    unitItems.itemsRate = array;
+    let itemsBIS: Array<ItemUnit> = [];
+    if (unit.items != null && unit.items.length > 0) {
+      for (const item of unit.items) {
+        const src = `https://ittledul.sirv.com/Images/items/${item.id}.png`;
+        const itemNameObject = itemsDataJson.find(
+          (val) => val['id'] == item.id
+        );
+        const name = itemNameObject!['name'];
+        const itemUnit = new ItemUnit(src, name, null);
+        itemsBIS.push(itemUnit);
+      }
+    }
+
+    const unitItems = new UnitItems(
+      unit.id,
+      unit.url,
+      unit.cost,
+      itemsBIS,
+      itemRates
+    );
+    unitItemsArr.push(unitItems);
   }
+  compositionInput.items = unitItemsArr;
+  console.log('essa');
 };
 
 export default createItemsRates;

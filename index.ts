@@ -33,13 +33,11 @@ app.get('/units', async (req, res) => {
 });
 
 app.post('/cms', async (req: any, res) => {
-  console.log(req.body.inputData);
   return await getStatsAndAugmentsForCoreUnits(req.body.inputData, 30, 80);
 });
 
 app.post('/cms/save', async (req: any, res) => {
   try {
-    console.log(JSON.stringify(req.body.composition, null, 4));
     await saveCompositionIntoDatabase(req.body.composition);
     return { info: 'data succesfully saved' };
   } catch (e: any) {

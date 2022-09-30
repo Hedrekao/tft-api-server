@@ -3,6 +3,7 @@ import find4MostFrequentItemsOnCoreUnits from '../helper_functions/cms/find4Most
 const prisma = new PrismaClient();
 const saveCompositionIntoDatabase = async (composition) => {
     await find4MostFrequentItemsOnCoreUnits(composition);
+    console.log(JSON.stringify(composition, null, 4));
     const compData = await prisma.composition.create({
         data: {
             avgplacement: composition.avgPlacement,
@@ -36,6 +37,7 @@ const saveCompositionIntoDatabase = async (composition) => {
     for (const unit of composition.units) {
         const unitData = await prisma.unit.create({
             data: {
+                idGiven: unit.id,
                 name: unit.name,
                 url: unit.url,
                 cost: unit.cost,
@@ -60,7 +62,8 @@ const saveCompositionIntoDatabase = async (composition) => {
         const variationData = await prisma.variation.create({
             data: {
                 avgPlacement: variation.avgPlacement,
-                top4Ratio: variation.top4ratio
+                top4Ratio: variation.top4ratio,
+                compid: compData.id
             }
         });
         for (const trait of variation.traits) {
@@ -77,6 +80,7 @@ const saveCompositionIntoDatabase = async (composition) => {
         for (const unit of variation.units) {
             const unitData = await prisma.unit.create({
                 data: {
+                    idGiven: unit.id,
                     name: unit.name,
                     url: unit.url,
                     cost: unit.cost,
@@ -143,6 +147,7 @@ const saveCompositionIntoDatabase = async (composition) => {
                         url: unithex.url,
                         xposition: j,
                         yposition: i,
+                        level: unithex.level,
                         compid: compData.id
                     }
                 });

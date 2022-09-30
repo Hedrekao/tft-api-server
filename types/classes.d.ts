@@ -36,7 +36,7 @@ class Trait {
 }
 
 class Unit {
-  id: number;
+  id: string;
   name: string;
   cost: number;
   url: string;
@@ -44,7 +44,7 @@ class Unit {
   items: Item[] | null;
 
   constructor(
-    id: number,
+    id: string,
     name: string,
     cost: number,
     url: string,
@@ -65,7 +65,7 @@ class Unit {
 }
 
 class UnitHex {
-  id: number | null;
+  id: string | null;
   name: string | null;
   cost: number | null;
   url: string | null;
@@ -73,7 +73,7 @@ class UnitHex {
   items: Item[] | null;
 
   constructor(
-    id: number | null,
+    id: string | null,
     name: string | null,
     cost: number | null,
     url: string | null,

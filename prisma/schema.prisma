@@ -41,9 +41,9 @@ model champions_ranking {
 
 model composition {
   id           Int         @id @default(autoincrement())
-  avgplacement Decimal?    @db.Decimal
-  top4ratio    Decimal?    @db.Decimal
-  playrate     Decimal?    @db.Decimal
+  avgplacement Decimal?    @db.Decimal(3, 2)
+  top4ratio    Decimal?    @db.Decimal(4, 2)
+  playrate     Decimal?    @db.Decimal(4, 2)
   augments     augments[]
   traits       traits[]
   unit         unit[]
@@ -101,6 +101,7 @@ model traits {
 
 model unit {
   id          Int          @id @default(autoincrement())
+  idGiven     String       @db.VarChar
   name        String?      @db.VarChar
   url         String?      @db.VarChar
   cost        Int?
@@ -114,7 +115,7 @@ model unit {
 
 model unithex {
   id          Int         @id @default(autoincrement())
-  idGiven     Int
+  idGiven     String      @db.VarChar
   name        String?     @db.VarChar
   cost        Int?
   url         String?     @db.VarChar
@@ -138,8 +139,8 @@ model unititems {
 
 model variation {
   id           Int          @id @default(autoincrement())
-  avgPlacement Decimal?     @db.Decimal
-  top4Ratio    Decimal?     @db.Decimal
+  avgPlacement Decimal?     @db.Decimal(3, 2)
+  top4Ratio    Decimal?     @db.Decimal(4, 2)
   compid       Int?
   composition  composition? @relation(fields: [compid], references: [id], onDelete: NoAction, onUpdate: NoAction)
   traits       traits[]

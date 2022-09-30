@@ -26,12 +26,10 @@ app.get('/units', async (req, res) => {
     return await commitToDb(prisma.champions.findMany());
 });
 app.post('/cms', async (req, res) => {
-    console.log(req.body.inputData);
     return await getStatsAndAugmentsForCoreUnits(req.body.inputData, 30, 80);
 });
 app.post('/cms/save', async (req, res) => {
     try {
-        console.log(JSON.stringify(req.body.composition, null, 4));
         await saveCompositionIntoDatabase(req.body.composition);
         return { info: 'data succesfully saved' };
     }

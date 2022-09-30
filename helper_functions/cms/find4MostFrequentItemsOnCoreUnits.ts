@@ -55,7 +55,6 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
           }
 
           collectDataAboutItemsCMS(
-            composition,
             itemsData,
             compositionUnits,
             compositionInput
@@ -70,6 +69,7 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
           }
         }
         if (totalNumberOfMatchesOverall == 69) {
+          createItemsRates(compositionInput, numberOfMatchingComps, itemsData);
         }
         totalNumberOfMatchesOverall++;
       }

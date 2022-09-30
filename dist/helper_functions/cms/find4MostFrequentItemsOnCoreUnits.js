@@ -33,13 +33,14 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
                         totalNumberOfMatches++;
                         firstCompositionInMatch = false;
                     }
-                    collectDataAboutItemsCMS(composition, itemsData, compositionUnits, compositionInput);
+                    collectDataAboutItemsCMS(itemsData, compositionUnits, compositionInput);
                     // }
                     if (numberOfMatchingComps == 100) {
                         createItemsRates(compositionInput, numberOfMatchingComps, itemsData);
                     }
                 }
                 if (totalNumberOfMatchesOverall == 69) {
+                    createItemsRates(compositionInput, numberOfMatchingComps, itemsData);
                 }
                 totalNumberOfMatchesOverall++;
             }

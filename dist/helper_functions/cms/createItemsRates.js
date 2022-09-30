@@ -16,6 +16,7 @@ const createItemsRates = (compositionInput, numberOfComps, itemsData) => {
             const itemUnit = new ItemUnit(src, name, parseFloat(rate));
             itemRates.push(itemUnit);
         }
+        console.log(itemRates);
         itemRates.sort((a, b) => {
             if (a.rate > b.rate) {
                 return -1;
@@ -36,10 +37,11 @@ const createItemsRates = (compositionInput, numberOfComps, itemsData) => {
                 itemsBIS.push(itemUnit);
             }
         }
+        console.log(1);
         const unitItems = new UnitItems(unit.id, unit.url, unit.cost, itemsBIS, itemRates);
         unitItemsArr.push(unitItems);
     }
     compositionInput.items = unitItemsArr;
-    console.log('essa');
+    console.log(JSON.stringify(unitItemsArr, null, 4));
 };
 export default createItemsRates;

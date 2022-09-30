@@ -3,7 +3,6 @@ import find4MostFrequentItemsOnCoreUnits from '../helper_functions/cms/find4Most
 const prisma = new PrismaClient();
 const saveCompositionIntoDatabase = async (composition) => {
     await find4MostFrequentItemsOnCoreUnits(composition);
-    console.log(JSON.stringify(composition, null, 4));
     const compData = await prisma.composition.create({
         data: {
             avgplacement: composition.avgPlacement,

@@ -7,8 +7,6 @@ const prisma = new PrismaClient();
 const saveCompositionIntoDatabase = async (composition: Comp) => {
   await find4MostFrequentItemsOnCoreUnits(composition);
 
-  console.log(JSON.stringify(composition, null, 4));
-
   const compData = await prisma.composition.create({
     data: {
       avgplacement: composition.avgPlacement,

@@ -16,6 +16,5 @@ const collectDataAboutItemsCMS = (itemsData, compositionUnits, compositionInput)
             }
         }
     }
-    console.log('x');
 };
 export default collectDataAboutItemsCMS;

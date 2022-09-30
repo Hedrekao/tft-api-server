@@ -7,7 +7,7 @@ const createItemsRates = (compositionInput, numberOfComps, itemsData) => {
     const unitItemsArr = [];
     for (const unit of compositionInput.units) {
         let itemRates = [];
-        for (const item in itemsData[unit.id]['items']) {
+        for (const item in itemsData[unit.id]) {
             const rate = ((itemsData[unit.id][item]['numberOfComps'] / numberOfComps) *
                 100).toFixed(1);
             const src = `https://ittledul.sirv.com/Images/items/${item}.png`;

@@ -21,7 +21,6 @@ const collectDataAboutItemsCMS = (
       }
     }
   }
-  console.log('x');
 };
 
 export default collectDataAboutItemsCMS;

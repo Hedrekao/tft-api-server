@@ -12,7 +12,7 @@ const createItemsRates = (
   const unitItemsArr = [];
   for (const unit of compositionInput.units) {
     let itemRates: Array<ItemUnit> = [];
-    for (const item in itemsData[unit.id]['items']) {
+    for (const item in itemsData[unit.id]) {
       const rate = (
         (itemsData[unit.id][item]['numberOfComps'] / numberOfComps) *
         100

@@ -5,6 +5,7 @@ const itemsJson = require('../../static/Items.json');
 const itemsDataJson = itemsJson['items'];
 const createItemsRates = (compositionInput, numberOfComps, itemsData) => {
     const unitItemsArr = [];
+    console.log(itemsData);
     for (const unit of compositionInput.units) {
         let itemRates = [];
         for (const item in itemsData[unit.id]) {
@@ -42,6 +43,5 @@ const createItemsRates = (compositionInput, numberOfComps, itemsData) => {
         unitItemsArr.push(unitItems);
     }
     compositionInput.items = unitItemsArr;
-    console.log(JSON.stringify(unitItemsArr, null, 4));
 };
 export default createItemsRates;

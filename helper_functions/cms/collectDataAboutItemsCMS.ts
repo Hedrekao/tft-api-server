@@ -6,12 +6,12 @@ const collectDataAboutItemsCMS = (
   compositionInput: Comp
 ) => {
   for (const unit of compositionInput.units) {
-    if (!itemsData.hasOwnProperty(unit.name)) {
-      itemsData[unit.name] = {};
+    if (!itemsData.hasOwnProperty(unit.id)) {
+      itemsData[unit.id] = {};
     }
-    if (compositionUnits.hasOwnProperty(unit.name)) {
-      for (const item of compositionUnits[unit['name']]['items']) {
-        const unitItems = itemsData[unit['name']];
+    if (compositionUnits.hasOwnProperty(unit.id)) {
+      for (const item of compositionUnits[unit['id']]['items']) {
+        const unitItems = itemsData[unit['id']];
         if (unitItems.hasOwnProperty(item)) {
           unitItems[item]['numberOfComps'] += 1;
         } else {

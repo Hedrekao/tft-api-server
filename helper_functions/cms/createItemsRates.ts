@@ -10,8 +10,10 @@ const createItemsRates = (
   itemsData: Object
 ) => {
   const unitItemsArr = [];
+  console.log(itemsData);
   for (const unit of compositionInput.units) {
     let itemRates: Array<ItemUnit> = [];
+
     for (const item in itemsData[unit.id]) {
       const rate = (
         (itemsData[unit.id][item]['numberOfComps'] / numberOfComps) *
@@ -62,7 +64,6 @@ const createItemsRates = (
     unitItemsArr.push(unitItems);
   }
   compositionInput.items = unitItemsArr;
-  console.log(JSON.stringify(unitItemsArr, null, 4));
 };
 
 export default createItemsRates;

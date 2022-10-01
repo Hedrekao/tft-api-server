@@ -7,7 +7,8 @@ const saveCompositionIntoDatabase = async (composition) => {
         data: {
             avgplacement: composition.avgPlacement,
             top4ratio: composition.top4Ratio,
-            playrate: composition.playrate
+            playrate: composition.playrate,
+            winrate: composition.winrate
         }
     });
     for (const augment of composition.augments) {

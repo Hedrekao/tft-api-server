@@ -42,8 +42,9 @@ model champions_ranking {
 model composition {
   id           Int         @id @default(autoincrement())
   avgplacement Decimal?    @db.Decimal(3, 2)
-  top4ratio    Decimal?    @db.Decimal(4, 2)
-  playrate     Decimal?    @db.Decimal(4, 2)
+  top4ratio    Decimal?    @db.Decimal(5, 2)
+  playrate     Decimal?    @db.Decimal(5, 2)
+  winrate      Decimal?    @db.Decimal(5, 2)
   augments     augments[]
   traits       traits[]
   unit         unit[]
@@ -79,7 +80,7 @@ model items_ranking {
 model itemunit {
   src        String    @db.VarChar
   name       String?   @db.VarChar
-  rate       Decimal?  @db.Decimal
+  rate       Decimal?  @db.Decimal(4, 1)
   isbis      Boolean
   unititemid Int
   unititems  unititems @relation(fields: [unititemid], references: [id], onDelete: NoAction, onUpdate: NoAction)

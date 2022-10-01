@@ -11,7 +11,8 @@ const saveCompositionIntoDatabase = async (composition: Comp) => {
     data: {
       avgplacement: composition.avgPlacement,
       top4ratio: composition.top4Ratio,
-      playrate: composition.playrate
+      playrate: composition.playrate,
+      winrate: composition.winrate
     }
   });
 

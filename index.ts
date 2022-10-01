@@ -10,6 +10,7 @@ import testAnalyzeRoute from './test_routes_functions/testAnalyzeRoute.js';
 import collectDataAboutRankings from './task_functions/collectDataAboutRankings.js';
 import getStatsAndAugmentsForCoreUnits from './routes_functions/cmsRoute.js';
 import saveCompositionIntoDatabase from './routes_functions/cmsSaveRoute.js';
+import getCompsFromDb from './routes_functions/preparedCompsRoute.js';
 
 dotenv.config();
 
@@ -34,6 +35,14 @@ app.get('/units', async (req, res) => {
 
 app.post('/cms', async (req: any, res) => {
   return await getStatsAndAugmentsForCoreUnits(req.body.inputData, 30, 80);
+});
+
+app.get('/preparedComps', (req, res) => {
+  try {
+    return getCompsFromDb();
+  } catch (error: any) {
+    return { error: error.message };
+  }
 });
 
 app.post('/cms/save', async (req: any, res) => {

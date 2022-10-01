@@ -16,7 +16,8 @@ const createItemsRates = (
 
     for (const item in itemsData[unit.id]) {
       const rate = (
-        (itemsData[unit.id][item]['numberOfComps'] / numberOfComps) *
+        (itemsData[unit.id][item]['numberOfComps'] /
+          itemsData[unit.id]['numberOfAppearances']) *
         100
       ).toFixed(1);
       const src = `https://ittledul.sirv.com/Images/items/${item}.png`;

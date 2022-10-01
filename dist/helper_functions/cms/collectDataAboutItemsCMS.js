@@ -2,6 +2,10 @@ const collectDataAboutItemsCMS = (itemsData, compositionUnits, compositionInput)
     for (const unit of compositionInput.units) {
         if (!itemsData.hasOwnProperty(unit.id)) {
             itemsData[unit.id] = {};
+            itemsData[unit.id]['numberOfAppearances'] = 1;
+        }
+        else {
+            itemsData[unit.id]['numberOfAppearances'] += 1;
         }
         if (compositionUnits.hasOwnProperty(unit.id)) {
             for (const item of compositionUnits[unit['id']]['items']) {

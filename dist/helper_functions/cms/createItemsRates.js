@@ -9,7 +9,8 @@ const createItemsRates = (compositionInput, numberOfComps, itemsData) => {
     for (const unit of compositionInput.units) {
         let itemRates = [];
         for (const item in itemsData[unit.id]) {
-            const rate = ((itemsData[unit.id][item]['numberOfComps'] / numberOfComps) *
+            const rate = ((itemsData[unit.id][item]['numberOfComps'] /
+                itemsData[unit.id]['numberOfAppearances']) *
                 100).toFixed(1);
             const src = `https://ittledul.sirv.com/Images/items/${item}.png`;
             const itemNameObject = itemsDataJson.find((val) => val['id'] == item);

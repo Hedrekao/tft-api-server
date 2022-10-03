@@ -27,17 +27,17 @@ const getStatsAndAugmentsForCoreUnits = async (
 
     for (const challengerData of challengersData) {
       const summonerPuuidResponse = await axios.get(
-        `https://euw1.api.riotgames.com/lol/summoner/v4/summoners/${challengerData['summonerId']}?api_key=${process.env.API_KEY}`
+        `https://euw1.api.riotgames.com/lol/summoner/v4/summoners/${challengerData['summonerId']}`
       );
       const summonerPuuid: string = summonerPuuidResponse.data['puuid'];
 
       const matchesIdResponse =
-        await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=30&api_key=${process.env.API_KEY}
+        await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=30
 `);
       const matchesId: Array<string> = matchesIdResponse.data;
       for (const matchId of matchesId) {
         const matchDataResponse = await axios.get(
-          `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}?api_key=${process.env.API_KEY}`
+          `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
         );
 
         const matchData: Object = matchDataResponse.data;

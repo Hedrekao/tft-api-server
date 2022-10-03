@@ -6,6 +6,8 @@ import collectDataAboutItems from '../helper_functions/analyzeRoute/collectDataA
 import prepareAnalysisResult from '../helper_functions/analyzeRoute/prepareAnalysisResult.js';
 import collectDataAboutAugments from '../helper_functions/analyzeRoute/collectDataAboutAugments.js';
 
+axios.defaults.headers.common['X-Riot-Token'] = process.env.API_KEY;
+
 const analyzeComposition = async (
   inputData: Array<Object>,
   sampleSize?: number,
@@ -13,7 +15,7 @@ const analyzeComposition = async (
 ) => {
   try {
     const challengerDataResponse = await axios.get(
-      `https://euw1.api.riotgames.com/tft/league/v1/challenger?api_key=${process.env.API_KEY}`
+      `https://euw1.api.riotgames.com/tft/league/v1/challenger`
     );
 
     let placementOverall = 0;
@@ -30,17 +32,17 @@ const analyzeComposition = async (
 
     for (const challengerData of challengersData) {
       const summonerPuuidResponse = await axios.get(
-        `https://euw1.api.riotgames.com/lol/summoner/v4/summoners/${challengerData['summonerId']}?api_key=${process.env.API_KEY}`
+        `https://euw1.api.riotgames.com/lol/summoner/v4/summoners/${challengerData['summonerId']}`
       );
       const summonerPuuid: string = summonerPuuidResponse.data['puuid'];
 
       const matchesIdResponse =
-        await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=30&api_key=${process.env.API_KEY}
+        await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=30
 `);
       const matchesId: Array<string> = matchesIdResponse.data;
       for (const matchId of matchesId) {
         const matchDataResponse = await axios.get(
-          `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}?api_key=${process.env.API_KEY}`
+          `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
         );
 
         const matchData: Object = matchDataResponse.data;

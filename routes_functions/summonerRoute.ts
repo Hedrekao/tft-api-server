@@ -7,7 +7,7 @@ const getSummonersData = async (name: string, region: string) => {
   try {
     const summonerDataResponse = await axios.get(
       encodeURI(
-        `https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${name}?api_key=${process.env.API_KEY}`
+        `https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${name}`
       )
     );
     const summonerData: Object = summonerDataResponse.data;
@@ -16,7 +16,7 @@ const getSummonersData = async (name: string, region: string) => {
     const iconId: string = summonerData['profileIconId'];
 
     const summonerLeagueResponse = await axios.get(
-      `https://${region}.api.riotgames.com/tft/league/v1/entries/by-summoner/${id}?api_key=${process.env.API_KEY}`
+      `https://${region}.api.riotgames.com/tft/league/v1/entries/by-summoner/${id}`
     );
 
     const summonerLeague = summonerLeagueResponse.data[0];

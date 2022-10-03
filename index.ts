@@ -4,6 +4,7 @@ import sensible from '@fastify/sensible';
 import { PrismaClient } from '@prisma/client';
 import cors from '@fastify/cors';
 import cron from 'node-cron';
+import axios from 'axios';
 import getSummonersData from './routes_functions/summonerRoute.js';
 import analyzeComposition from './routes_functions/analyzeCompRoute.js';
 import collectDataAboutRankings from './task_functions/collectDataAboutRankings.js';
@@ -13,6 +14,7 @@ import getCompsFromDb from './routes_functions/preparedCompsRoute.js';
 import getLeaderboardData from './routes_functions/leaderboardRoute.js';
 
 dotenv.config();
+axios.defaults.headers.common['X-Riot-Token'] = process.env.API_KEY;
 
 const app = fastify();
 app.register(sensible);

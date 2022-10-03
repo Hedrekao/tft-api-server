@@ -4,12 +4,12 @@ import getDetailedLeagueInfoData from '../helper_functions/summonerRoute/getDeta
 import axios from 'axios';
 const getSummonersData = async (name, region) => {
     try {
-        const summonerDataResponse = await axios.get(encodeURI(`https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${name}?api_key=${process.env.API_KEY}`));
+        const summonerDataResponse = await axios.get(encodeURI(`https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${name}`));
         const summonerData = summonerDataResponse.data;
         const puuid = summonerData['puuid'];
         const id = summonerData['id'];
         const iconId = summonerData['profileIconId'];
-        const summonerLeagueResponse = await axios.get(`https://${region}.api.riotgames.com/tft/league/v1/entries/by-summoner/${id}?api_key=${process.env.API_KEY}`);
+        const summonerLeagueResponse = await axios.get(`https://${region}.api.riotgames.com/tft/league/v1/entries/by-summoner/${id}`);
         const summonerLeague = summonerLeagueResponse.data[0];
         const lp = summonerLeague['leaguePoints'];
         const tier = summonerLeague['tier'];

@@ -3,7 +3,7 @@ import getPreviousMatchesData from '../helper_functions/summonerRoute/getPreviou
 
 const getLeaderboardData = async (region: string, maxNumber: number) => {
   const leagueResponse = await axios.get(
-    `https://${region}.api.riotgames.com/tft/league/v1/challenger?api_key=${process.env.API_KEY}`
+    `https://${region}.api.riotgames.com/tft/league/v1/challenger`
   );
 
   const leagueResponseData = leagueResponse.data;
@@ -18,7 +18,7 @@ const getLeaderboardData = async (region: string, maxNumber: number) => {
     const name = entry['summonerName'];
 
     const summonerInfoResponse = await axios.get(
-      `https://${region}.api.riotgames.com/lol/summoner/v4/summoners/${entry['summonerId']}?api_key=${process.env.API_KEY}`
+      `https://${region}.api.riotgames.com/lol/summoner/v4/summoners/${entry['summonerId']}`
     );
 
     const top4Procentage = ((top4Overall / gamesOverall) * 100).toFixed(2);
@@ -37,8 +37,8 @@ const getLeaderboardData = async (region: string, maxNumber: number) => {
       name: name,
       rank: 'Challenger',
       lp: lp,
-      // avgPlace: totalMatchesData['avgPlacement'],
-      //   winrate: totalMatchesData['winsProcentage'],
+      avgPlace: 8, //totalMatchesData['avgPlacement'],
+      winrate: 32, // totalMatchesData['winsProcentage'],
       top4Ratio: top4Procentage,
       gamesOverall: gamesOverall
     };

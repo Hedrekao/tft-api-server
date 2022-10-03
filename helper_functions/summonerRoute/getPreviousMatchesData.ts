@@ -13,7 +13,7 @@ const getPreviousMatchesData = async (
   const matchRegion = getMatchRegion(region);
 
   const matchesIdResponse = await axios.get(
-    `https://${matchRegion}.api.riotgames.com/tft/match/v1/matches/by-puuid/${puuid}/ids?start=0&count=${count}&api_key=${process.env.API_KEY}`
+    `https://${matchRegion}.api.riotgames.com/tft/match/v1/matches/by-puuid/${puuid}/ids?start=0&count=${count}`
   );
   const matchesId = matchesIdResponse.data;
   const placements = [];
@@ -25,7 +25,7 @@ const getPreviousMatchesData = async (
 
   for (const matchId of matchesId) {
     const matchDataResponse = await axios.get(
-      `https://${matchRegion}.api.riotgames.com/tft/match/v1/matches/${matchId}?api_key=${process.env.API_KEY}`
+      `https://${matchRegion}.api.riotgames.com/tft/match/v1/matches/${matchId}`
     );
     const matchData = matchDataResponse.data;
     const participants: Array<any> = matchData['info']['participants'];
@@ -40,7 +40,7 @@ const getPreviousMatchesData = async (
         participants.map(async (item) => {
           let eliminated;
           const summonerResponse = await axios.get(
-            `https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${item['puuid']}?api_key=${process.env.API_KEY}`
+            `https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${item['puuid']}`
           );
           const name = summonerResponse.data['name'];
           const summonerIcon = summonerResponse.data['profileIconId'];

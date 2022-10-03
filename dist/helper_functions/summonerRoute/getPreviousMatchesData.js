@@ -5,7 +5,7 @@ import mapUnits from './mapUnits.js';
 import getMatchRegion from './getMatchRegion.js';
 const getPreviousMatchesData = async (puuid, count, region, generalData) => {
     const matchRegion = getMatchRegion(region);
-    const matchesIdResponse = await axios.get(`https://${matchRegion}.api.riotgames.com/tft/match/v1/matches/by-puuid/${puuid}/ids?start=0&count=${count}&api_key=${process.env.API_KEY}`);
+    const matchesIdResponse = await axios.get(`https://${matchRegion}.api.riotgames.com/tft/match/v1/matches/by-puuid/${puuid}/ids?start=0&count=${count}`);
     const matchesId = matchesIdResponse.data;
     const placements = [];
     let sumOfPlacements = 0;
@@ -13,7 +13,7 @@ const getPreviousMatchesData = async (puuid, count, region, generalData) => {
     let wins = 0;
     const allComps = [];
     for (const matchId of matchesId) {
-        const matchDataResponse = await axios.get(`https://${matchRegion}.api.riotgames.com/tft/match/v1/matches/${matchId}?api_key=${process.env.API_KEY}`);
+        const matchDataResponse = await axios.get(`https://${matchRegion}.api.riotgames.com/tft/match/v1/matches/${matchId}`);
         const matchData = matchDataResponse.data;
         const participants = matchData['info']['participants'];
         const playerIndex = matchData['metadata']['participants'].indexOf(puuid);
@@ -22,7 +22,7 @@ const getPreviousMatchesData = async (puuid, count, region, generalData) => {
         if (!generalData) {
             const otherCompositions = await Promise.all(participants.map(async (item) => {
                 let eliminated;
-                const summonerResponse = await axios.get(`https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${item['puuid']}?api_key=${process.env.API_KEY}`);
+                const summonerResponse = await axios.get(`https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${item['puuid']}`);
                 const name = summonerResponse.data['name'];
                 const summonerIcon = summonerResponse.data['profileIconId'];
                 if (item['last_round'] <= 3) {

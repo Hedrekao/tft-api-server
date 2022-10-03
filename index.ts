@@ -6,11 +6,11 @@ import cors from '@fastify/cors';
 import cron from 'node-cron';
 import getSummonersData from './routes_functions/summonerRoute.js';
 import analyzeComposition from './routes_functions/analyzeCompRoute.js';
-import testAnalyzeRoute from './test_routes_functions/testAnalyzeRoute.js';
 import collectDataAboutRankings from './task_functions/collectDataAboutRankings.js';
 import getStatsAndAugmentsForCoreUnits from './routes_functions/cmsRoute.js';
 import saveCompositionIntoDatabase from './routes_functions/cmsSaveRoute.js';
 import getCompsFromDb from './routes_functions/preparedCompsRoute.js';
+import getLeaderboardData from './routes_functions/leaderboardRoute.js';
 
 dotenv.config();
 
@@ -27,6 +27,10 @@ app.post('/comps', async (req: any, res) => {
 
 app.get('/summoner/:region/:name', async (req: any, res) => {
   return await getSummonersData(req.params.name, req.params.region);
+});
+
+app.get('/leaderboard/:region', (req: any, res) => {
+  return getLeaderboardData(req.params.region, 50);
 });
 
 app.get('/units', async (req, res) => {

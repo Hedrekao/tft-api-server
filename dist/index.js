@@ -10,6 +10,7 @@ import collectDataAboutRankings from './task_functions/collectDataAboutRankings.
 import getStatsAndAugmentsForCoreUnits from './routes_functions/cmsRoute.js';
 import saveCompositionIntoDatabase from './routes_functions/cmsSaveRoute.js';
 import getCompsFromDb from './routes_functions/preparedCompsRoute.js';
+import getLeaderboardData from './routes_functions/leaderboardRoute.js';
 dotenv.config();
 const app = fastify();
 app.register(sensible);
@@ -22,6 +23,9 @@ app.post('/comps', async (req, res) => {
 });
 app.get('/summoner/:region/:name', async (req, res) => {
     return await getSummonersData(req.params.name, req.params.region);
+});
+app.get('/leaderboard/:region', (req, res) => {
+    return getLeaderboardData(req.params.region, 50);
 });
 app.get('/units', async (req, res) => {
     return await commitToDb(prisma.champions.findMany());

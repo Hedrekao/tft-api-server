@@ -8,102 +8,147 @@ datasource db {
 }
 
 model augments {
-  id                   Int                    @id
-  name                 String                 @db.VarChar(50)
-  augments_composition augments_composition[]
+  src          String?     @db.VarChar
+  name         String      @db.VarChar
+  avgplacement Decimal?    @db.Decimal
+  winrate      Decimal?    @db.Decimal
+  frequency    Decimal?    @db.Decimal
+  compid       Int
+  composition  composition @relation(fields: [compid], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([name, compid])
 }
 
-model augments_composition {
-  augment_id     Int
-  composition_id Int
-  avg_place      Decimal      @db.Decimal(3, 1)
-  winrate        Decimal      @db.Decimal(4, 1)
-  frequency      Decimal      @db.Decimal(4, 1)
-  augments       augments     @relation(fields: [augment_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  compositions   compositions @relation(fields: [composition_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
-  @@id([augment_id, composition_id])
+model augments_ranking {
+  id                  String @id @db.VarChar
+  numberOfAppearances Int    @default(0)
+  sumOfPlacements     Int    @default(0)
+  sumOfWins           Int    @default(0)
 }
 
 model champions {
-  id                    String                  @id @db.VarChar(100)
-  name                  String?                 @db.VarChar(50)
-  cost                  Int?
-  champions_composition champions_composition[]
-  champions_items       champions_items[]
-  champions_traits      champions_traits[]
+  id   String  @id @db.VarChar(100)
+  name String? @db.VarChar(50)
+  cost Int?
 }
 
-model champions_composition {
-  champion_id     String       @db.VarChar(100)
-  composition_id  Int
-  is_three_star   Boolean?
-  x_grid_position Int?
-  y_grid_position Int?
-  champions       champions    @relation(fields: [champion_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  compositions    compositions @relation(fields: [composition_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
-  @@id([champion_id, composition_id])
+model champions_ranking {
+  id                  String @id @db.VarChar
+  numberOfAppearances Int    @default(0)
+  sumOfPlacements     Int    @default(0)
+  sumOfWins           Int    @default(0)
 }
 
-model champions_items {
-  champion_id            String    @db.VarChar(100)
-  item_id                Int
-  play_ratio             Decimal?  @db.Decimal(4, 1)
-  number_of_games_played Int
-  isbis                  Boolean?
-  champions              champions @relation(fields: [champion_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  items                  items     @relation(fields: [item_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
-  @@id([champion_id, item_id])
-}
-
-model champions_traits {
-  champion_id String    @db.VarChar(100)
-  trait_id    String    @db.VarChar(100)
-  champions   champions @relation(fields: [champion_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  traits      traits    @relation(fields: [trait_id], references: [name], onDelete: NoAction, onUpdate: NoAction)
-
-  @@id([champion_id, trait_id])
-}
-
-model compositions {
-  id                    Int                     @id @default(autoincrement())
-  avg_placement         Int?
-  top4_ratio            Int?
-  play_ratio            Int?
-  winrate               Int?
-  augments_composition  augments_composition[]
-  champions_composition champions_composition[]
-  traits_composition    traits_composition[]
+model composition {
+  id           Int         @id @default(autoincrement())
+  avgplacement Decimal?    @db.Decimal(3, 2)
+  top4ratio    Decimal?    @db.Decimal(5, 2)
+  playrate     Decimal?    @db.Decimal(5, 2)
+  winrate      Decimal?    @db.Decimal(5, 2)
+  augments     augments[]
+  traits       traits[]
+  unit         unit[]
+  unithex      unithex[]
+  unititems    unititems[]
+  variation    variation[]
 }
 
 model general_data {
-  match_id String @id
+  totalNumberOfMatches Int
+  id                   Int @id
+  totalNumberOfComps   Int @default(0)
 }
 
-model items {
-  id              Int               @id
-  name            String?           @db.VarChar(50)
-  description     String?           @db.VarChar(200)
-  champions_items champions_items[]
+model item {
+  id        Int      @id @default(autoincrement())
+  name      String?  @db.VarChar
+  url       String?  @db.VarChar
+  unitid    Int?
+  itemId    Int
+  unithexid Int?
+  unithex   unithex? @relation(fields: [unithexid], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  unit      unit?    @relation(fields: [unitid], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model items_ranking {
+  id                  Int @id
+  numberOfAppearances Int @default(0)
+  sumOfPlacements     Int @default(0)
+  sumOfWins           Int @default(0)
+}
+
+model itemunit {
+  src        String    @db.VarChar
+  name       String?   @db.VarChar
+  rate       Decimal?  @db.Decimal(4, 1)
+  isbis      Boolean
+  unititemid Int
+  unititems  unititems @relation(fields: [unititemid], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([src, unititemid, isbis])
 }
 
 model traits {
-  name      String @id @db.VarChar(100)
-  max_trait Int
-
-  champions_traits   champions_traits[]
-  traits_composition traits_composition[]
+  id           Int          @id @default(autoincrement())
+  name         String?      @db.VarChar
+  currenttrait Int?
+  traitstyle   Int?
+  url          String?      @db.VarChar
+  variationid  Int?
+  compid       Int?
+  composition  composition? @relation(fields: [compid], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  variation    variation?   @relation(fields: [variationid], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
-model traits_composition {
-  trait_id       String
-  composition_id Int
-  style          Int
-  current_trait  Decimal
-  traits         traits       @relation(fields: [trait_id], references: [name], onDelete: NoAction, onUpdate: NoAction)
-  compositions   compositions @relation(fields: [composition_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+model unit {
+  id          Int          @id @default(autoincrement())
+  name        String?      @db.VarChar
+  url         String?      @db.VarChar
+  cost        Int?
+  level       Int?
+  variationid Int?
+  compid      Int?
+  idGiven     String       @db.VarChar
+  composition composition? @relation(fields: [compid], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  variation   variation?   @relation(fields: [variationid], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  item        item[]
+}
 
-  @@id([trait_id, composition_id])
+model unithex {
+  id          Int         @id @default(autoincrement())
+  name        String?     @db.VarChar
+  cost        Int?
+  url         String?     @db.VarChar
+  xposition   Int?
+  yposition   Int?
+  compid      Int
+  idGiven     String      @db.VarChar
+  level       Int?
+  composition composition @relation(fields: [compid], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  item        item[]
+}
+
+model unititems {
+  id          Int          @id @default(autoincrement())
+  unitname    String?      @db.VarChar
+  unitsrc     String?      @db.VarChar
+  cost        Int?
+  compid      Int?
+  composition composition? @relation(fields: [compid], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  itemunit    itemunit[]
+}
+
+model variation {
+  id           Int          @id @default(autoincrement())
+  compid       Int?
+  avgPlacement Decimal?     @db.Decimal(3, 2)
+  top4Ratio    Decimal?     @db.Decimal(4, 2)
+  composition  composition? @relation(fields: [compid], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  traits       traits[]
+  unit         unit[]
+}
+
+model compositionJSON {
+  id   BigInt @id @default(autoincrement())
+  json Json?  @db.Json
 }

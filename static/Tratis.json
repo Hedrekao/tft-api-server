@@ -1,0 +1,731 @@
+{
+  "traits": [
+    {
+      "apiName": "Set7_Cannoneer",
+      "desc": "Every 5th attack fires a cannon shot that explodes for physical damage around the target.<br><br><expandRow>(@MinUnits@) @AttackPercent*100@% Attack Damage</expandRow>",
+      "effects": [
+        {
+          "maxUnits": 3,
+          "minUnits": 2,
+          "style": 1
+        },
+        {
+          "maxUnits": 5,
+          "minUnits": 4,
+          "style": 2
+        },
+        {
+          "maxUnits": 25000,
+          "minUnits": 6,
+          "style": 3
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_5_Cannoneer.tex",
+      "name": "Cannoneer"
+    },
+    {
+      "apiName": "Set7_Tempest",
+      "desc": "After @DelayTime@ seconds, lightning strikes the battlefield. Enemies are stunned for @StunDuration@ second and take a percent of their maximum Health as true damage. Then, Tempest champions deal increased damage.<br><br><expandRow>(@MinUnits@) @PercentHealthDamage@% lightning, @DamageAmp@% unit damage</expandRow>",
+      "effects": [
+        {
+          "maxUnits": 3,
+          "minUnits": 2,
+          "style": 1
+        },
+        {
+          "maxUnits": 5,
+          "minUnits": 4,
+          "style": 2
+        },
+        {
+          "maxUnits": 7,
+          "minUnits": 6,
+          "style": 3
+        },
+        {
+          "maxUnits": 25000,
+          "minUnits": 8,
+          "style": 4
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_7_Tempest.tex",
+      "name": "Tempest"
+    },
+    {
+      "apiName": "Set7_Assassin",
+      "desc": "Innate: Leap to the enemy backline when combat starts.<br><br>Assassins' Abilities can critically strike and they gain bonus Critical Strike Chance and bonus Critical Strike Damage.<br><br><expandRow>(@MinUnits@) +@CritChanceAmpPercent@% Crit Chance and +@CritAmpPercent@% Crit Damage</expandRow>",
+      "effects": [
+        {
+          "maxUnits": 3,
+          "minUnits": 2,
+          "style": 1
+        },
+        {
+          "maxUnits": 5,
+          "minUnits": 4,
+          "style": 3
+        },
+        {
+          "maxUnits": 25000,
+          "minUnits": 6,
+          "style": 4
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_6_Assassin.tex",
+      "name": "Assassin"
+    },
+    {
+      "apiName": "Set7_Dragon",
+      "desc": "Innate: Require 2 team slots. <br><br>Dragons provide +3 to the marked trait, and gain additional bonuses based on how many Dragons are on your team. <br><br><row>(@MinUnits@) @BonusHealth@ bonus Health</row><br><row>(@MinUnits@) and @Defenses@ Armor and Magic Resist</row><br><row>(@MinUnits@) and @PercentBonusDamage*100@% bonus damage</row><br><row>(@MinUnits@) and +@TeamSizeIncrease@ to team size</row><br><row>(@MinUnits@) and @AttackSpeed*100@% Attack Speed</row>",
+      "effects": [
+        {
+          "maxUnits": 1,
+          "minUnits": 1,
+          "style": 1
+        },
+        {
+          "maxUnits": 2,
+          "minUnits": 2,
+          "style": 2
+        },
+        {
+          "maxUnits": 3,
+          "minUnits": 3,
+          "style": 2
+        },
+        {
+          "maxUnits": 4,
+          "minUnits": 4,
+          "style": 2
+        },
+        {
+          "maxUnits": 25000,
+          "minUnits": 5,
+          "style": 3
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_7_Dragon.tex",
+      "name": "Dragon"
+    },
+    {
+      "apiName": "Set7_Ragewing",
+      "desc": "Innate: Convert Mana to Rage; attacks generate 15 Rage. After casting an Ability, enrage for 4 seconds: 25% Attack Speed but can't gain Rage.<br><br>Gain stats when enraged:<br><br><row>(@MinUnits@) @AttackSpeedPercent@% Attack Speed and @Omnivamp@% Omnivamp (healing for a percentage of damage dealt)</row><br><row>(@MinUnits@) @AttackSpeedPercent@% Attack Speed and @Omnivamp@% Omnivamp</row><br><row>(@MinUnits@) @AttackSpeedPercent@% Attack Speed and @Omnivamp@% Omnivamp</row><br><row>(@MinUnits@) @AttackSpeedPercent@% Attack Speed and @Omnivamp@% Omnivamp</row>",
+      "effects": [
+        {
+          "maxUnits": 3,
+          "minUnits": 2,
+          "style": 1
+        },
+        {
+          "maxUnits": 5,
+          "minUnits": 4,
+          "style": 2
+        },
+        {
+          "maxUnits": 7,
+          "minUnits": 6,
+          "style": 2
+        },
+        {
+          "maxUnits": 999,
+          "minUnits": 8,
+          "style": 3
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_7_Ragewing.tex",
+      "name": "Ragewing"
+    },
+    {
+      "apiName": "Set7_Guild",
+      "desc": "Grant a unique bonus to your team; Guild members gain double the amount. Increases for each Guild member in play!<br><br><TFTGuildActive enabled=TFT7_Trait_Guild_ActiveSejuani alternate=TFTGuildInactive>Sejuani: +@SejuaniBonus@ Health</TFTGuildActive><br><TFTGuildActive enabled=TFT7_Trait_Guild_ActiveTwitch alternate=TFTGuildInactive>Twitch: +@TwitchBonus*100@% Attack Speed</TFTGuildActive><br><TFTGuildActive enabled=TFT7_Trait_Guild_ActiveDragon alternate=TFTGuildInactive>Zippy: +@DragonBonus@ Armor and Magic Resist</TFTGuildActive><br><TFTGuildActive enabled=TFT7_Trait_Guild_ActiveJayce alternate=TFTGuildInactive>Jayce: +@JayceBonus@ Attack Damage and Ability Power</TFTGuildActive><br><TFTGuildActive enabled=TFT7_Trait_Guild_ActiveBard alternate=TFTGuildInactive>Bard: +@BardBonus@ Mana per attack</TFTGuildActive><br><TFTGuildActive enabled=TFT7_Trait_Guild_ActiveEmblem alternate=TFTGuildInactive>Emblem: +@EmblemBonus*100@% Omnivamp</TFTGuildActive><br><br><expandRow>(@MinUnits@) @TooltipMultiplier@% Guild bonus</expandRow>",
+      "effects": [
+        {
+          "maxUnits": 1,
+          "minUnits": 1,
+          "style": 1
+        },
+        {
+          "maxUnits": 2,
+          "minUnits": 2,
+          "style": 1
+        },
+        {
+          "maxUnits": 3,
+          "minUnits": 3,
+          "style": 2
+        },
+        {
+          "maxUnits": 4,
+          "minUnits": 4,
+          "style": 2
+        },
+        {
+          "maxUnits": 5,
+          "minUnits": 5,
+          "style": 2
+        },
+        {
+          "maxUnits": 6,
+          "minUnits": 6,
+          "style": 2
+        },
+        {
+          "maxUnits": 7,
+          "minUnits": 7,
+          "style": 3
+        },
+        {
+          "maxUnits": 25000,
+          "minUnits": 8,
+          "style": 4
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_7_Guild.tex",
+      "name": "Guild"
+    },
+    {
+      "apiName": "Set7_Cavalier",
+      "desc": "Innate: Charge quickly towards their target whenever they move.<br><br>Cavaliers gain Armor and Magic Resist. At the start of combat and after each charge, gain @ChargeIncreasePct@% the amount for @Duration@ seconds. <br><br><expandRow>(@MinUnits@) @Armor@ Armor, @MagicResist@ Magic Resist</expandRow>",
+      "effects": [
+        {
+          "maxUnits": 2,
+          "minUnits": 2,
+          "style": 1
+        },
+        {
+          "maxUnits": 3,
+          "minUnits": 3,
+          "style": 2
+        },
+        {
+          "maxUnits": 4,
+          "minUnits": 4,
+          "style": 2
+        },
+        {
+          "maxUnits": 5,
+          "minUnits": 5,
+          "style": 3
+        },
+        {
+          "maxUnits": 25000,
+          "minUnits": 6,
+          "style": 4
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_5_Cavalry.tex",
+      "name": "Cavalier"
+    },
+    {
+      "apiName": "Set7_Mage",
+      "desc": "Mages cast twice and have modified total Ability Power.<br><br><expandRow>(@MinUnits@) @APMultiplier*100@% Ability Power</expandRow>",
+      "effects": [
+        {
+          "maxUnits": 4,
+          "minUnits": 3,
+          "style": 1
+        },
+        {
+          "maxUnits": 6,
+          "minUnits": 5,
+          "style": 2
+        },
+        {
+          "maxUnits": 8,
+          "minUnits": 7,
+          "style": 3
+        },
+        {
+          "maxUnits": 25000,
+          "minUnits": 9,
+          "style": 4
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_2_Mage.tex",
+      "name": "Mage"
+    },
+    {
+      "apiName": "Set7_Lagoon",
+      "desc": "Lagoon desc",
+      "effects": [
+        {
+          "maxUnits": 5,
+          "minUnits": 3,
+          "style": 1
+        },
+        {
+          "maxUnits": 8,
+          "minUnits": 6,
+          "style": 2
+        },
+        {
+          "maxUnits": 11,
+          "minUnits": 9,
+          "style": 3
+        },
+        {
+          "maxUnits": 25000,
+          "minUnits": 12,
+          "style": 4
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_2_Lagoon.tex",
+      "name": "Lagoon"
+    },
+    {
+      "apiName": "Set7_Evoker",
+      "desc": "Evokers gain Mana whenever an ally or enemy casts an Ability.<br><br><expandRow>(@MinUnits@) @ManaAmount@ Mana</expandRow>",
+      "effects": [
+        {
+          "maxUnits": 2,
+          "minUnits": 2,
+          "style": 1
+        },
+        {
+          "maxUnits": 3,
+          "minUnits": 3,
+          "style": 2
+        },
+        {
+          "maxUnits": 999,
+          "minUnits": 4,
+          "style": 3
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_7_Evoker.tex",
+      "name": "Evoker"
+    },
+    {
+      "apiName": "Set7_Shimmerscale",
+      "desc": "Grant exclusive random Shimmerscale items.<br><br><row>(@MinUnits@) @NumItems@ unique item</row><br><row>(@MinUnits@) @NumItems@ unique items</row><br><row>(@MinUnits@) @NumItems@ unique items</row><br><row>(@MinUnits@) @NumItems@ unique items, which includes Crown of Champions</row><br><br><tftitemrules>You can remove Shimmerscale items by benching the holder.</tftitemrules>",
+      "effects": [
+        {
+          "maxUnits": 4,
+          "minUnits": 3,
+          "style": 1
+        },
+        {
+          "maxUnits": 6,
+          "minUnits": 5,
+          "style": 2
+        },
+        {
+          "maxUnits": 8,
+          "minUnits": 7,
+          "style": 3
+        },
+        {
+          "maxUnits": 25000,
+          "minUnits": 9,
+          "style": 4
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_7_Shimmerscale.tex",
+      "name": "Shimmerscale"
+    },
+    {
+      "apiName": "Set7_Dragonmancer",
+      "desc": "Use the Dragonmancer Blessing item to choose a Hero. The Hero gains massively increased Health and Ability Power, which increases by @StatIncreasePercent@% per star level of your Dragonmancers.<br><br><expandRow>(@MinUnits@) +@BonusHealth@ Health, +@BonusAP@ Ability Power </expandRow>",
+      "effects": [
+        {
+          "maxUnits": 3,
+          "minUnits": 2,
+          "style": 1
+        },
+        {
+          "maxUnits": 5,
+          "minUnits": 4,
+          "style": 2
+        },
+        {
+          "maxUnits": 7,
+          "minUnits": 6,
+          "style": 3
+        },
+        {
+          "maxUnits": 999,
+          "minUnits": 8,
+          "style": 4
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_7_Dragonmancer.tex",
+      "name": "Dragonmancer"
+    },
+    {
+      "apiName": "Set7_Scalescorn",
+      "desc": "Scalescorns take @PercentDamageReduction@% reduced damage from enemies with more than @HealthThreshold@ Health. If you don't have a Dragon on your team, they also deal a percent of their damage as additional magic damage.<br><br><expandRow>(@MinUnits@) @PercentBonusDamage@% magic damage</expandRow>",
+      "effects": [
+        {
+          "maxUnits": 3,
+          "minUnits": 2,
+          "style": 1
+        },
+        {
+          "maxUnits": 5,
+          "minUnits": 4,
+          "style": 3
+        },
+        {
+          "maxUnits": 25000,
+          "minUnits": 6,
+          "style": 4
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_7_Dragonbane.tex",
+      "name": "Scalescorn"
+    },
+    {
+      "apiName": "Set7_Whispers",
+      "desc": "Whispers damage shrinks enemies, reducing their Armor and Magic Resist by 40% for @Duration@ seconds.<br>When they damage a shrunken enemy, Whispers gain stacking bonuses:<br><br><expandRow>(@MinUnits@) +@ADandAP@ Attack Damage and Ability Power</expandRow>",
+      "effects": [
+        {
+          "maxUnits": 3,
+          "minUnits": 2,
+          "style": 1
+        },
+        {
+          "maxUnits": 5,
+          "minUnits": 4,
+          "style": 2
+        },
+        {
+          "maxUnits": 25000,
+          "minUnits": 6,
+          "style": 3
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_7_Whispers.tex",
+      "name": "Whispers"
+    },
+    {
+      "apiName": "Set7_Revel",
+      "desc": "After dealing damage with an Ability, launch a firecracker that deals magic damage to a random enemy.<br><br><expandRow>(@MinUnits@) @MagicDamage@ magic damage</expandRow>",
+      "effects": [
+        {
+          "maxUnits": 2,
+          "minUnits": 2,
+          "style": 1
+        },
+        {
+          "maxUnits": 3,
+          "minUnits": 3,
+          "style": 2
+        },
+        {
+          "maxUnits": 4,
+          "minUnits": 4,
+          "style": 3
+        },
+        {
+          "maxUnits": 25000,
+          "minUnits": 5,
+          "style": 4
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_7_Revel.tex",
+      "name": "Revel"
+    },
+    {
+      "apiName": "Set7_Mirage",
+      "desc": "Mirage champions gain a different Trait bonus from game to game.",
+      "effects": [
+        {
+          "maxUnits": 3,
+          "minUnits": 2,
+          "style": 1
+        },
+        {
+          "maxUnits": 5,
+          "minUnits": 4,
+          "style": 2
+        },
+        {
+          "maxUnits": 7,
+          "minUnits": 6,
+          "style": 3
+        },
+        {
+          "maxUnits": 25000,
+          "minUnits": 8,
+          "style": 4
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_7_Mirage.tex",
+      "name": "Mirage"
+    },
+    {
+      "apiName": "Set7_Trainer",
+      "desc": "After combat, each Trainer feeds 1 Snax per star level to Nomsy, adding Health and Ability Power. Nomsy's star level increases every 25 Snax!<br><br><row>(@MinUnits@) Summon Nomsy!</row><br><row>(@MinUnits@) Nomsy's Ability deals @DamageInc*100@% more damage</row>",
+      "effects": [
+        {
+          "maxUnits": 2,
+          "minUnits": 2,
+          "style": 1
+        },
+        {
+          "maxUnits": 25000,
+          "minUnits": 3,
+          "style": 3
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_7_Trainers.tex",
+      "name": "Trainer"
+    },
+    {
+      "apiName": "Set7_Mystic",
+      "desc": "Your team gains Magic Resist. <br><br><expandRow>(@MinUnits@) @MagicResist@ Magic Resist</expandRow>",
+      "effects": [
+        {
+          "maxUnits": 2,
+          "minUnits": 2,
+          "style": 1
+        },
+        {
+          "maxUnits": 3,
+          "minUnits": 3,
+          "style": 2
+        },
+        {
+          "maxUnits": 4,
+          "minUnits": 4,
+          "style": 3
+        },
+        {
+          "maxUnits": 25000,
+          "minUnits": 5,
+          "style": 4
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_2_Mystic.tex",
+      "name": "Mystic"
+    },
+    {
+      "apiName": "Set7_Legend",
+      "desc": "(3) Each combat: An adjacent ally champion sacrifices their life to the Legend, which gains @StatPercent@% of their Health, Armor, and Magic Resistance, plus @APPercent@% of their Ability Power.",
+      "effects": [
+        {
+          "maxUnits": 25000,
+          "minUnits": 3,
+          "style": 3
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_7_Legend.tex",
+      "name": "Legend"
+    },
+    {
+      "apiName": "Set7_Guardian",
+      "desc": "Once per combat at @HealthThreshold@% Health, Guardians shield themselves and their closest ally for a percent of their maximum Health. Shields stack!<br><br><expandRow> (@MinUnits@) @ShieldPercentAmount@% of max health shield</expandRow>",
+      "effects": [
+        {
+          "maxUnits": 3,
+          "minUnits": 2,
+          "style": 1
+        },
+        {
+          "maxUnits": 5,
+          "minUnits": 4,
+          "style": 2
+        },
+        {
+          "maxUnits": 7,
+          "minUnits": 6,
+          "style": 3
+        },
+        {
+          "maxUnits": 999,
+          "minUnits": 8,
+          "style": 4
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_7_Guardian.tex",
+      "name": "Guardian"
+    },
+    {
+      "apiName": "Set7_Starcaller",
+      "desc": "(@MinUnits@) The first Starcaller to cast their Ability during player combat heals you for (@Tier1Heal@/@Tier2Heal@/@Tier3Heal@), depending on their star level. Excess healing disintegrates an enemy champion.",
+      "effects": [
+        {
+          "maxUnits": 25000,
+          "minUnits": 1,
+          "style": 3
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_7_StarCaller.tex",
+      "name": "Starcaller"
+    },
+    {
+      "apiName": "Set7_SpellThief",
+      "desc": "(@MinUnits@) Zoe nabs a new Ability after each cast and at the start of every round.",
+      "effects": [
+        {
+          "maxUnits": 25000,
+          "minUnits": 1,
+          "style": 3
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_7_SpellThief.tex",
+      "name": "Spell Thief"
+    },
+    {
+      "apiName": "Set7_Warrior",
+      "desc": "Warrior attacks have a @ProcChance@% chance to increase the damage of their next attack.<br><br><expandRow>(@MinUnits@) +@PercentDamage@% damage</expandRow>",
+      "effects": [
+        {
+          "maxUnits": 3,
+          "minUnits": 2,
+          "style": 1
+        },
+        {
+          "maxUnits": 5,
+          "minUnits": 4,
+          "style": 3
+        },
+        {
+          "maxUnits": 25000,
+          "minUnits": 6,
+          "style": 4
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_7_Warrior.tex",
+      "name": "Warrior"
+    },
+    {
+      "apiName": "Set7_Jade",
+      "desc": "Summon movable Jade Statues that grow in power. <br><br>Each combat, allies who start combat adjacent to a statue gain maximum Health healing every @Interval@ seconds and bonus Attack Speed. When a statue is destroyed, it deals @PercentHealth@% of its Health as magic damage to nearby enemies.<br><br><row>(@MinUnits@) 1 statue, +@HealthRegen@% healing, +@AttackSpeed*100@% Attack Speed</row><br><row>(@MinUnits@) 2 statues, +@HealthRegen@% healing, +@AttackSpeed*100@% Attack Speed</row><br><row>(@MinUnits@) 3 statues, +@HealthRegen@% healing, +@AttackSpeed*100@% Attack Speed</row><br><row>(@MinUnits@) 4 statues, +@HealthRegen@% healing, +@AttackSpeed*100@% Attack Speed</row>",
+      "effects": [
+        {
+          "maxUnits": 4,
+          "minUnits": 3,
+          "style": 1
+        },
+        {
+          "maxUnits": 6,
+          "minUnits": 5,
+          "style": 2
+        },
+        {
+          "maxUnits": 8,
+          "minUnits": 7,
+          "style": 3
+        },
+        {
+          "maxUnits": 25000,
+          "minUnits": 9,
+          "style": 4
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_7_Jade.tex",
+      "name": "Jade"
+    },
+    {
+      "apiName": "Set7_Astral",
+      "desc": "After each player combat, gain an Astral Orb. The total star level of your Astral champions increases the orb quality.<br><br>Astral champions gain bonus Ability Power. <br><br><row>(@MinUnits@) @AbilityPower@ Ability Power</row><br><row>(@MinUnits@) @AbilityPower@ Ability Power</row><br><row>(@MinUnits@) @AbilityPower@ Ability Power</row>",
+      "effects": [
+        {
+          "maxUnits": 4,
+          "minUnits": 3,
+          "style": 1
+        },
+        {
+          "maxUnits": 7,
+          "minUnits": 5,
+          "style": 2
+        },
+        {
+          "maxUnits": 25000,
+          "minUnits": 8,
+          "style": 3
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_7_Astral.tex",
+      "name": "Astral"
+    },
+    {
+      "apiName": "Set7_Swiftshot",
+      "desc": "Innate: gain 2 hex Attack Range.<br><br>Swiftshots gain Attack Speed for each hex between themselves and their target.<br><br><expandRow>(@MinUnits@) @BonusAS@% Attack Speed</expandRow>",
+      "effects": [
+        {
+          "maxUnits": 2,
+          "minUnits": 2,
+          "style": 1
+        },
+        {
+          "maxUnits": 3,
+          "minUnits": 3,
+          "style": 2
+        },
+        {
+          "maxUnits": 4,
+          "minUnits": 4,
+          "style": 3
+        },
+        {
+          "maxUnits": 999,
+          "minUnits": 5,
+          "style": 4
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_7_Swiftshot.tex",
+      "name": "Swiftshot"
+    },
+    {
+      "apiName": "Set7_Bard",
+      "desc": "(@MinUnits@) Allies that survive player combat have a @DropChancePercent@% chance to create a Doot. Bard always creates a Doot when dancing.<br><br>Each Doot you collect increases your Shop odds for higher-tier champions by 1%. ",
+      "effects": [
+        {
+          "maxUnits": 25000,
+          "minUnits": 1,
+          "style": 3
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_7_Bard.tex",
+      "name": "Bard"
+    },
+    {
+      "apiName": "Set7_Bruiser",
+      "desc": "Your team gains bonus maximum Health. Bruisers gain double this bonus.<br><br><expandRow>(@MinUnits@) @BonusHealth@ Health</expandRow>",
+      "effects": [
+        {
+          "maxUnits": 3,
+          "minUnits": 2,
+          "style": 1
+        },
+        {
+          "maxUnits": 5,
+          "minUnits": 4,
+          "style": 2
+        },
+        {
+          "maxUnits": 7,
+          "minUnits": 6,
+          "style": 3
+        },
+        {
+          "maxUnits": 25000,
+          "minUnits": 8,
+          "style": 4
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_6_Bruiser.tex",
+      "name": "Bruiser"
+    },
+    {
+      "apiName": "Set7_Shapeshifter",
+      "desc": "Transforming grants bonus maximum Health.<br><br><expandRow>(@MinUnits@) @HPPercent@% bonus Health</expandRow>",
+      "effects": [
+        {
+          "maxUnits": 3,
+          "minUnits": 2,
+          "style": 1
+        },
+        {
+          "maxUnits": 999,
+          "minUnits": 4,
+          "style": 3
+        }
+      ],
+      "icon": "ASSETS/UX/TraitIcons/Trait_Icon_Shapeshifter.tex",
+      "name": "Shapeshifter"
+    }
+  ]
+}

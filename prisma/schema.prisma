@@ -14,7 +14,7 @@ model augments {
   winrate      Decimal?    @db.Decimal
   frequency    Decimal?    @db.Decimal
   compid       Int
-  composition  composition @relation(fields: [compid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  composition  composition @relation(fields: [compid], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@id([name, compid])
 }
@@ -61,13 +61,13 @@ model general_data {
 
 model item {
   id        Int      @id @default(autoincrement())
-  itemId    Int
   name      String?  @db.VarChar
   url       String?  @db.VarChar
   unitid    Int?
-  unit      unit?    @relation(fields: [unitid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  itemId    Int
   unithexid Int?
-  unithex   unithex? @relation(fields: [unithexid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  unithex   unithex? @relation(fields: [unithexid], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  unit      unit?    @relation(fields: [unitid], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model items_ranking {
@@ -83,7 +83,7 @@ model itemunit {
   rate       Decimal?  @db.Decimal(4, 1)
   isbis      Boolean
   unititemid Int
-  unititems  unititems @relation(fields: [unititemid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  unititems  unititems @relation(fields: [unititemid], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@id([src, unititemid, isbis])
 }
@@ -96,35 +96,35 @@ model traits {
   url          String?      @db.VarChar
   variationid  Int?
   compid       Int?
-  composition  composition? @relation(fields: [compid], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  variation    variation?   @relation(fields: [variationid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  composition  composition? @relation(fields: [compid], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  variation    variation?   @relation(fields: [variationid], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model unit {
   id          Int          @id @default(autoincrement())
-  idGiven     String       @db.VarChar
   name        String?      @db.VarChar
   url         String?      @db.VarChar
   cost        Int?
   level       Int?
   variationid Int?
   compid      Int?
-  composition composition? @relation(fields: [compid], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  variation   variation?   @relation(fields: [variationid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  idGiven     String       @db.VarChar
+  composition composition? @relation(fields: [compid], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  variation   variation?   @relation(fields: [variationid], references: [id], onDelete: Cascade, onUpdate: NoAction)
   item        item[]
 }
 
 model unithex {
   id          Int         @id @default(autoincrement())
-  idGiven     String      @db.VarChar
   name        String?     @db.VarChar
   cost        Int?
   url         String?     @db.VarChar
   xposition   Int?
   yposition   Int?
-  level       Int?
   compid      Int
-  composition composition @relation(fields: [compid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  idGiven     String      @db.VarChar
+  level       Int?
+  composition composition @relation(fields: [compid], references: [id], onDelete: Cascade, onUpdate: NoAction)
   item        item[]
 }
 
@@ -134,16 +134,21 @@ model unititems {
   unitsrc     String?      @db.VarChar
   cost        Int?
   compid      Int?
-  composition composition? @relation(fields: [compid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  composition composition? @relation(fields: [compid], references: [id], onDelete: Cascade, onUpdate: NoAction)
   itemunit    itemunit[]
 }
 
 model variation {
   id           Int          @id @default(autoincrement())
+  compid       Int?
   avgPlacement Decimal?     @db.Decimal(3, 2)
   top4Ratio    Decimal?     @db.Decimal(4, 2)
-  compid       Int?
-  composition  composition? @relation(fields: [compid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  composition  composition? @relation(fields: [compid], references: [id], onDelete: Cascade, onUpdate: NoAction)
   traits       traits[]
   unit         unit[]
+}
+
+model compositionJSON {
+  id   BigInt @id @default(autoincrement())
+  json Json?  @db.Json
 }

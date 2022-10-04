@@ -22,7 +22,7 @@ const getPreviousMatchesData = async (puuid, count, region, generalData) => {
         if (!generalData) {
             const otherCompositions = await Promise.all(participants.map(async (item) => {
                 let eliminated;
-                const summonerResponse = await axios.get(`https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${item['puuid']}`);
+                const summonerResponse = await axios.get(`https://${region}.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/${item['puuid']}`);
                 const name = summonerResponse.data['name'];
                 const summonerIcon = summonerResponse.data['profileIconId'];
                 if (item['last_round'] <= 3) {

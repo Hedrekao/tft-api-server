@@ -27,7 +27,7 @@ app.get('/summoner/:region/:name', async (req, res) => {
     return await getSummonersData(req.params.name, req.params.region);
 });
 app.get('/leaderboard/:region', (req, res) => {
-    return getLeaderboardData(req.params.region, 50);
+    return getLeaderboardData(req.params.region, 70);
 });
 app.get('/units', async (req, res) => {
     return await commitToDb(prisma.champions.findMany());

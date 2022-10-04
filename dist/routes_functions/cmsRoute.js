@@ -15,7 +15,7 @@ const getStatsAndAugmentsForCoreUnits = async (inputData, sampleSize, maxNumberO
         const augmentsData = {};
         const challengersData = challengerDataResponse.data['entries'];
         for (const challengerData of challengersData) {
-            const summonerPuuidResponse = await axios.get(`https://euw1.api.riotgames.com/lol/summoner/v4/summoners/${challengerData['summonerId']}`);
+            const summonerPuuidResponse = await axios.get(`https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`);
             const summonerPuuid = summonerPuuidResponse.data['puuid'];
             const matchesIdResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=30
 `);

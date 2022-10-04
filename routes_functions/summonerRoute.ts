@@ -7,7 +7,7 @@ const getSummonersData = async (name: string, region: string) => {
   try {
     const summonerDataResponse = await axios.get(
       encodeURI(
-        `https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${name}`
+        `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/by-name/${name}`
       )
     );
     const summonerData: Object = summonerDataResponse.data;
@@ -39,7 +39,7 @@ const getSummonersData = async (name: string, region: string) => {
 
     const last20MatchesData = await getPreviousMatchesData(
       puuid,
-      1,
+      3,
       region,
       false
     );

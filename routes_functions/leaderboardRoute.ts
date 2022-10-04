@@ -18,33 +18,23 @@ const getLeaderboardData = async (region: string, maxNumber: number) => {
     const name = entry['summonerName'];
 
     const summonerInfoResponse = await axios.get(
-      `https://${region}.api.riotgames.com/lol/summoner/v4/summoners/${entry['summonerId']}`
+      `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/${entry['summonerId']}`
     );
 
     const top4Procentage = ((top4Overall / gamesOverall) * 100).toFixed(2);
     const puuid = summonerInfoResponse.data['puuid'];
     const profileIconId = summonerInfoResponse.data['profileIconId'];
 
-    // const totalMatchesData = await getPreviousMatchesData(
-    //   puuid,
-    //   gamesOverall,
-    //   region,
-    //   true
-    // );
-
     const player = {
       profileIcon: profileIconId,
       name: name,
       rank: 'Challenger',
       lp: lp,
-      avgPlace: 8, //totalMatchesData['avgPlacement'],
-      winrate: 32, // totalMatchesData['winsProcentage'],
       top4Ratio: top4Procentage,
       gamesOverall: gamesOverall
     };
     leaderboard.push(player);
     if (count == maxNumber) {
-      //dev
       leaderboard.sort((a, b) => {
         if (a['lp'] > b['lp']) {
           return -1;

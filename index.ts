@@ -32,7 +32,7 @@ app.get('/summoner/:region/:name', async (req: any, res) => {
 });
 
 app.get('/leaderboard/:region', (req: any, res) => {
-  return getLeaderboardData(req.params.region, 50);
+  return getLeaderboardData(req.params.region, 70);
 });
 
 app.get('/units', async (req, res) => {

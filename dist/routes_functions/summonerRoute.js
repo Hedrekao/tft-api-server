@@ -4,7 +4,7 @@ import getDetailedLeagueInfoData from '../helper_functions/summonerRoute/getDeta
 import axios from 'axios';
 const getSummonersData = async (name, region) => {
     try {
-        const summonerDataResponse = await axios.get(encodeURI(`https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${name}`));
+        const summonerDataResponse = await axios.get(encodeURI(`https://${region}.api.riotgames.com/tft/summoner/v1/summoners/by-name/${name}`));
         const summonerData = summonerDataResponse.data;
         const puuid = summonerData['puuid'];
         const id = summonerData['id'];
@@ -18,7 +18,7 @@ const getSummonersData = async (name, region) => {
         const gamesOverall = top4Overall + summonerLeague['losses'];
         const leagueInfo = await getDetailedLeagueInfoData(id, tier, region, division, lp);
         const top4Procentage = ((top4Overall / gamesOverall) * 100).toFixed(2);
-        const last20MatchesData = await getPreviousMatchesData(puuid, 1, region, false);
+        const last20MatchesData = await getPreviousMatchesData(puuid, 3, region, false);
         const last20MatchesStats = last20MatchesData[0];
         const last20Matches = last20MatchesData[1];
         // const totalMatchesData = await getPreviousMatchesData(

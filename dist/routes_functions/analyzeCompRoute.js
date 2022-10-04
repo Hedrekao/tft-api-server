@@ -4,7 +4,6 @@ import transformUnitsData from '../helper_functions/analyzeRoute/transformUnitsD
 import collectDataAboutItems from '../helper_functions/analyzeRoute/collectDataAboutItems.js';
 import prepareAnalysisResult from '../helper_functions/analyzeRoute/prepareAnalysisResult.js';
 import collectDataAboutAugments from '../helper_functions/analyzeRoute/collectDataAboutAugments.js';
-axios.defaults.headers.common['X-Riot-Token'] = process.env.API_KEY;
 const analyzeComposition = async (inputData, sampleSize, maxNumberOfMatches) => {
     try {
         const challengerDataResponse = await axios.get(`https://euw1.api.riotgames.com/tft/league/v1/challenger`);
@@ -18,7 +17,7 @@ const analyzeComposition = async (inputData, sampleSize, maxNumberOfMatches) => 
         const augmentsData = {};
         const challengersData = challengerDataResponse.data['entries'];
         for (const challengerData of challengersData) {
-            const summonerPuuidResponse = await axios.get(`https://euw1.api.riotgames.com/lol/summoner/v4/summoners/${challengerData['summonerId']}`);
+            const summonerPuuidResponse = await axios.get(`https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`);
             const summonerPuuid = summonerPuuidResponse.data['puuid'];
             const matchesIdResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=30
 `);

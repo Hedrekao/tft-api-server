@@ -23,7 +23,7 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
 
     for (const challengerData of challengersData) {
       const summonerPuuidResponse = await axios.get(
-        `https://euw1.api.riotgames.com/lol/summoner/v4/summoners/${challengerData['summonerId']}`
+        `https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`
       );
       const summonerPuuid: string = summonerPuuidResponse.data['puuid'];
 

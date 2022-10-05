@@ -14,6 +14,8 @@ import getCompsFromDb from './routes_functions/preparedCompsRoute.js';
 import getLeaderboardData from './routes_functions/leaderboardRoute.js';
 dotenv.config();
 axios.defaults.headers.common['X-Riot-Token'] = process.env.API_KEY;
+axios.defaults.headers.common['Access-Control-Allow-Origin'] =
+    'https://tactix.gg';
 const app = fastify();
 app.register(sensible);
 app.register(cors);

@@ -25,7 +25,7 @@ const prisma = new PrismaClient();
 
 app.post('/comps', async (req: any, res) => {
   console.log(req.body.inputData);
-  return await analyzeComposition(req.body.inputData, 500, 100);
+  return await analyzeComposition(req.body.inputData, 30, 80);
 });
 
 app.get('/summoner/:region/:name', async (req: any, res) => {

@@ -3,6 +3,7 @@ import transformUnitsData from '../helper_functions/analyzeRoute/transformUnitsD
 import isCompositionMatchingInput from '../helper_functions/analyzeRoute/isCompositionMatchingInput.js';
 import collectDataAboutAugments from '../helper_functions/analyzeRoute/collectDataAboutAugments.js';
 import prepareAnalysisResult from '../helper_functions/analyzeRoute/prepareAnalysisResult.js';
+import sleep from '../helper_functions/sleep.js';
 
 const getStatsAndAugmentsForCoreUnits = async (
   inputData: Array<Object>,
@@ -10,9 +11,13 @@ const getStatsAndAugmentsForCoreUnits = async (
   maxNumberOfMatches?: number
 ) => {
   try {
+    const requestObject = { totalRequest: 0, currentRequest: 0 };
+
     const challengerDataResponse = await axios.get(
       `https://euw1.api.riotgames.com/tft/league/v1/challenger?api_key=${process.env.API_KEY}`
     );
+    // requestObject.totalRequest++;
+    // requestObject.currentRequest++;
 
     let placementOverall = 0;
     let top4Count = 0;
@@ -29,16 +34,48 @@ const getStatsAndAugmentsForCoreUnits = async (
       const summonerPuuidResponse = await axios.get(
         `https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`
       );
+      // requestObject.totalRequest++;
+      // requestObject.currentRequest++;
+      // if (requestObject.currentRequest >= 18) {
+      //   await sleep(1000);
+      //   requestObject.currentRequest = 0;
+      // }
       const summonerPuuid: string = summonerPuuidResponse.data['puuid'];
 
       const matchesIdResponse =
         await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=30
 `);
+      // requestObject.totalRequest++;
+      // requestObject.currentRequest++;
+      // if (requestObject.currentRequest >= 18) {
+      //   await sleep(1000);
+      //   requestObject.currentRequest = 0;
+      // }
       const matchesId: Array<string> = matchesIdResponse.data;
       for (const matchId of matchesId) {
+        // if (requestObject.totalRequest >= 98) {
+        //   console.log('Limit of requests');
+        //   return prepareAnalysisResult(
+        //     top4Count,
+        //     winCount,
+        //     placementOverall,
+        //     numberOfMatchingComps,
+        //     totalNumberOfMatches,
+        //     totalNumberOfMatchesOverall + 1,
+        //     inputData,
+        //     augmentsData,
+        //   );
+        // }
         const matchDataResponse = await axios.get(
           `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
         );
+
+        // requestObject.totalRequest++;
+        // requestObject.currentRequest++;
+        // if (requestObject.currentRequest >= 18) {
+        //   await sleep(1000);
+        //   requestObject.currentRequest = 0;
+        // }
 
         const matchData: Object = matchDataResponse.data;
         let firstCompositionInMatch = true;

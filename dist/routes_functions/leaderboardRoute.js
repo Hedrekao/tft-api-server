@@ -1,22 +1,22 @@
 import axios from 'axios';
+import sleep from '../helper_functions/sleep.js';
+import NodeCache from 'node-cache';
+const myCache = new NodeCache();
 const getLeaderboardData = async (region, maxNumber) => {
+    if (myCache.get('leaderboard') != undefined) {
+        return myCache.get('leaderboard');
+    }
     const leagueResponse = await axios.get(`https://${region}.api.riotgames.com/tft/league/v1/challenger`);
     const leagueResponseData = leagueResponse.data;
-    let count = 0; // dev
-    const leaderboard = [];
+    let leaderboard = [];
     for (const entry of leagueResponseData['entries']) {
-        count++; // dev
         const lp = entry['leaguePoints'];
-        const tier = entry['tier'];
         const top4Overall = entry['wins'];
         const gamesOverall = top4Overall + entry['losses'];
         const name = entry['summonerName'];
-        const summonerInfoResponse = await axios.get(`https://${region}.api.riotgames.com/tft/summoner/v1/summoners/${entry['summonerId']}`);
         const top4Procentage = ((top4Overall / gamesOverall) * 100).toFixed(2);
-        const puuid = summonerInfoResponse.data['puuid'];
-        const profileIconId = summonerInfoResponse.data['profileIconId'];
         const player = {
-            profileIcon: profileIconId,
+            profileIconId: entry['summonerId'],
             name: name,
             rank: 'Challenger',
             lp: lp,
@@ -24,18 +24,6 @@ const getLeaderboardData = async (region, maxNumber) => {
             gamesOverall: gamesOverall
         };
         leaderboard.push(player);
-        if (count == maxNumber) {
-            leaderboard.sort((a, b) => {
-                if (a['lp'] > b['lp']) {
-                    return -1;
-                }
-                if (a['lp'] < b['lp']) {
-                    return 1;
-                }
-                return 0;
-            });
-            return leaderboard;
-        }
     }
     leaderboard.sort((a, b) => {
         if (a['lp'] > b['lp']) {
@@ -46,6 +34,27 @@ const getLeaderboardData = async (region, maxNumber) => {
         }
         return 0;
     });
+    let count = 0; // dev
+    let requestCount = 0;
+    for (const player of leaderboard) {
+        count++; // dev
+        requestCount++;
+        const summonerInfoResponse = await axios.get(`https://${region}.api.riotgames.com/tft/summoner/v1/summoners/${player.profileIconId}`);
+        const profileIconId = summonerInfoResponse.data['profileIconId'];
+        player.profileIconId = profileIconId;
+        if (requestCount == 19) {
+            await sleep(1000);
+            requestCount = 0;
+        }
+        if (count == maxNumber) {
+            // dev
+            leaderboard = leaderboard.slice(0, 99);
+            myCache.set('leaderboard', leaderboard, 10800);
+            return leaderboard;
+        }
+    }
+    leaderboard = leaderboard.slice(0, 99);
+    myCache.set('leaderboard', leaderboard, 10800);
     return leaderboard;
 };
 export default getLeaderboardData;

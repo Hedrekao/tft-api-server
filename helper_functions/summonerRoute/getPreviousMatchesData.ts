@@ -3,36 +3,56 @@ import timeSince from './timeSince.js';
 import mapTraits from './mapTraits.js';
 import mapUnits from './mapUnits.js';
 import getMatchRegion from './getMatchRegion.js';
+import sleep from '../sleep.js';
 
 const getPreviousMatchesData = async (
   puuid: string,
-  count: number,
   region: string,
-  generalData?: boolean
+  requestObject: Object,
+  generalData?: boolean,
+  count?: number
 ) => {
   const matchRegion = getMatchRegion(region);
 
   const matchesIdResponse = await axios.get(
-    `https://${matchRegion}.api.riotgames.com/tft/match/v1/matches/by-puuid/${puuid}/ids?start=0&count=${count}`
+    `https://${matchRegion}.api.riotgames.com/tft/match/v1/matches/by-puuid/${puuid}/ids?start=0&count=${
+      count == undefined ? 20 : count
+    }`
   );
+  requestObject['totalRequest']++;
+  requestObject['currentRequest']++;
+  if (requestObject['currentRequest'] == 19) {
+    await sleep(1000);
+    requestObject['currentRequest'] = 0;
+  }
   const matchesId = matchesIdResponse.data;
   const placements = [];
 
   let sumOfPlacements = 0;
   let top4Placements = 0;
   let wins = 0;
+  let countOfGames = 0;
   const allComps = [];
 
   for (const matchId of matchesId) {
     const matchDataResponse = await axios.get(
       `https://${matchRegion}.api.riotgames.com/tft/match/v1/matches/${matchId}`
     );
+    requestObject['totalRequest']++;
+    requestObject['currentRequest']++;
+    if (requestObject['currentRequest'] >= 18) {
+      console.log(requestObject['totalRequest']);
+      await sleep(1000);
+      requestObject['currentRequest'] = 0;
+    }
+    if (requestObject['totalRequest'] >= 90) {
+      break;
+    }
     const matchData = matchDataResponse.data;
     const participants: Array<any> = matchData['info']['participants'];
     const playerIndex = matchData['metadata']['participants'].indexOf(puuid);
-
+    countOfGames++;
     const playerInfo = participants[playerIndex];
-
     const placement = playerInfo['placement'];
 
     if (!generalData) {
@@ -42,6 +62,13 @@ const getPreviousMatchesData = async (
           const summonerResponse = await axios.get(
             `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/${item['puuid']}`
           );
+          requestObject['totalRequest']++;
+          requestObject['currentRequest']++;
+          if (requestObject['currentRequest'] >= 18) {
+            console.log(requestObject['totalRequest']);
+            await sleep(1000);
+            requestObject['currentRequest'] = 0;
+          }
           const name = summonerResponse.data['name'];
           const summonerIcon = summonerResponse.data['profileIconId'];
           if (item['last_round'] <= 3) {
@@ -100,9 +127,9 @@ const getPreviousMatchesData = async (
       placements.push(placement);
     }
   }
-  const winsProcentage = ((wins / count) * 100).toFixed(2);
-  const top4Procentage = ((top4Placements / count) * 100).toFixed(2);
-  const avgPlacement = (sumOfPlacements / count).toFixed(2);
+  const winsProcentage = ((wins / countOfGames) * 100).toFixed(2);
+  const top4Procentage = ((top4Placements / countOfGames) * 100).toFixed(2);
+  const avgPlacement = (sumOfPlacements / countOfGames).toFixed(2);
 
   let result = {};
   if (!generalData) {

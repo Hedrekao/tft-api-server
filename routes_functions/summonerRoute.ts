@@ -2,45 +2,63 @@ import getPreviousMatchesData from '../helper_functions/summonerRoute/getPreviou
 import getFullNameOfRegion from '../helper_functions/summonerRoute/getFullNameOfRegion.js';
 import getDetailedLeagueInfoData from '../helper_functions/summonerRoute/getDetailedLeagueInfoData.js';
 import axios from 'axios';
+import NodeCache from 'node-cache';
+
+const myCache = new NodeCache();
 
 const getSummonersData = async (name: string, region: string) => {
+  const requestObject = { totalRequest: 0, currentRequest: 0 };
   try {
     const summonerDataResponse = await axios.get(
       encodeURI(
         `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/by-name/${name}`
       )
     );
+    requestObject.totalRequest++;
+    requestObject.currentRequest++;
     const summonerData: Object = summonerDataResponse.data;
-    const puuid: string = summonerData['puuid'];
     const id: string = summonerData['id'];
+
+    const puuid: string = summonerData['puuid'];
     const iconId: string = summonerData['profileIconId'];
 
     const summonerLeagueResponse = await axios.get(
       `https://${region}.api.riotgames.com/tft/league/v1/entries/by-summoner/${id}`
     );
-
+    requestObject.totalRequest++;
+    requestObject.currentRequest++;
     const summonerLeague = summonerLeagueResponse.data[0];
+    const top4Overall = summonerLeague['wins'];
+
+    const gamesOverall = top4Overall + summonerLeague['losses'];
+
+    const cacheResult: Object | undefined = myCache.get(id);
+    if (
+      cacheResult != undefined &&
+      cacheResult['stats']['gamesPlayed'] == gamesOverall
+    ) {
+      return myCache.get(id);
+    }
 
     const lp = summonerLeague['leaguePoints'];
     const tier = summonerLeague['tier'];
     const division = summonerLeague['rank'];
-    const top4Overall = summonerLeague['wins'];
-    const gamesOverall = top4Overall + summonerLeague['losses'];
 
     const leagueInfo = await getDetailedLeagueInfoData(
       id,
       tier,
       region,
       division,
-      lp
+      lp,
+      requestObject
     );
 
     const top4Procentage = ((top4Overall / gamesOverall) * 100).toFixed(2);
 
     const last20MatchesData = await getPreviousMatchesData(
       puuid,
-      3,
       region,
+      requestObject,
       false
     );
 
@@ -50,9 +68,10 @@ const getSummonersData = async (name: string, region: string) => {
 
     // const totalMatchesData = await getPreviousMatchesData(
     //   puuid,
-    //   gamesOverall,
     //   region,
-    //   true
+    //   requestObject,
+    //   true,
+    // gamesOverall,
     // );
 
     const profile = {
@@ -83,6 +102,7 @@ const getSummonersData = async (name: string, region: string) => {
       profile: profile,
       matches: last20Matches
     };
+    myCache.set(id, result);
     return result;
   } catch (error: any) {
     console.log('wtf');

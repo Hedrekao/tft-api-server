@@ -169,7 +169,8 @@ app.get('/augments-ranking', async (req, res) => {
     return data;
 });
 app.get('/test', async (req, res) => {
-    collectDataAboutRankings(70);
+    await collectDataAboutRankings(90);
+    console.log('done');
 });
 app.get('/unit/:id', async (req, res) => {
     return await commitToDb(prisma.champions.findUnique({
@@ -188,5 +189,5 @@ async function commitToDb(promise) {
     return data;
 }
 cron.schedule('0 */12 * * *', () => {
-    collectDataAboutRankings(70);
+    collectDataAboutRankings(90);
 });

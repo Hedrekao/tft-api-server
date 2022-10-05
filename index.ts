@@ -190,7 +190,8 @@ app.get('/augments-ranking', async (req, res) => {
 });
 
 app.get('/test', async (req: any, res) => {
-  collectDataAboutRankings(70);
+  await collectDataAboutRankings(90);
+  console.log('done');
 });
 
 app.get('/unit/:id', async (req: any, res) => {
@@ -215,5 +216,5 @@ async function commitToDb(promise: Promise<any>) {
 }
 
 cron.schedule('0 */12 * * *', () => {
-  collectDataAboutRankings(70);
+  collectDataAboutRankings(90);
 });

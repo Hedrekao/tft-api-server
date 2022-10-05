@@ -6,6 +6,7 @@ import calculateAndSaveItemsDataIntoDb from '../helper_functions/tasks/calculate
 import analyzeAugmentsPerformance from '../helper_functions/tasks/analyzeAugmentsPerformance.js';
 import analyzeItemsPerformance from '../helper_functions/tasks/analyzeItemsPerformance.js';
 import saveTotalNumberOfMatches from '../helper_functions/tasks/saveTotalNumberOfMatches.js';
+import sleep from '../helper_functions/sleep.js';
 
 const collectDataAboutRankings = async (limitOfMatches: number) => {
   try {
@@ -13,6 +14,7 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
       `https://euw1.api.riotgames.com/tft/league/v1/challenger`
     );
 
+    let requestCount = 0;
     let totalNumberOfMatches = 0;
     let numberOfComps = 0;
     const unitsObject = {};
@@ -25,16 +27,31 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
       const summonerPuuidResponse = await axios.get(
         `https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`
       );
+      requestCount++;
+      if (requestCount == 19) {
+        await sleep(1000);
+        requestCount = 0;
+      }
       const summonerPuuid: string = summonerPuuidResponse.data['puuid'];
 
       const matchesIdResponse =
         await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=30
 `);
+      requestCount++;
+      if (requestCount == 19) {
+        await sleep(1000);
+        requestCount = 0;
+      }
       const matchesId: Array<string> = matchesIdResponse.data;
       for (const matchId of matchesId) {
         const matchDataResponse = await axios.get(
           `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
         );
+        requestCount++;
+        if (requestCount == 19) {
+          await sleep(500);
+          requestCount = 0;
+        }
         const matchData: Object = matchDataResponse.data;
 
         const participants = matchData['info']['participants'];
@@ -51,6 +68,7 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
           calculateAndSaveUnitsDataIntoDb(unitsObject);
           calculateAndSaveItemsDataIntoDb(itemsObject);
           calculateAndSaveAugmentsDataIntoDb(augmentsObject);
+          return;
         }
       }
     }

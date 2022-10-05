@@ -6,9 +6,11 @@ import calculateAndSaveItemsDataIntoDb from '../helper_functions/tasks/calculate
 import analyzeAugmentsPerformance from '../helper_functions/tasks/analyzeAugmentsPerformance.js';
 import analyzeItemsPerformance from '../helper_functions/tasks/analyzeItemsPerformance.js';
 import saveTotalNumberOfMatches from '../helper_functions/tasks/saveTotalNumberOfMatches.js';
+import sleep from '../helper_functions/sleep.js';
 const collectDataAboutRankings = async (limitOfMatches) => {
     try {
-        const challengerDataResponse = await axios.get(`https://euw1.api.riotgames.com/tft/league/v1/challenger?api_key=${process.env.API_KEY}`);
+        const challengerDataResponse = await axios.get(`https://euw1.api.riotgames.com/tft/league/v1/challenger`);
+        let requestCount = 0;
         let totalNumberOfMatches = 0;
         let numberOfComps = 0;
         const unitsObject = {};
@@ -16,13 +18,28 @@ const collectDataAboutRankings = async (limitOfMatches) => {
         const augmentsObject = {};
         const challengersData = challengerDataResponse.data['entries'];
         for (const challengerData of challengersData) {
-            const summonerPuuidResponse = await axios.get(`https://euw1.api.riotgames.com/lol/summoner/v4/summoners/${challengerData['summonerId']}?api_key=${process.env.API_KEY}`);
+            const summonerPuuidResponse = await axios.get(`https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`);
+            requestCount++;
+            if (requestCount == 19) {
+                await sleep(1000);
+                requestCount = 0;
+            }
             const summonerPuuid = summonerPuuidResponse.data['puuid'];
-            const matchesIdResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=30&api_key=${process.env.API_KEY}
+            const matchesIdResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=30
 `);
+            requestCount++;
+            if (requestCount == 19) {
+                await sleep(1000);
+                requestCount = 0;
+            }
             const matchesId = matchesIdResponse.data;
             for (const matchId of matchesId) {
-                const matchDataResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}?api_key=${process.env.API_KEY}`);
+                const matchDataResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`);
+                requestCount++;
+                if (requestCount == 19) {
+                    await sleep(500);
+                    requestCount = 0;
+                }
                 const matchData = matchDataResponse.data;
                 const participants = matchData['info']['participants'];
                 for (const composition of participants) {
@@ -37,6 +54,7 @@ const collectDataAboutRankings = async (limitOfMatches) => {
                     calculateAndSaveUnitsDataIntoDb(unitsObject);
                     calculateAndSaveItemsDataIntoDb(itemsObject);
                     calculateAndSaveAugmentsDataIntoDb(augmentsObject);
+                    return;
                 }
             }
         }

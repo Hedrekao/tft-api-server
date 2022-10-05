@@ -4,20 +4,20 @@ import collectDataAboutItemsCMS from './collectDataAboutItemsCMS.js';
 import createItemsRates from './createItemsRates.js';
 const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
     try {
-        const challengerDataResponse = await axios.get(`https://euw1.api.riotgames.com/tft/league/v1/challenger?api_key=${process.env.API_KEY}`);
+        const challengerDataResponse = await axios.get(`https://euw1.api.riotgames.com/tft/league/v1/challenger`);
         let numberOfMatchingComps = 0;
         let totalNumberOfMatches = 0;
         let totalNumberOfMatchesOverall = 0;
         const itemsData = {};
         const challengersData = challengerDataResponse.data['entries'];
         for (const challengerData of challengersData) {
-            const summonerPuuidResponse = await axios.get(`https://euw1.api.riotgames.com/lol/summoner/v4/summoners/${challengerData['summonerId']}?api_key=${process.env.API_KEY}`);
+            const summonerPuuidResponse = await axios.get(`https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`);
             const summonerPuuid = summonerPuuidResponse.data['puuid'];
-            const matchesIdResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=30&api_key=${process.env.API_KEY}
+            const matchesIdResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=30
 `);
             const matchesId = matchesIdResponse.data;
             for (const matchId of matchesId) {
-                const matchDataResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}?api_key=${process.env.API_KEY}`);
+                const matchDataResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`);
                 const matchData = matchDataResponse.data;
                 let firstCompositionInMatch = true;
                 const participants = matchData['info']['participants'];

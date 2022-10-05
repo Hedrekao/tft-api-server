@@ -4,13 +4,16 @@ import sensible from '@fastify/sensible';
 import { PrismaClient } from '@prisma/client';
 import cors from '@fastify/cors';
 import cron from 'node-cron';
+import axios from 'axios';
 import getSummonersData from './routes_functions/summonerRoute.js';
 import analyzeComposition from './routes_functions/analyzeCompRoute.js';
 import collectDataAboutRankings from './task_functions/collectDataAboutRankings.js';
 import getStatsAndAugmentsForCoreUnits from './routes_functions/cmsRoute.js';
 import saveCompositionIntoDatabase from './routes_functions/cmsSaveRoute.js';
 import getCompsFromDb from './routes_functions/preparedCompsRoute.js';
+import getLeaderboardData from './routes_functions/leaderboardRoute.js';
 dotenv.config();
+axios.defaults.headers.common['X-Riot-Token'] = process.env.API_KEY;
 const app = fastify();
 app.register(sensible);
 app.register(cors);
@@ -22,6 +25,9 @@ app.post('/comps', async (req, res) => {
 });
 app.get('/summoner/:region/:name', async (req, res) => {
     return await getSummonersData(req.params.name, req.params.region);
+});
+app.get('/leaderboard/:region', (req, res) => {
+    return getLeaderboardData(req.params.region, 99);
 });
 app.get('/units', async (req, res) => {
     return await commitToDb(prisma.champions.findMany());
@@ -163,7 +169,8 @@ app.get('/augments-ranking', async (req, res) => {
     return data;
 });
 app.get('/test', async (req, res) => {
-    collectDataAboutRankings(70);
+    await collectDataAboutRankings(90);
+    console.log('done');
 });
 app.get('/unit/:id', async (req, res) => {
     return await commitToDb(prisma.champions.findUnique({
@@ -182,5 +189,5 @@ async function commitToDb(promise) {
     return data;
 }
 cron.schedule('0 */12 * * *', () => {
-    collectDataAboutRankings(70);
+    collectDataAboutRankings(90);
 });

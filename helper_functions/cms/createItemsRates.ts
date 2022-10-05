@@ -15,22 +15,24 @@ const createItemsRates = (
     let itemRates: Array<ItemUnit> = [];
 
     for (const item in itemsData[unit.id]) {
-      const rate = (
-        (itemsData[unit.id][item]['numberOfComps'] /
-          itemsData[unit.id]['numberOfAppearances']) *
-        100
-      ).toFixed(1);
-      const src = `https://ittledul.sirv.com/Images/items/${item}.png`;
-      const itemNameObject = itemsDataJson.find((val) => val['id'] == item);
-      let name;
-      if (itemNameObject != null && itemNameObject.hasOwnProperty('name')) {
-        name = itemNameObject['name'];
-      } else {
-        name = '';
-      }
+      if (item != 'numberOfAppearances') {
+        const rate = (
+          (itemsData[unit.id][item]['numberOfComps'] /
+            itemsData[unit.id]['numberOfAppearances']) *
+          100
+        ).toFixed(1);
+        const src = `https://ittledul.sirv.com/Images/items/${item}.png`;
+        const itemNameObject = itemsDataJson.find((val) => val['id'] == item);
+        let name;
+        if (itemNameObject != null && itemNameObject.hasOwnProperty('name')) {
+          name = itemNameObject['name'];
+        } else {
+          name = '';
+        }
 
-      const itemUnit = new ItemUnit(src, name, parseFloat(rate));
-      itemRates.push(itemUnit);
+        const itemUnit = new ItemUnit(src, name, parseFloat(rate));
+        itemRates.push(itemUnit);
+      }
     }
     console.log(itemRates);
 

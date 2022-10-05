@@ -1,48 +1,64 @@
-import timeSince from '../helper_functions/summonerRoute/timeSince.js';
-import mapTraits from '../helper_functions/summonerRoute/mapTraits.js';
-import mapUnits from '../helper_functions/summonerRoute/mapUnits.js';
-import getMatchRegion from '../helper_functions/summonerRoute/getMatchRegion.js';
+import getPreviousMatchesData from '../helper_functions/summonerRoute/getPreviousMatchesData.js';
 import getFullNameOfRegion from '../helper_functions/summonerRoute/getFullNameOfRegion.js';
+import getDetailedLeagueInfoData from '../helper_functions/summonerRoute/getDetailedLeagueInfoData.js';
 import axios from 'axios';
+import NodeCache from 'node-cache';
+
+const myCache = new NodeCache();
 
 const getSummonersData = async (name: string, region: string) => {
+  const requestObject = { totalRequest: 0, currentRequest: 0 };
   try {
     const summonerDataResponse = await axios.get(
       encodeURI(
-        `https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${name}?api_key=${process.env.API_KEY}`
+        `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/by-name/${name}`
       )
     );
+    requestObject.totalRequest++;
+    requestObject.currentRequest++;
     const summonerData: Object = summonerDataResponse.data;
-    const puuid: string = summonerData['puuid'];
     const id: string = summonerData['id'];
+
+    const puuid: string = summonerData['puuid'];
     const iconId: string = summonerData['profileIconId'];
 
     const summonerLeagueResponse = await axios.get(
-      `https://${region}.api.riotgames.com/tft/league/v1/entries/by-summoner/${id}?api_key=${process.env.API_KEY}`
+      `https://${region}.api.riotgames.com/tft/league/v1/entries/by-summoner/${id}`
     );
-
+    requestObject.totalRequest++;
+    requestObject.currentRequest++;
     const summonerLeague = summonerLeagueResponse.data[0];
+    const top4Overall = summonerLeague['wins'];
+
+    const gamesOverall = top4Overall + summonerLeague['losses'];
+
+    const cacheResult: Object | undefined = myCache.get(id);
+    if (
+      cacheResult != undefined &&
+      cacheResult['stats']['gamesPlayed'] == gamesOverall
+    ) {
+      return myCache.get(id);
+    }
 
     const lp = summonerLeague['leaguePoints'];
     const tier = summonerLeague['tier'];
     const division = summonerLeague['rank'];
-    const top4Overall = summonerLeague['wins'];
-    const gamesOverall = top4Overall + summonerLeague['losses'];
 
     const leagueInfo = await getDetailedLeagueInfoData(
       id,
       tier,
       region,
       division,
-      lp
+      lp,
+      requestObject
     );
 
     const top4Procentage = ((top4Overall / gamesOverall) * 100).toFixed(2);
 
     const last20MatchesData = await getPreviousMatchesData(
       puuid,
-      1,
       region,
+      requestObject,
       false
     );
 
@@ -52,9 +68,10 @@ const getSummonersData = async (name: string, region: string) => {
 
     // const totalMatchesData = await getPreviousMatchesData(
     //   puuid,
-    //   gamesOverall,
     //   region,
-    //   true
+    //   requestObject,
+    //   true,
+    // gamesOverall,
     // );
 
     const profile = {
@@ -85,251 +102,12 @@ const getSummonersData = async (name: string, region: string) => {
       profile: profile,
       matches: last20Matches
     };
+    myCache.set(id, result);
     return result;
   } catch (error: any) {
     console.log('wtf');
     return { error: `error - ${error.message}` };
   }
-};
-
-const getPreviousMatchesData = async (
-  puuid: string,
-  count: number,
-  region: string,
-  generalData?: boolean
-) => {
-  const matchRegion = getMatchRegion(region);
-
-  const matchesIdResponse = await axios.get(
-    `https://${matchRegion}.api.riotgames.com/tft/match/v1/matches/by-puuid/${puuid}/ids?start=0&count=${count}&api_key=${process.env.API_KEY}`
-  );
-  const matchesId = matchesIdResponse.data;
-  const placements = [];
-
-  let sumOfPlacements = 0;
-  let top4Placements = 0;
-  let wins = 0;
-  const allComps = [];
-
-  for (const matchId of matchesId) {
-    const matchDataResponse = await axios.get(
-      `https://${matchRegion}.api.riotgames.com/tft/match/v1/matches/${matchId}?api_key=${process.env.API_KEY}`
-    );
-    const matchData = matchDataResponse.data;
-    const participants: Array<any> = matchData['info']['participants'];
-    const playerIndex = matchData['metadata']['participants'].indexOf(puuid);
-
-    const playerInfo = participants[playerIndex];
-
-    const placement = playerInfo['placement'];
-
-    if (!generalData) {
-      const otherCompositions = await Promise.all(
-        participants.map(async (item) => {
-          let eliminated;
-          const summonerResponse = await axios.get(
-            `https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${item['puuid']}?api_key=${process.env.API_KEY}`
-          );
-          const name = summonerResponse.data['name'];
-          const summonerIcon = summonerResponse.data['profileIconId'];
-          if (item['last_round'] <= 3) {
-            eliminated = `1-${item['last_round']}`;
-          } else {
-            eliminated = `${1 + Math.ceil((item['last_round'] - 3) / 7)}-${
-              (item['last_round'] - 3) % 7 == 0
-                ? 7
-                : (item['last_round'] - 3) % 7
-            }`;
-          }
-          const result = {
-            augments: item['augments'],
-            goldLeft: item['gold_left'],
-            placement: item['placement'],
-            traits: mapTraits(item['traits']),
-            units: mapUnits(item['units']),
-            eliminated: eliminated,
-            summonerName: name,
-            summonerIcon: summonerIcon
-          };
-          return result;
-        })
-      );
-      otherCompositions.sort((a, b) => {
-        if (a['placement'] < b['placement']) {
-          return -1;
-        }
-        if (a['placement'] < b['placement']) {
-          return 1;
-        }
-        return 0;
-      });
-      const match = {
-        players: otherCompositions,
-        timeAgo: timeSince(matchData['info']['game_datetime']),
-        queueType:
-          matchData['info']['tft_game_type'] === 'standard'
-            ? 'Ranked'
-            : 'Normal',
-        placement: placement,
-        trait: mapTraits(playerInfo['traits']),
-        units: mapUnits(playerInfo['units']),
-        augments: playerInfo['augments']
-      };
-      allComps.push(match);
-    }
-    sumOfPlacements += placement;
-    if (placement <= 4) {
-      top4Placements++;
-    }
-    if (placement == 1) {
-      wins++;
-    }
-    if (!generalData) {
-      placements.push(placement);
-    }
-  }
-  const winsProcentage = ((wins / count) * 100).toFixed(2);
-  const top4Procentage = ((top4Placements / count) * 100).toFixed(2);
-  const avgPlacement = (sumOfPlacements / count).toFixed(2);
-
-  let result = {};
-  if (!generalData) {
-    result = {
-      winsProcentage: winsProcentage,
-      top4Procentage: top4Procentage,
-      avgPlacement: avgPlacement,
-      placements: placements,
-      wins: wins,
-      top4Placements: top4Placements
-    };
-    return [result, allComps];
-  } else {
-    result = {
-      winsProcentage: winsProcentage,
-      avgPlacement: avgPlacement,
-      wins: wins
-    };
-    return result;
-  }
-};
-
-const getDetailedLeagueInfoData = async (
-  id: string,
-  tier: string,
-  region: string,
-  division: string,
-  lp: number
-) => {
-  let peopleWithHigherLp = 0;
-  const startingTier = tier;
-  const startingDivision = division;
-
-  if (tier == 'CHALLENGER' || tier == 'MASTER' || tier == 'GRANDMASTER') {
-    const leagueResponse = await axios.get(
-      `https://${region}.api.riotgames.com/tft/league/v1/${tier.toLowerCase()}?api_key=${
-        process.env.API_KEY
-      }`
-    );
-    const leagueData = leagueResponse.data;
-    for (const entry of leagueData['entries']) {
-      if (entry['id'] != id && entry['leaguePoints'] > lp) {
-        peopleWithHigherLp++;
-      }
-    }
-    if (tier == 'MASTER') {
-      const grandmasterResponse = await axios.get(
-        `https://${region}.api.riotgames.com/tft/league/v1/grandmaster?api_key=${process.env.API_KEY}`
-      );
-      peopleWithHigherLp += grandmasterResponse.data['entries'].length;
-
-      const challengerResponse = await axios.get(
-        `https://${region}.api.riotgames.com/tft/league/v1/challenger?api_key=${process.env.API_KEY}`
-      );
-      peopleWithHigherLp += challengerResponse.data['entries'].length;
-    }
-    if (tier == 'GRANDMASTER') {
-      const challengerResponse = await axios.get(
-        `https://${region}.api.riotgames.com/tft/league/v1/challenger?api_key=${process.env.API_KEY}`
-      );
-      peopleWithHigherLp += challengerResponse.data['entries'].length;
-    }
-  } else {
-    const challengerResponse = await axios.get(
-      `https://${region}.api.riotgames.com/tft/league/v1/challenger?api_key=${process.env.API_KEY}`
-    );
-    peopleWithHigherLp += challengerResponse.data['entries'].length;
-
-    const grandmasterResponse = await axios.get(
-      `https://${region}.api.riotgames.com/tft/league/v1/grandmaster?api_key=${process.env.API_KEY}`
-    );
-    peopleWithHigherLp += grandmasterResponse.data['entries'].length;
-
-    const masterResponse = await axios.get(
-      `https://${region}.api.riotgames.com/tft/league/v1/master?api_key=${process.env.API_KEY}`
-    );
-
-    peopleWithHigherLp += masterResponse.data['entries'].length;
-
-    let isFinished = false;
-    let pageCount = 1;
-    do {
-      let currentLeagueResponse = await axios.get(
-        `https://${region}.api.riotgames.com/tft/league/v1/entries/${tier}/${division}?page=${pageCount}&api_key=${process.env.API_KEY}`
-      );
-      let currentLeague = currentLeagueResponse.data;
-
-      if (currentLeague.length != 0) {
-        if (tier == startingTier && division == startingDivision) {
-          for (const entry of currentLeague) {
-            if (entry['leaguePoints'] > lp) {
-              peopleWithHigherLp++;
-            }
-          }
-        } else {
-          peopleWithHigherLp += currentLeague.length;
-        }
-        pageCount++;
-      } else {
-        if (division != 'I') {
-          switch (division) {
-            case 'IV':
-              division = 'III';
-              break;
-            case 'III':
-              division = 'II';
-              break;
-            case 'II':
-              division = 'I';
-              break;
-          }
-        } else {
-          switch (tier) {
-            case 'Iron':
-              tier = 'BRONZE';
-              break;
-            case 'BRONZE':
-              tier = 'SILVER';
-              break;
-            case 'SILVER':
-              tier = 'GOLD';
-              break;
-            case 'GOLD':
-              tier = 'PLATINUM';
-              break;
-            case 'PLATINUM':
-              tier = 'DIAMOND';
-              break;
-            case 'DIAMOND':
-              isFinished = true;
-              break;
-          }
-        }
-        pageCount = 1;
-      }
-    } while (!isFinished);
-  }
-
-  return peopleWithHigherLp;
 };
 
 export default getSummonersData;

@@ -5,8 +5,8 @@ import NodeCache from 'node-cache';
 const myCache = new NodeCache();
 
 const getLeaderboardData = async (region: string, maxNumber: number) => {
-  if (myCache.get('leaderboard') != undefined) {
-    return myCache.get('leaderboard');
+  if (myCache.get(`leaderboard-${region}`) != undefined) {
+    return myCache.get(`leaderboard-${region}`);
   }
 
   const leagueResponse = await axios.get(
@@ -64,13 +64,13 @@ const getLeaderboardData = async (region: string, maxNumber: number) => {
     if (count == maxNumber) {
       // dev
       leaderboard = leaderboard.slice(0, 99);
-      myCache.set('leaderboard', leaderboard, 10800);
+      myCache.set(`leaderboard-${region}`, leaderboard, 10800);
       return leaderboard;
     }
   }
 
   leaderboard = leaderboard.slice(0, 99);
-  myCache.set('leaderboard', leaderboard, 10800);
+  myCache.set(`leaderboard-${region}`, leaderboard, 10800);
 
   return leaderboard;
 };

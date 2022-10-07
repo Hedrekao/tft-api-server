@@ -24,7 +24,7 @@ const getLeaderboardData = async (region: string, maxNumber: number) => {
     const top4Procentage = ((top4Overall / gamesOverall) * 100).toFixed(2);
 
     const player = {
-      profileIconId: entry['summonerId'],
+      profileIcon: entry['summonerId'],
       name: name,
       rank: 'Challenger',
       lp: lp,
@@ -51,10 +51,10 @@ const getLeaderboardData = async (region: string, maxNumber: number) => {
     count++; // dev
     requestCount++;
     const summonerInfoResponse = await axios.get(
-      `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/${player.profileIconId}`
+      `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/${player.profileIcon}`
     );
     const profileIconId = summonerInfoResponse.data['profileIconId'];
-    player.profileIconId = profileIconId;
+    player.profileIcon = profileIconId;
 
     if (requestCount == 19) {
       await sleep(1000);

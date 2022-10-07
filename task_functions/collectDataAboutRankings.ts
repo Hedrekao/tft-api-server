@@ -28,7 +28,7 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
         `https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`
       );
       requestCount++;
-      if (requestCount == 19) {
+      if (requestCount >= 18) {
         await sleep(1000);
         requestCount = 0;
       }
@@ -38,7 +38,7 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
         await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=30
 `);
       requestCount++;
-      if (requestCount == 19) {
+      if (requestCount >= 18) {
         await sleep(1000);
         requestCount = 0;
       }
@@ -48,7 +48,7 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
           `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
         );
         requestCount++;
-        if (requestCount == 19) {
+        if (requestCount >= 18) {
           await sleep(500);
           requestCount = 0;
         }

@@ -64,6 +64,12 @@ const createItemsRates = (
         const itemUnit = new ItemUnit(src, name, null);
         itemsBIS.push(itemUnit);
       }
+    } else {
+      for (let i = 0; i < 3; i++) {
+        const itemRate = itemRates[i];
+        const itemUnit = new ItemUnit(itemRate.src, itemRate.name, null);
+        itemsBIS.push(itemUnit);
+      }
     }
 
     console.log(1);

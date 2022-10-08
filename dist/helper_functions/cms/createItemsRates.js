@@ -53,6 +53,13 @@ const createItemsRates = (compositionInput, numberOfComps, itemsData) => {
                 itemsBIS.push(itemUnit);
             }
         }
+        else {
+            for (let i = 0; i < 3; i++) {
+                const itemRate = itemRates[i];
+                const itemUnit = new ItemUnit(itemRate.src, itemRate.name, null);
+                itemsBIS.push(itemUnit);
+            }
+        }
         console.log(1);
         const unitItems = new UnitItems(unit.id, unit.url, unit.cost, itemsBIS, itemRates);
         unitItemsArr.push(unitItems);

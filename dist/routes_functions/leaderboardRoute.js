@@ -3,8 +3,8 @@ import sleep from '../helper_functions/sleep.js';
 import NodeCache from 'node-cache';
 const myCache = new NodeCache();
 const getLeaderboardData = async (region, maxNumber) => {
-    if (myCache.get('leaderboard') != undefined) {
-        return myCache.get('leaderboard');
+    if (myCache.get(`leaderboard-${region}`) != undefined) {
+        return myCache.get(`leaderboard-${region}`);
     }
     const leagueResponse = await axios.get(`https://${region}.api.riotgames.com/tft/league/v1/challenger`);
     const leagueResponseData = leagueResponse.data;
@@ -16,7 +16,7 @@ const getLeaderboardData = async (region, maxNumber) => {
         const name = entry['summonerName'];
         const top4Procentage = ((top4Overall / gamesOverall) * 100).toFixed(2);
         const player = {
-            profileIconId: entry['summonerId'],
+            profileIcon: entry['summonerId'],
             name: name,
             rank: 'Challenger',
             lp: lp,
@@ -39,9 +39,9 @@ const getLeaderboardData = async (region, maxNumber) => {
     for (const player of leaderboard) {
         count++; // dev
         requestCount++;
-        const summonerInfoResponse = await axios.get(`https://${region}.api.riotgames.com/tft/summoner/v1/summoners/${player.profileIconId}`);
+        const summonerInfoResponse = await axios.get(`https://${region}.api.riotgames.com/tft/summoner/v1/summoners/${player.profileIcon}`);
         const profileIconId = summonerInfoResponse.data['profileIconId'];
-        player.profileIconId = profileIconId;
+        player.profileIcon = profileIconId;
         if (requestCount == 19) {
             await sleep(1000);
             requestCount = 0;
@@ -49,12 +49,12 @@ const getLeaderboardData = async (region, maxNumber) => {
         if (count == maxNumber) {
             // dev
             leaderboard = leaderboard.slice(0, 99);
-            myCache.set('leaderboard', leaderboard, 10800);
+            myCache.set(`leaderboard-${region}`, leaderboard, 10800);
             return leaderboard;
         }
     }
     leaderboard = leaderboard.slice(0, 99);
-    myCache.set('leaderboard', leaderboard, 10800);
+    myCache.set(`leaderboard-${region}`, leaderboard, 10800);
     return leaderboard;
 };
 export default getLeaderboardData;

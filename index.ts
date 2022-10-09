@@ -15,6 +15,7 @@ import getLeaderboardData from './routes_functions/leaderboardRoute.js';
 
 dotenv.config();
 axios.defaults.headers.common['X-Riot-Token'] = process.env.API_KEY;
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 const app = fastify();
 app.register(sensible);

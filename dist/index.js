@@ -22,7 +22,7 @@ const port = process.env.PORT || 3001;
 const prisma = new PrismaClient();
 app.post('/comps', async (req, res) => {
     console.log(req.body.inputData);
-    return await analyzeComposition(req.body.inputData, 30, 80);
+    return await analyzeComposition(req.body.inputData, 100, 100);
 });
 app.get('/summoner/:region/:name', async (req, res) => {
     return await getSummonersData(req.params.name, req.params.region);
@@ -34,7 +34,7 @@ app.get('/units', async (req, res) => {
     return await commitToDb(prisma.champions.findMany());
 });
 app.post('/cms', async (req, res) => {
-    return await getStatsAndAugmentsForCoreUnits(req.body.inputData, 30, 80);
+    return await getStatsAndAugmentsForCoreUnits(req.body.inputData, 100, 100);
 });
 app.get('/preparedComps', (req, res) => {
     try {

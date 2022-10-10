@@ -7,18 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model augments {
-  src          String?     @db.VarChar
-  name         String      @db.VarChar
-  avgplacement Decimal?    @db.Decimal
-  winrate      Decimal?    @db.Decimal
-  frequency    Decimal?    @db.Decimal
-  compid       Int
-  composition  composition @relation(fields: [compid], references: [id], onDelete: Cascade, onUpdate: NoAction)
-
-  @@id([name, compid])
-}
-
 model augments_ranking {
   id                  String @id @db.VarChar
   numberOfAppearances Int    @default(0)
@@ -39,35 +27,10 @@ model champions_ranking {
   sumOfWins           Int    @default(0)
 }
 
-model composition {
-  id           Int         @id @default(autoincrement())
-  avgplacement Decimal?    @db.Decimal(3, 2)
-  top4ratio    Decimal?    @db.Decimal(5, 2)
-  playrate     Decimal?    @db.Decimal(5, 2)
-  winrate      Decimal?    @db.Decimal(5, 2)
-  augments     augments[]
-  traits       traits[]
-  unit         unit[]
-  unithex      unithex[]
-  unititems    unititems[]
-  variation    variation[]
-}
-
 model general_data {
   totalNumberOfMatches Int
   id                   Int @id
   totalNumberOfComps   Int @default(0)
-}
-
-model item {
-  id        Int      @id @default(autoincrement())
-  name      String?  @db.VarChar
-  url       String?  @db.VarChar
-  unitid    Int?
-  itemId    Int
-  unithexid Int?
-  unithex   unithex? @relation(fields: [unithexid], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  unit      unit?    @relation(fields: [unitid], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model items_ranking {
@@ -77,78 +40,28 @@ model items_ranking {
   sumOfWins           Int @default(0)
 }
 
-model itemunit {
-  src        String    @db.VarChar
-  name       String?   @db.VarChar
-  rate       Decimal?  @db.Decimal(4, 1)
-  isbis      Boolean
-  unititemid Int
-  unititems  unititems @relation(fields: [unititemid], references: [id], onDelete: Cascade, onUpdate: NoAction)
-
-  @@id([src, unititemid, isbis])
-}
-
-model traits {
-  id           Int          @id @default(autoincrement())
-  name         String?      @db.VarChar
-  currenttrait Int?
-  traitstyle   Int?
-  url          String?      @db.VarChar
-  variationid  Int?
-  compid       Int?
-  composition  composition? @relation(fields: [compid], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  variation    variation?   @relation(fields: [variationid], references: [id], onDelete: Cascade, onUpdate: NoAction)
-}
-
-model unit {
-  id          Int          @id @default(autoincrement())
-  name        String?      @db.VarChar
-  url         String?      @db.VarChar
-  cost        Int?
-  level       Int?
-  variationid Int?
-  compid      Int?
-  idGiven     String       @db.VarChar
-  composition composition? @relation(fields: [compid], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  variation   variation?   @relation(fields: [variationid], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  item        item[]
-}
-
-model unithex {
-  id          Int         @id @default(autoincrement())
-  name        String?     @db.VarChar
-  cost        Int?
-  url         String?     @db.VarChar
-  xposition   Int?
-  yposition   Int?
-  compid      Int
-  idGiven     String      @db.VarChar
-  level       Int?
-  composition composition @relation(fields: [compid], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  item        item[]
-}
-
-model unititems {
-  id          Int          @id @default(autoincrement())
-  unitname    String?      @db.VarChar
-  unitsrc     String?      @db.VarChar
-  cost        Int?
-  compid      Int?
-  composition composition? @relation(fields: [compid], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  itemunit    itemunit[]
-}
-
-model variation {
-  id           Int          @id @default(autoincrement())
-  compid       Int?
-  avgPlacement Decimal?     @db.Decimal(3, 2)
-  top4Ratio    Decimal?     @db.Decimal(4, 2)
-  composition  composition? @relation(fields: [compid], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  traits       traits[]
-  unit         unit[]
-}
-
 model compositionJSON {
   id   BigInt @id @default(autoincrement())
   json Json?  @db.Json
+}
+
+model augments_first_choice_ranking {
+  id                  String @id @db.VarChar
+  numberOfAppearances Int    @default(0)
+  sumOfPlacements     Int    @default(0)
+  sumOfWins           Int    @default(0)
+}
+
+model augments_second_choice_ranking {
+  id                  String @id @db.VarChar
+  numberOfAppearances Int    @default(0)
+  sumOfPlacements     Int    @default(0)
+  sumOfWins           Int    @default(0)
+}
+
+model augments_third_choice_ranking {
+  id                  String @id @db.VarChar
+  numberOfAppearances Int    @default(0)
+  sumOfPlacements     Int    @default(0)
+  sumOfWins           Int    @default(0)
 }

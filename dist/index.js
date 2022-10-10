@@ -171,13 +171,24 @@ app.get('/augments-ranking', async (req, res) => {
     });
     return data;
 });
-app.get('/first-augments-ranking', async (req, res) => {
+app.get('/augments-ranking/:stage', async (req, res) => {
     const numberOfCompsQuery = await prisma.general_data.findUnique({
         where: { id: 1 }
     });
     const numberOfComps = numberOfCompsQuery?.totalNumberOfComps;
-    const result = await prisma.augments_first_choice_ranking.findMany();
-    const data = result.map((augment) => {
+    let result;
+    switch (req.params.stage) {
+        case '1':
+            result = await prisma.augments_first_choice_ranking.findMany();
+            break;
+        case '2':
+            result = await prisma.augments_second_choice_ranking.findMany();
+            break;
+        case '3':
+            result = await prisma.augments_third_choice_ranking.findMany();
+            break;
+    }
+    const data = result?.map((augment) => {
         const object = {
             id: augment.id,
             avg_place: (augment.sumOfPlacements /
@@ -191,85 +202,7 @@ app.get('/first-augments-ranking', async (req, res) => {
         };
         return object;
     });
-    data.sort((a, b) => {
-        if (a['avg_place'] < b['avg_place']) {
-            return -1;
-        }
-        else if (a['avg_place'] > b['avg_place']) {
-            return 1;
-        }
-        else {
-            if (a['frequency'] > b['frequency']) {
-                return -1;
-            }
-            else if (a['frequency'] < b['frequency']) {
-                return 1;
-            }
-        }
-        return 0;
-    });
-    return data;
-});
-app.get('/second-augments-ranking', async (req, res) => {
-    const numberOfCompsQuery = await prisma.general_data.findUnique({
-        where: { id: 1 }
-    });
-    const numberOfComps = numberOfCompsQuery?.totalNumberOfComps;
-    const result = await prisma.augments_second_choice_ranking.findMany();
-    const data = result.map((augment) => {
-        const object = {
-            id: augment.id,
-            avg_place: (augment.sumOfPlacements /
-                (augment.numberOfAppearances != 0 ? augment.numberOfAppearances : 1)).toFixed(2),
-            frequency: ((augment.numberOfAppearances / numberOfComps) * 100).toFixed(2),
-            winrate: ((augment.sumOfWins /
-                (augment.numberOfAppearances != 0
-                    ? augment.numberOfAppearances
-                    : 1)) *
-                100).toFixed(2)
-        };
-        return object;
-    });
-    data.sort((a, b) => {
-        if (a['avg_place'] < b['avg_place']) {
-            return -1;
-        }
-        else if (a['avg_place'] > b['avg_place']) {
-            return 1;
-        }
-        else {
-            if (a['frequency'] > b['frequency']) {
-                return -1;
-            }
-            else if (a['frequency'] < b['frequency']) {
-                return 1;
-            }
-        }
-        return 0;
-    });
-    return data;
-});
-app.get('/third-augments-ranking', async (req, res) => {
-    const numberOfCompsQuery = await prisma.general_data.findUnique({
-        where: { id: 1 }
-    });
-    const numberOfComps = numberOfCompsQuery?.totalNumberOfComps;
-    const result = await prisma.augments_third_choice_ranking.findMany();
-    const data = result.map((augment) => {
-        const object = {
-            id: augment.id,
-            avg_place: (augment.sumOfPlacements /
-                (augment.numberOfAppearances != 0 ? augment.numberOfAppearances : 1)).toFixed(2),
-            frequency: ((augment.numberOfAppearances / numberOfComps) * 100).toFixed(2),
-            winrate: ((augment.sumOfWins /
-                (augment.numberOfAppearances != 0
-                    ? augment.numberOfAppearances
-                    : 1)) *
-                100).toFixed(2)
-        };
-        return object;
-    });
-    data.sort((a, b) => {
+    data?.sort((a, b) => {
         if (a['avg_place'] < b['avg_place']) {
             return -1;
         }

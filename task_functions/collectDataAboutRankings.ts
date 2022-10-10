@@ -20,6 +20,9 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
     const unitsObject = {};
     const itemsObject = {};
     const augmentsObject = {};
+    const firstChoiceAugmentObject = {};
+    const secondChoiceAugmentObject = {};
+    const thirdChoiceAugmentObject = {};
 
     const challengersData: Array<any> = challengerDataResponse.data['entries'];
 
@@ -60,14 +63,25 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
           numberOfComps++;
           analyzeUnitsPerformance(unitsObject, composition);
           analyzeItemsPerformance(itemsObject, composition);
-          analyzeAugmentsPerformance(augmentsObject, composition);
+          analyzeAugmentsPerformance(
+            augmentsObject,
+            firstChoiceAugmentObject,
+            secondChoiceAugmentObject,
+            thirdChoiceAugmentObject,
+            composition
+          );
         }
         totalNumberOfMatches++;
         if (totalNumberOfMatches == limitOfMatches) {
           saveTotalNumberOfMatches(totalNumberOfMatches, numberOfComps);
           calculateAndSaveUnitsDataIntoDb(unitsObject);
           calculateAndSaveItemsDataIntoDb(itemsObject);
-          calculateAndSaveAugmentsDataIntoDb(augmentsObject);
+          calculateAndSaveAugmentsDataIntoDb(
+            augmentsObject,
+            firstChoiceAugmentObject,
+            secondChoiceAugmentObject,
+            thirdChoiceAugmentObject
+          );
           return;
         }
       }

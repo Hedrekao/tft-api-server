@@ -16,6 +16,9 @@ const collectDataAboutRankings = async (limitOfMatches) => {
         const unitsObject = {};
         const itemsObject = {};
         const augmentsObject = {};
+        const firstChoiceAugmentObject = {};
+        const secondChoiceAugmentObject = {};
+        const thirdChoiceAugmentObject = {};
         const challengersData = challengerDataResponse.data['entries'];
         for (const challengerData of challengersData) {
             const summonerPuuidResponse = await axios.get(`https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`);
@@ -46,14 +49,14 @@ const collectDataAboutRankings = async (limitOfMatches) => {
                     numberOfComps++;
                     analyzeUnitsPerformance(unitsObject, composition);
                     analyzeItemsPerformance(itemsObject, composition);
-                    analyzeAugmentsPerformance(augmentsObject, composition);
+                    analyzeAugmentsPerformance(augmentsObject, firstChoiceAugmentObject, secondChoiceAugmentObject, thirdChoiceAugmentObject, composition);
                 }
                 totalNumberOfMatches++;
                 if (totalNumberOfMatches == limitOfMatches) {
                     saveTotalNumberOfMatches(totalNumberOfMatches, numberOfComps);
                     calculateAndSaveUnitsDataIntoDb(unitsObject);
                     calculateAndSaveItemsDataIntoDb(itemsObject);
-                    calculateAndSaveAugmentsDataIntoDb(augmentsObject);
+                    calculateAndSaveAugmentsDataIntoDb(augmentsObject, firstChoiceAugmentObject, secondChoiceAugmentObject, thirdChoiceAugmentObject);
                     return;
                 }
             }

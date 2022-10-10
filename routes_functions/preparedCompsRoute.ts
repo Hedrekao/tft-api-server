@@ -1,4 +1,4 @@
-import { PrismaClient, variation } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import {
   Augment,
   Comp,

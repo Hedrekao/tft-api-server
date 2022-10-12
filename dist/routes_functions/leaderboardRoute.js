@@ -37,6 +37,7 @@ const getLeaderboardData = async (region, maxNumber) => {
     let count = 0; // dev
     let requestCount = 0;
     for (const player of leaderboard) {
+        console.log(count);
         count++; // dev
         requestCount++;
         const summonerInfoResponse = await axios.get(`https://${region}.api.riotgames.com/tft/summoner/v1/summoners/${player.profileIcon}`);

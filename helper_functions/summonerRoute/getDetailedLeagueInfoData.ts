@@ -18,6 +18,7 @@ const getDetailedLeagueInfoData = async (
       `https://${region}.api.riotgames.com/tft/league/v1/${tier.toLowerCase()}
       `
     );
+
     requestObject['totalRequest']++;
     requestObject['currentRequest']++;
     const leagueData = leagueResponse.data;
@@ -49,7 +50,10 @@ const getDetailedLeagueInfoData = async (
       requestObject['currentRequest']++;
       peopleWithHigherLp += challengerResponse.data['entries'].length;
     }
-  } else {
+  } else if (
+    tier == 'DIAMOND' &&
+    (division == 'I' || division == 'II' || division == 'III')
+  ) {
     const challengerResponse = await axios.get(
       `https://${region}.api.riotgames.com/tft/league/v1/challenger`
     );
@@ -135,8 +139,54 @@ const getDetailedLeagueInfoData = async (
         pageCount = 1;
       }
     } while (!isFinished);
+  } else {
+    const rank = `${tier} ${division}`;
+    switch (rank) {
+      case 'DIAMOND IV':
+        return 16000;
+      case 'PLATINUM I':
+        return 23700;
+      case 'PLATINUM II':
+        return 26200;
+      case 'PLATINUM III':
+        return 32100;
+      case 'PLATINUM IV':
+        return 41300;
+      case 'GOLD I':
+        return 59000;
+      case 'GOLD II':
+        console.log('xd');
+        return 66800;
+      case 'GOLD III':
+        return 81800;
+      case 'GOLD IV':
+        return 102500;
+      case 'SILVER I':
+        return 133600;
+      case 'SILVER II':
+        return 150500;
+      case 'SILVER III':
+        return 174500;
+      case 'SILVER IV':
+        return 197400;
+      case 'BRONZE I':
+        return 218400;
+      case 'BRONZE II':
+        return 228700;
+      case 'BRONZE III':
+        return 237700;
+      case 'BRONZE IV':
+        return 243800;
+      case 'IRON I':
+        return 247800;
+      case 'IRON II':
+        return 249900;
+      case 'IRON III':
+        return 251800;
+      case 'IRON IV':
+        return 252500;
+    }
   }
-
   return peopleWithHigherLp;
 };
 

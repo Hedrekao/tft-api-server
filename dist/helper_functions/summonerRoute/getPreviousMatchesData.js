@@ -9,7 +9,7 @@ const getPreviousMatchesData = async (puuid, region, requestObject, generalData,
     const matchesIdResponse = await axios.get(`https://${matchRegion}.api.riotgames.com/tft/match/v1/matches/by-puuid/${puuid}/ids?start=0&count=${count == undefined ? 20 : count}`);
     requestObject['totalRequest']++;
     requestObject['currentRequest']++;
-    if (requestObject['currentRequest'] == 19) {
+    if (requestObject['currentRequest'] >= 19) {
         await sleep(1000);
         requestObject['currentRequest'] = 0;
     }

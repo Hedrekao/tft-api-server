@@ -21,7 +21,7 @@ const getPreviousMatchesData = async (
   );
   requestObject['totalRequest']++;
   requestObject['currentRequest']++;
-  if (requestObject['currentRequest'] == 19) {
+  if (requestObject['currentRequest'] >= 19) {
     await sleep(1000);
     requestObject['currentRequest'] = 0;
   }

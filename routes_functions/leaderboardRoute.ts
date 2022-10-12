@@ -48,6 +48,7 @@ const getLeaderboardData = async (region: string, maxNumber: number) => {
   let requestCount = 0;
 
   for (const player of leaderboard) {
+    console.log(count);
     count++; // dev
     requestCount++;
     const summonerInfoResponse = await axios.get(

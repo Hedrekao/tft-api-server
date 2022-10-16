@@ -21,10 +21,7 @@ const getPreviousMatchesData = async (
   );
   requestObject['totalRequest']++;
   requestObject['currentRequest']++;
-  if (requestObject['currentRequest'] >= 19) {
-    await sleep(1000);
-    requestObject['currentRequest'] = 0;
-  }
+
   const matchesId = matchesIdResponse.data;
   const placements = [];
 
@@ -40,14 +37,7 @@ const getPreviousMatchesData = async (
     );
     requestObject['totalRequest']++;
     requestObject['currentRequest']++;
-    if (requestObject['currentRequest'] >= 18) {
-      console.log(requestObject['totalRequest']);
-      await sleep(1000);
-      requestObject['currentRequest'] = 0;
-    }
-    if (requestObject['totalRequest'] >= 90) {
-      break;
-    }
+
     const matchData = matchDataResponse.data;
     const participants: Array<any> = matchData['info']['participants'];
     const playerIndex = matchData['metadata']['participants'].indexOf(puuid);
@@ -64,11 +54,7 @@ const getPreviousMatchesData = async (
           );
           requestObject['totalRequest']++;
           requestObject['currentRequest']++;
-          if (requestObject['currentRequest'] >= 18) {
-            console.log(requestObject['totalRequest']);
-            await sleep(1000);
-            requestObject['currentRequest'] = 0;
-          }
+
           const name = summonerResponse.data['name'];
           const summonerIcon = summonerResponse.data['profileIconId'];
           if (item['last_round'] <= 3) {
@@ -139,14 +125,16 @@ const getPreviousMatchesData = async (
       avgPlacement: avgPlacement,
       placements: placements,
       wins: wins,
-      top4Placements: top4Placements
+      top4Placements: top4Placements,
+      sumOfPlacements: sumOfPlacements
     };
     return [result, allComps];
   } else {
     result = {
       winsProcentage: winsProcentage,
       avgPlacement: avgPlacement,
-      wins: wins
+      wins: wins,
+      sumOfPlacements: sumOfPlacements
     };
     return result;
   }

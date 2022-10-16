@@ -84,10 +84,7 @@ const getDetailedLeagueInfoData = async (
       );
       requestObject['totalRequest']++;
       requestObject['currentRequest']++;
-      if (requestObject['currentRequest'] == 19) {
-        await sleep(1000);
-        requestObject['currentRequest'] = 0;
-      }
+
       let currentLeague = currentLeagueResponse.data;
 
       if (currentLeague.length != 0) {
@@ -155,7 +152,6 @@ const getDetailedLeagueInfoData = async (
       case 'GOLD I':
         return 59000;
       case 'GOLD II':
-        console.log('xd');
         return 66800;
       case 'GOLD III':
         return 81800;

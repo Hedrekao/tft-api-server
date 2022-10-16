@@ -1,5 +1,4 @@
 import axios from 'axios';
-import sleep from '../helper_functions/sleep.js';
 import NodeCache from 'node-cache';
 
 const myCache = new NodeCache();
@@ -44,33 +43,14 @@ const getLeaderboardData = async (region: string, maxNumber: number) => {
     return 0;
   });
 
-  let count = 0; // dev
-  let requestCount = 0;
-
   for (const player of leaderboard) {
-    console.log(count);
-    count++; // dev
-    requestCount++;
     const summonerInfoResponse = await axios.get(
       `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/${player.profileIcon}`
     );
     const profileIconId = summonerInfoResponse.data['profileIconId'];
     player.profileIcon = profileIconId;
-
-    if (requestCount == 19) {
-      await sleep(1000);
-      requestCount = 0;
-    }
-
-    if (count == maxNumber) {
-      // dev
-      leaderboard = leaderboard.slice(0, 99);
-      myCache.set(`leaderboard-${region}`, leaderboard, 10800);
-      return leaderboard;
-    }
   }
 
-  leaderboard = leaderboard.slice(0, 99);
   myCache.set(`leaderboard-${region}`, leaderboard, 10800);
 
   return leaderboard;

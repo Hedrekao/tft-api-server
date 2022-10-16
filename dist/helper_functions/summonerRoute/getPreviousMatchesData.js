@@ -3,16 +3,11 @@ import timeSince from './timeSince.js';
 import mapTraits from './mapTraits.js';
 import mapUnits from './mapUnits.js';
 import getMatchRegion from './getMatchRegion.js';
-import sleep from '../sleep.js';
 const getPreviousMatchesData = async (puuid, region, requestObject, generalData, count) => {
     const matchRegion = getMatchRegion(region);
     const matchesIdResponse = await axios.get(`https://${matchRegion}.api.riotgames.com/tft/match/v1/matches/by-puuid/${puuid}/ids?start=0&count=${count == undefined ? 20 : count}`);
     requestObject['totalRequest']++;
     requestObject['currentRequest']++;
-    if (requestObject['currentRequest'] >= 19) {
-        await sleep(1000);
-        requestObject['currentRequest'] = 0;
-    }
     const matchesId = matchesIdResponse.data;
     const placements = [];
     let sumOfPlacements = 0;
@@ -24,14 +19,6 @@ const getPreviousMatchesData = async (puuid, region, requestObject, generalData,
         const matchDataResponse = await axios.get(`https://${matchRegion}.api.riotgames.com/tft/match/v1/matches/${matchId}`);
         requestObject['totalRequest']++;
         requestObject['currentRequest']++;
-        if (requestObject['currentRequest'] >= 18) {
-            console.log(requestObject['totalRequest']);
-            await sleep(1000);
-            requestObject['currentRequest'] = 0;
-        }
-        if (requestObject['totalRequest'] >= 90) {
-            break;
-        }
         const matchData = matchDataResponse.data;
         const participants = matchData['info']['participants'];
         const playerIndex = matchData['metadata']['participants'].indexOf(puuid);
@@ -44,11 +31,6 @@ const getPreviousMatchesData = async (puuid, region, requestObject, generalData,
                 const summonerResponse = await axios.get(`https://${region}.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/${item['puuid']}`);
                 requestObject['totalRequest']++;
                 requestObject['currentRequest']++;
-                if (requestObject['currentRequest'] >= 18) {
-                    console.log(requestObject['totalRequest']);
-                    await sleep(1000);
-                    requestObject['currentRequest'] = 0;
-                }
                 const name = summonerResponse.data['name'];
                 const summonerIcon = summonerResponse.data['profileIconId'];
                 if (item['last_round'] <= 3) {
@@ -115,7 +97,8 @@ const getPreviousMatchesData = async (puuid, region, requestObject, generalData,
             avgPlacement: avgPlacement,
             placements: placements,
             wins: wins,
-            top4Placements: top4Placements
+            top4Placements: top4Placements,
+            sumOfPlacements: sumOfPlacements
         };
         return [result, allComps];
     }
@@ -123,7 +106,8 @@ const getPreviousMatchesData = async (puuid, region, requestObject, generalData,
         result = {
             winsProcentage: winsProcentage,
             avgPlacement: avgPlacement,
-            wins: wins
+            wins: wins,
+            sumOfPlacements: sumOfPlacements
         };
         return result;
     }

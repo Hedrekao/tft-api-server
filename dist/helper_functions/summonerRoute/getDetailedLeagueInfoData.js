@@ -1,5 +1,4 @@
 import axios from 'axios';
-import sleep from '../sleep.js';
 const getDetailedLeagueInfoData = async (id, tier, region, division, lp, requestObject) => {
     let peopleWithHigherLp = 0;
     const startingTier = tier;
@@ -52,10 +51,6 @@ const getDetailedLeagueInfoData = async (id, tier, region, division, lp, request
             let currentLeagueResponse = await axios.get(`https://${region}.api.riotgames.com/tft/league/v1/entries/${tier}/${division}?page=${pageCount}`);
             requestObject['totalRequest']++;
             requestObject['currentRequest']++;
-            if (requestObject['currentRequest'] == 19) {
-                await sleep(1000);
-                requestObject['currentRequest'] = 0;
-            }
             let currentLeague = currentLeagueResponse.data;
             if (currentLeague.length != 0) {
                 if (tier == startingTier && division == startingDivision) {
@@ -126,7 +121,6 @@ const getDetailedLeagueInfoData = async (id, tier, region, division, lp, request
             case 'GOLD I':
                 return 59000;
             case 'GOLD II':
-                console.log('xd');
                 return 66800;
             case 'GOLD III':
                 return 81800;

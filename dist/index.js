@@ -24,7 +24,7 @@ const port = process.env.PORT || 8080;
 const prisma = new PrismaClient();
 app.post('/comps', async (req, res) => {
     console.log(req.body.inputData);
-    return await analyzeComposition(req.body.inputData, 100, 100);
+    return await analyzeComposition(req.body.inputData, 1000, 500);
 });
 app.get('/summoner/:region/:name', async (req, res) => {
     return await getSummonersData(req.params.name, req.params.region);
@@ -36,7 +36,7 @@ app.get('/units', async (req, res) => {
     return await commitToDb(prisma.champions.findMany());
 });
 app.post('/cms', async (req, res) => {
-    return await getStatsAndAugmentsForCoreUnits(req.body.inputData, 100, 100);
+    return await getStatsAndAugmentsForCoreUnits(req.body.inputData, 1000, 500);
 });
 app.get('/preparedComps', (req, res) => {
     try {
@@ -222,7 +222,7 @@ app.get('/augments-ranking/:stage', async (req, res) => {
     return data;
 });
 app.get('/test', async (req, res) => {
-    await collectDataAboutRankings(90);
+    await collectDataAboutRankings(1000);
     console.log('done');
 });
 app.get('/unit/:id', async (req, res) => {
@@ -242,5 +242,5 @@ async function commitToDb(promise) {
     return data;
 }
 cron.schedule('0 */12 * * *', () => {
-    collectDataAboutRankings(90);
+    collectDataAboutRankings(1000);
 });

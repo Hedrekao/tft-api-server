@@ -27,7 +27,7 @@ const prisma = new PrismaClient();
 
 app.post('/comps', async (req: any, res) => {
   console.log(req.body.inputData);
-  return await analyzeComposition(req.body.inputData, 100, 100);
+  return await analyzeComposition(req.body.inputData, 1000, 500);
 });
 
 app.get('/summoner/:region/:name', async (req: any, res) => {
@@ -43,7 +43,7 @@ app.get('/units', async (req, res) => {
 });
 
 app.post('/cms', async (req: any, res) => {
-  return await getStatsAndAugmentsForCoreUnits(req.body.inputData, 100, 100);
+  return await getStatsAndAugmentsForCoreUnits(req.body.inputData, 1000, 500);
 });
 
 app.get('/preparedComps', (req, res) => {
@@ -250,7 +250,7 @@ app.get('/augments-ranking/:stage', async (req: any, res) => {
 });
 
 app.get('/test', async (req: any, res) => {
-  await collectDataAboutRankings(90);
+  await collectDataAboutRankings(1000);
   console.log('done');
 });
 
@@ -276,5 +276,5 @@ async function commitToDb(promise: Promise<any>) {
 }
 
 cron.schedule('0 */12 * * *', () => {
-  collectDataAboutRankings(90);
+  collectDataAboutRankings(1000);
 });

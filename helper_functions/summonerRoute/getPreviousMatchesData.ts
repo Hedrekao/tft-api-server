@@ -19,8 +19,6 @@ const getPreviousMatchesData = async (
       count == undefined ? 20 : count
     }`
   );
-  requestObject['totalRequest']++;
-  requestObject['currentRequest']++;
 
   const matchesId = matchesIdResponse.data;
   const placements = [];
@@ -35,8 +33,6 @@ const getPreviousMatchesData = async (
     const matchDataResponse = await axios.get(
       `https://${matchRegion}.api.riotgames.com/tft/match/v1/matches/${matchId}`
     );
-    requestObject['totalRequest']++;
-    requestObject['currentRequest']++;
 
     const matchData = matchDataResponse.data;
     const participants: Array<any> = matchData['info']['participants'];
@@ -52,8 +48,6 @@ const getPreviousMatchesData = async (
           const summonerResponse = await axios.get(
             `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/${item['puuid']}`
           );
-          requestObject['totalRequest']++;
-          requestObject['currentRequest']++;
 
           const name = summonerResponse.data['name'];
           const summonerIcon = summonerResponse.data['profileIconId'];

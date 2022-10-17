@@ -30,6 +30,20 @@ app.post('/comps', async (req: any, res) => {
   return await analyzeComposition(req.body.inputData, 1000, 500);
 });
 
+app.get('/comps/:id', async (req: any, res) => {
+  return await commitToDb(
+    prisma.userCompositionJSON.findUnique({ where: { id: req.params.id } })
+  );
+});
+
+app.post('/comps/:id', async (req: any, res) => {
+  return await commitToDb(
+    prisma.userCompositionJSON.create({
+      data: { id: req.params.id, json: req.body.composition }
+    })
+  );
+});
+
 app.get('/summoner/:region/:name', async (req: any, res) => {
   return await getSummonersData(req.params.name, req.params.region);
 });

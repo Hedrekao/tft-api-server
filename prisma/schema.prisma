@@ -45,6 +45,11 @@ model compositionJSON {
   json Json?  @db.Json
 }
 
+model userCompositionJSON {
+  id   String @id
+  json Json   @db.Json
+}
+
 model augments_first_choice_ranking {
   id                  String @id @db.VarChar
   numberOfAppearances Int    @default(0)

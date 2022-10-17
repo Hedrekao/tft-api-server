@@ -139,7 +139,7 @@ const getSummonersData = async (name: string, region: string) => {
         gamesOverall
       );
     }
-
+    const top = (((leagueInfo + 1) / 252500) * 100).toFixed(3);
     const profile = {
       name: name,
       region: getFullNameOfRegion(region),
@@ -150,7 +150,8 @@ const getSummonersData = async (name: string, region: string) => {
           : ` ${division}`
       }`,
       lp: lp,
-      ranking: leagueInfo + 1
+      ranking: leagueInfo + 1,
+      top: top
     };
 
     let stats;

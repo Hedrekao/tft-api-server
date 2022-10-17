@@ -86,6 +86,7 @@ const getSummonersData = async (name, region) => {
         if (!isPlayerCached) {
             totalMatchesData = await getPreviousMatchesData(puuid, region, requestObject, true, gamesOverall);
         }
+        const top = (((leagueInfo + 1) / 252500) * 100).toFixed(3);
         const profile = {
             name: name,
             region: getFullNameOfRegion(region),
@@ -94,7 +95,8 @@ const getSummonersData = async (name, region) => {
                 ? ''
                 : ` ${division}`}`,
             lp: lp,
-            ranking: leagueInfo + 1
+            ranking: leagueInfo + 1,
+            top: top
         };
         let stats;
         if (!isPlayerCached) {

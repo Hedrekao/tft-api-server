@@ -27,10 +27,20 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
     const firstChoiceAugmentObject = {};
     const secondChoiceAugmentObject = {};
     const thirdChoiceAugmentObject = {};
+    const usedChallengersIdArray: Array<number> = [];
 
     const challengersData: Array<any> = challengerDataResponse.data['entries'];
 
-    for (const challengerData of challengersData) {
+    while (totalNumberOfMatches < limitOfMatches) {
+      let challengerArrayId = Math.floor(
+        Math.random() * challengersData.length
+      );
+
+      while (usedChallengersIdArray.includes(challengerArrayId)) {
+        challengerArrayId = Math.floor(Math.random() * challengersData.length);
+      }
+      const challengerData = challengersData[challengerArrayId];
+
       const summonerPuuidResponse = await axios.get(
         `https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`
       );
@@ -38,55 +48,53 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
       const summonerPuuid: string = summonerPuuidResponse.data['puuid'];
 
       const matchesIdResponse =
-        await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=30
+        await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=10
 `);
 
       const matchesId: Array<string> = matchesIdResponse.data;
       for (const matchId of matchesId) {
-        if (!usedMatchesData.includes(matchId)) {
-          usedMatchesData.push(matchId);
-          const matchDataResponse = await axios.get(
-            `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
+        usedMatchesData.push(matchId);
+        const matchDataResponse = await axios.get(
+          `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
+        );
+
+        const matchData: Object = matchDataResponse.data;
+
+        const participants = matchData['info']['participants'];
+
+        for (const composition of participants) {
+          numberOfComps++;
+          analyzeUnitsPerformance(unitsObject, composition);
+          analyzeItemsPerformance(itemsObject, composition);
+          analyzeAugmentsPerformance(
+            augmentsObject,
+            firstChoiceAugmentObject,
+            secondChoiceAugmentObject,
+            thirdChoiceAugmentObject,
+            composition
           );
-
-          const matchData: Object = matchDataResponse.data;
-
-          const participants = matchData['info']['participants'];
-
-          for (const composition of participants) {
-            numberOfComps++;
-            analyzeUnitsPerformance(unitsObject, composition);
-            analyzeItemsPerformance(itemsObject, composition);
-            analyzeAugmentsPerformance(
-              augmentsObject,
-              firstChoiceAugmentObject,
-              secondChoiceAugmentObject,
-              thirdChoiceAugmentObject,
-              composition
-            );
-          }
-          totalNumberOfMatches++;
-          if (totalNumberOfMatches == limitOfMatches) {
-            const data = { matches: usedMatchesData };
-            fs.writeFile(
-              './dist/static/UsedMatches.json',
-              JSON.stringify(data),
-              function (err) {
-                if (err) throw err;
-                console.log('writing to file completed');
-              }
-            );
-            saveTotalNumberOfMatches(totalNumberOfMatches, numberOfComps);
-            calculateAndSaveUnitsDataIntoDb(unitsObject);
-            calculateAndSaveItemsDataIntoDb(itemsObject);
-            calculateAndSaveAugmentsDataIntoDb(
-              augmentsObject,
-              firstChoiceAugmentObject,
-              secondChoiceAugmentObject,
-              thirdChoiceAugmentObject
-            );
-            return;
-          }
+        }
+        totalNumberOfMatches++;
+        if (totalNumberOfMatches == limitOfMatches) {
+          // const data = { matches: usedMatchesData };
+          // fs.writeFile(
+          //   './dist/static/UsedMatches.json',
+          //   JSON.stringify(data),
+          //   function (err) {
+          //     if (err) throw err;
+          //     console.log('writing to file completed');
+          //   }
+          // );
+          saveTotalNumberOfMatches(totalNumberOfMatches, numberOfComps);
+          calculateAndSaveUnitsDataIntoDb(unitsObject);
+          calculateAndSaveItemsDataIntoDb(itemsObject);
+          calculateAndSaveAugmentsDataIntoDb(
+            augmentsObject,
+            firstChoiceAugmentObject,
+            secondChoiceAugmentObject,
+            thirdChoiceAugmentObject
+          );
+          return;
         }
       }
     }

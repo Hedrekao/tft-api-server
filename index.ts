@@ -31,17 +31,37 @@ app.post('/comps', async (req: any, res) => {
 });
 
 app.get('/comps/:id', async (req: any, res) => {
-  return await commitToDb(
+  const composition = await commitToDb(
     prisma.userCompositionJSON.findUnique({ where: { id: req.params.id } })
   );
+
+  const analysis = await commitToDb(
+    prisma.analysisJSON.findUnique({ where: { id: req.params.id } })
+  );
+
+  if (analysis == null) {
+    return { composition: composition.json, analysis: 'Wait' };
+  } else {
+    return { composition: composition.json, analysis: analysis.json };
+  }
 });
 
 app.post('/comps/:id', async (req: any, res) => {
-  return await commitToDb(
-    prisma.userCompositionJSON.create({
-      data: { id: req.params.id, json: req.body.composition }
-    })
-  );
+  if (req.body.composition != undefined) {
+    await commitToDb(
+      prisma.userCompositionJSON.create({
+        data: { id: req.params.id, json: req.body.composition }
+      })
+    );
+  }
+
+  if (req.body.analysis != undefined) {
+    await commitToDb(
+      prisma.analysisJSON.create({
+        data: { id: req.params.id, json: req.body.analysis }
+      })
+    );
+  }
 });
 
 app.get('/summoner/:region/:name', async (req: any, res) => {

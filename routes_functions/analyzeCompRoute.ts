@@ -31,6 +31,7 @@ const analyzeComposition = async (
     const socketInstance = io.to(thisSocketId);
     const itemsData = {};
     const augmentsData = {};
+    console.log(socketInstance);
 
     const challengersData: Array<any> = challengerDataResponse.data['entries'];
 

@@ -17,6 +17,7 @@ const analyzeComposition = async (inputData, socketSessionId, io, sockets, sampl
         const socketInstance = io.to(thisSocketId);
         const itemsData = {};
         const augmentsData = {};
+        console.log(socketInstance);
         const challengersData = challengerDataResponse.data['entries'];
         for (const challengerData of challengersData) {
             const summonerPuuidResponse = await axios.get(`https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`);

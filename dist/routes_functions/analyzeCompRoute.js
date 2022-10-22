@@ -4,7 +4,7 @@ import transformUnitsData from '../helper_functions/analyzeRoute/transformUnitsD
 import collectDataAboutItems from '../helper_functions/analyzeRoute/collectDataAboutItems.js';
 import prepareAnalysisResult from '../helper_functions/analyzeRoute/prepareAnalysisResult.js';
 import collectDataAboutAugments from '../helper_functions/analyzeRoute/collectDataAboutAugments.js';
-const analyzeComposition = async (inputData, sampleSize, maxNumberOfMatches) => {
+const analyzeComposition = async (inputData, socketSessionId, io, sockets, sampleSize, maxNumberOfMatches) => {
     try {
         const challengerDataResponse = await axios.get(`https://euw1.api.riotgames.com/tft/league/v1/challenger`);
         let placementOverall = 0;
@@ -13,6 +13,8 @@ const analyzeComposition = async (inputData, sampleSize, maxNumberOfMatches) => 
         let numberOfMatchingComps = 0;
         let totalNumberOfMatches = 0;
         let totalNumberOfMatchesOverall = 0;
+        const thisSocketId = sockets[socketSessionId];
+        const socketInstance = io.to(thisSocketId);
         const itemsData = {};
         const augmentsData = {};
         const challengersData = challengerDataResponse.data['entries'];
@@ -46,6 +48,8 @@ const analyzeComposition = async (inputData, sampleSize, maxNumberOfMatches) => 
                         collectDataAboutAugments(composition, augmentsData);
                         collectDataAboutItems(composition, inputData, itemsData, compositionUnits);
                     }
+                    const progress = Math.round((totalNumberOfMatchesOverall / maxNumberOfMatches) * 100);
+                    socketInstance.emit('uploadProgress', `${progress}%`);
                     if (numberOfMatchingComps == sampleSize) {
                         totalNumberOfMatches++;
                         return prepareAnalysisResult(top4Count, winCount, placementOverall, numberOfMatchingComps, totalNumberOfMatches, totalNumberOfMatchesOverall + 1, inputData, augmentsData, itemsData);

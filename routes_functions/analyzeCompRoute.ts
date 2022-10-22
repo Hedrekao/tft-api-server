@@ -9,6 +9,9 @@ import sleep from '../helper_functions/sleep.js';
 
 const analyzeComposition = async (
   inputData: Array<Object>,
+  socketSessionId: string,
+  io: any,
+  sockets: Object,
   sampleSize?: number,
   maxNumberOfMatches?: number
 ) => {
@@ -24,6 +27,8 @@ const analyzeComposition = async (
     let totalNumberOfMatches = 0;
     let totalNumberOfMatchesOverall = 0;
 
+    const thisSocketId = sockets[socketSessionId];
+    const socketInstance = io.to(thisSocketId);
     const itemsData = {};
     const augmentsData = {};
 
@@ -81,6 +86,13 @@ const analyzeComposition = async (
               compositionUnits
             );
           }
+
+          const progress = Math.round(
+            (totalNumberOfMatchesOverall / maxNumberOfMatches!) * 100
+          );
+
+          socketInstance.emit('uploadProgress', `${progress}%`);
+
           if (numberOfMatchingComps == sampleSize) {
             totalNumberOfMatches++;
             return prepareAnalysisResult(

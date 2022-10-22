@@ -31,7 +31,7 @@ const analyzeComposition = async (
     const socketInstance = io.to(thisSocketId);
     const itemsData = {};
     const augmentsData = {};
-    console.log(socketInstance);
+    let previousProgress = -1;
 
     const challengersData: Array<any> = challengerDataResponse.data['entries'];
 
@@ -57,6 +57,13 @@ const analyzeComposition = async (
 
         const participants = matchData['info']['participants'];
 
+        const progress = Math.round(
+          (totalNumberOfMatchesOverall + 1 / maxNumberOfMatches!) * 100
+        );
+        if (progress != previousProgress) {
+          socketInstance.emit('uploadProgress', `${progress}%`);
+        }
+        previousProgress = progress;
         for (const composition of participants) {
           const compositionUnits = transformUnitsData(composition['units']);
 
@@ -87,12 +94,6 @@ const analyzeComposition = async (
               compositionUnits
             );
           }
-
-          const progress = Math.round(
-            (totalNumberOfMatchesOverall / maxNumberOfMatches!) * 100
-          );
-
-          socketInstance.emit('uploadProgress', `${progress}%`);
 
           if (numberOfMatchingComps == sampleSize) {
             totalNumberOfMatches++;

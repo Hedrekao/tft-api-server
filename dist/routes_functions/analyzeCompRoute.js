@@ -17,7 +17,7 @@ const analyzeComposition = async (inputData, socketSessionId, io, sockets, sampl
         const socketInstance = io.to(thisSocketId);
         const itemsData = {};
         const augmentsData = {};
-        console.log(socketInstance);
+        let previousProgress = -1;
         const challengersData = challengerDataResponse.data['entries'];
         for (const challengerData of challengersData) {
             const summonerPuuidResponse = await axios.get(`https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`);
@@ -30,6 +30,11 @@ const analyzeComposition = async (inputData, socketSessionId, io, sockets, sampl
                 const matchData = matchDataResponse.data;
                 let firstCompositionInMatch = true;
                 const participants = matchData['info']['participants'];
+                const progress = Math.round((totalNumberOfMatchesOverall + 1 / maxNumberOfMatches) * 100);
+                if (progress != previousProgress) {
+                    socketInstance.emit('uploadProgress', `${progress}%`);
+                }
+                previousProgress = progress;
                 for (const composition of participants) {
                     const compositionUnits = transformUnitsData(composition['units']);
                     const isAMatch = isCompositionMatchingInput(inputData, compositionUnits);
@@ -49,8 +54,6 @@ const analyzeComposition = async (inputData, socketSessionId, io, sockets, sampl
                         collectDataAboutAugments(composition, augmentsData);
                         collectDataAboutItems(composition, inputData, itemsData, compositionUnits);
                     }
-                    const progress = Math.round((totalNumberOfMatchesOverall / maxNumberOfMatches) * 100);
-                    socketInstance.emit('uploadProgress', `${progress}%`);
                     if (numberOfMatchingComps == sampleSize) {
                         totalNumberOfMatches++;
                         return prepareAnalysisResult(top4Count, winCount, placementOverall, numberOfMatchingComps, totalNumberOfMatches, totalNumberOfMatchesOverall + 1, inputData, augmentsData, itemsData);

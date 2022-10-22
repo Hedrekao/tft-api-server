@@ -61,7 +61,7 @@ const analyzeComposition = async (
           ((totalNumberOfMatchesOverall + 1) / maxNumberOfMatches!) * 100
         );
         if (progress != previousProgress) {
-          socketInstance.emit('uploadProgress', `${progress}%`);
+          socketInstance.emit('uploadProgress', progress);
         }
         previousProgress = progress;
         for (const composition of participants) {

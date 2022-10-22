@@ -12,6 +12,7 @@ const getSummonersData = async (name, region) => {
         const id = summonerData['id'];
         const puuid = summonerData['puuid'];
         const iconId = summonerData['profileIconId'];
+        const riotName = summonerData['name'];
         const summonerLeagueResponse = await axios.get(`https://${region}.api.riotgames.com/tft/league/v1/entries/by-summoner/${id}`);
         const summonerLeague = summonerLeagueResponse.data[0];
         const top4Overall = summonerLeague['wins'];
@@ -88,7 +89,7 @@ const getSummonersData = async (name, region) => {
         }
         const top = (((leagueInfo + 1) / 252500) * 100).toFixed(3);
         const profile = {
-            name: name,
+            name: riotName,
             region: getFullNameOfRegion(region),
             icon: iconId,
             rank: `${tier}${tier === 'MASTER' || tier === 'GRANDMASTER' || tier === 'CHALLENGER'

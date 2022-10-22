@@ -30,7 +30,7 @@ const analyzeComposition = async (inputData, socketSessionId, io, sockets, sampl
                 const matchData = matchDataResponse.data;
                 let firstCompositionInMatch = true;
                 const participants = matchData['info']['participants'];
-                const progress = Math.round((totalNumberOfMatchesOverall + 1 / maxNumberOfMatches) * 100);
+                const progress = Math.round(((totalNumberOfMatchesOverall + 1) / maxNumberOfMatches) * 100);
                 if (progress != previousProgress) {
                     socketInstance.emit('uploadProgress', `${progress}%`);
                 }

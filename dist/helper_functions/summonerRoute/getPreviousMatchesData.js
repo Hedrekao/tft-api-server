@@ -59,6 +59,7 @@ const getPreviousMatchesData = async (puuid, region, requestObject, generalData,
                 });
                 const match = {
                     players: otherCompositions,
+                    matchTime: matchData['info']['game_datetime'],
                     timeAgo: timeSince(matchData['info']['game_datetime']),
                     queueType: matchData['info']['tft_game_type'] === 'standard'
                         ? 'Ranked'

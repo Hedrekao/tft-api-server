@@ -3,6 +3,7 @@ import getFullNameOfRegion from '../helper_functions/summonerRoute/getFullNameOf
 import getDetailedLeagueInfoData from '../helper_functions/summonerRoute/getDetailedLeagueInfoData.js';
 import axios from 'axios';
 import NodeCache from 'node-cache';
+import timeSince from '../helper_functions/summonerRoute/timeSince.js';
 
 const myCache = new NodeCache();
 
@@ -126,6 +127,15 @@ const getSummonersData = async (name: string, region: string) => {
         top4Placements: currentNumberOfTop4,
         sumOfPlacements: currentSumOfPlacement
       };
+      for (
+        let i = 0;
+        i < cacheResult['matches'].length - numberOfNotCachedMatches!;
+        i++
+      ) {
+        cacheResult['matches'][i]['timeAgo'] = timeSince(
+          cacheResult['matches'][i]['matchTime']
+        );
+      }
       last20Matches = last20MatchesData[1].concat(cacheResult['matches']);
       last20Matches = last20Matches.slice(0, 20);
     }

@@ -36,6 +36,9 @@ const getSummonersData = async (name: string, region: string) => {
     const cacheResult: Object | undefined = myCache.get(id);
     const isPlayerCached = cacheResult != undefined;
     if (isPlayerCached && cacheResult['stats']['gamesPlayed'] == gamesOverall) {
+      for (const match of cacheResult['matches']) {
+        match['timeAgo'] = timeSince(match['matchTime']);
+      }
       return myCache.get(id);
     }
 

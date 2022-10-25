@@ -44,7 +44,7 @@ app.post('/comps', async (req: any, res) => {
     io,
     sockets,
     1000,
-    500
+    650
   );
 });
 

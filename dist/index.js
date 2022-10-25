@@ -34,7 +34,7 @@ app.post('/comps', async (req, res) => {
     console.log(req.body.inputData);
     const io = app.io;
     console.log(req.body.socketSessionId);
-    return await analyzeComposition(req.body.inputData, req.body.socketSessionId, io, sockets, 1000, 500);
+    return await analyzeComposition(req.body.inputData, req.body.socketSessionId, io, sockets, 1000, 650);
 });
 app.get('/comps/:id', async (req, res) => {
     const composition = await commitToDb(prisma.userCompositionJSON.findUnique({ where: { id: req.params.id } }));

@@ -24,15 +24,21 @@ const analyzeAugments = (
   }
 
   result.sort((a, b) => {
-    if (parseFloat(a['avgPlace']) < parseFloat(b['avgPlace'])) {
+    if (parseFloat(a['playRate']) > 1 && parseFloat(b['playRate']) < 1) {
       return -1;
-    } else if (parseFloat(a['avgPlace']) > parseFloat(b['avgPlace'])) {
+    } else if (parseFloat(a['playRate']) < 1 && parseFloat(b['playRate']) > 1) {
       return 1;
     } else {
-      if (parseFloat(a['winRate']) > parseFloat(b['winRate'])) {
+      if (parseFloat(a['avgPlace']) < parseFloat(b['avgPlace'])) {
         return -1;
-      } else if (parseFloat(a['winRate']) < parseFloat(b['winRate'])) {
+      } else if (parseFloat(a['avgPlace']) > parseFloat(b['avgPlace'])) {
         return 1;
+      } else {
+        if (parseFloat(a['winRate']) > parseFloat(b['winRate'])) {
+          return -1;
+        } else if (parseFloat(a['winRate']) < parseFloat(b['winRate'])) {
+          return 1;
+        }
       }
     }
     return 0;

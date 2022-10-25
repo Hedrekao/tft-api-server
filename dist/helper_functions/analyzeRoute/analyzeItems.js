@@ -13,17 +13,17 @@ const analyzeItems = (inputData, itemsData, numberOfMatchingComps) => {
             analyzedItems.push(analyzedItem);
         }
         analyzedItems.sort((a, b) => {
-            if (parseFloat(a['avgPlace']) > parseFloat(b['playRate'])) {
+            if (parseFloat(a['avgPlace']) > parseFloat(b['avgPlace'])) {
                 return -1;
             }
-            else if (parseFloat(a['playRate']) < parseFloat(b['playRate'])) {
+            else if (parseFloat(a['avgPlace']) < parseFloat(b['avgPlace'])) {
                 return 1;
             }
             else {
-                if (parseFloat(a['avgPlace']) < parseFloat(b['avgPlace'])) {
+                if (parseFloat(a['playRate']) < parseFloat(b['playRate'])) {
                     return -1;
                 }
-                else if (parseFloat(a['avgPlace']) > parseFloat(b['avgPlace'])) {
+                else if (parseFloat(a['playRate']) > parseFloat(b['playRate'])) {
                     return 1;
                 }
             }

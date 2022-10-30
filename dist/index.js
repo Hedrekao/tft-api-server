@@ -203,6 +203,89 @@ app.get('/augments-ranking', async (req, res) => {
     });
     return data;
 });
+app.get('/compare-augments', async (req, res) => {
+    const overallAugments = await prisma.augments_ranking.findMany();
+    const numberOfCompsQuery = await prisma.general_data.findUnique({
+        where: { id: 1 }
+    });
+    const numberOfComps = numberOfCompsQuery?.totalNumberOfComps;
+    const firstStageAugments = await prisma.augments_first_choice_ranking.findMany();
+    const secondStageAugments = await prisma.augments_second_choice_ranking.findMany();
+    const thirdStageAugments = await prisma.augments_third_choice_ranking.findMany();
+    const result = overallAugments.map((augment) => {
+        const object = {
+            id: augment.id,
+            overall_avg_place: (augment.sumOfPlacements /
+                (augment.numberOfAppearances != 0 ? augment.numberOfAppearances : 1)).toFixed(2),
+            overall_frequency: ((augment.numberOfAppearances / numberOfComps) *
+                100).toFixed(2),
+            overall_winrate: ((augment.sumOfWins /
+                (augment.numberOfAppearances != 0
+                    ? augment.numberOfAppearances
+                    : 1)) *
+                100).toFixed(2)
+        };
+        const firstAugment = firstStageAugments.find((item) => item.id == augment.id);
+        if (firstAugment != undefined) {
+            object['first_tier_avg_place'] = (firstAugment.sumOfPlacements /
+                (firstAugment.numberOfAppearances != 0
+                    ? firstAugment.numberOfAppearances
+                    : 1)).toFixed(2);
+            object['first_tier_frequency'] = ((firstAugment.numberOfAppearances / numberOfComps) *
+                100).toFixed(2);
+            object['first_tier_winrate'] = ((firstAugment.sumOfWins /
+                (firstAugment.numberOfAppearances != 0
+                    ? firstAugment.numberOfAppearances
+                    : 1)) *
+                100).toFixed(2);
+        }
+        else {
+            object['first_tier_avg_place'] = '';
+            object['first_tier_frequency'] = '';
+            object['first_tier_winrate'] = '';
+        }
+        const secondAugment = secondStageAugments.find((item) => item.id == augment.id);
+        if (secondAugment != undefined) {
+            object['second_tier_avg_place'] = (secondAugment.sumOfPlacements /
+                (secondAugment.numberOfAppearances != 0
+                    ? secondAugment.numberOfAppearances
+                    : 1)).toFixed(2);
+            object['second_tier_frequency'] = ((secondAugment.numberOfAppearances / numberOfComps) *
+                100).toFixed(2);
+            object['second_tier_winrate'] = ((secondAugment.sumOfWins /
+                (secondAugment.numberOfAppearances != 0
+                    ? secondAugment.numberOfAppearances
+                    : 1)) *
+                100).toFixed(2);
+        }
+        else {
+            object['second_tier_avg_place'] = '';
+            object['second_tier_frequency'] = '';
+            object['second_tier_winrate'] = '';
+        }
+        const thirdAugment = thirdStageAugments.find((item) => item.id == augment.id);
+        if (thirdAugment != undefined) {
+            object['third_tier_avg_place'] = (thirdAugment.sumOfPlacements /
+                (thirdAugment.numberOfAppearances != 0
+                    ? thirdAugment.numberOfAppearances
+                    : 1)).toFixed(2);
+            object['third_tier_frequency'] = ((thirdAugment.numberOfAppearances / numberOfComps) *
+                100).toFixed(2);
+            object['third_tier_winrate'] = ((thirdAugment.sumOfWins /
+                (thirdAugment.numberOfAppearances != 0
+                    ? thirdAugment.numberOfAppearances
+                    : 1)) *
+                100).toFixed(2);
+        }
+        else {
+            object['third_tier_avg_place'] = '';
+            object['third_tier_frequency'] = '';
+            object['third_tier_winrate'] = '';
+        }
+        return object;
+    });
+    return result;
+});
 app.get('/augments-ranking/:stage', async (req, res) => {
     const numberOfCompsQuery = await prisma.general_data.findUnique({
         where: { id: 1 }

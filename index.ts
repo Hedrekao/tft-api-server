@@ -290,7 +290,8 @@ app.get('/compare-augments', async (req, res) => {
       ).toFixed(2);
       object['first_tier_frequency'] = (
         (firstAugment.numberOfAppearances / numberOfComps!) *
-        100
+        100 *
+        3
       ).toFixed(2);
 
       object['first_tier_winrate'] = (
@@ -318,7 +319,8 @@ app.get('/compare-augments', async (req, res) => {
       ).toFixed(2);
       object['second_tier_frequency'] = (
         (secondAugment.numberOfAppearances / numberOfComps!) *
-        100
+        100 *
+        3
       ).toFixed(2);
 
       object['second_tier_winrate'] = (
@@ -346,7 +348,8 @@ app.get('/compare-augments', async (req, res) => {
       ).toFixed(2);
       object['third_tier_frequency'] = (
         (thirdAugment.numberOfAppearances / numberOfComps!) *
-        100
+        100 *
+        3
       ).toFixed(2);
 
       object['third_tier_winrate'] = (
@@ -393,9 +396,11 @@ app.get('/augments-ranking/:stage', async (req: any, res) => {
         augment.sumOfPlacements /
         (augment.numberOfAppearances != 0 ? augment.numberOfAppearances : 1)
       ).toFixed(2),
-      frequency: ((augment.numberOfAppearances / numberOfComps!) * 100).toFixed(
-        2
-      ),
+      frequency: (
+        (augment.numberOfAppearances / numberOfComps!) *
+        100 *
+        3
+      ).toFixed(2),
       winrate: (
         (augment.sumOfWins /
           (augment.numberOfAppearances != 0

@@ -232,7 +232,8 @@ app.get('/compare-augments', async (req, res) => {
                     ? firstAugment.numberOfAppearances
                     : 1)).toFixed(2);
             object['first_tier_frequency'] = ((firstAugment.numberOfAppearances / numberOfComps) *
-                100).toFixed(2);
+                100 *
+                3).toFixed(2);
             object['first_tier_winrate'] = ((firstAugment.sumOfWins /
                 (firstAugment.numberOfAppearances != 0
                     ? firstAugment.numberOfAppearances
@@ -251,7 +252,8 @@ app.get('/compare-augments', async (req, res) => {
                     ? secondAugment.numberOfAppearances
                     : 1)).toFixed(2);
             object['second_tier_frequency'] = ((secondAugment.numberOfAppearances / numberOfComps) *
-                100).toFixed(2);
+                100 *
+                3).toFixed(2);
             object['second_tier_winrate'] = ((secondAugment.sumOfWins /
                 (secondAugment.numberOfAppearances != 0
                     ? secondAugment.numberOfAppearances
@@ -270,7 +272,8 @@ app.get('/compare-augments', async (req, res) => {
                     ? thirdAugment.numberOfAppearances
                     : 1)).toFixed(2);
             object['third_tier_frequency'] = ((thirdAugment.numberOfAppearances / numberOfComps) *
-                100).toFixed(2);
+                100 *
+                3).toFixed(2);
             object['third_tier_winrate'] = ((thirdAugment.sumOfWins /
                 (thirdAugment.numberOfAppearances != 0
                     ? thirdAugment.numberOfAppearances
@@ -308,7 +311,9 @@ app.get('/augments-ranking/:stage', async (req, res) => {
             id: augment.id,
             avg_place: (augment.sumOfPlacements /
                 (augment.numberOfAppearances != 0 ? augment.numberOfAppearances : 1)).toFixed(2),
-            frequency: ((augment.numberOfAppearances / numberOfComps) * 100).toFixed(2),
+            frequency: ((augment.numberOfAppearances / numberOfComps) *
+                100 *
+                3).toFixed(2),
             winrate: ((augment.sumOfWins /
                 (augment.numberOfAppearances != 0
                     ? augment.numberOfAppearances

@@ -96,7 +96,7 @@ app.get('/units', async (req, res) => {
 });
 
 app.post('/cms', async (req: any, res) => {
-  console.log('Not save ' + req.body.inputData);
+  console.log('Not save ' + JSON.stringify(req.body.inputData));
   return await getPerformanceForCoreUnits(req.body.inputData, 1500, 2000);
 });
 
@@ -110,7 +110,7 @@ app.get('/preparedComps', (req, res) => {
 
 app.post('/cms/save', async (req: any, res) => {
   try {
-    console.log(req.body.composition);
+    console.log(JSON.stringify(req.body.composition));
     await saveCompositionIntoDatabase(req.body.composition);
     return { info: 'data succesfully saved' };
   } catch (e: any) {

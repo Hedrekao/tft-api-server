@@ -17,7 +17,9 @@ const prepareAnalysisResult = (top4Count, winCount, placementOverall, numberOfMa
         analyzeItems(inputData, itemsData, numberOfMatchingComps);
         result['units'] = inputData;
     }
-    result['augments'] = analyzeAugments(augmentsData, numberOfMatchingComps);
+    if (augmentsData != undefined) {
+        result['augments'] = analyzeAugments(augmentsData, numberOfMatchingComps);
+    }
     return result;
 };
 export default prepareAnalysisResult;

@@ -1,9 +1,8 @@
 import axios from 'axios';
 import transformUnitsData from '../helper_functions/analyzeRoute/transformUnitsData.js';
 import isCompositionMatchingInput from '../helper_functions/analyzeRoute/isCompositionMatchingInput.js';
-import collectDataAboutAugments from '../helper_functions/analyzeRoute/collectDataAboutAugments.js';
 import prepareAnalysisResult from '../helper_functions/analyzeRoute/prepareAnalysisResult.js';
-const getStatsAndAugmentsForCoreUnits = async (inputData, sampleSize, maxNumberOfMatches) => {
+const getPerformanceForCoreUnits = async (inputData, sampleSize, maxNumberOfMatches) => {
     try {
         const challengerDataResponse = await axios.get(`https://euw1.api.riotgames.com/tft/league/v1/challenger?api_key=${process.env.API_KEY}`);
         let placementOverall = 0;
@@ -12,7 +11,6 @@ const getStatsAndAugmentsForCoreUnits = async (inputData, sampleSize, maxNumberO
         let numberOfMatchingComps = 0;
         let totalNumberOfMatches = 0;
         let totalNumberOfMatchesOverall = 0;
-        const augmentsData = {};
         const challengersData = challengerDataResponse.data['entries'];
         for (const challengerData of challengersData) {
             const summonerPuuidResponse = await axios.get(`https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`);
@@ -41,15 +39,14 @@ const getStatsAndAugmentsForCoreUnits = async (inputData, sampleSize, maxNumberO
                                 winCount++;
                             }
                         }
-                        collectDataAboutAugments(composition, augmentsData);
                     }
                     if (numberOfMatchingComps == sampleSize) {
                         totalNumberOfMatches++;
-                        return prepareAnalysisResult(top4Count, winCount, placementOverall, numberOfMatchingComps, totalNumberOfMatches, totalNumberOfMatchesOverall + 1, inputData, augmentsData);
+                        return prepareAnalysisResult(top4Count, winCount, placementOverall, numberOfMatchingComps, totalNumberOfMatches, totalNumberOfMatchesOverall + 1, inputData);
                     }
                 }
                 if (totalNumberOfMatchesOverall == maxNumberOfMatches - 1) {
-                    return prepareAnalysisResult(top4Count, winCount, placementOverall, numberOfMatchingComps, totalNumberOfMatches, totalNumberOfMatchesOverall + 1, inputData, augmentsData);
+                    return prepareAnalysisResult(top4Count, winCount, placementOverall, numberOfMatchingComps, totalNumberOfMatches, totalNumberOfMatchesOverall + 1, inputData);
                 }
                 totalNumberOfMatchesOverall++;
             }
@@ -60,4 +57,4 @@ const getStatsAndAugmentsForCoreUnits = async (inputData, sampleSize, maxNumberO
         return { error: `error - ${error.message}` };
     }
 };
-export default getStatsAndAugmentsForCoreUnits;
+export default getPerformanceForCoreUnits;

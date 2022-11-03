@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client';
-import find4MostFrequentItemsOnCoreUnits from '../helper_functions/cms/find4MostFrequentItemsOnCoreUnits.js';
+import getItemsAndAugmentsAndVariationsPerformance from '../helper_functions/cms/getItemsAndAugmentsAndVariationsPerformance.js';
 const prisma = new PrismaClient();
 const saveCompositionIntoDatabase = async (composition) => {
-    await find4MostFrequentItemsOnCoreUnits(composition);
+    await getItemsAndAugmentsAndVariationsPerformance(composition);
     const compositionJSON = JSON.stringify(composition);
     await prisma.compositionJSON.create({ data: { json: compositionJSON } });
 };

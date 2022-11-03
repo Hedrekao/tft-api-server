@@ -1,4 +1,4 @@
-import { Comp } from 'types/classes';
+import { Comp } from '../../types/classes.js';
 
 const collectDataAboutItemsCMS = (
   itemsData: Object,

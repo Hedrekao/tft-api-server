@@ -9,7 +9,7 @@ import axios from 'axios';
 import getSummonersData from './routes_functions/summonerRoute.js';
 import analyzeComposition from './routes_functions/analyzeCompRoute.js';
 import collectDataAboutRankings from './task_functions/collectDataAboutRankings.js';
-import getStatsAndAugmentsForCoreUnits from './routes_functions/cmsRoute.js';
+import getPerformanceForCoreUnits from './routes_functions/cmsRoute.js';
 import saveCompositionIntoDatabase from './routes_functions/cmsSaveRoute.js';
 import getCompsFromDb from './routes_functions/preparedCompsRoute.js';
 import getLeaderboardData from './routes_functions/leaderboardRoute.js';
@@ -96,7 +96,8 @@ app.get('/units', async (req, res) => {
 });
 
 app.post('/cms', async (req: any, res) => {
-  return await getStatsAndAugmentsForCoreUnits(req.body.inputData, 1000, 500);
+  console.log('Not save ' + req.body.inputData);
+  return await getPerformanceForCoreUnits(req.body.inputData, 1500, 2000);
 });
 
 app.get('/preparedComps', (req, res) => {
@@ -109,6 +110,7 @@ app.get('/preparedComps', (req, res) => {
 
 app.post('/cms/save', async (req: any, res) => {
   try {
+    console.log(req.body.composition);
     await saveCompositionIntoDatabase(req.body.composition);
     return { info: 'data succesfully saved' };
   } catch (e: any) {

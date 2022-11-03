@@ -5,7 +5,7 @@ import collectDataAboutAugments from '../helper_functions/analyzeRoute/collectDa
 import prepareAnalysisResult from '../helper_functions/analyzeRoute/prepareAnalysisResult.js';
 import sleep from '../helper_functions/sleep.js';
 
-const getStatsAndAugmentsForCoreUnits = async (
+const getPerformanceForCoreUnits = async (
   inputData: Array<Object>,
   sampleSize?: number,
   maxNumberOfMatches?: number
@@ -21,8 +21,6 @@ const getStatsAndAugmentsForCoreUnits = async (
     let numberOfMatchingComps = 0;
     let totalNumberOfMatches = 0;
     let totalNumberOfMatchesOverall = 0;
-
-    const augmentsData = {};
 
     const challengersData: Array<any> = challengerDataResponse.data['entries'];
 
@@ -70,7 +68,6 @@ const getStatsAndAugmentsForCoreUnits = async (
                 winCount++;
               }
             }
-            collectDataAboutAugments(composition, augmentsData);
           }
           if (numberOfMatchingComps == sampleSize) {
             totalNumberOfMatches++;
@@ -81,8 +78,7 @@ const getStatsAndAugmentsForCoreUnits = async (
               numberOfMatchingComps,
               totalNumberOfMatches,
               totalNumberOfMatchesOverall + 1,
-              inputData,
-              augmentsData
+              inputData
             );
           }
         }
@@ -94,8 +90,7 @@ const getStatsAndAugmentsForCoreUnits = async (
             numberOfMatchingComps,
             totalNumberOfMatches,
             totalNumberOfMatchesOverall + 1,
-            inputData,
-            augmentsData
+            inputData
           );
         }
         totalNumberOfMatchesOverall++;
@@ -107,4 +102,4 @@ const getStatsAndAugmentsForCoreUnits = async (
   }
 };
 
-export default getStatsAndAugmentsForCoreUnits;
+export default getPerformanceForCoreUnits;

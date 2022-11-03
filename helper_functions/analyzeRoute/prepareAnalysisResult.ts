@@ -9,7 +9,7 @@ const prepareAnalysisResult = (
   totalNumberOfMatches: number,
   totalNumberOfMatchesOverall: number,
   inputData: Array<Object>,
-  augmentsData: Object,
+  augmentsData?: Object,
   itemsData?: Object
 ) => {
   if (numberOfMatchingComps == 0) {
@@ -36,7 +36,9 @@ const prepareAnalysisResult = (
     result['units'] = inputData;
   }
 
-  result['augments'] = analyzeAugments(augmentsData, numberOfMatchingComps);
+  if (augmentsData != undefined) {
+    result['augments'] = analyzeAugments(augmentsData, numberOfMatchingComps);
+  }
 
   return result;
 };

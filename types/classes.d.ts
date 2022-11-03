@@ -42,6 +42,7 @@ class Unit {
   url: string;
   level: 0 | 1 | 2 | 3;
   items: Item[] | null;
+  isCore?: boolean;
 
   constructor(
     id: string,
@@ -49,7 +50,8 @@ class Unit {
     cost: number,
     url: string,
     level: 0 | 1 | 2 | 3,
-    items: Item[] | null
+    items: Item[] | null,
+    isCore?: boolean
   ) {
     this.id = id;
     this.name = name;
@@ -57,6 +59,7 @@ class Unit {
     this.url = url;
     this.level = level;
     this.items = items;
+    this.isCore = isCore;
   }
 
   changeToJSON() {

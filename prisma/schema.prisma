@@ -41,8 +41,9 @@ model items_ranking {
 }
 
 model compositionJSON {
-  id   BigInt @id @default(autoincrement())
-  json Json?  @db.Json
+  id         BigInt  @id @default(autoincrement())
+  visibility Boolean @default(true)
+  json       Json?   @db.Json
 }
 
 model userCompositionJSON {

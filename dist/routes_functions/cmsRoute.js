@@ -1,7 +1,7 @@
 import axios from 'axios';
 import transformUnitsData from '../helper_functions/analyzeRoute/transformUnitsData.js';
-import isCompositionMatchingInput from '../helper_functions/analyzeRoute/isCompositionMatchingInput.js';
 import prepareAnalysisResult from '../helper_functions/analyzeRoute/prepareAnalysisResult.js';
+import isCompositionMatchingInput from '../helper_functions/analyzeRoute/isCompositionMatchingInput.js';
 const getPerformanceForCoreUnits = async (inputData, sampleSize, maxNumberOfMatches) => {
     try {
         const challengerDataResponse = await axios.get(`https://euw1.api.riotgames.com/tft/league/v1/challenger?api_key=${process.env.API_KEY}`);
@@ -27,6 +27,7 @@ const getPerformanceForCoreUnits = async (inputData, sampleSize, maxNumberOfMatc
                     const compositionUnits = transformUnitsData(composition['units']);
                     const isAMatch = isCompositionMatchingInput(inputData, compositionUnits);
                     if (isAMatch) {
+                        console.log('essa');
                         numberOfMatchingComps++;
                         if (firstCompositionInMatch) {
                             totalNumberOfMatches++;

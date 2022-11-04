@@ -1,28 +1,17 @@
-import { Comp } from '../../types/classes.js';
+import { Comp, Variation } from '../../types/classes.js';
 const isCompositionMatchingInputCMS = (input, compositionUnits) => {
     let isCompositionMatchingInput = true;
-    if (input instanceof Comp) {
+    if (input instanceof Comp || input instanceof Variation) {
         for (const unit of input.units) {
             if (unit.isCore) {
-                const unitIndex = Object.keys(compositionUnits).indexOf(unit.name);
+                const unitIndex = Object.keys(compositionUnits).indexOf(unit.id);
                 if (unitIndex == -1) {
                     isCompositionMatchingInput = false;
                     break;
                 }
                 else {
                     if (unit.level != 0 &&
-                        compositionUnits[unit.name]['level'] != unit.level) {
-                        isCompositionMatchingInput = false;
-                        break;
-                    }
-                    const providedItems = unit['items'];
-                    const items = providedItems?.map((item) => {
-                        return item.id;
-                    });
-                    if (items?.length != 0 &&
-                        !items?.every((item) => {
-                            return (compositionUnits[unit['name']]['items'].indexOf(item) != -1);
-                        })) {
+                        compositionUnits[unit.id]['level'] != unit.level) {
                         isCompositionMatchingInput = false;
                         break;
                     }
@@ -31,31 +20,6 @@ const isCompositionMatchingInputCMS = (input, compositionUnits) => {
         }
     }
     else {
-        for (const unit of input.units) {
-            const unitIndex = Object.keys(compositionUnits).indexOf(unit.name);
-            if (unitIndex == -1) {
-                isCompositionMatchingInput = false;
-                break;
-            }
-            else {
-                if (unit.level != 0 &&
-                    compositionUnits[unit.name]['level'] != unit.level) {
-                    isCompositionMatchingInput = false;
-                    break;
-                }
-                const providedItems = unit['items'];
-                const items = providedItems?.map((item) => {
-                    return item.id;
-                });
-                if (items?.length != 0 &&
-                    !items?.every((item) => {
-                        return compositionUnits[unit['name']]['items'].indexOf(item) != -1;
-                    })) {
-                    isCompositionMatchingInput = false;
-                    break;
-                }
-            }
-        }
     }
     return isCompositionMatchingInput;
 };

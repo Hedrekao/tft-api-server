@@ -10,7 +10,6 @@ const createItemsRates = (
   itemsData: Object
 ) => {
   const unitItemsArr = [];
-  console.log(itemsData);
   for (const unit of compositionInput.units) {
     let itemRates: Array<ItemUnit> = [];
 
@@ -34,7 +33,6 @@ const createItemsRates = (
         itemRates.push(itemUnit);
       }
     }
-    console.log(itemRates);
 
     itemRates.sort((a, b) => {
       if (a.rate! > b.rate!) {
@@ -72,7 +70,6 @@ const createItemsRates = (
       }
     }
 
-    console.log(1);
     const unitItems = new UnitItems(
       unit.id,
       unit.url,

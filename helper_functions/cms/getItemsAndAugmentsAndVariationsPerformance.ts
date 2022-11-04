@@ -71,6 +71,13 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
               variation,
               compositionUnits
             );
+            if (typeof variationPerformance[index] != 'object') {
+              variationPerformance[index] = {
+                placementOverall: 0,
+                top4Count: 0,
+                numberOfComps: 0
+              };
+            }
 
             if (isMatchForVariationCheck) {
               collectDataAboutVariation(
@@ -93,7 +100,7 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
             compositionInput
           );
           // }
-          if (numberOfMatchingComps == 1500 /* 500 */) {
+          if (totalNumberOfMatchesOverall == 1500 /* 500 */) {
             createItemsRates(
               compositionInput,
               numberOfMatchingComps,

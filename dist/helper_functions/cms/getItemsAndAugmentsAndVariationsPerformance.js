@@ -38,6 +38,13 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
                     }
                     for (const [index, variation] of compositionInput.variations.entries()) {
                         const isMatchForVariationCheck = isCompositionMatchingInputCMS(variation, compositionUnits);
+                        if (typeof variationPerformance[index] != 'object') {
+                            variationPerformance[index] = {
+                                placementOverall: 0,
+                                top4Count: 0,
+                                numberOfComps: 0
+                            };
+                        }
                         if (isMatchForVariationCheck) {
                             collectDataAboutVariation(composition, variationPerformance[index]);
                         }
@@ -49,7 +56,7 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
                     }
                     collectDataAboutItemsCMS(itemsData, compositionUnits, compositionInput);
                     // }
-                    if (numberOfMatchingComps == 1500 /* 500 */) {
+                    if (totalNumberOfMatchesOverall == 1500 /* 500 */) {
                         createItemsRates(compositionInput, numberOfMatchingComps, itemsData);
                         analyzeCompositionAugments(augmentData, compositionInput, numberOfAugmentMatchingComps);
                         for (const [index, variation] of compositionInput.variations.entries()) {

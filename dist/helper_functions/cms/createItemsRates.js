@@ -5,7 +5,6 @@ const itemsJson = require('../../static/Items.json');
 const itemsDataJson = itemsJson['items'];
 const createItemsRates = (compositionInput, numberOfComps, itemsData) => {
     const unitItemsArr = [];
-    console.log(itemsData);
     for (const unit of compositionInput.units) {
         let itemRates = [];
         for (const item in itemsData[unit.id]) {
@@ -26,7 +25,6 @@ const createItemsRates = (compositionInput, numberOfComps, itemsData) => {
                 itemRates.push(itemUnit);
             }
         }
-        console.log(itemRates);
         itemRates.sort((a, b) => {
             if (a.rate > b.rate) {
                 return -1;
@@ -60,7 +58,6 @@ const createItemsRates = (compositionInput, numberOfComps, itemsData) => {
                 itemsBIS.push(itemUnit);
             }
         }
-        console.log(1);
         const unitItems = new UnitItems(unit.id, unit.url, unit.cost, itemsBIS, itemRates);
         unitItemsArr.push(unitItems);
     }

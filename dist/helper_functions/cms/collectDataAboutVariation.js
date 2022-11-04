@@ -1,19 +1,9 @@
 const collectDataAboutVariation = (composition, variationPerformance) => {
-    if (variationPerformance == undefined) {
-        variationPerformance = {};
-        variationPerformance['placementOverall'] = composition['placement'];
-        variationPerformance['top4Count'] = 0;
-        if (composition['placement'] <= 4) {
-            variationPerformance['top4Count']++;
-        }
-        variationPerformance['numberOfComps'] = 1;
+    console.log(variationPerformance);
+    variationPerformance['placementOverall'] += composition['placement'];
+    if (composition['placement'] <= 4) {
+        variationPerformance['top4Count']++;
     }
-    else {
-        variationPerformance['placementOverall'] += composition['placement'];
-        if (composition['placement'] <= 4) {
-            variationPerformance['top4Count']++;
-        }
-        variationPerformance['numberOfComps']++;
-    }
+    variationPerformance['numberOfComps']++;
 };
 export default collectDataAboutVariation;

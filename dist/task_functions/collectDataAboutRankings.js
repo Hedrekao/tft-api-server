@@ -28,6 +28,7 @@ const collectDataAboutRankings = async (limitOfMatches) => {
             while (usedChallengersIdArray.includes(challengerArrayId)) {
                 challengerArrayId = Math.floor(Math.random() * challengersData.length);
             }
+            usedChallengersIdArray.push(challengerArrayId);
             const challengerData = challengersData[challengerArrayId];
             const summonerPuuidResponse = await axios.get(`https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`);
             const summonerPuuid = summonerPuuidResponse.data['puuid'];

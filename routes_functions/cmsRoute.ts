@@ -21,10 +21,21 @@ const getPerformanceForCoreUnits = async (
     let numberOfMatchingComps = 0;
     let totalNumberOfMatches = 0;
     let totalNumberOfMatchesOverall = 0;
+    const usedChallengersIdArray: Array<number> = [];
 
     const challengersData: Array<any> = challengerDataResponse.data['entries'];
 
-    for (const challengerData of challengersData) {
+    while (totalNumberOfMatchesOverall < maxNumberOfMatches!) {
+      let challengerArrayId = Math.floor(
+        Math.random() * challengersData.length
+      );
+
+      while (usedChallengersIdArray.includes(challengerArrayId)) {
+        challengerArrayId = Math.floor(Math.random() * challengersData.length);
+      }
+
+      usedChallengersIdArray.push(challengerArrayId);
+      const challengerData = challengersData[challengerArrayId];
       const summonerPuuidResponse = await axios.get(
         `https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`
       );
@@ -32,7 +43,7 @@ const getPerformanceForCoreUnits = async (
       const summonerPuuid: string = summonerPuuidResponse.data['puuid'];
 
       const matchesIdResponse =
-        await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=30
+        await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=10
 `);
 
       const matchesId: Array<string> = matchesIdResponse.data;
@@ -70,33 +81,20 @@ const getPerformanceForCoreUnits = async (
               }
             }
           }
-          if (numberOfMatchingComps == sampleSize) {
-            totalNumberOfMatches++;
-            return prepareAnalysisResult(
-              top4Count,
-              winCount,
-              placementOverall,
-              numberOfMatchingComps,
-              totalNumberOfMatches,
-              totalNumberOfMatchesOverall + 1,
-              inputData
-            );
-          }
         }
-        if (totalNumberOfMatchesOverall == maxNumberOfMatches! - 1) {
-          return prepareAnalysisResult(
-            top4Count,
-            winCount,
-            placementOverall,
-            numberOfMatchingComps,
-            totalNumberOfMatches,
-            totalNumberOfMatchesOverall + 1,
-            inputData
-          );
-        }
+
         totalNumberOfMatchesOverall++;
       }
     }
+    return prepareAnalysisResult(
+      top4Count,
+      winCount,
+      placementOverall,
+      numberOfMatchingComps,
+      totalNumberOfMatches,
+      totalNumberOfMatchesOverall + 1,
+      inputData
+    );
   } catch (error: any) {
     console.log(error.message);
     return { error: `error - ${error.message}` };

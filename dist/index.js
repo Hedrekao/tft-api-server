@@ -69,7 +69,7 @@ app.get('/units', async (req, res) => {
 });
 app.post('/cms', async (req, res) => {
     console.log('Not save ' + JSON.stringify(req.body.inputData));
-    return await getPerformanceForCoreUnits(req.body.inputData, 1500, 2000);
+    return await getPerformanceForCoreUnits(req.body.inputData, 1000, 1000);
 });
 app.get('/preparedComps', (req, res) => {
     try {

@@ -4,7 +4,6 @@ const isCompositionMatchingInput = (
 ): boolean => {
   let isCompositionMatchingInput = true;
   for (const unit of inputData) {
-    console.log(compositionUnits);
     const unitIndex = Object.keys(compositionUnits).indexOf(unit['name']);
     if (unitIndex == -1) {
       isCompositionMatchingInput = false;

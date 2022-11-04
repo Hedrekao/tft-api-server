@@ -39,6 +39,7 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
       while (usedChallengersIdArray.includes(challengerArrayId)) {
         challengerArrayId = Math.floor(Math.random() * challengersData.length);
       }
+      usedChallengersIdArray.push(challengerArrayId);
       const challengerData = challengersData[challengerArrayId];
 
       const summonerPuuidResponse = await axios.get(

@@ -100,6 +100,18 @@ app.post('/cms/changeVisibility', async (req, res) => {
             where: { id: req.body.id },
             data: { visibility: req.body.visibility }
         });
+        return { info: 'visibility updated' };
+    }
+    catch (error) {
+        return { error: error.message };
+    }
+});
+app.delete('/cms/comps/:id', async (req, res) => {
+    try {
+        await prisma.compositionJSON.delete({
+            where: { id: req.params.id }
+        });
+        return { info: 'composition deleted' };
     }
     catch (error) {
         return { error: error.message };

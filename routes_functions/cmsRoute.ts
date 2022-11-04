@@ -66,7 +66,6 @@ const getPerformanceForCoreUnits = async (
           );
 
           if (isAMatch) {
-            console.log('essa');
             numberOfMatchingComps++;
 
             if (firstCompositionInMatch) {

@@ -68,7 +68,6 @@ app.get('/units', async (req, res) => {
     return await commitToDb(prisma.champions.findMany());
 });
 app.post('/cms', async (req, res) => {
-    console.log('Not save ' + JSON.stringify(req.body.inputData));
     return await getPerformanceForCoreUnits(req.body.inputData, 1000, 1000);
 });
 app.get('/preparedComps', (req, res) => {
@@ -79,9 +78,35 @@ app.get('/preparedComps', (req, res) => {
         return { error: error.message };
     }
 });
+app.get('/cms/comps', async (req, res) => {
+    try {
+        const comps = await prisma.compositionJSON.findMany();
+        return comps.map((comp) => {
+            const result = {
+                id: Number(comp.id),
+                json: comp.json,
+                visibility: comp.visibility
+            };
+            return result;
+        });
+    }
+    catch (error) {
+        return { error: error.message };
+    }
+});
+app.post('/cms/changeVisibility', async (req, res) => {
+    try {
+        await prisma.compositionJSON.update({
+            where: { id: req.body.id },
+            data: { visibility: req.body.visibility }
+        });
+    }
+    catch (error) {
+        return { error: error.message };
+    }
+});
 app.post('/cms/save', async (req, res) => {
     try {
-        console.log(JSON.stringify(req.body.composition));
         await saveCompositionIntoDatabase(req.body.composition);
         return { info: 'data succesfully saved' };
     }

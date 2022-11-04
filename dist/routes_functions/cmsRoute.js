@@ -34,7 +34,6 @@ const getPerformanceForCoreUnits = async (inputData, sampleSize, maxNumberOfMatc
                     const compositionUnits = transformUnitsData(composition['units']);
                     const isAMatch = isCompositionMatchingInput(inputData, compositionUnits);
                     if (isAMatch) {
-                        console.log('essa');
                         numberOfMatchingComps++;
                         if (firstCompositionInMatch) {
                             totalNumberOfMatches++;

@@ -148,6 +148,7 @@ app.delete('/cms/comps/:id', async (req: any, res) => {
 
 app.post('/cms/save', async (req: any, res) => {
   try {
+    console.log(req.body.composition);
     await saveCompositionIntoDatabase(req.body.composition);
     return { info: 'data succesfully saved' };
   } catch (e: any) {

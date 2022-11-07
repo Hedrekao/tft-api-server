@@ -3,8 +3,6 @@ const isCompositionMatchingInputCMS = (input, compositionUnits) => {
     for (const unit of input.units) {
         if (unit.isCore) {
             const unitIndex = Object.keys(compositionUnits).indexOf(unit.id);
-            console.log(unit.id);
-            console.log(unitIndex);
             if (unitIndex == -1) {
                 isCompositionMatchingInput = false;
                 break;

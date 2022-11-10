@@ -68,7 +68,12 @@ app.get('/units', async (req, res) => {
     return await commitToDb(prisma.champions.findMany());
 });
 app.post('/cms', async (req, res) => {
-    return await getPerformanceForCoreUnits(req.body.inputData, 1000, 1000);
+    if (req.headers['x-api-key'] == process.env.CMS_API_KEY) {
+        return await getPerformanceForCoreUnits(req.body.inputData, 1000, 1000);
+    }
+    else {
+        res.code(401).send(new Error('You are not authorized'));
+    }
 });
 app.get('/preparedComps', (req, res) => {
     try {
@@ -80,15 +85,20 @@ app.get('/preparedComps', (req, res) => {
 });
 app.get('/cms/comps', async (req, res) => {
     try {
-        const comps = await prisma.compositionJSON.findMany();
-        return comps.map((comp) => {
-            const result = {
-                id: Number(comp.id),
-                json: comp.json,
-                visibility: comp.visibility
-            };
-            return result;
-        });
+        if (req.headers['x-api-key'] == process.env.CMS_API_KEY) {
+            const comps = await prisma.compositionJSON.findMany();
+            return comps.map((comp) => {
+                const result = {
+                    id: Number(comp.id),
+                    json: comp.json,
+                    visibility: comp.visibility
+                };
+                return result;
+            });
+        }
+        else {
+            res.code(401).send(new Error('You are not authorized'));
+        }
     }
     catch (error) {
         return { error: error.message };
@@ -96,11 +106,16 @@ app.get('/cms/comps', async (req, res) => {
 });
 app.post('/cms/changeVisibility', async (req, res) => {
     try {
-        await prisma.compositionJSON.update({
-            where: { id: req.body.id },
-            data: { visibility: req.body.visibility }
-        });
-        return { info: 'visibility updated' };
+        if (req.headers['x-api-key'] == process.env.CMS_API_KEY) {
+            await prisma.compositionJSON.update({
+                where: { id: req.body.id },
+                data: { visibility: req.body.visibility }
+            });
+            return { info: 'visibility updated' };
+        }
+        else {
+            res.code(401).send(new Error('You are not authorized'));
+        }
     }
     catch (error) {
         return { error: error.message };
@@ -108,10 +123,15 @@ app.post('/cms/changeVisibility', async (req, res) => {
 });
 app.delete('/cms/comps/:id', async (req, res) => {
     try {
-        await prisma.compositionJSON.delete({
-            where: { id: req.params.id }
-        });
-        return { info: 'composition deleted' };
+        if (req.headers['x-api-key'] == process.env.CMS_API_KEY) {
+            await prisma.compositionJSON.delete({
+                where: { id: req.params.id }
+            });
+            return { info: 'composition deleted' };
+        }
+        else {
+            res.code(401).send(new Error('You are not authorized'));
+        }
     }
     catch (error) {
         return { error: error.message };
@@ -119,8 +139,14 @@ app.delete('/cms/comps/:id', async (req, res) => {
 });
 app.post('/cms/save', async (req, res) => {
     try {
-        await saveCompositionIntoDatabase(req.body.composition);
-        return { info: 'data succesfully saved' };
+        if (req.headers['x-api-key'] == process.env.CMS_API_KEY) {
+            console.log(req.body.composition);
+            await saveCompositionIntoDatabase(req.body.composition);
+            return { info: 'data succesfully saved' };
+        }
+        else {
+            res.code(401).send(new Error('You are not authorized'));
+        }
     }
     catch (e) {
         return { error: e.message };
@@ -381,8 +407,7 @@ app.get('/augments-ranking/:stage', async (req, res) => {
     return data;
 });
 app.get('/test', async (req, res) => {
-    await collectDataAboutRankings(1000);
-    console.log('done');
+    res.code(401).send(new Error('You are not authorized'));
 });
 app.get('/unit/:id', async (req, res) => {
     return await commitToDb(prisma.champions.findUnique({

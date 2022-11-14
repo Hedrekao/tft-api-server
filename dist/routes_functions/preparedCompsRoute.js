@@ -4,9 +4,11 @@ const getCompsFromDb = async () => {
     const result = [];
     const comps = await prisma.compositionJSON.findMany();
     for (const comp of comps) {
-        const jsonString = comp.json;
-        const composition = JSON.parse(jsonString);
-        result.push(composition);
+        if (comp.visibility) {
+            const jsonString = comp.json;
+            const composition = JSON.parse(jsonString);
+            result.push(composition);
+        }
     }
     return result;
 };

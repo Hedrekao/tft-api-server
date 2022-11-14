@@ -124,8 +124,9 @@ app.post('/cms/changeVisibility', async (req, res) => {
 app.delete('/cms/comps/:id', async (req, res) => {
     try {
         if (req.headers['x-api-key'] == process.env.CMS_API_KEY) {
+            const id = parseInt(req.params.id);
             await prisma.compositionJSON.delete({
-                where: { id: req.params.id }
+                where: { id: id }
             });
             return { info: 'composition deleted' };
         }

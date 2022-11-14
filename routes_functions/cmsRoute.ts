@@ -29,13 +29,16 @@ const getPerformanceForCoreUnits = async (
       let challengerArrayId = Math.floor(
         Math.random() * challengersData.length
       );
+      challengerArrayId++;
 
-      while (usedChallengersIdArray.includes(challengerArrayId)) {
+      console.log(totalNumberOfMatchesOverall);
+      console.log('essa ' + challengerArrayId);
+
+      let challengerData = challengersData[challengerArrayId];
+      if (challengerData == undefined) {
         challengerArrayId = Math.floor(Math.random() * challengersData.length);
+        challengerData = challengersData[challengerArrayId];
       }
-
-      usedChallengersIdArray.push(challengerArrayId);
-      const challengerData = challengersData[challengerArrayId];
       const summonerPuuidResponse = await axios.get(
         `https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`
       );

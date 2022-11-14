@@ -141,7 +141,7 @@ app.delete('/cms/comps/:id', async (req, res) => {
 app.post('/cms/save', async (req, res) => {
     try {
         if (req.headers['x-api-key'] == process.env.CMS_API_KEY) {
-            console.log(req.body.composition);
+            console.log(JSON.stringify(req.body.composition));
             await saveCompositionIntoDatabase(req.body.composition);
             return { info: 'data succesfully saved' };
         }
@@ -150,6 +150,7 @@ app.post('/cms/save', async (req, res) => {
         }
     }
     catch (e) {
+        console.log(e.message);
         return { error: e.message };
     }
 });

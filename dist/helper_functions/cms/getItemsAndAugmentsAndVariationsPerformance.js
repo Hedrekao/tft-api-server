@@ -21,11 +21,12 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
         const challengersData = challengerDataResponse.data['entries'];
         while (totalNumberOfMatchesOverall < 1000) {
             let challengerArrayId = Math.floor(Math.random() * challengersData.length);
-            while (usedChallengersIdArray.includes(challengerArrayId)) {
+            challengerArrayId++;
+            let challengerData = challengersData[challengerArrayId];
+            if (challengerData == undefined) {
                 challengerArrayId = Math.floor(Math.random() * challengersData.length);
+                challengerData = challengersData[challengerArrayId];
             }
-            usedChallengersIdArray.push(challengerArrayId);
-            const challengerData = challengersData[challengerArrayId];
             const summonerPuuidResponse = await axios.get(`https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`);
             const summonerPuuid = summonerPuuidResponse.data['puuid'];
             const matchesIdResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=10

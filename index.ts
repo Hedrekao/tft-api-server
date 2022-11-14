@@ -14,6 +14,7 @@ import saveCompositionIntoDatabase from './routes_functions/cmsSaveRoute.js';
 import getCompsFromDb from './routes_functions/preparedCompsRoute.js';
 import getLeaderboardData from './routes_functions/leaderboardRoute.js';
 import { PrismaClientRustPanicError } from '@prisma/client/runtime/index.js';
+import { json } from 'stream/consumers';
 
 dotenv.config();
 axios.defaults.headers.common['X-Riot-Token'] = process.env.API_KEY;
@@ -166,13 +167,14 @@ app.delete('/cms/comps/:id', async (req: any, res) => {
 app.post('/cms/save', async (req: any, res) => {
   try {
     if (req.headers['x-api-key'] == process.env.CMS_API_KEY) {
-      console.log(req.body.composition);
+      console.log(JSON.stringify(req.body.composition));
       await saveCompositionIntoDatabase(req.body.composition);
       return { info: 'data succesfully saved' };
     } else {
       res.code(401).send(new Error('You are not authorized'));
     }
   } catch (e: any) {
+    console.log(e.message);
     return { error: e.message };
   }
 });

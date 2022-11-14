@@ -5,10 +5,14 @@ import getItemsAndAugmentsAndVariationsPerformance from '../helper_functions/cms
 const prisma = new PrismaClient();
 
 const saveCompositionIntoDatabase = async (composition: Comp) => {
-  await getItemsAndAugmentsAndVariationsPerformance(composition);
+  try {
+    await getItemsAndAugmentsAndVariationsPerformance(composition);
 
-  const compositionJSON = JSON.stringify(composition);
-  await prisma.compositionJSON.create({ data: { json: compositionJSON } });
+    const compositionJSON = JSON.stringify(composition);
+    await prisma.compositionJSON.create({ data: { json: compositionJSON } });
+  } catch (error: any) {
+    console.log(error.message);
+  }
 };
 
 export default saveCompositionIntoDatabase;

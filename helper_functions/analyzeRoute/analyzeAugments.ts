@@ -1,3 +1,8 @@
+import { createRequire } from 'module'; // Bring in the ability to create the 'require' method
+const require = createRequire(import.meta.url); // construct the require method
+const augmentsJson: Object = require('../../static/Augments.json');
+const augmentsDataJson: Array<Object> = augmentsJson['items'];
+
 const analyzeAugments = (
   augmentsData: Object,
   numberOfMatchingComps: number
@@ -6,7 +11,19 @@ const analyzeAugments = (
 
   for (const augmentData in augmentsData) {
     const augment = {};
-    augment['name'] = augmentData;
+
+    const augmentNameObject = augmentsDataJson.find(
+      (val) => val['apiName'] == augmentData
+    );
+    let name;
+    if (augmentNameObject != null && augmentNameObject.hasOwnProperty('name')) {
+      name = augmentNameObject['name'];
+    } else {
+      name = augmentData;
+    }
+    const src = `https://ittledul.sirv.com/Images/augments/${augmentData}.png`;
+    augment['name'] = name;
+    augment['src'] = src;
     augment['avgPlace'] = (
       augmentsData[augmentData]['sumOfPlacements'] /
       augmentsData[augmentData]['numberOfComps']

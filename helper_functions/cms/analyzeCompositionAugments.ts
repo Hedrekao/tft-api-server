@@ -1,4 +1,8 @@
 import { Augment, Comp } from '../../types/classes.js';
+import { createRequire } from 'module'; // Bring in the ability to create the 'require' method
+const require = createRequire(import.meta.url); // construct the require method
+const augmentsJson: Object = require('../../static/Augments.json');
+const augmentsDataJson: Array<Object> = augmentsJson['items'];
 
 const analyzeCompositionAugments = (
   augmentsData: Object,
@@ -30,7 +34,17 @@ const analyzeCompositionAugments = (
 
     const src = `https://ittledul.sirv.com/Images/augments/${augmentData}.png`;
 
-    const augment = new Augment(src, augmentData, avgPlace, winRate, playRate);
+    const augmentNameObject = augmentsDataJson.find(
+      (val) => val['apiName'] == augmentData
+    );
+    let name;
+    if (augmentNameObject != null && augmentNameObject.hasOwnProperty('name')) {
+      name = augmentNameObject['name'];
+    } else {
+      name = augmentData;
+    }
+
+    const augment = new Augment(src, name, avgPlace, winRate, playRate);
     augments.push(augment);
   }
 

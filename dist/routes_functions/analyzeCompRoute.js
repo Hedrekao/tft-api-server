@@ -4,6 +4,7 @@ import transformUnitsData from '../helper_functions/analyzeRoute/transformUnitsD
 import collectDataAboutItems from '../helper_functions/analyzeRoute/collectDataAboutItems.js';
 import prepareAnalysisResult from '../helper_functions/analyzeRoute/prepareAnalysisResult.js';
 import collectDataAboutAugments from '../helper_functions/analyzeRoute/collectDataAboutAugments.js';
+import sleep from '../helper_functions/sleep.js';
 const analyzeComposition = async (inputData, socketSessionId, io, cache, sampleSize, maxNumberOfMatches) => {
     try {
         const challengerDataResponse = await axios.get(`https://euw1.api.riotgames.com/tft/league/v1/challenger`);
@@ -23,22 +24,36 @@ const analyzeComposition = async (inputData, socketSessionId, io, cache, sampleS
         let previousProgress = -1;
         const challengersData = challengerDataResponse.data['entries'];
         for (const challengerData of challengersData) {
-            const summonerPuuidResponse = await axios.get(`https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`);
+            const summonerPuuidResponse = await axios
+                .get(`https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`)
+                .catch(async (e) => {
+                return axios.get(`https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`);
+            });
             const summonerPuuid = summonerPuuidResponse.data['puuid'];
-            const matchesIdResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=10
-`);
+            const matchesIdResponse = await axios
+                .get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=10
+`)
+                .catch(async (e) => {
+                return axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=10`);
+            });
             const promises = [];
             const matchesId = matchesIdResponse.data;
             for (const matchId of matchesId) {
                 const matchDataResponse = axios
                     .get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`)
                     .catch(async (e) => {
-                    console.log(e);
-                    return axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`);
+                    return axios
+                        .get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`)
+                        .catch(async (e) => {
+                        return axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`);
+                    });
                 });
                 promises.push(matchDataResponse);
             }
             const resolvedPromises = await Promise.all(promises);
+            if (parseInt(resolvedPromises[0].headers['x-method-rate-limit-count'].split(':')[0]) >= 165) {
+                await sleep(6000);
+            }
             const resolvedPromisesData = resolvedPromises.map((result) => result.data);
             for (const matchData of resolvedPromisesData) {
                 let firstCompositionInMatch = true;

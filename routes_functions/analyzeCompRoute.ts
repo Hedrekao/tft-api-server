@@ -40,15 +40,28 @@ const analyzeComposition = async (
     const challengersData: Array<any> = challengerDataResponse.data['entries'];
 
     for (const challengerData of challengersData) {
-      const summonerPuuidResponse = await axios.get(
-        `https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`
-      );
+      const summonerPuuidResponse = await axios
+        .get(
+          `https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`
+        )
+        .catch(async (e) => {
+          return axios.get(
+            `https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`
+          );
+        });
 
       const summonerPuuid: string = summonerPuuidResponse.data['puuid'];
 
-      const matchesIdResponse =
-        await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=10
-`);
+      const matchesIdResponse = await axios
+        .get(
+          `https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=10
+`
+        )
+        .catch(async (e) => {
+          return axios.get(
+            `https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=10`
+          );
+        });
       const promises = [];
       const matchesId: Array<string> = matchesIdResponse.data;
       for (const matchId of matchesId) {
@@ -57,15 +70,29 @@ const analyzeComposition = async (
             `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
           )
           .catch(async (e) => {
-            console.log(e);
-            return axios.get(
-              `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
-            );
+            return axios
+              .get(
+                `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
+              )
+              .catch(async (e) => {
+                return axios.get(
+                  `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
+                );
+              });
           });
         promises.push(matchDataResponse);
       }
 
       const resolvedPromises = await Promise.all(promises);
+      if (
+        parseInt(
+          resolvedPromises[0].headers['x-method-rate-limit-count']!.split(
+            ':'
+          )[0]
+        ) >= 165
+      ) {
+        await sleep(6000);
+      }
       const resolvedPromisesData = resolvedPromises.map(
         (result) => result.data
       );

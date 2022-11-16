@@ -1,0 +1,3779 @@
+{
+    "items": [
+        {
+            "apiName": "TFT6_Augment_Diversify1",
+            "desc": "Your units gain @AD@ Attack Damage and @AP@ Ability Power per Trait active across your army.",
+            "effects": {
+                "AD": 1.0,
+                "AP": 2.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/StandUnited1.TFT_Set6.dds",
+            "id": 649,
+            "name": "Stand United I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_BruiserPersonalTrainerHR",
+            "desc": "At the end of combat, champions that started combat adjacent to Bruisers permanently gain @Health@ Health, increased by @BonusHealth@ if they survived. Gain a Olaf.",
+            "effects": {
+                "BonusHealth": 40.0,
+                "Health": 80.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Personal-Training-II.TFT_Set7.dds",
+            "id": 2476,
+            "name": "Personal Training",
+            "unique": false,
+            "tier": 2
+        },
+                {
+            "apiName": "TFT7_Augment_BruiserPersonalTrainer",
+            "desc": "At the end of combat, champions that started combat adjacent to Bruisers permanently gain @Health@ Health, increased by @BonusHealth@ if they survived. Gain a Olaf.",
+            "effects": {
+                "BonusHealth": 40.0,
+                "Health": 80.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Personal-Training-II.TFT_Set7.dds",
+            "id": 2476,
+            "name": "Personal Training",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_Diversify2",
+            "desc": "Your units gain @AD@ Attack Damage and @AP@ Ability Power per Trait active across your army.",
+            "effects": {
+                "AD": 2.0,
+                "AP": 3.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/StandUnited2.TFT_Set6.dds",
+            "id": 650,
+            "name": "Stand United II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_Diversify3",
+            "desc": "Your units gain @AD@ Attack Damage and @AP@ Ability Power per Trait active across your army.",
+            "effects": {
+                "AD": 3.0,
+                "AP": 4.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/StandUnited3.TFT_Set6.dds",
+            "id": 651,
+            "name": "Stand United III",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_Distancing3",
+            "desc": "Your units that start combat with no adjacent allies gain a @MaxHealthShield@% maximum Health shield for @ShieldDuration@ seconds.",
+            "effects": {
+                "ShieldDuration": 10.0,
+                "{4e39b1d2}": 50.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Exiles3.TFT_Set6.dds",
+            "id": 648,
+            "name": "Exiles III",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_TargetDummies",
+            "desc": "Gain @NumDummies@ Target Dummies.",
+            "effects": {
+                "{aec10c49}": 2.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/PhonyFrontline2.TFT_Set6.dds",
+            "id": 731,
+            "name": "Phony Frontline",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_Distancing2",
+            "desc": "Your units that start combat with no adjacent allies gain a @MaxHealthShield@% maximum Health shield for @ShieldDuration@ seconds.",
+            "effects": {
+                "ShieldDuration": 10.0,
+                "{4e39b1d2}": 35.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Exiles2.TFT_Set6.dds",
+            "id": 647,
+            "name": "Exiles II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_TrueTwos",
+            "desc": "Gain a random 2-star Tier 1 champion and a random 2-star Tier 2 champion.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/True-Twos-II.TFT_Set6_Stage2.dds",
+            "id": 723,
+            "name": "True Twos",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_ThrillOfTheHunt3",
+            "desc": "Your units heal @MissingHPHeal@ Health on kill.",
+            "effects": {
+                "{043ce1d5}": 900.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/ThrillHunt3.TFT_Set6.dds",
+            "id": 735,
+            "name": "Thrill of the Hunt III",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_AssassinTrait",
+            "desc": "Your team counts as having 1 additional Assassin. Gain a Talon.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/AssassinHeart1.TFT_Set6.dds",
+            "id": 614,
+            "name": "Assassin Heart",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_AssassinSmokeBomb",
+            "desc": "The first time an Assassin drops to @HealthThreshold@% health, they briefly enter stealth, becoming untargetable and shedding all negative effects. Any excess damage is reduced by @DamageReduction@%. Gain a Talon.",
+            "effects": {
+                "DamageReduction": 60.0,
+                "HealthThreshold": 70.0,
+                "{b1442c34}": 1.5
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Smokebomb2.TFT_Set6.dds",
+            "id": 859,
+            "name": "Smoke Bomb",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_ThrillOfTheHunt2",
+            "desc": "Your units heal @MissingHPHeal@ Health on kill.",
+            "effects": {
+                "{043ce1d5}": 700.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/ThrillHunt2.TFT_Set6.dds",
+            "id": 734,
+            "name": "Thrill of the Hunt II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_ThrillOfTheHunt1",
+            "desc": "Your units heal @MissingHPHeal@ Health on kill.",
+            "effects": {
+                "{043ce1d5}": 400.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/ThrillHunt1.TFT_Set6.dds",
+            "id": 733,
+            "name": "Thrill of the Hunt I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_Ascension",
+            "desc": "After @Delay@ seconds of combat, your units deal @DamageAmp@% more damage.",
+            "effects": {
+                "DamageAmp": 50.0,
+                "{4ed1f1d8}": 15.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Ascension2.TFT_Set6.dds",
+            "id": 610,
+            "name": "Ascension",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_WindfallPlus",
+            "desc": "Gain @AugmentGold@ gold.",
+            "effects": {
+                "{45e02ace}": 35.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Windfall3.TFT_Set6.dds",
+            "id": 2463,
+            "name": "Windfall+",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_RangedRangeIncrease",
+            "desc": "Double the hex range of your <b>ranged</b> units, and their attacks cannot miss.",
+            "effects": {
+                "{16394c87}": 100.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/ScopedWeapons1.TFT_Set6.dds",
+            "id": 703,
+            "name": "Scoped Weapons",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_SlowAndSteady",
+            "desc": "Gain @Exp@ bonus experience points per round. You can no longer use gold to level up.",
+            "effects": {
+                "EXP": 5.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/SlowAndSteady3.TFT_Set6.dds",
+            "id": 715,
+            "name": "March of Progress",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_VerdantVeil",
+            "desc": "Your units are immune to crowd control effects for the first @Duration@ seconds of combat.",
+            "effects": {
+                "Duration": 20.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Verdant-Veil-III.TFT_Set6_Stage2.dds",
+            "id": 778,
+            "name": "Verdant Veil",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_PandorasItems",
+            "desc": "Gain a random component. At the start of each round, items on your bench are randomized (excluding Tactician's Crown, Spatula, and consumables).",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Pandora1.TFT_Set6.dds",
+            "id": 698,
+            "name": "Pandora's Items",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_ItemGrabBag1",
+            "desc": "Gain @NumItems@ random completed item.",
+            "effects": {
+                "{6c216145}": 1.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/ItemGrabBag1.TFT_Set6.dds",
+            "id": 874,
+            "name": "Item Grab Bag I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_StrikerOverpower",
+            "desc": "After every @NumAttacks@ attacks, Strikers gain @CritChance@% Critical Strike Chance for their next attack. Gain a Rek'sai.",
+            "effects": {
+                "CritChance": 75.0,
+                "NumAttacks": 2.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Overpowered-I.TFT_Set6_Stage2.dds",
+            "id": 611,
+            "name": "Overpower",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_ItemGrabBag2",
+            "desc": "Gain @NumItems@ random completed items and @NumReforgers@ Reforgers.",
+            "effects": {
+                "{24acadb2}": 2.0,
+                "{6c216145}": 2.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/ItemGrabBag3.TFT_Set6.dds",
+            "id": 683,
+            "name": "Item Grab Bag II",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_RadiantGrabBag",
+            "desc": "Gain @NumItems@ random Radiant item(s).",
+            "effects": {
+                "{6c216145}": 1.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Radiant-Grab-Bag-II.TFT_Set6_Stage2.dds",
+            "id": 856,
+            "name": "Radiant Grab Bag",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_ForceOfNature",
+            "desc": "Gain +@MaxArmySizeIncrease@ maximum team size.",
+            "effects": {
+                "{ec9a04d1}": 1.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/NewRecruit3.TFT_Set6.dds",
+            "id": 665,
+            "name": "New Recruit",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_MaxLevel10",
+            "desc": "When you buy experience points, gain an additional @XP@. You can now reach level 10.",
+            "effects": {
+                "{516374d5}": 3.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/LevelUp3.TFT_Set6.dds",
+            "id": 687,
+            "name": "Level Up!",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_GachaAddict",
+            "desc": "Each time your Shop is refreshed, you have a @RerollPercent@% chance to gain a free refresh.",
+            "effects": {
+                "{c43e4438}": 50.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/GoldenTicket3.TFT_Set6.dds",
+            "id": 666,
+            "name": "Golden Ticket",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_TreasureTrove1",
+            "desc": "Gain @NumBlueOrbs@ blue and @NumGrayOrbs@ gray loot orb(s).",
+            "effects": {
+                "{25083082}": 1.0,
+                "{d1da1e25}": 1.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Treasure-Trove-I.TFT_Set6_Stage2.dds",
+            "id": 826,
+            "name": "Treasure Trove I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_MakeshiftArmor2",
+            "desc": "Your units without items equipped gain @Resists@ Armor and Magic Resist.",
+            "effects": {
+                "Resists": 45.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Makeshift2.TFT_Set6.dds",
+            "id": 685,
+            "name": "Makeshift Armor II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_MakeshiftArmor3",
+            "desc": "Your units without items equipped gain @Resists@ Armor and Magic Resist.",
+            "effects": {
+                "Resists": 65.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Makeshift3.TFT_Set6.dds",
+            "id": 686,
+            "name": "Makeshift Armor III",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_Windfall",
+            "desc": "Gain @AugmentGold@ gold.",
+            "effects": {
+                "{45e02ace}": 25.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Windfall3.TFT_Set6.dds",
+            "id": 746,
+            "name": "Windfall",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_MakeshiftArmor1",
+            "desc": "Your units without items equipped gain @Resists@ Armor and Magic Resist.",
+            "effects": {
+                "Resists": 30.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Makeshift1.TFT_Set6.dds",
+            "id": 684,
+            "name": "Makeshift Armor I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_Battlemage3",
+            "desc": "Your units that start combat in the front 2 rows gain @Armor@ Armor and @AP@ Ability Power.",
+            "effects": {
+                "AP": 35.0,
+                "Armor": 35.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Battlemage-III-A.TFT_Set6_Stage2.dds",
+            "id": 862,
+            "name": "Battlemage III",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_Battlemage2",
+            "desc": "Your units that start combat in the front 2 rows gain @Armor@ Armor and @AP@ Ability Power.",
+            "effects": {
+                "AP": 25.0,
+                "Armor": 25.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Battlemage-II-A.TFT_Set6_Stage2.dds",
+            "id": 753,
+            "name": "Battlemage II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_Battlemage1",
+            "desc": "Your units that start combat in the front 2 rows gain @Armor@ Armor and @AP@ Ability Power.",
+            "effects": {
+                "AP": 15.0,
+                "Armor": 15.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Battlemage-I-A.TFT_Set6_Stage2.dds",
+            "id": 752,
+            "name": "Battlemage I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_BandOfThieves2",
+            "desc": "Gain @NumGloves@ Thief's Gloves.",
+            "effects": {
+                "{1c1b4e2d}": 2.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/BandThieves3.TFT_Set6.dds",
+            "id": 616,
+            "name": "Band of Thieves II",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_TitanicForce",
+            "desc": "Your units with more than @HealthThreshold@ maximum Health gain Attack Damage equal to @HealthPercent*100@% of their maximum Health.",
+            "effects": {
+                "HealthPercent": 0.02500000037252903,
+                "HealthThreshold": 1400.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/TitanicForce2.TFT_Set6.dds",
+            "id": 736,
+            "name": "Titanic Force",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_WindfallPlusPlus",
+            "desc": "Gain @AugmentGold@ gold.",
+            "effects": {
+                "{45e02ace}": 45.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Windfall3.TFT_Set6.dds",
+            "id": 2464,
+            "name": "Windfall++",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_SecondWind1",
+            "desc": "After @Delay@ seconds of combat, your units heal @HealPercent@% of their missing Health.",
+            "effects": {
+                "HealPercent": 40.0,
+                "{4ed1f1d8}": 10.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Second--Wind-I.TFT_Set6_Stage2.dds",
+            "id": 765,
+            "name": "Second Wind I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_TinyTitans",
+            "desc": "Your Tactician heals @Heal@ Health, grows larger, and has @TooltipMaxHealth@ maximum Health.",
+            "effects": {
+                "Heal": 30.0,
+                "{4bff7d1c}": 130.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Tiny-Titans-I.TFT_Set6_Stage2.dds",
+            "id": 868,
+            "name": "Tiny Titans",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_SecondWind3",
+            "desc": "After @Delay@ seconds of combat, your units heal @HealPercent@% of their missing Health.",
+            "effects": {
+                "HealPercent": 100.0,
+                "{4ed1f1d8}": 10.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Second-Wind-III.TFT_Set6_Stage2.dds",
+            "id": 767,
+            "name": "Second Wind III",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_SecondWind2",
+            "desc": "After @Delay@ seconds of combat, your units heal @HealPercent@% of their missing Health.",
+            "effects": {
+                "HealPercent": 60.0,
+                "{4ed1f1d8}": 10.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Second--Wind-II.TFT_Set6_Stage2.dds",
+            "id": 766,
+            "name": "Second Wind II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_Recombobulator",
+            "desc": "Champions on your board permanently transform into random champions 1 Tier higher. Dragons can only transform into Dragons, and non-Dragons into non-Dragons. Gain @NumRemovers@ Magnetic Removers.",
+            "effects": {
+                "{65358e6c}": 2.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Recombobulator-I.TFT_Set6_Stage2.dds",
+            "id": 754,
+            "name": "Recombobulator",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_CyberneticUplink2",
+            "desc": "Your champions holding an item gain @Health@ Health and restore @ManaRegen@ Mana per second.",
+            "effects": {
+                "Health": 150.0,
+                "{d8f646f3}": 3.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Cybernetic-Uplink-II.TFT_Set6_Stage2.dds",
+            "id": 784,
+            "name": "Cybernetic Uplink II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_CyberneticUplink3",
+            "desc": "Your champions holding an item gain @Health@ Health and restore @ManaRegen@ Mana per second.",
+            "effects": {
+                "Health": 250.0,
+                "{d8f646f3}": 4.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Cybernetic-Uplink-III.TFT_Set6_Stage2.dds",
+            "id": 785,
+            "name": "Cybernetic Uplink III",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_CyberneticUplink1",
+            "desc": "Your champions holding an item gain @Health@ Health and restore @ManaRegen@ Mana per second.",
+            "effects": {
+                "Health": 100.0,
+                "{d8f646f3}": 2.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Cybernetic-Uplink-I.TFT_Set6_Stage2.dds",
+            "id": 783,
+            "name": "Cybernetic Uplink I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_WoodlandCharm",
+            "desc": "Your highest Health champion is cloned. You cannot equip items on the clone.",
+            "effects": {
+                "{35be99a8}": 1800.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/WoodlandCharm3.TFT_Set6.dds",
+            "id": 747,
+            "name": "Woodland Charm",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_CelestialBlessing2",
+            "desc": "Your units heal for @Omnivamp@% of the damage dealt by attacks and Abilities. Excess healing is converted to a shield up to @MaxShield@ Health.",
+            "effects": {
+                "MaxShield": 350.0,
+                "{ad16f688}": 20.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/CelestialBlessing2.TFT_Set6.dds",
+            "id": 624,
+            "name": "Celestial Blessing II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_Featherweights3",
+            "desc": "Your Tier 1 and 2 champions gain @AttackSpeed@% Attack Speed and Move Speed.",
+            "effects": {
+                "AttackSpeed": 60.0,
+                "MoveSpeed": 700.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Featherweights3.TFT_Set6.dds",
+            "id": 663,
+            "name": "Featherweights III",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_CelestialBlessing3",
+            "desc": "Your units heal for @Omnivamp@% of the damage dealt by attacks and Abilities. Excess healing is converted to a shield up to @MaxShield@ Health.",
+            "effects": {
+                "MaxShield": 450.0,
+                "{ad16f688}": 35.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/CelestialBlessing3.TFT_Set6.dds",
+            "id": 625,
+            "name": "Celestial Blessing III",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_Featherweights2",
+            "desc": "Your Tier 1 and 2 champions gain @AttackSpeed@% Attack Speed and Move Speed.",
+            "effects": {
+                "AttackSpeed": 35.0,
+                "MoveSpeed": 550.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Featherweights2.TFT_Set6.dds",
+            "id": 662,
+            "name": "Featherweights II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_Featherweights1",
+            "desc": "Your Tier 1 and 2 champions gain @AttackSpeed@% Attack Speed and Move Speed.",
+            "effects": {
+                "AttackSpeed": 25.0,
+                "MoveSpeed": 350.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Featherweights1.TFT_Set6.dds",
+            "id": 846,
+            "name": "Featherweights I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_Meditation3",
+            "desc": "Your units without items equipped restore @ManaRegen@ Mana per second.",
+            "effects": {
+                "{d8f646f3}": 8.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Meditation-III-A.TFT_Set6_Stage2.dds",
+            "id": 782,
+            "name": "Meditation III",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_CelestialBlessing1",
+            "desc": "Your units heal for @Omnivamp@% of the damage dealt by attacks and Abilities. Excess healing is converted to a shield up to @MaxShield@ Health.",
+            "effects": {
+                "MaxShield": 250.0,
+                "{ad16f688}": 12.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/CelestialBlessing1.TFT_Set6.dds",
+            "id": 623,
+            "name": "Celestial Blessing I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_Meditation2",
+            "desc": "Your units without items equipped restore @ManaRegen@ Mana per second.",
+            "effects": {
+                "{d8f646f3}": 6.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Meditation-II-A.TFT_Set6_Stage2.dds",
+            "id": 781,
+            "name": "Meditation II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_Meditation1",
+            "desc": "Your units without items equipped restore @ManaRegen@ Mana per second.",
+            "effects": {
+                "{d8f646f3}": 4.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Meditation-I-A.TFT_Set6_Stage2.dds",
+            "id": 820,
+            "name": "Meditation I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_HighEndShopping",
+            "desc": "Champions appear in your Shop as if you were 1 level higher. Gain @Gold@ gold.",
+            "effects": {
+                "Gold": 10.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/HighEnd3.TFT_Set6.dds",
+            "id": 672,
+            "name": "High End Shopping",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_ComponentGrabBag",
+            "desc": "Gain @NumComponents@ random item components.",
+            "effects": {
+                "{5cc08b27}": 3.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/ComponentGrabBag-II.TFT_Set6_Stage2.dds",
+            "id": 682,
+            "name": "Component Grab Bag",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_Traitless1",
+            "desc": "Your units with no Traits active gain @HP1@-@HP4@ Health and @AS1@-@AS4@% Attack Speed (based on current Stage).",
+            "effects": {
+                "{30991583}": 350.0,
+                "{33991a3c}": 200.0,
+                "{35991d62}": 300.0,
+                "{36991ef5}": 250.0,
+                "{ed72833b}": 75.0,
+                "{f07287f4}": 30.0,
+                "{f2728b1a}": 60.0,
+                "{f3728cad}": 45.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/BuiltDifferent1.TFT_Set6.dds",
+            "id": 833,
+            "name": "Built Different I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_FuturePeepers",
+            "desc": "Know who you will fight next. Gain a Zephyr.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Future-Sight-I.TFT_Set6_Stage2.dds",
+            "id": 854,
+            "name": "Future Sight I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_Traitless2",
+            "desc": "Your units with no Traits active gain @HP1@-@HP4@ Health and @AS1@-@AS4@% Attack Speed (based on current Stage).",
+            "effects": {
+                "{30991583}": 475.0,
+                "{33991a3c}": 250.0,
+                "{35991d62}": 400.0,
+                "{36991ef5}": 325.0,
+                "{ed72833b}": 85.0,
+                "{f07287f4}": 40.0,
+                "{f2728b1a}": 70.0,
+                "{f3728cad}": 55.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/BuiltDifferent2.TFT_Set6.dds",
+            "id": 740,
+            "name": "Built Different II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_CannoneerRicochet",
+            "desc": "Cannoneer's cannon shots bounce once, dealing @BounceReduction@% less damage. Gain an Aphelios.",
+            "effects": {
+                "{4d2cb08a}": 40.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Ricochet-II.TFT_Set7.dds",
+            "id": 2422,
+            "name": "Ricochet",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_Traitless3",
+            "desc": "Your units with no Traits active gain @HP1@-@HP4@ Health and @AS1@-@AS4@% Attack Speed (based on current Stage).",
+            "effects": {
+                "{30991583}": 600.0,
+                "{33991a3c}": 300.0,
+                "{35991d62}": 500.0,
+                "{36991ef5}": 400.0,
+                "{ed72833b}": 95.0,
+                "{f07287f4}": 50.0,
+                "{f2728b1a}": 80.0,
+                "{f3728cad}": 65.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/BuiltDifferent3.TFT_Set6.dds",
+            "id": 741,
+            "name": "Built Different III",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_ThreesCompany",
+            "desc": "Gain @NumChamps@ random Tier 3 champions.",
+            "effects": {
+                "{78bc82ef}": 3.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Threes-Company-II.TFT_Set6_Stage2.dds",
+            "id": 867,
+            "name": "Three's Company",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_ThriftShop",
+            "desc": "When you refresh your Shop, gain @XP@ experience point(s).",
+            "effects": {
+                "{516374d5}": 2.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/WiseSpending3.TFT_Set6.dds",
+            "id": 732,
+            "name": "Wise Spending",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_HyperRoll",
+            "desc": "If you have less than @ThresholdGold@ gold at the end of a round, gain @Gold@ gold.",
+            "effects": {
+                "Gold": 2.0,
+                "{d358c94e}": 20.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Hyperroll2.TFT_Set6.dds",
+            "id": 673,
+            "name": "Hustler",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_LudensEcho1",
+            "desc": "When your units cast and deal Ability damage, the first target hit and a nearby enemy take @MagicDamage1@-@MagicDamage4@ (based on current Stage) magic damage.",
+            "effects": {
+                "{26a9a9b1}": 1.0,
+                "{542714db}": 130.0,
+                "{57271994}": 40.0,
+                "{59271cba}": 100.0,
+                "{5a271e4d}": 70.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Ludens-Echo-I.TFT_Set6_Stage2.dds",
+            "id": 792,
+            "name": "Luden's Echo I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_LudensEcho3",
+            "desc": "When your units cast and deal Ability damage, the first target hit and a nearby enemy take @MagicDamage1@-@MagicDamage4@ (based on current Stage) magic damage.",
+            "effects": {
+                "{26a9a9b1}": 1.0,
+                "{542714db}": 240.0,
+                "{57271994}": 90.0,
+                "{59271cba}": 190.0,
+                "{5a271e4d}": 140.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Ludens-Echo-III.TFT_Set6_Stage2.dds",
+            "id": 794,
+            "name": "Luden's Echo III",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_LudensEcho2",
+            "desc": "When your units cast and deal Ability damage, the first target hit and a nearby enemy take @MagicDamage1@-@MagicDamage4@ (based on current Stage) magic damage.",
+            "effects": {
+                "{26a9a9b1}": 1.0,
+                "{542714db}": 160.0,
+                "{57271994}": 55.0,
+                "{59271cba}": 125.0,
+                "{5a271e4d}": 90.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Ludens-Echo-II.TFT_Set6_Stage2.dds",
+            "id": 793,
+            "name": "Luden's Echo II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_TheGoldenEggHR",
+            "desc": "Gain a massive golden egg that hatches in @EggTurns@ turns. Victorious player combats accelerate the hatch timer by an additional turn.",
+            "effects": {
+                "{a13cb3fa}": 6.0,
+                "{ecb4463d}": "null"
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/The-Golden-Egg-III.TFT_Set6_Stage2.dds",
+            "id": 2468,
+            "name": "The Golden Egg",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_BinaryAirdrop",
+            "desc": "Your champions equipped with 2 items temporarily gain a random completed item at the start of combat. Gain @ItemComponents@ random item components.",
+            "effects": {
+                "{e345adb2}": 2.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/BinaryAirdrop3.TFT_Set6.dds",
+            "id": 617,
+            "name": "Binary Airdrop",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_AssassinTrait2",
+            "desc": "Your team counts as having 2 additional Assassins.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/AssassinSoul3.TFT_Set6.dds",
+            "id": 615,
+            "name": "Assassin Soul",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_GrandGambler",
+            "desc": "Gain @NumDice@ Loaded Dice and @Gold@ gold.",
+            "effects": {
+                "Gold": 8.0,
+                "{1b64eb90}": 3.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/GrandGambler3.TFT_Set6.dds",
+            "id": 667,
+            "name": "High Roller",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_TomeOfTraits1",
+            "desc": "Gain @NumTomes@ Tome of Traits.",
+            "effects": {
+                "{e3d58c55}": 1.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/AncientArchives2.TFT_Set6.dds",
+            "id": 737,
+            "name": "Ancient Archives I",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_JeweledLotus",
+            "desc": "Magic and true damage from your units' Abilities can critically strike. Your units gain @CritChance@% Critical Strike Chance.",
+            "effects": {
+                "CritChance": 25.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Jeweled-Lotus-II.TFT_Set6_Stage2.dds",
+            "id": 771,
+            "name": "Jeweled Lotus",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_AssassinEmblem2",
+            "desc": "Gain an Assassin Emblem, a Hand of Justice, and a Rengar.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/AssassinEmblem3.TFT_Set6.dds",
+            "id": 612,
+            "name": "Assassin Crown",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_MetabolicAccelerator",
+            "desc": "Your Tactician moves faster and heals @Heal@ Health after a PvP round.",
+            "effects": {
+                "Heal": 2.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/MetabolicAccel2.TFT_Set6.dds",
+            "id": 696,
+            "name": "Metabolic Accelerator",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_Disintegrator1",
+            "desc": "Your units' attacks deal bonus magic damage equal to @MaxHPDamage@% of the target's maximum Health.",
+            "effects": {
+                "MaxHPDamage": 1.5
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Disintegrator-I.TFT_Set6_Stage2.dds",
+            "id": 807,
+            "name": "Disintegrator I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_Disintegrator2",
+            "desc": "Your units' attacks deal bonus magic damage equal to @MaxHPDamage@% of the target's maximum Health.",
+            "effects": {
+                "MaxHPDamage": 2.5
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Disintegrator-II.TFT_Set6_Stage2.dds",
+            "id": 808,
+            "name": "Disintegrator II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_Disintegrator3",
+            "desc": "Your units' attacks deal bonus magic damage equal to @MaxHPDamage@% of the target's maximum Health.",
+            "effects": {
+                "MaxHPDamage": 4.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Disintegrator-III.TFT_Set6_Stage2.dds",
+            "id": 809,
+            "name": "Disintegrator III",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_Archangel1",
+            "desc": "Upon casting their Ability, your units gain Ability Power equal to @ManaPercent@% of their maximum Mana.",
+            "effects": {
+                "{009085db}": 15.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Archangel-I.TFT_Set6_Stage2.dds",
+            "id": 789,
+            "name": "Archangel's Embrace I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_Archangel2",
+            "desc": "Upon casting their Ability, your units gain Ability Power equal to @ManaPercent@% of their maximum Mana.",
+            "effects": {
+                "{009085db}": 25.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Archangel-II.TFT_Set6_Stage2.dds",
+            "id": 790,
+            "name": "Archangel's Embrace",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_Archangel3",
+            "desc": "Upon casting their Ability, your units gain Ability Power equal to @ManaPercent@% of their maximum Mana.",
+            "effects": {
+                "{009085db}": 35.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Archangel-III.TFT_Set6_Stage2.dds",
+            "id": 791,
+            "name": "Archangel's Embrace III",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_GoldenGifts1",
+            "desc": "Gain @NumGoldOrbs@ golden and @NumGrayOrbs@ gray loot orb(s).",
+            "effects": {
+                "{25083082}": 3.0,
+                "{d6f612f7}": 1.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Golden-Gifts-II.TFT_Set6_Stage2.dds",
+            "id": 839,
+            "name": "Golden Gifts I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_TheGoldenEgg",
+            "desc": "Gain a massive golden egg that hatches in @EggTurns@ turns. Victorious player combats accelerate the hatch timer by an additional turn.",
+            "effects": {
+                "{a13cb3fa}": 10.0,
+                "{ecb4463d}": "null"
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/The-Golden-Egg-III.TFT_Set6_Stage2.dds",
+            "id": 866,
+            "name": "The Golden Egg",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_GoldenGifts2",
+            "desc": "Gain @NumGoldOrbs@ golden and @NumGrayOrbs@ gray loot orb(s).",
+            "effects": {
+                "{25083082}": 4.0,
+                "{d6f612f7}": 2.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Golden-Gifts-III.TFT_Set6_Stage2.dds",
+            "id": 827,
+            "name": "Golden Gifts II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_Weakspot",
+            "desc": "Your units' attacks ignore @ArmorPenPercent@% of the target's Armor and reduce healing received by @HealReductionPercent@% for @Duration@ seconds.",
+            "effects": {
+                "Duration": 3.0,
+                "{0cb95e9d}": 50.0,
+                "{2aee64b4}": 10.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Weakspot1.TFT_Set6.dds",
+            "id": 745,
+            "name": "Weakspot",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_MeleeStarBlade1",
+            "desc": "Your units that start combat in the front 2 rows gain @ADPerStarLevel@ Attack Damage.",
+            "effects": {
+                "{d9291863}": 15.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/CQCTraining1.TFT_Set6.dds",
+            "id": 688,
+            "name": "Knife's Edge I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_MeleeStarBlade3",
+            "desc": "Your units that start combat in the front 2 rows gain @ADPerStarLevel@ Attack Damage.",
+            "effects": {
+                "{d9291863}": 40.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/CQCTraining3.TFT_Set6.dds",
+            "id": 690,
+            "name": "Knife's Edge III",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_MeleeStarBlade2",
+            "desc": "Your units that start combat in the front 2 rows gain @ADPerStarLevel@ Attack Damage.",
+            "effects": {
+                "{d9291863}": 25.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/CQCTraining2.TFT_Set6.dds",
+            "id": 689,
+            "name": "Knife's Edge II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_SunfireBoard",
+            "desc": "At the start of combat, burn all enemies for @TotalBurnPercent@% of their maximum Health over @Duration@ seconds and reduce healing received by @GrievousWoundsPercent@%.",
+            "effects": {
+                "Duration": 20.0,
+                "{2161bfa2}": 50.0,
+                "{4f70b3d1}": 10.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/SunfireBoard2.TFT_Set6.dds",
+            "id": 725,
+            "name": "Sunfire Board",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_TriForce3",
+            "desc": "Your Tier 3 champions gain @Health@ Health, @Mana@ starting Mana, and @AttackSpeed@% Attack Speed.",
+            "effects": {
+                "AttackSpeed": 33.0,
+                "Health": 333.0,
+                "Mana": 33.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Tri-Force-III.TFT_Set6_Stage2.dds",
+            "id": 661,
+            "name": "Tri Force III",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_AssassinCutthroat",
+            "desc": "Assassins Mana Reave the first unit they attack, increasing their maximum Mana by @ManaReavePercent@% until they cast. Gain a Talon.",
+            "effects": {
+                "{ffea5c28}": 50.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Cutthroat1.TFT_Set6.dds",
+            "id": 861,
+            "name": "Cutthroat",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_TriForce2",
+            "desc": "Your Tier 3 champions gain @Health@ Health, @Mana@ starting Mana, and @AttackSpeed@% Attack Speed.",
+            "effects": {
+                "AttackSpeed": 23.0,
+                "Health": 233.0,
+                "Mana": 23.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Tri-Force-II.TFT_Set6_Stage2.dds",
+            "id": 851,
+            "name": "Tri Force II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_TriForce1",
+            "desc": "Your Tier 3 champions gain @Health@ Health, @Mana@ starting Mana, and @AttackSpeed@% Attack Speed.",
+            "effects": {
+                "AttackSpeed": 13.0,
+                "Health": 133.0,
+                "Mana": 13.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Tri-Force-I.TFT_Set6_Stage2.dds",
+            "id": 863,
+            "name": "Tri Force I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_Backfoot1",
+            "desc": "Your units that start combat in the back 2 rows gain @AS*100@% Attack Speed.",
+            "effects": {
+                "AS": 0.20000000298023224
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Backfoot-I-B.TFT_Set6_Stage2.dds",
+            "id": 749,
+            "name": "Backfoot I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_Backfoot2",
+            "desc": "Your units that start combat in the back 2 rows gain @AS*100@% Attack Speed.",
+            "effects": {
+                "AS": 0.30000001192092896
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Backfoot-II-B.TFT_Set6_Stage2.dds",
+            "id": 750,
+            "name": "Backfoot II",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_RichGetRicher",
+            "desc": "Gain @Gold@ gold. Your maximum interest is increased to @InterestCap@.",
+            "effects": {
+                "Gold": 10.0,
+                "{9e368069}": 7.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/RichGetRicher2.TFT_Set6.dds",
+            "id": 704,
+            "name": "Rich Get Richer",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_Backfoot3",
+            "desc": "Your units that start combat in the back 2 rows gain @AS*100@% Attack Speed.",
+            "effects": {
+                "AS": 0.44999998807907104
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Backfoot-III-B.TFT_Set6_Stage2.dds",
+            "id": 751,
+            "name": "Backfoot III",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_RadiantRelics",
+            "desc": "Open an Armory and choose 1 of @ArmoryChoiceCount@ unique Radiant items.",
+            "effects": {
+                "{b300068b}": 5.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/RadiantRelic-III.TFT_Set6_Stage2.dds",
+            "id": 755,
+            "name": "Radiant Relics",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_BruteEmblem",
+            "desc": "Gain a Bruiser Emblem and a Sejuani.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/BruiserEmblem2.TFT_Set6.dds",
+            "id": 619,
+            "name": "Bruiser Crest",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_BlueBattery1",
+            "desc": "Your units gain @BonusAP@ Ability Power. After casting their Ability, set the caster's Mana to @ManaRestore@.",
+            "effects": {
+                "ManaRestore": 10.0,
+                "{d49caf5d}": 10.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Blue-Battery-I.TFT_Set6_Stage2.dds",
+            "id": 756,
+            "name": "Blue Battery I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_BlueBattery2",
+            "desc": "Your units gain @BonusAP@ Ability Power. After casting their Ability, set the caster's Mana to @ManaRestore@.",
+            "effects": {
+                "ManaRestore": 20.0,
+                "{d49caf5d}": 20.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Blue-Battery-III.TFT_Set6_Stage2.dds",
+            "id": 758,
+            "name": "Blue Battery II",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_PortableForge",
+            "desc": "Open an Armory and choose 1 of @ArmoryChoiceCount@ unique Artifacts crafted by Ornn.",
+            "effects": {
+                "{b300068b}": 3.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/PortableForge2.TFT_Set6.dds",
+            "id": 699,
+            "name": "Portable Forge",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_AssassinEmblem",
+            "desc": "Gain an Assassin Emblem and a Talon.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/AssassinEmblem2.TFT_Set6.dds",
+            "id": 838,
+            "name": "Assassin Crest",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_CalculatedLoss",
+            "desc": "After losing your combat, gain @Gold@ gold and a free Shop refresh.",
+            "effects": {
+                "Gold": 2.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/CalculatedLoss2.TFT_Set6.dds",
+            "id": 622,
+            "name": "Calculated Loss",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_ComponentGrabBagPlus",
+            "desc": "Gain @NumComponents@ random item components.",
+            "effects": {
+                "{5cc08b27}": 3.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/ComponentGrabBag-II.TFT_Set6_Stage2.dds",
+            "id": 2470,
+            "name": "Component Grab Bag+",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_BruteEmblem2",
+            "desc": "Gain 2 Bruiser Emblems.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/BruiserEmblem3.TFT_Set6.dds",
+            "id": 842,
+            "name": "Bruiser Crown",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_BruteTrait2",
+            "desc": "Your team counts as having 2 additional Bruisers.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/BruiserSoul3.TFT_Set6.dds",
+            "id": 621,
+            "name": "Bruiser Soul",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_FirstAidKit",
+            "desc": "All healing and shielding on your units is increased by @HealShieldIncrease*100@%.",
+            "effects": {
+                "{0b39c7c2}": 0.25
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/FirstAidKit1.TFT_Set6.dds",
+            "id": 664,
+            "name": "First Aid Kit I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_Electrocharge1",
+            "desc": "When your units receive critical strikes, they deal @Damage1@-@Damage4@ (based on current Stage) magic damage  to nearby enemies (@ICD@ second cooldown).",
+            "effects": {
+                "ICD": 1.0,
+                "{fb4355e3}": 50.0,
+                "{fc435776}": 70.0,
+                "{fd435909}": 90.0,
+                "{fe435a9c}": 110.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Electrocharge-I.TFT_Set6_Stage2.dds",
+            "id": 762,
+            "name": "Electrocharge I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_Electrocharge3",
+            "desc": "When your units receive critical strikes, they deal @Damage1@-@Damage4@ (based on current Stage) magic damage  to nearby enemies (@ICD@ second cooldown).",
+            "effects": {
+                "ICD": 1.0,
+                "{fb4355e3}": 115.0,
+                "{fc435776}": 155.0,
+                "{fd435909}": 195.0,
+                "{fe435a9c}": 235.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Electrocharge-III.TFT_Set6_Stage2.dds",
+            "id": 764,
+            "name": "Electrocharge III",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_Electrocharge2",
+            "desc": "When your units receive critical strikes, they deal @Damage1@-@Damage4@ (based on current Stage) magic damage  to nearby enemies (@ICD@ second cooldown).",
+            "effects": {
+                "ICD": 1.0,
+                "{fb4355e3}": 85.0,
+                "{fc435776}": 105.0,
+                "{fd435909}": 125.0,
+                "{fe435a9c}": 145.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Electrocharge-II.TFT_Set6_Stage2.dds",
+            "id": 763,
+            "name": "Electrocharge II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_Twins2",
+            "desc": "If you have exactly 2 copies of a champion on your board, they both gain @BonusStats@ Attack Damage, Ability Power, Armor, and Magic Resist. When you 3-star, gain a 2-star copy.",
+            "effects": {
+                "{83e12d6f}": 33.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Double-Trouble-II.TFT_Set6_Stage2.dds",
+            "id": 869,
+            "name": "Double Trouble II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_Twins3",
+            "desc": "If you have exactly 2 copies of a champion on your board, they both gain @BonusStats@ Attack Damage, Ability Power, Armor, and Magic Resist. When you 3-star, gain a 2-star copy.",
+            "effects": {
+                "{83e12d6f}": 44.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Double-Trouble-III.TFT_Set6_Stage2.dds",
+            "id": 870,
+            "name": "Double Trouble III",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_Phalanx2",
+            "desc": "Your units that start combat in the back 2 rows gain @Resists@ Armor and Magic Resist.",
+            "effects": {
+                "Resists": 35.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Phalanx-II.TFT_Set6_Stage2.dds",
+            "id": 780,
+            "name": "Phalanx II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_Phalanx1",
+            "desc": "Your units that start combat in the back 2 rows gain @Resists@ Armor and Magic Resist.",
+            "effects": {
+                "Resists": 25.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Phalanx-I.TFT_Set6_Stage2.dds",
+            "id": 779,
+            "name": "Phalanx I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_CyberneticImplants3",
+            "desc": "Your champions holding an item gain @HP@ Health and @AD@ Attack Damage.",
+            "effects": {
+                "AD": 25.0,
+                "{513ad265}": 250.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Cybernetic3.TFT_Set6.dds",
+            "id": 645,
+            "name": "Cybernetic Implants III",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_Twins1",
+            "desc": "If you have exactly 2 copies of a champion on your board, they both gain @BonusStats@ Attack Damage, Ability Power, Armor, and Magic Resist. When you 3-star, gain a 2-star copy.",
+            "effects": {
+                "{83e12d6f}": 22.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Double-Trouble-I.TFT_Set6_Stage2.dds",
+            "id": 739,
+            "name": "Double Trouble I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_CyberneticImplants2",
+            "desc": "Your champions holding an item gain @HP@ Health and @AD@ Attack Damage.",
+            "effects": {
+                "AD": 15.0,
+                "{513ad265}": 150.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Cybernetic2.TFT_Set6.dds",
+            "id": 644,
+            "name": "Cybernetic Implants II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_CyberneticImplants1",
+            "desc": "Your champions holding an item gain @HP@ Health and @AD@ Attack Damage.",
+            "effects": {
+                "AD": 8.0,
+                "{513ad265}": 100.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Cybernetic1.TFT_Set6.dds",
+            "id": 643,
+            "name": "Cybernetic Implants I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_Weakspot3",
+            "desc": "Your units' attacks ignore @ArmorPenPercent@% of the target's Armor and reduce healing received by @HealReductionPercent@% for @Duration@ seconds.",
+            "effects": {
+                "Duration": 5.0,
+                "{0cb95e9d}": 50.0,
+                "{2aee64b4}": 60.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Weakspot3.TFT_Set6.dds",
+            "id": 806,
+            "name": "Weakspot III",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_Weakspot2",
+            "desc": "Your units' attacks ignore @ArmorPenPercent@% of the target's Armor and reduce healing received by @HealReductionPercent@% for @Duration@ seconds.",
+            "effects": {
+                "Duration": 5.0,
+                "{0cb95e9d}": 50.0,
+                "{2aee64b4}": 40.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Weakspot2.TFT_Set6.dds",
+            "id": 805,
+            "name": "Weakspot II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_Dominance",
+            "desc": "After winning your player combat, gain @Gold@ bonus gold for every @PerSurvivingUnit@ surviving units.",
+            "effects": {
+                "Gold": 1.0,
+                "{2526f0eb}": 2.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Dominance1.TFT_Set6.dds",
+            "id": 652,
+            "name": "Dominance",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_Distancing",
+            "desc": "Your units that start combat with no adjacent allies gain a @MaxHealthShield@% maximum Health shield for @ShieldDuration@ seconds.",
+            "effects": {
+                "ShieldDuration": 10.0,
+                "{4e39b1d2}": 25.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Exiles1.TFT_Set6.dds",
+            "id": 646,
+            "name": "Exiles I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_BrawlerHPRegen1",
+            "desc": "Bruisers regenerate @RegenPerTick@% of their maximum Health each second. Gain a Sejuani.",
+            "effects": {
+                "{471b1a16}": 1.0,
+                "{7adc1220}": 2.5
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/ShrugOff1.TFT_Set6.dds",
+            "id": 618,
+            "name": "Shrug It Off",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_TradeSector",
+            "desc": "Gain a free Shop refresh each round.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Trade2.TFT_Set6.dds",
+            "id": 738,
+            "name": "Trade Sector",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_TradeSectorPlus",
+            "desc": "Gain a free Shop refresh every round. Gain @Gold@ gold now.",
+            "effects": {
+                "Gold": 8.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Trade2.TFT_Set6.dds",
+            "id": 2480,
+            "name": "Trade Sector+",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_SalvageBin",
+            "desc": "Gain a random completed item. Selling champions breaks apart their full items into components (excluding Tactician's Crown).",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Salvage2.TFT_Set6.dds",
+            "id": 705,
+            "name": "Salvage Bin",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_RichGetRicherPlus",
+            "desc": "Gain @Gold@ gold. Your maximum interest is increased to @InterestCap@.",
+            "effects": {
+                "Gold": 18.0,
+                "{9e368069}": 7.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/RichGetRicher2.TFT_Set6.dds",
+            "id": 2455,
+            "name": "Rich Get Richer+",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_BruteTrait",
+            "desc": "Your team counts as having 1 additional Bruiser. Gain a Sejuani.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/BruiserHeart1.TFT_Set6.dds",
+            "id": 620,
+            "name": "Bruiser Heart",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_FuturePeepers2",
+            "desc": "Know who you will fight next. Gain a Radiant Zephyr.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Future-Sight-III.TFT_Set6_Stage2.dds",
+            "id": 850,
+            "name": "Future Sight II",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_CyberneticShell3",
+            "desc": "Your champions holding an item gain @Health@ Health and @Resists@ Armor.",
+            "effects": {
+                "Health": 250.0,
+                "Resists": 40.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Cybernetic-Shell-III.TFT_Set6_Stage2.dds",
+            "id": 788,
+            "name": "Cybernetic Shell III",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT6_Augment_CyberneticShell2",
+            "desc": "Your champions holding an item gain @Health@ Health and @Resists@ Armor.",
+            "effects": {
+                "Health": 150.0,
+                "Resists": 30.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Cybernetic-Shell-II.TFT_Set6_Stage2.dds",
+            "id": 787,
+            "name": "Cybernetic Shell II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT6_Augment_CyberneticShell1",
+            "desc": "Your champions holding an item gain @Health@ Health and @Resists@ Armor.",
+            "effects": {
+                "Health": 100.0,
+                "Resists": 20.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Cybernetic-Shell-I.TFT_Set6_Stage2.dds",
+            "id": 786,
+            "name": "Cybernetic Shell I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT6_Augment_ClearMind",
+            "desc": "If you have no champions on your bench at the end of a round, gain @XP@ experience points.",
+            "effects": {
+                "{516374d5}": 3.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/ClearMind2.TFT_Set6.dds",
+            "id": 637,
+            "name": "Clear Mind",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_ShapeshifterTrait2",
+            "desc": "Your team counts as having 1 additional Shapeshifter. Gain a Sunfire Cape and an Gnar.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Shapeshifter-Soul-III.TFT_Set7.dds",
+            "id": 2378,
+            "name": "Shapeshifter Soul",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_WhispersEmblem",
+            "desc": "Gain a Whispers Emblem and a Zyra.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Whispers-Crest-II.TFT_Set7.dds",
+            "id": 2369,
+            "name": "Whispers Crest",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_Bloodlust1",
+            "desc": "Your champions permanently gain @AD@ Attack Damage every time they kill an enemy. Champions start with @StartingAD@ bonus Attack Damage.",
+            "effects": {
+                "AD": 1.0,
+                "{9c6a27a4}": 8.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Combat-Training-II.TFT_Set7.dds",
+            "id": 2395,
+            "name": "Combat Training",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_SwiftshotTrait",
+            "desc": "Your team counts has having 1 additional Swiftshot. Gain a Twitch.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Swiftshot-Heart-I.TFT_Set7.dds",
+            "id": 2350,
+            "name": "Swiftshot Heart",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_Bloodlust3",
+            "desc": "Your champions permanently gain @AD@ Attack Damage every time they kill an enemy. Champions start with @StartingAD@ bonus Attack Damage.",
+            "effects": {
+                "AD": 3.0,
+                "{9c6a27a4}": 6.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Combat-Training-III.TFT_Set7.dds",
+            "id": 2397,
+            "name": "Combat Training III",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_RagewingScorch",
+            "desc": "Every @DamageFrequency@th instance of Ragewing champion's damage deals @DamageIncrease@% more damage and is converted to true damage. Gain a Senna.",
+            "effects": {
+                "{92037b9e}": 5.0,
+                "{cf7f7148}": 20.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Scorch-II.TFT_Set7.dds",
+            "id": 2446,
+            "name": "Scorch",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_BruiserEmblem",
+            "desc": "Gain a Bruiser Emblem and a Jax.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/BruiserEmblem2.TFT_Set6.dds",
+            "id": 2345,
+            "name": "Bruiser Crest",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_Bloodlust2",
+            "desc": "Your champions permanently gain @AD@ Attack Damage every time they kill an enemy. Champions start with @StartingAD@ bonus Attack Damage.",
+            "effects": {
+                "AD": 2.0,
+                "{9c6a27a4}": 4.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Combat-Training-II.TFT_Set7.dds",
+            "id": 2396,
+            "name": "Combat Training II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_AstralTrait",
+            "desc": "Your team counts as having 1 additional Astral. Gain a Lux.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Astral-Heart-I.TFT_Set7.dds",
+            "id": 2332,
+            "name": "Astral Heart",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_GuardianHeroicPresence",
+            "desc": "Every @TauntInterval@ seconds, Guardians taunt all enemies within range. Enemies that attack a Guardian's shield take magic damage equal to @HealthPercent@% of the shielded unit's max Health (up to once per second). Gain a Braum.",
+            "effects": {
+                "HealthPercent": 7.0,
+                "{d0c5caca}": 2.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Heroic-Presence-II.TFT_Set7.dds",
+            "id": 2441,
+            "name": "Heroic Presence",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_ScalescornTrait",
+            "desc": "Your team counts as having 1 additional Scalescorn. Gain a Braum.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Dragonbane-Heart-I.TFT_Set7.dds",
+            "id": 2347,
+            "name": "Scalescorn Heart",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_TempestTrait",
+            "desc": "Your team counts as having 1 additional Tempest. Gain a Qiyana.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Tempest-Heart-I.TFT_Set7.dds",
+            "id": 2353,
+            "name": "Tempest Heart",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_BruiserTrait",
+            "desc": "Your team counts as having 1 additional Bruiser. Gain a Jax.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/BruiserHeart1.TFT_Set6.dds",
+            "id": 2344,
+            "name": "Bruiser Heart",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_BandOfThieves1",
+            "desc": "Gain @NumGloves@ Thief's Gloves.",
+            "effects": {
+                "{1c1b4e2d}": 1.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/BandThieves1.TFT_Set6.dds",
+            "id": 2437,
+            "name": "Band of Thieves I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_WarriorEmblem",
+            "desc": "Gain a Warrior Emblem and a Yone.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Warrior-Crest-II.TFT_Set7.dds",
+            "id": 2330,
+            "name": "Warrior Crest",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_AstralIntercosmicGifts",
+            "desc": "Astral Orbs have a @BonusLootPct@% chance to spawn a small bonus orb that contains loot. Gain a Lux.",
+            "effects": {
+                "{4ba38b68}": "null",
+                "{96f662f6}": "null",
+                "{acce2dfd}": 100.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Intercosmic-Treasure-II.TFT_Set7.dds",
+            "id": 2453,
+            "name": "Intercosmic Gifts",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_DragonmancerInspire",
+            "desc": "When the Dragonmancer Hero gets a takedown, champions that share a trait with the Dragonmancer Hero gain @AttackSpeed@% Attack Speed for @Duration@ seconds. Gain a Kaisa.",
+            "effects": {
+                "AttackSpeed": 70.0,
+                "Duration": 4.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Inspire-II.TFT_Set7.dds",
+            "id": 2451,
+            "name": "Inspire",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_ScalescornEmblem2",
+            "desc": "Gain a Scalescorn Emblem, a Hand of Justice, and a Diana.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Dragonbane-Crown-III.TFT_Set7.dds",
+            "id": 2349,
+            "name": "Scalescorn Crown",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_GuildTrait",
+            "desc": "Your team counts as having 1 additional Guild. Gain a Twitch.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Guild-Heart-I.TFT_Set7.dds",
+            "id": 2338,
+            "name": "Guild Heart",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_MageEssenceTheft",
+            "desc": "Mage's attacks drain @ManaDrainBurn@ Mana from their target and gain 4 Mana. Gain a Lux.",
+            "effects": {
+                "{0ebb5365}": 8.0,
+                "{1a14aa8a}": 4.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Essence-Theft-Mage-II.dds",
+            "id": 2501,
+            "name": "Essence Theft",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_BigFriend2",
+            "desc": "Your units that start combat next to a unit with over @RequiredHealth@ Health take @DamageReductionPercent@% less damage for the rest of combat.",
+            "effects": {
+                "{5064373e}": 18.0,
+                "{ddd2dfa6}": 1650.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Big-Friend-II.TFT_Set7.dds",
+            "id": 2465,
+            "name": "Big Friend II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_DragonmancerEmblem2",
+            "desc": "Gain a Dragonmancer Emblem, a Hand of Justice, and a Lee Sin.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Dragonmancer-Soul-III.TFT_Set7.dds",
+            "id": 2383,
+            "name": "Dragonmancer Crown",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_MysticTrait",
+            "desc": "Your team counts as having 1 additional Mystic. Gain a Rakan.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Mystic-Heart-I.TFT_Set7.dds",
+            "id": 2374,
+            "name": "Mystic Heart",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_LagoonTrait",
+            "desc": "Your team counts as having 1 additional Lagoon. Gain a Kai'Sa.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/LagoonHeart-1.dds",
+            "id": 2485,
+            "name": "Lagoon Heart",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_BestFriends2",
+            "desc": "Units isolated in pairs gain @AS*100@% Attack Speed and @Armor@ Armor at the start of combat.",
+            "effects": {
+                "AS": 0.15000000596046448,
+                "Armor": 25.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Best-Friends-II.TFT_Set7.dds",
+            "id": 2399,
+            "name": "Best Friends II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_BestFriends3",
+            "desc": "Units isolated in pairs gain @AS*100@% Attack Speed and @Armor@ Armor at the start of combat.",
+            "effects": {
+                "AS": 0.20000000298023224,
+                "Armor": 35.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Best-Friends-III.TFT_Set7.dds",
+            "id": 2400,
+            "name": "Best Friends III",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_BestFriends1",
+            "desc": "Units isolated in pairs gain @AS*100@% Attack Speed and @Armor@ Armor at the start of combat.",
+            "effects": {
+                "AS": 0.10000000149011612,
+                "Armor": 15.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Best-Friends-I.TFT_Set7.dds",
+            "id": 2398,
+            "name": "Best Friends I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_DarkflightEmblem2",
+            "desc": "Gain a Darkflight Emblem, a Protector's Vow, and a Rengar.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/DarkflightCrown-3.dds",
+            "id": 2482,
+            "name": "Darkflight Crown",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_BruiserPersonalTraining",
+            "desc": "At the end of combat, champions that started combat adjacent to Bruisers permanently gain @Health@ Health, increased by @BonusHealth@ if they survived. Gain a Olaf.",
+            "effects": {
+                "BonusHealth": 20.0,
+                "Health": 40.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Personal-Training-II.TFT_Set7.dds",
+            "id": 2404,
+            "name": "Personal Training",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_CavalierEmblem",
+            "desc": "Gain a Cavalier Emblem and a Sejuani.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Cavalier-Crest-II.TFT_Set7.dds",
+            "id": 2336,
+            "name": "Cavalier Crest",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_DragonmancerConference",
+            "desc": "Every @RoundRequirement@ rounds, a random Dragonmancer appears on your bench. Gain a Kai'Sa.",
+            "effects": {
+                "{7831c746}": 2.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/DragonmancerConference-1.dds",
+            "id": 2495,
+            "name": "Dragonmancer Conference",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_UrfsGrabBag2Plus",
+            "desc": "Gain @NumSpatulas@ Spatula and @NumComponents@ random item component(s).",
+            "effects": {
+                "{5cc08b27}": 3.0,
+                "{eb702324}": 1.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Urfs-Grab-Bag-III.TFT_Set7.dds",
+            "id": 2471,
+            "name": "Urf's Grab Bag II+",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_JadeEmblem",
+            "desc": "Gain a Jade Emblem and a Gnar.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Jade-Crest-I.TFT_Set7.dds",
+            "id": 2360,
+            "name": "Jade Crest",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_CannoneerTrait",
+            "desc": "Your team counts as having 1 additional Cannoneer. Gain an Aphelios.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Canoneer-Heart-I.TFT_Set7.dds",
+            "id": 2371,
+            "name": "Cannoneer Heart",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_AgeOfDragons",
+            "desc": "If your team has @NumDragons@+ Dragons, every @AttackNum@th attack from a Dragon fires a blast that deals magic damage equal to @HealthPct@% of the target's maximum Health. Gain a Nomsy, Zippy, and a Tier 4 Dragon.",
+            "effects": {
+                "{6266505a}": 30.0,
+                "{773fa97b}": 4.0,
+                "{875db1bd}": 3.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Age-Of-Dragons-III.dds",
+            "id": 2490,
+            "name": "Age of Dragons",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_CannoneerEmblem2",
+            "desc": "Gain a Cannoneer Emblem, a Giant Slayer, and a Zeri.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Canoneer-Crown-III.TFT_Set7.dds",
+            "id": 2373,
+            "name": "Cannoneer Crown",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_CursedCrown",
+            "desc": "Gain +@MaxArmySizeIncrease@ maximum team size, but take @PlayerCombatDamageIncrease@% increased player damage.",
+            "effects": {
+                "{74408181}": 100.0,
+                "{ec9a04d1}": 2.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/CursedCrown-III.TFT_Set7.dds",
+            "id": 2442,
+            "name": "Cursed Crown",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_GuildLoot",
+            "desc": "Gain a random component every @Combats@ player combats when you have at least Guild (@TraitLevelReq@) active. Gain a Twitch.",
+            "effects": {
+                "{9236d691}": 2.0,
+                "{cc06ab16}": 4.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Loot-Master-II.TFT_Set7.dds",
+            "id": 2419,
+            "name": "Loot Master",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_DragonImperialist",
+            "desc": "If you only have @DragonLimit@ Dragon, Dragons execute enemies they damage who are below @ExecutePct@% Health. Gain a Nomsy.",
+            "effects": {
+                "{02ec046f}": 18.0,
+                "{1f62dc0d}": 1.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Dragon-Brood-II.TFT_Set7.dds",
+            "id": 2489,
+            "name": "Dragon Imperialist",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_ThinkFast",
+            "desc": "Shop refreshes are free until the end of this round. Traits and other augments do not benefit from these free shops. Gain @Gold@ gold.",
+            "effects": {
+                "Gold": 8.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Think-Fast-III.TFT_Set7.dds",
+            "id": 2393,
+            "name": "Think Fast",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_MikaelsGift",
+            "desc": "Aura items that buff your team have their effects increased by @AuraIncreasePercent*100@%. Gain a Locket of the Iron Solari.",
+            "effects": {
+                "{6172c4df}": 0.33000001311302185
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Better-Together-II.TFT_Set7.dds",
+            "id": 2394,
+            "name": "Better Together",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_TempestEmblem",
+            "desc": "Gain a Tempest Emblem and a Qiyana.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Tempest-Crest-II.TFT_Set7.dds",
+            "id": 2354,
+            "name": "Tempest Crest",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_ShimmerscaleSpending",
+            "desc": "If you purchase a Shop Refresh during the Planning Phase, champions holding a Shimmerscale Item and all Shimmerscale champions gain @DamageAmp@% damage when the next combat begins. Gain a Jax.",
+            "effects": {
+                "DamageAmp": 35.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Reckless-Spending-II.TFT_Set7.dds",
+            "id": 2448,
+            "name": "Pay to Win",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_AxiomArc2",
+            "desc": "Your units gain @ManaGain@ Mana on kill.",
+            "effects": {
+                "{7e875f0d}": 40.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Axiom-Arc-II.TFT_Set7.dds",
+            "id": 2414,
+            "name": "Axiom Arc II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_AxiomArc1",
+            "desc": "Your units gain @ManaGain@ Mana on kill.",
+            "effects": {
+                "{7e875f0d}": 25.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Axiom-Arc-I.TFT_Set7.dds",
+            "id": 2409,
+            "name": "Axiom Arc I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_SwiftshotPressTheAttack",
+            "desc": "Your Swiftshots' attacks apply a stack on their target for @StackDuration@ seconds. Every third stack deals true damage equal to @PercentHPDamage@% of the target's maximum Health. Gain a Twitch.",
+            "effects": {
+                "PercentHPDamage": 4.0,
+                "{64f1bb9b}": 5.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Press-the-Attack-II.TFT_Set7.dds",
+            "id": 2401,
+            "name": "Press the Attack",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_MysticTrait2",
+            "desc": "Your team counts as having 1 additional Mystic. Gain a Chalice of Power and a Rakan.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Mystic-Soul-III.TFT_Set7.dds",
+            "id": 2376,
+            "name": "Mystic Soul",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_DragonTrait",
+            "desc": "Your team counts as having 1 additional Dragon. Gain a Nomsy.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Dragon-Heart-II.dds",
+            "id": 2487,
+            "name": "Dragon Heart",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_MageEmblem",
+            "desc": "Gain a Mage Emblem and a Vladimir.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Mage-Crest-II.TFT_Set7.dds",
+            "id": 2380,
+            "name": "Mage Crest",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_MirageHallucinate",
+            "desc": "Mirage champions take @DamageReduction@% less damage for the first @DamageReductionDuration@ seconds of combat. Gain a Yone.",
+            "effects": {
+                "DamageReduction": 90.0,
+                "{db52bb01}": 6.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Hallucinate-II.TFT_Set7.dds",
+            "id": 2434,
+            "name": "Hallucinate",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_ClutteredMind",
+            "desc": "Gain @UnitCount@ Tier 1 Champions. If your bench is full at the end of a round, gain @XP@ experience points.",
+            "effects": {
+                "{04d7bbbe}": 3.0,
+                "{516374d5}": 3.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Dizzy-II.TFT_Set7.dds",
+            "id": 2413,
+            "name": "Cluttered Mind",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_RagewingTrait",
+            "desc": "Your team counts as having 1 additional Ragewing. Gain a Rakan.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Ragewing-Heart-I.TFT_Set7.dds",
+            "id": 2362,
+            "name": "Ragewing Heart",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_Consistency",
+            "desc": "Gain double win and loss streak gold.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Consistency-I.dds",
+            "id": 2497,
+            "name": "Consistency",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_DarkflightSoulSiphon",
+            "desc": "Darkflight champions benefit from the first-listed trait of a sacrificed champion. This does not increase the trait count for that trait. Gain an Aphelios.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/SoulSiphon-1.dds",
+            "id": 2500,
+            "name": "Soul Siphon",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_LuckyGloves",
+            "desc": "Thief's Gloves will always give your champions ideal items. Gain a Thief's Gloves.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Lucky-Gloves-III.dds",
+            "id": 2494,
+            "name": "Lucky Gloves",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_WarriorTrait",
+            "desc": "Your team counts as having 1 additional Warrior. Gain a Yone.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Warrior-Heart-I.TFT_Set7.dds",
+            "id": 2329,
+            "name": "Warrior Heart",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_GuardianTrait",
+            "desc": "Your team counts as having 1 additional Guardian. Gain a Zac.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Guardian-Heart-I.TFT_Set7.dds",
+            "id": 2387,
+            "name": "Guardian Heart",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_ShimmerscaleEmblem",
+            "desc": "Gain a Shimmerscale Emblem and a Jax.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Shimmerscale-Crest-I.TFT_Set7.dds",
+            "id": 2366,
+            "name": "Shimmerscale Crest",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_MirageEmblem2",
+            "desc": "Gain a Mirage Emblem, a Hand of Justice, and a Nunu.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Mirage-Crown-III.TFT_Set7.dds",
+            "id": 2343,
+            "name": "Mirage Crown",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_DarkflightTrait",
+            "desc": "Your team counts as having 1 additional Darkflight. Gain an Aphelios.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/DarkflightHeart-1.dds",
+            "id": 2486,
+            "name": "Darkflight Heart",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_RevelEmblem2",
+            "desc": "Gain a Revel Emblem and a Jinx.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Revel-Crown-III.TFT_Set7.dds",
+            "id": 2386,
+            "name": "Revel Crown",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_DragonmancerConferenceHR",
+            "desc": "Every round, a random Dragonmancer appears on your bench. Gain a Kai'Sa.",
+            "effects": {
+                "{7831c746}": 1.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/DragonmancerConference-1.dds",
+            "id": 2496,
+            "name": "Dragonmancer Conference",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_WhispersEmblem2",
+            "desc": "Gain a Whispers Emblem, a Titan's Resolve, and a Sylas.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Whispers-Crown-III.TFT_Set7.dds",
+            "id": 2370,
+            "name": "Whispers Crown",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_LivingForgeHR",
+            "desc": "Gain a random Ornn artifact now and after every @NumberOfCombats@ player combats.",
+            "effects": {
+                "{ec71edd2}": 4.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Living-Forge-III.TFT_Set7.dds",
+            "id": 2477,
+            "name": "Living Forge",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_Preparation2HR",
+            "desc": "Champions on your bench permanently gain @HPBonus@ Health, @Stats@ Attack Damage, and @Stats@ Ability Power every round. Stacks up to @MaxStacks@ times.",
+            "effects": {
+                "MaxStacks": 3.0,
+                "{6a311cec}": 9.0,
+                "{9c718664}": 60.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Preparation-II.TFT_Set7.dds",
+            "id": 2474,
+            "name": "Preparation II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_AssassinEmblem2",
+            "desc": "Gain an Assassin Emblem, a Hand of Justice, and a Rengar.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/AssassinSoul3.TFT_Set6.dds",
+            "id": 2327,
+            "name": "Assassin Crown",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_JadeTrait2",
+            "desc": "Your team counts as having 1 additional Jade. Gain a Titan's Resolve and a Gnar.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Jade-Crown-III.TFT_Set7.dds",
+            "id": 2361,
+            "name": "Jade Soul",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_DragonAlliance",
+            "desc": "The Dragon trait remains active regardless of how many Dragons you have. Dragons gain @Resists@ Armor and Magic Resist. Gain a Tier 4 Dragon.",
+            "effects": {
+                "Resists": 25.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Dragon-Brood-II.TFT_Set7.dds",
+            "id": 2403,
+            "name": "Dragon Alliance",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_EvokerEmblem2",
+            "desc": "Gain an Evoker Emblem, a Spear of Shojin, and a Seraphine.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Evoker-Crown-III.TFT_Set7.dds",
+            "id": 2358,
+            "name": "Evoker Crown",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_UrfsGrabBag1",
+            "desc": "Gain @NumSpatulas@ Spatula and @NumComponents@ random item component(s).",
+            "effects": {
+                "{5cc08b27}": 1.0,
+                "{eb702324}": 1.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Urfs-Grab-Bag-II.TFT_Set7.dds",
+            "id": 2417,
+            "name": "Urf's Grab Bag I",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_ScalescornBaseCamp",
+            "desc": "Scalescorns gain @DamageAmp@% damage each time they start combat in the same hex, stacking up to @MaxStacks@ times. Gain a Lillia.",
+            "effects": {
+                "DamageAmp": 7.0,
+                "MaxStacks": 4.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Nomads-II.TFT_Set7.dds",
+            "id": 2503,
+            "name": "Base Camp",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_UrfsGrabBag2",
+            "desc": "Gain @NumSpatulas@ Spatula and @NumComponents@ random item component(s).",
+            "effects": {
+                "{5cc08b27}": 3.0,
+                "{eb702324}": 1.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Urfs-Grab-Bag-III.TFT_Set7.dds",
+            "id": 2418,
+            "name": "Urf's Grab Bag II",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_MageConferenceHR",
+            "desc": "After combat with a player, one or two random Mages portal onto your bench. Gain a Taliyah.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Mage-Conference-II.TFT_Set7.dds",
+            "id": 2472,
+            "name": "Mage Conference",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_ShapeshifterTrait",
+            "desc": "Your team counts as having 1 additional Shapeshifter. Gain a Gnar.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Shapeshifter-Heart-I.TFT_Set7.dds",
+            "id": 2377,
+            "name": "Shapeshifter Heart",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_ScalescornNomads",
+            "desc": "Scalescorns gain @DamageAmp@% damage each time they start combat in the same hex, stacking up to @MaxStacks@ times. Gain a Lillia.",
+            "effects": {
+                "DamageAmp": 8.0,
+                "MaxStacks": 4.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Nomads-II.TFT_Set7.dds",
+            "id": 2421,
+            "name": "Base Camp",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_ShimmerscaleTrait2",
+            "desc": "Your team counts as having 1 additional Shimmerscale. Gain a Titan's Resolve and a Volibear.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Shimmerscale-Crown-III.TFT_Set7.dds",
+            "id": 2367,
+            "name": "Shimmerscale Soul",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_MirageEmblem",
+            "desc": "Gain a Mirage Emblem and a Nunu.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Mirage-Crest-II.TFT_Set7.dds",
+            "id": 2342,
+            "name": "Mirage Crest",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_AssassinCutthroat",
+            "desc": "Assassins Mana-Reave the first unit they attack, increasing their maximum Mana by @ManaReavePercent@% until they cast. Assassins deal @DamageAmp@% more damage against Mana-Reaved enemies. Gain a Qiyana.",
+            "effects": {
+                "DamageAmp": 20.0,
+                "{ffea5c28}": 65.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Cutthroat2.TFT_Set6.dds",
+            "id": 2456,
+            "name": "Cutthroat",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_LategameSpecialist",
+            "desc": "When you reach Level @LevelReq@, gain @Gold@ gold.",
+            "effects": {
+                "Gold": 45.0,
+                "{ae55da3b}": 9.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Late-Game-Specialist-I.TFT_Set7.dds",
+            "id": 2438,
+            "name": "Lategame Specialist",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_AstralTrait2",
+            "desc": "Your team counts as having 1 additional Astral. Gain a Redemption and a Varus.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Astral-Crown-III.TFT_Set7.dds",
+            "id": 2334,
+            "name": "Astral Soul",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_BirthdayPresents",
+            "desc": "Gain a 2-star champion and @Gold@ gold every time you level up. The champion's tier is your level minus 4 (min: Tier 1).",
+            "effects": {
+                "Gold": 1.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Golden-Gifts-III.TFT_Set6_Stage2.dds",
+            "id": 2506,
+            "name": "Birthday Present",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_GuildEmblem2",
+            "desc": "Gain a Guild Emblem, a Protector's Vow, and a Twitch.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Guild-Crown-III.TFT_Set7.dds",
+            "id": 2340,
+            "name": "Guild Crown",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_RagewingEmblem",
+            "desc": "Gain a Ragewing Emblem and a Rakan.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Ragewing-Crest-II.TFT_Set7.dds",
+            "id": 2363,
+            "name": "Ragewing Crest",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_DarkflightEmblem",
+            "desc": "Gain a Darkflight Emblem and a Rell.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/DarkflightCrest-2.dds",
+            "id": 2481,
+            "name": "Darkflight Crest",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_EvokerEssenceTheft",
+            "desc": "Evoker's attacks steal @ManaDrainDrain@ Mana from their target. Gain a Seraphine.",
+            "effects": {
+                "{0ebb5365}": 5.0,
+                "{1a14aa8a}": 5.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Essence-Theft-II.TFT_Set7.dds",
+            "id": 2424,
+            "name": "Essence Theft",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_GadgetExpert",
+            "desc": "Direct damage items deal @DamageIncPercent*100@% more damage as true damage. Gain a Statikk Shiv.",
+            "effects": {
+                "{37903f7d}": 0.33000001311302185
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Gadget-Expert-II.TFT_Set7.dds",
+            "id": 2402,
+            "name": "Gadget Expert",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_RagewingEmblem2",
+            "desc": "Your team counts as having 1 additional Ragewing. Gain a Guinsoo's Rageblade and a Rakan.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Ragewing-Crown-III.TFT_Set7.dds",
+            "id": 2364,
+            "name": "Ragewing Soul",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_MirageTrait",
+            "desc": "Your team counts as having 1 additional Mirage. Gain a Yone.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Mirage-Heart-I.TFT_Set7.dds",
+            "id": 2341,
+            "name": "Mirage Heart",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_DragonmancerTrait",
+            "desc": "Your team counts as having 1 additional Dragonmancer. Gain a Kai'Sa.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Dragonmancer-Heart-I.TFT_Set7.dds",
+            "id": 2382,
+            "name": "Dragonmancer Heart",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_GuardianEmblem2",
+            "desc": "Gain a Guardian Emblem, a Sunfire Cape, and a Rakan.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Guardian-Crown-III.TFT_Set7.dds",
+            "id": 2389,
+            "name": "Guardian Crown",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_TempestEyeOfTheStorm",
+            "desc": "The unit in the center of the board gains @BonusAP@ Ability Power, increased to @FinalAP@ after Tempest's lightning strikes. Gain a Qiyana.",
+            "effects": {
+                "{96ff67d6}": 135.0,
+                "{d49caf5d}": 45.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Eye-of-the-Storm-II.TFT_Set7.dds",
+            "id": 2407,
+            "name": "Eye of the Storm",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_WhispersTerrify",
+            "desc": "Your units take @DamageReduction@% less damage from enemies shrunken by Whisper champions. Gain a Sylas.",
+            "effects": {
+                "DamageReduction": 15.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Terrify-II.dds",
+            "id": 2423,
+            "name": "Terrify",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_LagoonHighTide",
+            "desc": "Until they cast @CastCount@ times, Lagoon champions attack @ASReductionPct@% slower but gain @Mana@ Mana per second. Gain a Kai'sa.",
+            "effects": {
+                "Mana": 12.0,
+                "{1e82680d}": 2.0,
+                "{54fa19c9}": 30.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/HighTide-2.dds",
+            "id": 2498,
+            "name": "High Tide",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_AstralIntercosmicProtection",
+            "desc": "Combat start: Your team gains a @ShieldAmount@ Health shield for every item component equipped on an Astral champion, including those that are part of a full item. Gain a Lux.",
+            "effects": {
+                "ShieldAmount": 30.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Arcane-Comet-II.TFT_Set7.dds",
+            "id": 2504,
+            "name": "Protectors of the Cosmos",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_CannoneerEmblem",
+            "desc": "Gain a Cannoneer Emblem and an Aphelios.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Canoneer-Crest-II.TFT_Set7.dds",
+            "id": 2372,
+            "name": "Cannoneer Crest",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_GuildGearUpgrades",
+            "desc": "Guild champions holding an item gain @Resists@ Armor and an additional @GuildBonusPct@% of their base Guild Bonus. Gain a Twitch.",
+            "effects": {
+                "Resists": 35.0,
+                "{58f75b92}": 250.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Guild-Invitation-II.TFT_Set7.dds",
+            "id": 2454,
+            "name": "Gear Upgrades",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_BruiserPersonalTrainerHR",
+            "desc": "At the end of combat, champions that started combat adjacent to Bruisers permanently gain @Health@ Health, increased by @BonusHealth@ if they survived. Gain a Olaf.",
+            "effects": {
+                "BonusHealth": 40.0,
+                "Health": 80.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Personal-Training-II.TFT_Set7.dds",
+            "id": 2476,
+            "name": "Personal Training",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_ShapeshifterBeastsDen",
+            "desc": "Units that start combat next to Shapeshifters gain @AttackSpeed*100@% Attack Speed and Movement Speed. Shapeshifters always gain this bonus. Gain a Gnar.",
+            "effects": {
+                "AttackSpeed": 0.3499999940395355,
+                "MoveSpeed": 400.0,
+                "{53af684f}": 1.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Beasts-Den-II.TFT_Set7.dds",
+            "id": 2416,
+            "name": "Beast's Den",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_ScalescornEmblem",
+            "desc": "Gain a Scalescorn Emblem and a Braum.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Dragonbane-Crest-II.TFT_Set7.dds",
+            "id": 2348,
+            "name": "Scalescorn Crest",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_EvokerTrait",
+            "desc": "Your team counts as having 1 additional Evoker. Gain a Zyra.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Evoker-Heart-I.TFT_Set7.dds",
+            "id": 2356,
+            "name": "Evoker Heart",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_LagoonEmblem2",
+            "desc": "Gain a Lagoon Emblem, a Spear of Shojin, and a Zeri.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/LagoonCrown-3.dds",
+            "id": 2483,
+            "name": "Lagoon Crown",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_GuildEmblem",
+            "desc": "Gain a Guild Emblem and a Twitch.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Guild-Crest-II.TFT_Set7.dds",
+            "id": 2339,
+            "name": "Guild Crest",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_MageTrait",
+            "desc": "Your team counts as having 1 additional Mage. Gain a Lillia.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Mage-Heart-I.TFT_Set7.dds",
+            "id": 2379,
+            "name": "Mage Heart",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_AssassinEmblem",
+            "desc": "Gain an Assassin Emblem and a Qiyana.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/AssassinEmblem2.TFT_Set6.dds",
+            "id": 2326,
+            "name": "Assassin Crest",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_SacrificialPact",
+            "desc": "Buying XP costs @HealthCost@ Health instead of gold. Heal @Heal@ Health each round.",
+            "effects": {
+                "Heal": 3.0,
+                "{6c043596}": 6.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Sacrificial-Pact-III.TFT_Set7.dds",
+            "id": 2408,
+            "name": "Cruel Pact",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_Preparation2",
+            "desc": "Champions on your bench permanently gain @HPBonus@ Health, @Stats@ Attack Damage, and @Stats@ Ability Power every round. Stacks up to @MaxStacks@ times.",
+            "effects": {
+                "MaxStacks": 4.0,
+                "{6a311cec}": 7.0,
+                "{9c718664}": 45.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Preparation-II.TFT_Set7.dds",
+            "id": 2466,
+            "name": "Preparation II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_WhispersTrait",
+            "desc": "Your team counts as having 1 additional Whispers. Gain a Zyra.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Whispers-Heart-I.TFT_Set7.dds",
+            "id": 2368,
+            "name": "Whispers Heart",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_Preparation3",
+            "desc": "Champions on your bench permanently gain @HPBonus@ Health, @Stats@ Attack Damage, and @Stats@ Ability Power every round. Stacks up to @MaxStacks@ times.",
+            "effects": {
+                "MaxStacks": 4.0,
+                "{6a311cec}": 10.0,
+                "{9c718664}": 60.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Preparation-III.TFT_Set7.dds",
+            "id": 2467,
+            "name": "Preparation III",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_JadeTrait",
+            "desc": "Your team counts as having 1 additional Jade. Gain a Gnar.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Jade-Heart-II.TFT_Set7.dds",
+            "id": 2359,
+            "name": "Jade Heart",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_MageEmblem2",
+            "desc": "Gain a Mage Emblem, a Spear of Shojin, and a Sylas.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Mage-Crown-III.TFT_Set7.dds",
+            "id": 2381,
+            "name": "Mage Crown",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_FirstAidKit3",
+            "desc": "All healing and shielding on your units is increased by @HealShieldIncrease*100@%.",
+            "effects": {
+                "{0b39c7c2}": 0.5
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/FirstAidKit3.TFT_Set6.dds",
+            "id": 2462,
+            "name": "First Aid Kit III",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_PandorasBench",
+            "desc": "Gain @Gold@ gold. At the start of every round, champions on the @BenchSlots@ rightmost bench slots transform into random champions of the same cost.",
+            "effects": {
+                "Gold": 2.0,
+                "{396fb56a}": 3.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Pandoras-Bench-I.TFT_Set7.dds",
+            "id": 2410,
+            "name": "Pandora's Bench",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_FirstAidKit2",
+            "desc": "All healing and shielding on your units is increased by @HealShieldIncrease*100@%.",
+            "effects": {
+                "{0b39c7c2}": 0.3499999940395355
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/FirstAidKit2.TFT_Set6.dds",
+            "id": 2461,
+            "name": "First Aid Kit II",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_TempestEmblem2",
+            "desc": "Gain a Tempest Emblem, a Hand of Justice, and a Lee Sin.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Tempest-Crown-III.TFT_Set7.dds",
+            "id": 2355,
+            "name": "Tempest Crown",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_LivingForge",
+            "desc": "Gain a random Ornn artifact now and after every @NumberOfCombats@ player combats.",
+            "effects": {
+                "{ec71edd2}": 10.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Living-Forge-III.TFT_Set7.dds",
+            "id": 2420,
+            "name": "Living Forge",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_AFK",
+            "desc": "You cannot perform actions for the next @RoundsToSkip@ rounds. Afterwards, gain @Gold@ gold.",
+            "effects": {
+                "Gold": 20.0,
+                "{90a3817e}": 3.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/AFK-I.TFT_Set7.dds",
+            "id": 2415,
+            "name": "AFK",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_DragonHorde",
+            "desc": "The Dragon trait remains active regardless of how many Dragons you have. Dragons gain @Stats@ Attack Damage and Ability Power. Gain a random Tier 4 Dragon.",
+            "effects": {
+                "{6a311cec}": 15.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Dragon-Sanctuary-II.TFT_Set7.dds",
+            "id": 2459,
+            "name": "Dragon Horde",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_LagoonOasis",
+            "desc": "Every @HealTimer@ seconds, Lagoon champions remove all negative effects on themselves and heal for @MissingHPPercent@% of their missing Health. Gain a Zac.",
+            "effects": {
+                "{698139e0}": 6.0,
+                "{df23b04c}": 18.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Oasis-2.dds",
+            "id": 2502,
+            "name": "Oasis",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_Preparation3HR",
+            "desc": "Champions on your bench permanently gain @HPBonus@ Health, @Stats@ Attack Damage, and @Stats@ Ability Power every round. Stacks up to @MaxStacks@ times.",
+            "effects": {
+                "MaxStacks": 3.0,
+                "{6a311cec}": 13.0,
+                "{9c718664}": 80.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Preparation-III.TFT_Set7.dds",
+            "id": 2475,
+            "name": "Preparation III",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_CavalierDevastatingCharge",
+            "desc": "Cavalier's first attack after charging deals @BaseDamage@ magic damage, increased by @ResistPercentInc@% for each Armor and Magic Resist they have. Gain a Rell.",
+            "effects": {
+                "BaseDamage": 80.0,
+                "{bc56a280}": 1.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Devastating-Charge-II.TFT_Set7.dds",
+            "id": 2412,
+            "name": "Devastating Charge",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_CavalierTrait",
+            "desc": "Your team counts as having 1 additional Cavalier. Gain a Rell.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Cavalier-Heart-I.TFT_Set7.dds",
+            "id": 2335,
+            "name": "Cavalier Heart",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_EvokerEmblem",
+            "desc": "Gain an Evoker Emblem and a Zyra.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Evoker-Crest-II.TFT_Set7.dds",
+            "id": 2357,
+            "name": "Evoker Crest",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_CannoneerHotShot",
+            "desc": "Cannoneer's cannon shots burn their targets, dealing @BurnPct@% of the target's maximum Health as true damage over @BurnDuration@ seconds, and reducing healing by @GrievousWoundsPct@% for the duration of the burn. Gain an Aphelios.",
+            "effects": {
+                "{97e52ce8}": 2.0,
+                "{b190d56f}": 6.0,
+                "{fb3b8928}": 50.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Hot-Shot-II.TFT_Set7.dds",
+            "id": 2443,
+            "name": "Hot Shot",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_CavalierForAllUnits",
+            "desc": "The Cavalier trait grants its bonuses to all of your champions. This does not increase your number of Cavaliers. Gain a Rell.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Cavalier-Unity-III.TFT_Set7.dds",
+            "id": 2390,
+            "name": "Cavalier Unity",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_ShimmerscaleTrait",
+            "desc": "Your team counts as having 1 additional Shimmerscale. Gain a Jax.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Shimmerscale-Heart-II.TFT_Set7.dds",
+            "id": 2365,
+            "name": "Shimmerscale Heart",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_Preparation",
+            "desc": "Champions on your bench permanently gain @HPBonus@ Health, @Stats@ Attack Damage, and @Stats@ Ability Power every round. Stacks up to @MaxStacks@ times.",
+            "effects": {
+                "MaxStacks": 4.0,
+                "{6a311cec}": 5.0,
+                "{9c718664}": 30.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Preparation-I.TFT_Set7.dds",
+            "id": 2439,
+            "name": "Preparation I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_LagoonEmblem",
+            "desc": "Gain a Lagoon Emblem and a Zac.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/LagoonCrest-2.dds",
+            "id": 2484,
+            "name": "Lagoon Crest",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_RagewingTantrum",
+            "desc": "After casting their first Ability, Ragewings restore @ManaRestorePct@% of their maximum Rage. Gain a Senna.",
+            "effects": {
+                "{46806437}": 100.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Untamed-Inferno-II.TFT_Set7.dds",
+            "id": 2458,
+            "name": "Tantrum",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_WarriorEmblem2",
+            "desc": "Gain a Warrior Emblem, a Giant Slayer, and a Yone.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Warrior-Crownl-III.TFT_Set7.dds",
+            "id": 2331,
+            "name": "Warrior Crown",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_AFKHR",
+            "desc": "You cannot perform actions for the next @RoundsToSkip@ rounds. Afterwards, gain @Gold@ gold.",
+            "effects": {
+                "Gold": 15.0,
+                "{90a3817e}": 2.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/AFK-I.TFT_Set7.dds",
+            "id": 2469,
+            "name": "AFK",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_BruiserEmblem2",
+            "desc": "Gain a Bruiser Emblem, a Redemption, and a Sylas.<br>",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/BruiserSoul3.TFT_Set6.dds",
+            "id": 2346,
+            "name": "Bruiser Crown",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_ScopedWeapons1",
+            "desc": "Your units that start combat in the back 2 rows gain +@HexRangeIncrease@ Attack Range and @AS*100@% Attack Speed.",
+            "effects": {
+                "AS": 0.15000000596046448,
+                "{16394c87}": 1.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/ScopedWeapons2.TFT_Set6.dds",
+            "id": 2491,
+            "name": "Scoped Weapons I",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_ScopedWeapons2",
+            "desc": "Your units that start combat in the back 2 rows gain infinite Attack Range and @AS*100@% Attack Speed.",
+            "effects": {
+                "AS": 0.10000000149011612,
+                "{16394c87}": 9.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/ScopedWeapons3.TFT_Set6.dds",
+            "id": 2492,
+            "name": "Scoped Weapons II",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_DragonTrait2",
+            "desc": "Your team counts as having 1 additional Dragon. Gain a Zippy and a Gargoyle Stoneplate.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Dragon-Crown-III.dds",
+            "id": 2488,
+            "name": "Dragon Soul",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_TomeOfTraits2",
+            "desc": "Gain @NumTomes@ Tome of Traits.",
+            "effects": {
+                "{e3d58c55}": 2.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/AncientArchives3.TFT_Set6.dds",
+            "id": 2405,
+            "name": "Ancient Archives II",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_DragonmancerInTraining",
+            "desc": "The Dragonmancer nearest to the Dragonmancer Hero gains @PercentOfBuff@% of the Dragonmancer Trait's bonuses. Gain a Sett.",
+            "effects": {
+                "{6d9f6bb6}": 66.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Veterancy-II.TFT_Set7.dds",
+            "id": 2499,
+            "name": "Hero-In-Training",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_AssassinTrait",
+            "desc": "Your team counts as having 1 additional Assassin. Gain a Qiyana.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/AssassinHeart1.TFT_Set6.dds",
+            "id": 2328,
+            "name": "Assassin Heart",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_Preparation1HR",
+            "desc": "Champions on your bench permanently gain @HPBonus@ Health, @Stats@ Attack Damage, and @Stats@ Ability Power every round. Stacks up to @MaxStacks@ times.",
+            "effects": {
+                "MaxStacks": 3.0,
+                "{6a311cec}": 6.0,
+                "{9c718664}": 40.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Preparation-I.TFT_Set7.dds",
+            "id": 2473,
+            "name": "Preparation I",
+            "unique": false,
+            "tier": 1
+        },
+                {
+            "apiName": "TFT7_Augment_Preparation1",
+            "desc": "Champions on your bench permanently gain @HPBonus@ Health, @Stats@ Attack Damage, and @Stats@ Ability Power every round. Stacks up to @MaxStacks@ times.",
+            "effects": {
+                "MaxStacks": 3.0,
+                "{6a311cec}": 6.0,
+                "{9c718664}": 40.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Preparation-I.TFT_Set7.dds",
+            "id": 2473,
+            "name": "Preparation I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_SwiftshotEmblem2",
+            "desc": "Gain a Swiftshot Emblem, a Guinsoo's Rageblade, and a Varus.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Swiftshot-Crown-III.TFT_Set7.dds",
+            "id": 2352,
+            "name": "Swiftshot Crown",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_JadePenitence",
+            "desc": "Jade Statue explosions deal @DamageIncPct@% more damage. Enemies are disarmed for @DisarmDuration@ seconds the first time they attack a Jade Statue or are damaged by a Jade Statue's explosion. Gain a Gnar.",
+            "effects": {
+                "DisarmDuration": 2.5,
+                "{2ce880cb}": 100.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Penitence-II.TFT_Set7.dds",
+            "id": 2447,
+            "name": "Penitence",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_BigFriend",
+            "desc": "Your units that start combat next to a unit with over @RequiredHealth@ Health take @DamageReductionPercent@% less damage for the rest of combat.",
+            "effects": {
+                "{5064373e}": 10.0,
+                "{ddd2dfa6}": 1650.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Big-Friend-I.TFT_Set7.dds",
+            "id": 2445,
+            "name": "Big Friend I",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_GuildLootHR",
+            "desc": "Gain a random component every @Combats@ player combats when you have at least Guild (@TraitLevelReq@) active. Gain a Twitch.",
+            "effects": {
+                "{9236d691}": 2.0,
+                "{cc06ab16}": 2.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Loot-Master-II.TFT_Set7.dds",
+            "id": 2478,
+            "name": "Loot Master",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_MageConference",
+            "desc": "After combat with a player, a random Mage portals onto your bench. Gain a Taliyah.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Mage-Conference-II.TFT_Set7.dds",
+            "id": 2444,
+            "name": "Mage Conference",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_MysticEmblem",
+            "desc": "Gain a Mystic Emblem and a Rakan.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Mystic-Crest-II.TFT_Set7.dds",
+            "id": 2375,
+            "name": "Mystic Crest",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_GuardianEmblem",
+            "desc": "Gain a Guardian Emblem and a Zac.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Guardian-Crest-II.TFT_Set7.dds",
+            "id": 2388,
+            "name": "Guardian Crest",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_WarriorTiamat",
+            "desc": "Warrior's enhanced attacks deal @SplashDmgPct*100@% of their damage to enemies in a @HexRange@-hex area around their target. Gain a Yone.",
+            "effects": {
+                "{91622a61}": 0.5,
+                "{9b1e8f37}": 1.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Tiamat-II.TFT_Set7.dds",
+            "id": 2406,
+            "name": "Tiamat",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_RagewingTrait2",
+            "desc": "Your team counts as having 1 additional Ragewing. Gain a Guinsoo's Rageblade and a Rakan.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Ragewing-Crown-III.TFT_Set7.dds",
+            "id": 2505,
+            "name": "Ragewing Soul",
+            "unique": false,
+            "tier": 3
+        },
+        {
+            "apiName": "TFT7_Augment_AstralEmblem",
+            "desc": "Gain an Astral Emblem and a Lux.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Astral-Crest-I.TFT_Set7.dds",
+            "id": 2333,
+            "name": "Astral Crest",
+            "unique": false,
+            "tier": 1
+        },
+        {
+            "apiName": "TFT7_Augment_BruiserTitanicStrength",
+            "desc": "Bruisers gain @HealthPercent*100@% of their Health as Attack Damage. Gain a Jax.",
+            "effects": {
+                "HealthPercent": 0.014999999664723873
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Titanic-Strength-II.TFT_Set7.dds",
+            "id": 2431,
+            "name": "Titanic Strength",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_DragonmancerEmblem",
+            "desc": "Gain a Dragonmancer Emblem and a Kai'Sa.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Dragonmancer-Crest-II.TFT_Set7.dds",
+            "id": 2460,
+            "name": "Dragonmancer Crest",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_SwiftshotEmblem",
+            "desc": "Gain a Swiftshot Emblem and a Twitch.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Swiftshot-Crest-II.TFT_Set7.dds",
+            "id": 2351,
+            "name": "Swiftshot Crest",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_JadeEternalProtection",
+            "desc": "When one of your Jade champions would die, the nearest Jade Statue protects them, sacrificing @StatueDamagePct@% of its max Health and transferring @PercentHP@% of the sacrificed Health to the champion. Gain a Gnar.",
+            "effects": {
+                "{f5278bb2}": 150.0,
+                "{f694bccb}": 70.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Eternal-Protection-II.TFT_Set7.dds",
+            "id": 2411,
+            "name": "Eternal Protection",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_LastStand",
+            "desc": "The first time you would be eliminated or reduced to 1 Health, instead remain alive. After this effect triggers, your units permanently gain @Health@ Health, @Resists@ Armor and Magic Resist, and @Omnivamp@% Omnivamp.",
+            "effects": {
+                "Health": 200.0,
+                "Resists": 20.0,
+                "{ad16f688}": 20.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Last-Stand-II.TFT_Set7.dds",
+            "id": 2450,
+            "name": "Last Stand",
+            "unique": false,
+            "tier": 2
+        },
+        {
+            "apiName": "TFT7_Augment_CavalierEmblem2",
+            "desc": "Gain a Cavalier Emblem, a Redemption, and a Nunu.",
+            "effects": {},
+            "from": [],
+            "icon": "ASSETS/Maps/TFT/Icons/Augments/Hexcore/Cavalier-Crown-III.TFT_Set7.dds",
+            "id": 2337,
+            "name": "Cavalier Crown",
+            "unique": false,
+            "tier": 34
+        }
+    ]
+}

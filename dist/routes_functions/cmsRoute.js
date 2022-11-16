@@ -16,8 +16,6 @@ const getPerformanceForCoreUnits = async (inputData, sampleSize, maxNumberOfMatc
         while (totalNumberOfMatchesOverall < maxNumberOfMatches) {
             let challengerArrayId = Math.floor(Math.random() * challengersData.length);
             challengerArrayId++;
-            console.log(totalNumberOfMatchesOverall);
-            console.log('essa ' + challengerArrayId);
             let challengerData = challengersData[challengerArrayId];
             if (challengerData == undefined) {
                 challengerArrayId = Math.floor(Math.random() * challengersData.length);
@@ -25,11 +23,13 @@ const getPerformanceForCoreUnits = async (inputData, sampleSize, maxNumberOfMatc
             }
             const summonerPuuidResponse = await axios.get(`https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`);
             const summonerPuuid = summonerPuuidResponse.data['puuid'];
-            const matchesIdResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=10
+            const matchesIdResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=15
 `);
             const matchesId = matchesIdResponse.data;
             for (const matchId of matchesId) {
+                console.log(matchId);
                 const matchDataResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`);
+                console.log(1);
                 const matchData = matchDataResponse.data;
                 let firstCompositionInMatch = true;
                 const participants = matchData['info']['participants'];

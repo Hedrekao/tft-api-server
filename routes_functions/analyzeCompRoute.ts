@@ -1,17 +1,18 @@
-import { prisma } from '@prisma/client';
 import axios from 'axios';
 import isCompositionMatchingInput from '../helper_functions/analyzeRoute/isCompositionMatchingInput.js';
 import transformUnitsData from '../helper_functions/analyzeRoute/transformUnitsData.js';
 import collectDataAboutItems from '../helper_functions/analyzeRoute/collectDataAboutItems.js';
 import prepareAnalysisResult from '../helper_functions/analyzeRoute/prepareAnalysisResult.js';
 import collectDataAboutAugments from '../helper_functions/analyzeRoute/collectDataAboutAugments.js';
+import NodeCache from 'node-cache';
+
 import sleep from '../helper_functions/sleep.js';
 
 const analyzeComposition = async (
   inputData: Array<Object>,
   socketSessionId: string,
   io: any,
-  sockets: Object,
+  cache: NodeCache,
   sampleSize?: number,
   maxNumberOfMatches?: number
 ) => {
@@ -26,9 +27,12 @@ const analyzeComposition = async (
     let numberOfMatchingComps = 0;
     let totalNumberOfMatches = 0;
     let totalNumberOfMatchesOverall = 0;
+    let socketInstance = null;
+    if (socketSessionId != undefined) {
+      const thisSocketId = cache.get(socketSessionId);
+      socketInstance = io.to(thisSocketId);
+    }
 
-    const thisSocketId = sockets[socketSessionId];
-    const socketInstance = io.to(thisSocketId);
     const itemsData = {};
     const augmentsData = {};
     let previousProgress = -1;
@@ -48,11 +52,18 @@ const analyzeComposition = async (
 
       const matchesId: Array<string> = matchesIdResponse.data;
       for (const matchId of matchesId) {
-        const matchDataResponse = await axios.get(
-          `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
-        );
+        const matchDataResponse = await axios
+          .get(
+            `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
+          )
+          .catch(async (e) => {
+            console.log(e);
+            return await axios.get(
+              `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
+            );
+          });
 
-        const matchData: Object = matchDataResponse.data;
+        const matchData: Object = matchDataResponse!.data;
         let firstCompositionInMatch = true;
 
         const participants = matchData['info']['participants'];
@@ -60,10 +71,14 @@ const analyzeComposition = async (
         const progress = Math.round(
           ((totalNumberOfMatchesOverall + 1) / maxNumberOfMatches!) * 100
         );
-        if (progress != previousProgress) {
-          socketInstance.emit('uploadProgress', progress);
+        if (socketInstance != null) {
+          if (progress != previousProgress) {
+            socketInstance.emit('uploadProgress', progress);
+          }
         }
+
         previousProgress = progress;
+
         for (const composition of participants) {
           const compositionUnits = transformUnitsData(composition['units']);
 
@@ -86,6 +101,7 @@ const analyzeComposition = async (
                 winCount++;
               }
             }
+
             collectDataAboutAugments(composition, augmentsData);
             collectDataAboutItems(
               composition,
@@ -94,7 +110,6 @@ const analyzeComposition = async (
               compositionUnits
             );
           }
-
           if (numberOfMatchingComps == sampleSize) {
             totalNumberOfMatches++;
             return prepareAnalysisResult(

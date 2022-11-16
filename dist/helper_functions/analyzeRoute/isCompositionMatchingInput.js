@@ -13,6 +13,9 @@ const isCompositionMatchingInput = (inputData, compositionUnits) => {
                 break;
             }
             const providedItems = unit['items'];
+            if (providedItems.length == 0) {
+                continue;
+            }
             const items = providedItems?.map((item) => {
                 return item['id'];
             });

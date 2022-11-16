@@ -4,7 +4,7 @@ import transformUnitsData from '../helper_functions/analyzeRoute/transformUnitsD
 import collectDataAboutItems from '../helper_functions/analyzeRoute/collectDataAboutItems.js';
 import prepareAnalysisResult from '../helper_functions/analyzeRoute/prepareAnalysisResult.js';
 import collectDataAboutAugments from '../helper_functions/analyzeRoute/collectDataAboutAugments.js';
-const analyzeComposition = async (inputData, socketSessionId, io, sockets, sampleSize, maxNumberOfMatches) => {
+const analyzeComposition = async (inputData, socketSessionId, io, cache, sampleSize, maxNumberOfMatches) => {
     try {
         const challengerDataResponse = await axios.get(`https://euw1.api.riotgames.com/tft/league/v1/challenger`);
         let placementOverall = 0;
@@ -13,8 +13,11 @@ const analyzeComposition = async (inputData, socketSessionId, io, sockets, sampl
         let numberOfMatchingComps = 0;
         let totalNumberOfMatches = 0;
         let totalNumberOfMatchesOverall = 0;
-        const thisSocketId = sockets[socketSessionId];
-        const socketInstance = io.to(thisSocketId);
+        let socketInstance = null;
+        if (socketSessionId != undefined) {
+            const thisSocketId = cache.get(socketSessionId);
+            socketInstance = io.to(thisSocketId);
+        }
         const itemsData = {};
         const augmentsData = {};
         let previousProgress = -1;
@@ -26,13 +29,20 @@ const analyzeComposition = async (inputData, socketSessionId, io, sockets, sampl
 `);
             const matchesId = matchesIdResponse.data;
             for (const matchId of matchesId) {
-                const matchDataResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`);
+                const matchDataResponse = await axios
+                    .get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`)
+                    .catch(async (e) => {
+                    console.log(e);
+                    return await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`);
+                });
                 const matchData = matchDataResponse.data;
                 let firstCompositionInMatch = true;
                 const participants = matchData['info']['participants'];
                 const progress = Math.round(((totalNumberOfMatchesOverall + 1) / maxNumberOfMatches) * 100);
-                if (progress != previousProgress) {
-                    socketInstance.emit('uploadProgress', progress);
+                if (socketInstance != null) {
+                    if (progress != previousProgress) {
+                        socketInstance.emit('uploadProgress', progress);
+                    }
                 }
                 previousProgress = progress;
                 for (const composition of participants) {

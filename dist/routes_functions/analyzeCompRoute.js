@@ -7,7 +7,11 @@ import collectDataAboutAugments from '../helper_functions/analyzeRoute/collectDa
 import sleep from '../helper_functions/sleep.js';
 const analyzeComposition = async (inputData, socketSessionId, io, cache, sampleSize, maxNumberOfMatches) => {
     try {
-        const challengerDataResponse = await axios.get(`https://euw1.api.riotgames.com/tft/league/v1/challenger`);
+        const challengerDataResponse = await axios
+            .get(`https://euw1.api.riotgames.com/tft/league/v1/challenger`)
+            .catch(async (e) => {
+            return axios.get(`https://euw1.api.riotgames.com/tft/league/v1/challenger}`);
+        });
         let placementOverall = 0;
         let top4Count = 0;
         let winCount = 0;
@@ -52,7 +56,7 @@ const analyzeComposition = async (inputData, socketSessionId, io, cache, sampleS
             }
             const resolvedPromises = await Promise.all(promises);
             if (parseInt(resolvedPromises[0].headers['x-method-rate-limit-count'].split(':')[0]) >= 165) {
-                await sleep(6000);
+                await sleep(5000);
             }
             const resolvedPromisesData = resolvedPromises.map((result) => result.data);
             for (const matchData of resolvedPromisesData) {
@@ -60,7 +64,7 @@ const analyzeComposition = async (inputData, socketSessionId, io, cache, sampleS
                 const participants = matchData['info']['participants'];
                 const progress = Math.round(((totalNumberOfMatchesOverall + 1) / maxNumberOfMatches) * 100);
                 if (socketInstance != null) {
-                    if (progress != previousProgress) {
+                    if (progress != previousProgress && progress != 100) {
                         socketInstance.emit('uploadProgress', progress);
                     }
                 }

@@ -17,9 +17,13 @@ const analyzeComposition = async (
   maxNumberOfMatches?: number
 ) => {
   try {
-    const challengerDataResponse = await axios.get(
-      `https://euw1.api.riotgames.com/tft/league/v1/challenger`
-    );
+    const challengerDataResponse = await axios
+      .get(`https://euw1.api.riotgames.com/tft/league/v1/challenger`)
+      .catch(async (e) => {
+        return axios.get(
+          `https://euw1.api.riotgames.com/tft/league/v1/challenger}`
+        );
+      });
 
     let placementOverall = 0;
     let top4Count = 0;
@@ -91,7 +95,7 @@ const analyzeComposition = async (
           )[0]
         ) >= 165
       ) {
-        await sleep(6000);
+        await sleep(5000);
       }
       const resolvedPromisesData = resolvedPromises.map(
         (result) => result.data
@@ -106,7 +110,7 @@ const analyzeComposition = async (
           ((totalNumberOfMatchesOverall + 1) / maxNumberOfMatches!) * 100
         );
         if (socketInstance != null) {
-          if (progress != previousProgress) {
+          if (progress != previousProgress && progress != 100) {
             socketInstance.emit('uploadProgress', progress);
           }
         }

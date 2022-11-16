@@ -33,7 +33,9 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
 `);
             const matchesId = matchesIdResponse.data;
             for (const matchId of matchesId) {
-                const matchDataResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`);
+                const matchDataResponse = await axios
+                    .get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`)
+                    .catch(async (e) => await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`));
                 const matchData = matchDataResponse.data;
                 let firstCompositionInMatch = true;
                 const participants = matchData['info']['participants'];

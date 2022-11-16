@@ -48,10 +48,16 @@ const getPerformanceForCoreUnits = async (
       const matchesId: Array<string> = matchesIdResponse.data;
       for (const matchId of matchesId) {
         console.log(matchId);
-        const matchDataResponse = await axios.get(
-          `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
-        );
-        console.log(1);
+        const matchDataResponse = await axios
+          .get(
+            `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
+          )
+          .catch(
+            async (e) =>
+              await axios.get(
+                `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
+              )
+          );
 
         const matchData: Object = matchDataResponse.data;
         let firstCompositionInMatch = true;

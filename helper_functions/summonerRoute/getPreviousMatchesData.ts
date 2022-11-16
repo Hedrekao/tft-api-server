@@ -30,9 +30,16 @@ const getPreviousMatchesData = async (
   const allComps = [];
 
   for (const matchId of matchesId) {
-    const matchDataResponse = await axios.get(
-      `https://${matchRegion}.api.riotgames.com/tft/match/v1/matches/${matchId}`
-    );
+    const matchDataResponse = await axios
+      .get(
+        `https://${matchRegion}.api.riotgames.com/tft/match/v1/matches/${matchId}`
+      )
+      .catch(
+        async (e) =>
+          await axios.get(
+            `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
+          )
+      );
 
     const matchData = matchDataResponse.data;
     if (matchData['info']['tft_set_core_name'] == 'TFTSet7_2') {
@@ -46,9 +53,16 @@ const getPreviousMatchesData = async (
         const otherCompositions = await Promise.all(
           participants.map(async (item) => {
             let eliminated;
-            const summonerResponse = await axios.get(
-              `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/${item['puuid']}`
-            );
+            const summonerResponse = await axios
+              .get(
+                `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/${item['puuid']}`
+              )
+              .catch(
+                async (e) =>
+                  await axios.get(
+                    `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/${item['puuid']}`
+                  )
+              );
 
             const name = summonerResponse.data['name'];
             const summonerIcon = summonerResponse.data['profileIconId'];

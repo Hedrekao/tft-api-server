@@ -44,9 +44,16 @@ const getLeaderboardData = async (region: string, maxNumber: number) => {
   });
 
   for (const player of leaderboard) {
-    const summonerInfoResponse = await axios.get(
-      `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/${player.profileIcon}`
-    );
+    const summonerInfoResponse = await axios
+      .get(
+        `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/${player.profileIcon}`
+      )
+      .catch(
+        async (e) =>
+          await axios.get(
+            `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/${player.profileIcon}`
+          )
+      );
     const profileIconId = summonerInfoResponse.data['profileIconId'];
     player.profileIcon = profileIconId;
   }

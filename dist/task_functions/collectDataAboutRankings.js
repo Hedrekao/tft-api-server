@@ -37,7 +37,9 @@ const collectDataAboutRankings = async (limitOfMatches) => {
             const matchesId = matchesIdResponse.data;
             for (const matchId of matchesId) {
                 usedMatchesData.push(matchId);
-                const matchDataResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`);
+                const matchDataResponse = await axios
+                    .get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`)
+                    .catch(async (e) => await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`));
                 const matchData = matchDataResponse.data;
                 const participants = matchData['info']['participants'];
                 for (const composition of participants) {

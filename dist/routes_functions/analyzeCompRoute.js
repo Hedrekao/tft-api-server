@@ -27,15 +27,20 @@ const analyzeComposition = async (inputData, socketSessionId, io, cache, sampleS
             const summonerPuuid = summonerPuuidResponse.data['puuid'];
             const matchesIdResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=30
 `);
+            const promises = [];
             const matchesId = matchesIdResponse.data;
             for (const matchId of matchesId) {
-                const matchDataResponse = await axios
+                const matchDataResponse = axios
                     .get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`)
                     .catch(async (e) => {
                     console.log(e);
-                    return await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`);
+                    return axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`);
                 });
-                const matchData = matchDataResponse.data;
+                promises.push(matchDataResponse);
+            }
+            const resolvedPromises = await Promise.all(promises);
+            const resolvedPromisesData = resolvedPromises.map((result) => result.data);
+            for (const matchData of resolvedPromisesData) {
                 let firstCompositionInMatch = true;
                 const participants = matchData['info']['participants'];
                 const progress = Math.round(((totalNumberOfMatchesOverall + 1) / maxNumberOfMatches) * 100);
@@ -64,7 +69,7 @@ const analyzeComposition = async (inputData, socketSessionId, io, cache, sampleS
                         collectDataAboutAugments(composition, augmentsData);
                         collectDataAboutItems(composition, inputData, itemsData, compositionUnits);
                     }
-                    if (numberOfMatchingComps == sampleSize) {
+                    if (totalNumberOfMatchesOverall == maxNumberOfMatches - 1) {
                         totalNumberOfMatches++;
                         return prepareAnalysisResult(top4Count, winCount, placementOverall, numberOfMatchingComps, totalNumberOfMatches, totalNumberOfMatchesOverall + 1, inputData, augmentsData, itemsData);
                     }

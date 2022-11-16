@@ -49,21 +49,28 @@ const analyzeComposition = async (
       const matchesIdResponse =
         await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=30
 `);
-
+      const promises = [];
       const matchesId: Array<string> = matchesIdResponse.data;
       for (const matchId of matchesId) {
-        const matchDataResponse = await axios
+        const matchDataResponse = axios
           .get(
             `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
           )
           .catch(async (e) => {
             console.log(e);
-            return await axios.get(
+            return axios.get(
               `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
             );
           });
+        promises.push(matchDataResponse);
+      }
 
-        const matchData: Object = matchDataResponse!.data;
+      const resolvedPromises = await Promise.all(promises);
+      const resolvedPromisesData = resolvedPromises.map(
+        (result) => result.data
+      );
+
+      for (const matchData of resolvedPromisesData) {
         let firstCompositionInMatch = true;
 
         const participants = matchData['info']['participants'];
@@ -110,7 +117,7 @@ const analyzeComposition = async (
               compositionUnits
             );
           }
-          if (numberOfMatchingComps == sampleSize) {
+          if (totalNumberOfMatchesOverall == maxNumberOfMatches! - 1) {
             totalNumberOfMatches++;
             return prepareAnalysisResult(
               top4Count,

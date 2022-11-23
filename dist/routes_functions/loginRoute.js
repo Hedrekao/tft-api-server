@@ -11,6 +11,6 @@ const login = async (dto) => {
         throw new Error('Password mismatch');
     }
     const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET_KEY, {});
-    return token;
+    return { token: token, user: user };
 };
 export default login;

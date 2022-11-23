@@ -566,13 +566,21 @@ app.post('/verifyEmail', (req: any, res) => {
 app.post('/login', async (req: any, res) => {
   try {
     const user: LoginDto = req.body.user;
-    const token = await login(user);
-    cache.set(user.email, token);
-    res.code(201).setCookie('jwt', token, {
-      domain: 'tactix.gg', // same options as before
-      path: '/',
-      maxAge: 2147483647
-    });
+    const result = await login(user);
+    cache.set(user.email, result.token);
+    res
+      .code(200)
+      .setCookie('jwt', result.token, {
+        domain: 'tactix.gg', // same options as before
+        path: '/',
+        maxAge: 2147483647
+      })
+      .send({
+        message: 'You are logged in',
+        summonerName: result.user.summonerName,
+        region: result.user.region,
+        username: result.user.userName
+      });
   } catch (error: any) {
     res.code(502).send({ error: error.message });
   }

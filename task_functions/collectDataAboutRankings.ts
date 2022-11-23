@@ -8,10 +8,6 @@ import analyzeItemsPerformance from '../helper_functions/tasks/analyzeItemsPerfo
 import saveTotalNumberOfMatches from '../helper_functions/tasks/saveTotalNumberOfMatches.js';
 import fs from 'fs';
 import sleep from '../helper_functions/sleep.js';
-import { createRequire } from 'module'; // Bring in the ability to create the 'require' method
-const require = createRequire(import.meta.url); // construct the require method
-const usedMatchesJson: Object = require('../static/UsedMatches.json');
-const usedMatchesData: Array<string> = usedMatchesJson['matches'];
 
 const collectDataAboutRankings = async (limitOfMatches: number) => {
   try {
@@ -54,7 +50,6 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
 
       const matchesId: Array<string> = matchesIdResponse.data;
       for (const matchId of matchesId) {
-        usedMatchesData.push(matchId);
         const matchDataResponse = await axios
           .get(
             `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`

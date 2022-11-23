@@ -76,3 +76,12 @@ model augments_third_choice_ranking {
   sumOfPlacements     Int    @default(0)
   sumOfWins           Int    @default(0)
 }
+
+model users {
+  id           Int     @id @default(autoincrement())
+  email        String  @unique
+  password     String
+  userName     String?
+  summonerName String?
+  region       String?
+}

@@ -6,6 +6,9 @@ declare global {
       PORT: number;
       API_KEY: string;
       CMS_API_KEY: string;
+      EMAIL_PASSWORD: string;
+      EMAIL: string;
+      JWT_SECRET_KEY: string;
     }
   }
 }

@@ -1,11 +1,15 @@
 import fastify from 'fastify';
 import dotenv from 'dotenv';
 import sensible from '@fastify/sensible';
+import cookies from '@fastify/cookie';
 import fastifyIO from 'fastify-socket.io';
 import { PrismaClient } from '@prisma/client';
 import cors from '@fastify/cors';
 import cron from 'node-cron';
 import axios from 'axios';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import nodemailer from 'nodemailer';
 import NodeCache from 'node-cache';
 import getSummonersData from './routes_functions/summonerRoute.js';
 import analyzeComposition from './routes_functions/analyzeCompRoute.js';
@@ -14,6 +18,8 @@ import getPerformanceForCoreUnits from './routes_functions/cmsRoute.js';
 import saveCompositionIntoDatabase from './routes_functions/cmsSaveRoute.js';
 import getCompsFromDb from './routes_functions/preparedCompsRoute.js';
 import getLeaderboardData from './routes_functions/leaderboardRoute.js';
+import register from './routes_functions/registerRoute.js';
+import login from './routes_functions/loginRoute.js';
 
 dotenv.config();
 axios.defaults.headers.common['X-Riot-Token'] = process.env.API_KEY;
@@ -32,6 +38,11 @@ app.register(fastifyIO, {
 });
 app.register(cors, {
   origin: '*'
+});
+
+app.register(cookies, {
+  hook: 'onRequest', // set to false to disable cookie autoparsing or set autoparsing on any of the following hooks: 'onRequest', 'preParsing', 'preHandler', 'preValidation'. default: 'onRequest'
+  parseOptions: {} // options for parsing cookies
 });
 const port = process.env.PORT || 8080;
 const prisma = new PrismaClient();
@@ -506,6 +517,157 @@ app.get('/unit/:id', async (req: any, res) => {
   );
 });
 
+app.post('/register', async (req: any, res) => {
+  try {
+    const user: RegisterDto = req.body.user;
+    if (await register(user)) {
+      res.code(201).send({ message: 'User was registered' });
+    } else {
+      res.code(502).send(new Error('Something went wrong'));
+    }
+  } catch (error: any) {
+    return { error: error.message };
+  }
+});
+
+app.post('/verifyEmail', (req: any, res) => {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.EMAIL_PASSWORD
+    }
+  });
+
+  let code = '';
+  for (let index = 0; index < 4; index++) {
+    const element = Math.floor(Math.random() * 10);
+    code += element;
+  }
+
+  const mailOptions = {
+    from: process.env.EMAIL,
+    to: req.body.email,
+    subject: 'Account verification - tactixgg',
+    text: 'Here is the verification code: ' + code
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+      res.code(502).send({ error: error.message });
+    } else {
+      transporter.close();
+      res.code(201).send({ verificationCode: code });
+    }
+  });
+});
+
+app.post('/login', async (req: any, res) => {
+  try {
+    const user: LoginDto = req.body.user;
+    const token = await login(user);
+    cache.set(user.email, token);
+    res.code(201).setCookie('jwt', token, {
+      domain: 'tactix.gg', // same options as before
+      path: '/',
+      maxAge: 2147483647
+    });
+  } catch (error: any) {
+    res.code(502).send({ error: error.message });
+  }
+});
+
+app.get('/logout', (req: any, res) => {
+  try {
+    const token = req.cookies.jwt;
+    const payload = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    cache.set(payload['email'], null);
+    res.code(200).clearCookie('jwt').send({ message: 'you have been log out' });
+  } catch (error: any) {
+    res.code(502).send({ error: error.message });
+  }
+});
+
+app.post('/resetPasswordMail', async (req: any, res) => {
+  try {
+    const email = req.body.email;
+    const user = await prisma.users.findFirstOrThrow({
+      where: { email: email }
+    });
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD
+      }
+    });
+
+    const payload = {
+      email: user.email
+    };
+
+    const token_mail_verification = jwt.sign(
+      payload,
+      process.env.JWT_SECRET_KEY,
+      {
+        expiresIn: '10m'
+      }
+    );
+
+    const mailOptions = {
+      from: process.env.EMAIL,
+      to: req.body.email,
+      subject: 'Password reset - tactix.gg',
+      text: `Here is the link to reset password: https://tactix.gg/resetPassword/${token_mail_verification}`
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+        res.code(502).send({ error: error.message });
+      } else {
+        transporter.close();
+        res.code(200).send({ message: 'email has been sent' });
+      }
+    });
+  } catch (error: any) {
+    res.code(502).send({ error: error.message });
+  }
+});
+
+app.post('/resetPassword', (req: any, res) => {
+  try {
+    const password = req.body.password;
+    const token = req.body.token;
+    if (token && password) {
+      jwt.verify(
+        token,
+        process.env.JWT_SECRET_KEY,
+        async (e: any, decoded: any) => {
+          if (e) {
+            console.log(e);
+            return res.code(403);
+          } else {
+            const email = decoded.email;
+            const encryptedPassword = await bcrypt.hash(password, 10);
+            await prisma.users.update({
+              where: { email: email },
+              data: { password: encryptedPassword }
+            });
+            res.code(200).send({ message: 'Password has been changed' });
+          }
+        }
+      );
+    } else {
+      return res.code(403);
+    }
+  } catch (error: any) {
+    res.code(403).send({ error: error.message });
+  }
+});
+
 app.ready().then(() => {
   app.io.on('connection', (socket) => {
     socket.on('connectInit', (sessionId) => {
@@ -529,6 +691,6 @@ async function commitToDb(promise: Promise<any>) {
   return data;
 }
 
-// cron.schedule('0 */12 * * *', () => {
-//   collectDataAboutRankings(1000);
-// });
+cron.schedule('0 */12 * * *', () => {
+  collectDataAboutRankings(1000);
+});

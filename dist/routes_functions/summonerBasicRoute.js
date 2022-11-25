@@ -17,7 +17,8 @@ const getSummonerBasicData = async (region, name) => {
             region: getFullNameOfRegion(region),
             rank: `${tier}${tier == 'MASTER' || tier == 'GRANDMASTER' || tier == 'CHALLENGER'
                 ? ''
-                : ' ' + division} ${lp} lp`,
+                : ' ' + division}`,
+            lp: `${lp} LP`,
             iconUrl: `https://raw.communitydragon.org/latest/game/assets/ux/summonericons/profileicon${iconId}.png`
         };
         return result;

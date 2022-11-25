@@ -9,6 +9,7 @@ const getSummonerBasicData = async (
       summonerName: string;
       region: string;
       rank: string;
+      lp: string;
       iconUrl: string;
     }
   | undefined
@@ -42,7 +43,8 @@ const getSummonerBasicData = async (
         tier == 'MASTER' || tier == 'GRANDMASTER' || tier == 'CHALLENGER'
           ? ''
           : ' ' + division
-      } ${lp} lp`,
+      }`,
+      lp: `${lp} LP`,
       iconUrl: `https://raw.communitydragon.org/latest/game/assets/ux/summonericons/profileicon${iconId}.png`
     };
     return result;

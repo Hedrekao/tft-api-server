@@ -20,6 +20,7 @@ import getCompsFromDb from './routes_functions/preparedCompsRoute.js';
 import getLeaderboardData from './routes_functions/leaderboardRoute.js';
 import register from './routes_functions/registerRoute.js';
 import login from './routes_functions/loginRoute.js';
+import getSummonerBasicData from './routes_functions/summonerBasicRoute.js';
 
 dotenv.config();
 axios.defaults.headers.common['X-Riot-Token'] = process.env.API_KEY;
@@ -561,6 +562,19 @@ app.post('/verifyEmail', (req: any, res) => {
       res.code(201).send({ verificationCode: code });
     }
   });
+});
+
+app.get('/riotAccount/:region/:name', async (req: any, res) => {
+  try {
+    const summonerData = await getSummonerBasicData(
+      req.params.region,
+      req.params.name
+    );
+    if (summonerData == undefined) {
+      res.code(502).send({ error: 'something went wrong' });
+    }
+    res.code(200).send(summonerData);
+  } catch (error: any) {}
 });
 
 app.post('/login', async (req: any, res) => {

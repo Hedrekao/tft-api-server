@@ -12,7 +12,8 @@ const saveTotalNumberOfMatches = async (
       where: { id: 1 },
       data: {
         totalNumberOfMatches: { increment: totalNumberOfMatches },
-        totalNumberOfComps: { increment: totalNumberOfComps }
+        totalNumberOfComps: { increment: totalNumberOfComps },
+        lastChange: Date.now()
       }
     });
   } else {
@@ -20,7 +21,8 @@ const saveTotalNumberOfMatches = async (
       data: {
         id: 1,
         totalNumberOfMatches: totalNumberOfMatches,
-        totalNumberOfComps: totalNumberOfComps
+        totalNumberOfComps: totalNumberOfComps,
+        lastChange: Date.now()
       }
     });
   }

@@ -21,6 +21,7 @@ import getLeaderboardData from './routes_functions/leaderboardRoute.js';
 import register from './routes_functions/registerRoute.js';
 import login from './routes_functions/loginRoute.js';
 import getSummonerBasicData from './routes_functions/summonerBasicRoute.js';
+import timeSince from './helper_functions/summonerRoute/timeSince.js';
 dotenv.config();
 axios.defaults.headers.common['X-Riot-Token'] = process.env.API_KEY;
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
@@ -586,6 +587,24 @@ app.post('/resetPassword', (req, res) => {
     }
     catch (error) {
         res.code(403).send({ error: error.message });
+    }
+});
+app.get('/generalData', async (req, res) => {
+    try {
+        const general_data = await prisma.general_data.findUnique({
+            where: { id: 1 }
+        });
+        if (general_data == null) {
+            throw new Error('weird error');
+        }
+        const timeSinceNow = timeSince(general_data?.lastChange * 1000);
+        res.code(200).send({
+            lastChange: timeSinceNow,
+            analyzedComps: general_data.totalNumberOfComps
+        });
+    }
+    catch (error) {
+        res.code(502).send({ error: error.message });
     }
 });
 app.ready().then(() => {

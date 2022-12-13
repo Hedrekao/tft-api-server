@@ -18,7 +18,7 @@ const getPreviousMatchesData = async (puuid, region, requestObject, generalData,
             .get(`https://${matchRegion}.api.riotgames.com/tft/match/v1/matches/${matchId}`)
             .catch(async (e) => await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`));
         const matchData = matchDataResponse.data;
-        if (matchData['info']['tft_set_core_name'] == 'TFTSet7_2') {
+        if (matchData['info']['tft_set_core_name'] == 'TFTSet8') {
             const participants = matchData['info']['participants'];
             const playerIndex = matchData['metadata']['participants'].indexOf(puuid);
             countOfGames++;

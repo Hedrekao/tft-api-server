@@ -1,7 +1,5 @@
 const timeSince = (epoch) => {
     let seconds = Math.floor((new Date().getTime() - epoch) / 1000);
-    console.log(new Date().getTime());
-    console.log(seconds);
     let interval = seconds / 31536000;
     if (interval > 1) {
         return Math.floor(interval) + ' years';

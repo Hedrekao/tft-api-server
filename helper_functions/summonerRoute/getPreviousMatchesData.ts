@@ -42,7 +42,7 @@ const getPreviousMatchesData = async (
       );
 
     const matchData = matchDataResponse.data;
-    if (matchData['info']['tft_set_core_name'] == 'TFTSet7_2') {
+    if (matchData['info']['tft_set_core_name'] == 'TFTSet8') {
       const participants: Array<any> = matchData['info']['participants'];
       const playerIndex = matchData['metadata']['participants'].indexOf(puuid);
       countOfGames++;

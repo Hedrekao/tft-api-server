@@ -25,7 +25,7 @@ import timeSince from './helper_functions/summonerRoute/timeSince.js';
 dotenv.config();
 axios.defaults.headers.common['X-Riot-Token'] = process.env.API_KEY;
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-axios.defaults.timeout = 2500;
+axios.defaults.timeout = 3600;
 const cache = new NodeCache();
 const app = fastify();
 app.register(sensible);

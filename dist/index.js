@@ -5,7 +5,6 @@ import cookies from '@fastify/cookie';
 import fastifyIO from 'fastify-socket.io';
 import { PrismaClient } from '@prisma/client';
 import cors from '@fastify/cors';
-import cron from 'node-cron';
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
@@ -13,7 +12,6 @@ import nodemailer from 'nodemailer';
 import NodeCache from 'node-cache';
 import getSummonersData from './routes_functions/summonerRoute.js';
 import analyzeComposition from './routes_functions/analyzeCompRoute.js';
-import collectDataAboutRankings from './task_functions/collectDataAboutRankings.js';
 import getPerformanceForCoreUnits from './routes_functions/cmsRoute.js';
 import saveCompositionIntoDatabase from './routes_functions/cmsSaveRoute.js';
 import getCompsFromDb from './routes_functions/preparedCompsRoute.js';
@@ -48,7 +46,13 @@ app.post('/comps', async (req, res) => {
     console.log(req.body.inputData);
     const io = app.io;
     console.log(req.body.socketSessionId);
-    return await analyzeComposition(req.body.inputData, req.body.socketSessionId, io, cache, 1000, 650);
+    const result = await analyzeComposition(req.body.inputData, req.body.socketSessionId, io, cache, 1000, 650);
+    if (result.hasOwnProperty('error')) {
+        res.code(502).send(result);
+    }
+    else {
+        res.code(200).send(result);
+    }
 });
 app.get('/comps/:id', async (req, res) => {
     const composition = await commitToDb(prisma.userCompositionJSON.findUnique({ where: { id: req.params.id } }));
@@ -627,6 +631,7 @@ async function commitToDb(promise) {
         return app.httpErrors.internalServerError(error.message);
     return data;
 }
-cron.schedule('0 */12 * * *', () => {
-    collectDataAboutRankings(1000);
-});
+// TODO RETHINK CRON JOB (GO THROUGH CODE, RESET DB, MAYBE ALTERNATIVE TO NODE CRONE)
+// cron.schedule('0 */12 * * *', () => {
+//   collectDataAboutRankings(1000);
+// });

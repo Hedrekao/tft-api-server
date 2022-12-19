@@ -179,6 +179,17 @@ const analyzeComposition = async (
         totalNumberOfMatchesOverall++;
       }
     }
+    return prepareAnalysisResult(
+      top4Count,
+      winCount,
+      placementOverall,
+      numberOfMatchingComps,
+      totalNumberOfMatches,
+      totalNumberOfMatchesOverall + 1,
+      inputData,
+      augmentsData,
+      itemsData
+    );
   } catch (error: any) {
     console.log(error.message);
     return { error: `error - ${error.message}` };

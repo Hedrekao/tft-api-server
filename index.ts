@@ -53,7 +53,7 @@ app.post('/comps', async (req: any, res) => {
   console.log(req.body.inputData);
   const io = app.io;
   console.log(req.body.socketSessionId);
-  return await analyzeComposition(
+  const result: Object = await analyzeComposition(
     req.body.inputData,
     req.body.socketSessionId,
     io,
@@ -61,6 +61,12 @@ app.post('/comps', async (req: any, res) => {
     1000,
     650
   );
+
+  if (result.hasOwnProperty('error')) {
+    res.code(502).send(result);
+  } else {
+    res.code(200).send(result);
+  }
 });
 
 app.get('/comps/:id', async (req: any, res) => {
@@ -733,6 +739,8 @@ async function commitToDb(promise: Promise<any>) {
   return data;
 }
 
-cron.schedule('0 */12 * * *', () => {
-  collectDataAboutRankings(1000);
-});
+// TODO RETHINK CRON JOB (GO THROUGH CODE, RESET DB, MAYBE ALTERNATIVE TO NODE CRONE)
+
+// cron.schedule('0 */12 * * *', () => {
+//   collectDataAboutRankings(1000);
+// });

@@ -99,6 +99,7 @@ const analyzeComposition = async (inputData, socketSessionId, io, cache, sampleS
                 totalNumberOfMatchesOverall++;
             }
         }
+        return prepareAnalysisResult(top4Count, winCount, placementOverall, numberOfMatchingComps, totalNumberOfMatches, totalNumberOfMatchesOverall + 1, inputData, augmentsData, itemsData);
     }
     catch (error) {
         console.log(error.message);

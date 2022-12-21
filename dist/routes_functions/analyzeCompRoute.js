@@ -4,8 +4,9 @@ import transformUnitsData from '../helper_functions/analyzeRoute/transformUnitsD
 import collectDataAboutItems from '../helper_functions/analyzeRoute/collectDataAboutItems.js';
 import prepareAnalysisResult from '../helper_functions/analyzeRoute/prepareAnalysisResult.js';
 import collectDataAboutAugments from '../helper_functions/analyzeRoute/collectDataAboutAugments.js';
+import { cache } from '../helper_functions/singletonCache.js';
 import sleep from '../helper_functions/sleep.js';
-const analyzeComposition = async (inputData, socketSessionId, io, cache, sampleSize, maxNumberOfMatches) => {
+const analyzeComposition = async (inputData, socketSessionId, io, sampleSize, maxNumberOfMatches) => {
     try {
         const challengerDataResponse = await axios
             .get(`https://euw1.api.riotgames.com/tft/league/v1/challenger`)

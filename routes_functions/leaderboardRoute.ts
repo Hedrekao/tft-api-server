@@ -1,11 +1,9 @@
 import axios from 'axios';
-import NodeCache from 'node-cache';
-
-const myCache = new NodeCache();
+import { cache } from '../helper_functions/singletonCache.js';
 
 const getLeaderboardData = async (region: string, maxNumber: number) => {
-  if (myCache.get(`leaderboard-${region}`) != undefined) {
-    return myCache.get(`leaderboard-${region}`);
+  if (cache.get(`leaderboard-${region}`) != undefined) {
+    return cache.get(`leaderboard-${region}`);
   }
 
   const leagueResponse = await axios.get(
@@ -58,7 +56,7 @@ const getLeaderboardData = async (region: string, maxNumber: number) => {
     player.profileIcon = profileIconId;
   }
 
-  myCache.set(`leaderboard-${region}`, leaderboard, 10800);
+  cache.set(`leaderboard-${region}`, leaderboard, 10800);
 
   return leaderboard;
 };

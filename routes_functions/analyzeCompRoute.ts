@@ -4,7 +4,7 @@ import transformUnitsData from '../helper_functions/analyzeRoute/transformUnitsD
 import collectDataAboutItems from '../helper_functions/analyzeRoute/collectDataAboutItems.js';
 import prepareAnalysisResult from '../helper_functions/analyzeRoute/prepareAnalysisResult.js';
 import collectDataAboutAugments from '../helper_functions/analyzeRoute/collectDataAboutAugments.js';
-import NodeCache from 'node-cache';
+import { cache } from '../helper_functions/singletonCache.js';
 
 import sleep from '../helper_functions/sleep.js';
 
@@ -12,7 +12,6 @@ const analyzeComposition = async (
   inputData: Array<Object>,
   socketSessionId: string,
   io: any,
-  cache: NodeCache,
   sampleSize?: number,
   maxNumberOfMatches?: number
 ) => {

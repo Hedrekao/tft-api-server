@@ -9,7 +9,6 @@ import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import nodemailer from 'nodemailer';
-import NodeCache from 'node-cache';
 import getSummonersData from './routes_functions/summonerRoute.js';
 import analyzeComposition from './routes_functions/analyzeCompRoute.js';
 import getPerformanceForCoreUnits from './routes_functions/cmsRoute.js';
@@ -20,11 +19,11 @@ import register from './routes_functions/registerRoute.js';
 import login from './routes_functions/loginRoute.js';
 import getSummonerBasicData from './routes_functions/summonerBasicRoute.js';
 import timeSince from './helper_functions/summonerRoute/timeSince.js';
+import { cache } from './helper_functions/singletonCache.js';
 dotenv.config();
 axios.defaults.headers.common['X-Riot-Token'] = process.env.API_KEY;
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 axios.defaults.timeout = 3600;
-const cache = new NodeCache();
 const app = fastify();
 app.register(sensible);
 app.register(fastifyIO, {
@@ -46,7 +45,7 @@ app.post('/comps', async (req, res) => {
     console.log(req.body.inputData);
     const io = app.io;
     console.log(req.body.socketSessionId);
-    const result = await analyzeComposition(req.body.inputData, req.body.socketSessionId, io, cache, 1000, 650);
+    const result = await analyzeComposition(req.body.inputData, req.body.socketSessionId, io, 1000, 650);
     if (result.hasOwnProperty('error')) {
         res.code(502).send(result);
     }
@@ -517,7 +516,7 @@ app.get('/logout', (req, res) => {
     try {
         const token = req.cookies.jwt;
         const payload = jwt.verify(token, process.env.JWT_SECRET_KEY);
-        cache.set(payload['email'], null);
+        cache.del(payload['email']);
         res.code(200).clearCookie('jwt').send({ message: 'you have been log out' });
     }
     catch (error) {

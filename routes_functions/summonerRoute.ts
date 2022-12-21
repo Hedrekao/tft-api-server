@@ -2,10 +2,8 @@ import getPreviousMatchesData from '../helper_functions/summonerRoute/getPreviou
 import getFullNameOfRegion from '../helper_functions/summonerRoute/getFullNameOfRegion.js';
 import getDetailedLeagueInfoData from '../helper_functions/summonerRoute/getDetailedLeagueInfoData.js';
 import axios from 'axios';
-import NodeCache from 'node-cache';
+import { cache } from '../helper_functions/singletonCache.js';
 import timeSince from '../helper_functions/summonerRoute/timeSince.js';
-
-const myCache = new NodeCache();
 
 const getSummonersData = async (name: string, region: string) => {
   const requestObject = { totalRequest: 0, currentRequest: 0 };
@@ -33,7 +31,7 @@ const getSummonersData = async (name: string, region: string) => {
     const gamesOverall = top4Overall + summonerLeague['losses'];
 
     let numberOfNotCachedMatches: number;
-    const cacheResult: Object | undefined = myCache.get(id);
+    const cacheResult: Object | undefined = cache.get(id);
     const isPlayerCached = cacheResult != undefined;
     if (isPlayerCached && cacheResult['stats']['gamesPlayed'] == gamesOverall) {
       for (const match of cacheResult['matches']) {
@@ -203,7 +201,7 @@ const getSummonersData = async (name: string, region: string) => {
       profile: profile,
       matches: last20Matches
     };
-    myCache.set(id, result);
+    cache.set(id, result);
     return result;
   } catch (error: any) {
     console.log('wtf');

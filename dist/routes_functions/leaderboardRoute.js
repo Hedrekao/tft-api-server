@@ -1,9 +1,8 @@
 import axios from 'axios';
-import NodeCache from 'node-cache';
-const myCache = new NodeCache();
+import { cache } from '../helper_functions/singletonCache.js';
 const getLeaderboardData = async (region, maxNumber) => {
-    if (myCache.get(`leaderboard-${region}`) != undefined) {
-        return myCache.get(`leaderboard-${region}`);
+    if (cache.get(`leaderboard-${region}`) != undefined) {
+        return cache.get(`leaderboard-${region}`);
     }
     const leagueResponse = await axios.get(`https://${region}.api.riotgames.com/tft/league/v1/challenger`);
     const leagueResponseData = leagueResponse.data;
@@ -40,7 +39,7 @@ const getLeaderboardData = async (region, maxNumber) => {
         const profileIconId = summonerInfoResponse.data['profileIconId'];
         player.profileIcon = profileIconId;
     }
-    myCache.set(`leaderboard-${region}`, leaderboard, 10800);
+    cache.set(`leaderboard-${region}`, leaderboard, 10800);
     return leaderboard;
 };
 export default getLeaderboardData;

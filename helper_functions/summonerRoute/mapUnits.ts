@@ -1,5 +1,6 @@
 import getCostOfUnit from './getCostOfUnit.js';
 import mapItems from './mapItems.js';
+import NodeCache from 'node-cache';
 
 const mapUnits = (rawUnits: Array<Object>) => {
   const units = rawUnits.map((unit) => {

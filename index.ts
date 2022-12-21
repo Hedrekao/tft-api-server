@@ -726,6 +726,14 @@ app.ready().then(() => {
       }
     });
   });
+
+  const dataDragon: DataDragon = (
+    await axios.get(
+      'https://raw.communitydragon.org/latest/cdragon/tft/en_us.json'
+    )
+  )?.data;
+
+  cache.set('dataDragon', dataDragon, 0);
 });
 
 app.listen({ port: port, host: '0.0.0.0' }, (err) => {

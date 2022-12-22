@@ -6,7 +6,7 @@ const mapItems = (names: Array<string>, ids: Array<number>) => {
   const result = [];
 
   for (let i = 0; i < names.length; i++) {
-    const dataDragonItem = set8Data?.find((v) => v.id == ids[i]);
+    const dataDragonItem = set8Data![names[i]];
     const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
     const icon = iconWithWrongExt
       ?.substring(0, iconWithWrongExt.length - 3)

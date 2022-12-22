@@ -4,6 +4,7 @@ import mapTraits from './mapTraits.js';
 import mapUnits from './mapUnits.js';
 import getMatchRegion from './getMatchRegion.js';
 import sleep from '../sleep.js';
+import mapAugments from './mapAugments.js';
 
 const getPreviousMatchesData = async (
   puuid: string,
@@ -76,7 +77,7 @@ const getPreviousMatchesData = async (
               }`;
             }
             const result = {
-              augments: item['augments'],
+              augments: mapAugments(item['augments']),
               goldLeft: item['gold_left'],
               placement: item['placement'],
               traits: mapTraits(item['traits']),
@@ -108,7 +109,7 @@ const getPreviousMatchesData = async (
           placement: placement,
           trait: mapTraits(playerInfo['traits']),
           units: mapUnits(playerInfo['units']),
-          augments: playerInfo['augments']
+          augments: mapAugments(playerInfo['augments'])
         };
         allComps.push(match);
       }

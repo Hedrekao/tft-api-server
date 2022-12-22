@@ -2,13 +2,13 @@ import { cache } from '../singletonCache.js';
 
 const mapTraits = (rawTraits: Array<Object>) => {
   const dataDragon: DataDragon | undefined = cache.get('dataDragon');
-  const set8Data: Array<DataDragonTrait> = dataDragon?.sets[8].traits;
+  const set8Data = dataDragon?.sets[8].traits;
   rawTraits = rawTraits.filter((trait) => {
     return trait['style'] != 0;
   });
 
   const traits = rawTraits.map((trait) => {
-    const dataDragonTrait = set8Data.find((v) => v.apiName == trait['name']);
+    const dataDragonTrait = set8Data![trait['name']];
     const iconWithWrongExt = dataDragonTrait?.icon.toLowerCase();
     const icon = iconWithWrongExt
       ?.substring(0, iconWithWrongExt.length - 3)

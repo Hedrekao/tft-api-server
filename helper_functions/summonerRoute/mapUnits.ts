@@ -6,9 +6,7 @@ const mapUnits = (rawUnits: Array<Object>) => {
   const dataDragon: DataDragon | undefined = cache.get('dataDragon');
   const set8Data = dataDragon?.sets[8].champions;
   const units = rawUnits.map((unit) => {
-    const dataDragonUnit = set8Data?.find(
-      (v) => v.apiName == unit['character_id']
-    );
+    const dataDragonUnit = set8Data![unit['character_id']];
     const iconWithWrongExt = dataDragonUnit?.icon.toLowerCase();
     let icon = iconWithWrongExt
       ?.substring(0, iconWithWrongExt.length - 3)

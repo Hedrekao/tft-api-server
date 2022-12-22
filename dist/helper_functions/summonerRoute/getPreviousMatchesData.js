@@ -3,6 +3,7 @@ import timeSince from './timeSince.js';
 import mapTraits from './mapTraits.js';
 import mapUnits from './mapUnits.js';
 import getMatchRegion from './getMatchRegion.js';
+import mapAugments from './mapAugments.js';
 const getPreviousMatchesData = async (puuid, region, requestObject, generalData, count) => {
     const matchRegion = getMatchRegion(region);
     const matchesIdResponse = await axios.get(`https://${matchRegion}.api.riotgames.com/tft/match/v1/matches/by-puuid/${puuid}/ids?start=0&count=${count == undefined ? 20 : count}`);
@@ -41,7 +42,7 @@ const getPreviousMatchesData = async (puuid, region, requestObject, generalData,
                             : (item['last_round'] - 3) % 7}`;
                     }
                     const result = {
-                        augments: item['augments'],
+                        augments: mapAugments(item['augments']),
                         goldLeft: item['gold_left'],
                         placement: item['placement'],
                         traits: mapTraits(item['traits']),
@@ -71,7 +72,7 @@ const getPreviousMatchesData = async (puuid, region, requestObject, generalData,
                     placement: placement,
                     trait: mapTraits(playerInfo['traits']),
                     units: mapUnits(playerInfo['units']),
-                    augments: playerInfo['augments']
+                    augments: mapAugments(playerInfo['augments'])
                 };
                 allComps.push(match);
             }

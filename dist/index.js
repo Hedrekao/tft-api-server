@@ -620,7 +620,42 @@ app.ready().then(async () => {
             }
         });
     });
-    const dataDragon = (await axios.get('https://raw.communitydragon.org/latest/cdragon/tft/en_us.json'))?.data;
+    const rawDataDragon = (await axios.get('https://raw.communitydragon.org/latest/cdragon/tft/en_us.json'))?.data;
+    const improvedItems = rawDataDragon.items.reduce((prev, val) => {
+        prev[val.apiName] = {
+            ...val
+        };
+        delete prev[val.apiName]['apiName'];
+        return prev;
+    }, {});
+    const improvedSets = {};
+    for (const setName in rawDataDragon.sets) {
+        const set = rawDataDragon.sets[setName];
+        const improvedUnits = set.champions.reduce((prev, val) => {
+            prev[val.apiName] = {
+                ...val
+            };
+            delete prev[val.apiName]['apiName'];
+            return prev;
+        }, {});
+        const improvedTraits = set.traits.reduce((prev, val) => {
+            prev[val.apiName] = {
+                ...val
+            };
+            delete prev[val.apiName]['apiName'];
+            return prev;
+        }, {});
+        improvedSets[setName] = {
+            name: set.name,
+            champions: improvedUnits,
+            traits: improvedTraits
+        };
+    }
+    const dataDragon = {
+        ...rawDataDragon,
+        sets: improvedSets,
+        items: improvedItems
+    };
     cache.set('dataDragon', dataDragon, 0);
 });
 app.listen({ port: port, host: '0.0.0.0' }, (err) => {

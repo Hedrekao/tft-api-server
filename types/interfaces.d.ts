@@ -15,14 +15,30 @@ interface LoginDto {
 // icons -> remove 3 last chars with png
 // icons -> base url -> https://raw.communitydragon.org/latest/game/
 
-type DataDragon = {
+type RawDataDragon = {
   items: Array<DataDragonItems>;
+  setData: Array<DataDragonSetData>;
+  sets: { [key: number]: RawDataDragonSet };
+};
+
+type DataDragon = {
+  items: { [key: string]: DataDragonItemsHash };
   setData: Array<DataDragonSetData>;
   sets: { [key: number]: DataDragonSet };
 };
 
 type DataDragonItems = {
   apiName: string;
+  desc: string;
+  effects: Object;
+  from: Array;
+  icon: string;
+  id: number;
+  name: string;
+  unique: boolean;
+};
+
+type DataDragonItemsHash = {
   desc: string;
   effects: Object;
   from: Array;
@@ -55,8 +71,21 @@ type DataDragonChampion = {
   traits: Array<string>;
 };
 
-type DataDragonSet = {
+type RawDataDragonSet = {
   name: string;
   champions: Array<DataDragonChampion>;
-  traits: Arrat<DataDragonTrait>;
+  traits: Array<DataDragonTrait>;
+};
+
+type DataDragonSet = {
+  name: string;
+  champions: {
+    [key: string]: {
+      cost: number;
+      icon: string;
+      name: string;
+      traits: Array<string>;
+    };
+  };
+  traits: { [key: string]: { icon: string; name: string } };
 };

@@ -2,7 +2,7 @@ import { cache } from '../singletonCache.js';
 
 const mapAugments = (augments: Array<string>) => {
   const dataDragon: DataDragon | undefined = cache.get('dataDragon');
-  const set8Data = dataDragon?.items;
+  const set8Data = dataDragon?.augments;
   const result = [];
 
   for (let i = 0; i < augments.length; i++) {
@@ -11,11 +11,12 @@ const mapAugments = (augments: Array<string>) => {
     const icon = iconWithWrongExt
       ?.substring(0, iconWithWrongExt.length - 3)
       .concat('png');
-    result.push({
+    const augment = {
       apiName: augments[i],
       name: dataDragonItem?.name,
       icon: `https://raw.communitydragon.org/latest/game/${icon}`
-    });
+    };
+    result.push(augment);
   }
   return result;
 };

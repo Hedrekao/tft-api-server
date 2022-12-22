@@ -26,7 +26,7 @@ import { cache } from './helper_functions/singletonCache.js';
 dotenv.config();
 axios.defaults.headers.common['X-Riot-Token'] = process.env.API_KEY;
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-axios.defaults.timeout = 3600;
+axios.defaults.timeout = 5000;
 
 const app = fastify();
 app.register(sensible);
@@ -730,14 +730,17 @@ app.ready().then(async () => {
       'https://raw.communitydragon.org/latest/cdragon/tft/en_us.json'
     )
   )?.data;
-
-  const improvedItems = rawDataDragon.items.reduce((prev, val) => {
-    prev[val.apiName] = {
-      ...val
-    };
-    delete prev[val.apiName]['apiName'];
-    return prev;
-  }, {});
+  const augmentsPairs: Array<[string, DataDragonItems]> = [];
+  const itemsPairs: Array<[string, DataDragonItems]> = [];
+  rawDataDragon.items.forEach((val) => {
+    if (val.apiName.includes('Augment')) {
+      augmentsPairs.push([val.apiName, val]);
+    } else if (val.apiName.includes('Item')) {
+      itemsPairs.push([val.apiName, val]);
+    }
+  });
+  const improvedItems = Object.fromEntries(itemsPairs);
+  const improvedAugments = Object.fromEntries(augmentsPairs);
 
   const improvedSets = {};
   for (const setName in rawDataDragon.sets) {
@@ -766,6 +769,7 @@ app.ready().then(async () => {
 
   const dataDragon: DataDragon = {
     ...rawDataDragon,
+    augments: improvedAugments,
     sets: improvedSets,
     items: improvedItems
   };

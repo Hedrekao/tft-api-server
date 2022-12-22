@@ -202,6 +202,7 @@ const getSummonersData = async (name: string, region: string) => {
       matches: last20Matches
     };
     cache.set(id, result);
+
     return result;
   } catch (error: any) {
     console.log('wtf');

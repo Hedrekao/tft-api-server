@@ -24,6 +24,7 @@ const mapUnits = (rawUnits: Array<Object>) => {
       cost: cost,
       items: mapItems(unit['itemNames'], unit['items'])
     };
+
     return result;
   });
 

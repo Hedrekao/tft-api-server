@@ -22,23 +22,14 @@ type RawDataDragon = {
 };
 
 type DataDragon = {
-  items: { [key: string]: DataDragonItemsHash };
+  items: { [key: string]: DataDragonItems };
+  augments: { [key: string]: DataDragonItems };
   setData: Array<DataDragonSetData>;
   sets: { [key: number]: DataDragonSet };
 };
 
 type DataDragonItems = {
   apiName: string;
-  desc: string;
-  effects: Object;
-  from: Array;
-  icon: string;
-  id: number;
-  name: string;
-  unique: boolean;
-};
-
-type DataDragonItemsHash = {
   desc: string;
   effects: Object;
   from: Array;

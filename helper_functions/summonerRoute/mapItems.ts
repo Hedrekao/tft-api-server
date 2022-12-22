@@ -11,12 +11,13 @@ const mapItems = (names: Array<string>, ids: Array<number>) => {
     const icon = iconWithWrongExt
       ?.substring(0, iconWithWrongExt.length - 3)
       .concat('png');
-    result.push({
+    const item = {
       id: ids[i],
       apiName: names[i],
       name: dataDragonItem?.name,
       icon: `https://raw.communitydragon.org/latest/game/${icon}`
-    });
+    };
+    result.push(item);
   }
   return result;
 };

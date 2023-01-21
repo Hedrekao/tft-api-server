@@ -6,22 +6,23 @@ const getLeaderboardData = async (region: string, maxNumber: number) => {
     return cache.get(`leaderboard-${region}`);
   }
 
-  const leagueResponse = await axios.get(
+  const leagueResponse = await axios.get<RiotAPIChallengerData>(
     `https://${region}.api.riotgames.com/tft/league/v1/challenger`
   );
 
   const leagueResponseData = leagueResponse.data;
   let leaderboard = [];
-  for (const entry of leagueResponseData['entries']) {
-    const lp = entry['leaguePoints'];
-    const top4Overall = entry['wins'];
-    const gamesOverall = top4Overall + entry['losses'];
-    const name = entry['summonerName'];
+  for (const entry of leagueResponseData.entries) {
+    const lp = entry.leaguePoints;
+    const top4Overall = entry.wins;
+    const gamesOverall = top4Overall + entry.losses;
+    const name = entry.summonerName;
 
     const top4Procentage = ((top4Overall / gamesOverall) * 100).toFixed(2);
 
     const player = {
-      profileIcon: entry['summonerId'],
+      summonerId: entry.summonerId,
+      profileIcon: -1,
       name: name,
       rank: 'Challenger',
       lp: lp,
@@ -32,10 +33,10 @@ const getLeaderboardData = async (region: string, maxNumber: number) => {
   }
 
   leaderboard.sort((a, b) => {
-    if (a['lp'] > b['lp']) {
+    if (a.lp > b.lp) {
       return -1;
     }
-    if (a['lp'] < b['lp']) {
+    if (a.lp < b.lp) {
       return 1;
     }
     return 0;
@@ -43,16 +44,16 @@ const getLeaderboardData = async (region: string, maxNumber: number) => {
 
   for (const player of leaderboard) {
     const summonerInfoResponse = await axios
-      .get(
-        `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/${player.profileIcon}`
+      .get<RiotAPISummonerDto>(
+        `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/${player.summonerId}`
       )
       .catch(
         async (e) =>
-          await axios.get(
-            `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/${player.profileIcon}`
+          await axios.get<RiotAPISummonerDto>(
+            `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/${player.summonerId}`
           )
       );
-    const profileIconId = summonerInfoResponse.data['profileIconId'];
+    const profileIconId = summonerInfoResponse.data.profileIconId;
     player.profileIcon = profileIconId;
   }
 

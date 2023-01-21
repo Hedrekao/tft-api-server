@@ -8,46 +8,45 @@ import timeSince from '../helper_functions/summonerRoute/timeSince.js';
 const getSummonersData = async (name: string, region: string) => {
   const requestObject = { totalRequest: 0, currentRequest: 0 };
   try {
-    const summonerDataResponse = await axios.get(
+    const summonerDataResponse = await axios.get<RiotAPISummonerDto>(
       encodeURI(
         `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/by-name/${name}`
       )
     );
 
-    const summonerData: Object = summonerDataResponse.data;
-    const id: string = summonerData['id'];
+    const summonerData = summonerDataResponse.data;
+    const id = summonerData.id;
 
-    const puuid: string = summonerData['puuid'];
-    const iconId: string = summonerData['profileIconId'];
-    const riotName: string = summonerData['name'];
+    const puuid = summonerData.puuid;
+    const iconId = summonerData.profileIconId;
+    const riotName = summonerData.name;
 
-    const summonerLeagueResponse = await axios.get(
+    const summonerLeagueResponse = await axios.get<RiotAPISummonerLeague[]>(
       `https://${region}.api.riotgames.com/tft/league/v1/entries/by-summoner/${id}`
     );
 
     const summonerLeague = summonerLeagueResponse.data[0];
-    const top4Overall = summonerLeague['wins'];
+    const top4Overall = summonerLeague.wins;
 
-    const gamesOverall = top4Overall + summonerLeague['losses'];
+    const gamesOverall = top4Overall + summonerLeague.losses;
 
     let numberOfNotCachedMatches: number;
-    const cacheResult: Object | undefined = cache.get(id);
+    const cacheResult = cache.get<SummonerSearchResult>(id);
     const isPlayerCached = cacheResult != undefined;
-    if (isPlayerCached && cacheResult['stats']['gamesPlayed'] == gamesOverall) {
-      for (const match of cacheResult['matches']) {
-        match['timeAgo'] = timeSince(match['matchTime']);
+    if (isPlayerCached && cacheResult.stats.gamesPlayed == gamesOverall) {
+      for (const match of cacheResult.matches) {
+        match.timeAgo = timeSince(match.matchTime);
       }
       return cacheResult;
     }
 
     if (isPlayerCached) {
-      numberOfNotCachedMatches =
-        gamesOverall - cacheResult['stats']['gamesPlayed'];
+      numberOfNotCachedMatches = gamesOverall - cacheResult.stats.gamesPlayed;
     }
 
-    const lp = summonerLeague['leaguePoints'];
-    const tier = summonerLeague['tier'];
-    const division = summonerLeague['rank'];
+    const lp = summonerLeague.leaguePoints;
+    const tier = summonerLeague.tier;
+    const division = summonerLeague.rank;
 
     const leagueInfo = await getDetailedLeagueInfoData(
       id,
@@ -59,37 +58,30 @@ const getSummonersData = async (name: string, region: string) => {
     );
 
     const top4Procentage = ((top4Overall / gamesOverall) * 100).toFixed(2);
-    let last20MatchesData;
-    if (isPlayerCached) {
-      last20MatchesData = await getPreviousMatchesData(
-        puuid,
-        region,
-        requestObject,
-        false,
-        numberOfNotCachedMatches!
-      );
-    } else {
-      last20MatchesData = await getPreviousMatchesData(
-        puuid,
-        region,
-        requestObject,
-        false
-      );
-    }
 
-    let last20MatchesStats;
+    let last20MatchesData = isPlayerCached
+      ? await getPreviousMatchesData(
+          puuid,
+          region,
+          requestObject,
+          false,
+          numberOfNotCachedMatches!
+        )
+      : await getPreviousMatchesData(puuid, region, requestObject, false);
 
-    let last20Matches: Array<Object>;
+    let last20MatchesStats: SummonerLast20MatchesStats;
+
+    let last20Matches: SummonerMatch[];
     if (!isPlayerCached) {
       last20Matches = last20MatchesData[1];
       last20MatchesStats = last20MatchesData[0];
     } else {
-      const excessedPastMatches = cacheResult['last20']['placements'].slice(
+      const excessedPastMatches = cacheResult.last20.placements.slice(
         numberOfNotCachedMatches! * -1
       );
-      let currentNumberOfWins = cacheResult['last20']['wins'];
-      let currentNumberOfTop4 = cacheResult['last20']['top4Placements'];
-      let currentSumOfPlacement = cacheResult['last20']['sumOfPlacements'];
+      let currentNumberOfWins = cacheResult.last20.wins;
+      let currentNumberOfTop4 = cacheResult.last20.top4Placements;
+      let currentSumOfPlacement = cacheResult.last20.sumOfPlacements;
       for (const value of excessedPastMatches) {
         currentSumOfPlacement -= value;
         if (value <= 4) {
@@ -99,12 +91,12 @@ const getSummonersData = async (name: string, region: string) => {
           }
         }
       }
-      currentNumberOfWins += last20MatchesData[0]['wins'];
-      currentNumberOfTop4 += last20MatchesData[0]['top4Placements'];
-      currentSumOfPlacement += last20MatchesData[0]['sumOfPlacements'];
+      currentNumberOfWins += last20MatchesData[0].wins;
+      currentNumberOfTop4 += last20MatchesData[0].top4Placements;
+      currentSumOfPlacement += last20MatchesData[0].sumOfPlacements;
 
-      const placements = last20MatchesData[0]['placements']
-        .concat(cacheResult['last20']['placements'])
+      const placements = last20MatchesData[0].placements
+        .concat(cacheResult.last20.placements)
         .slice(0, 20);
 
       const numberOfGames = placements.length;
@@ -130,27 +122,17 @@ const getSummonersData = async (name: string, region: string) => {
       };
       for (
         let i = 0;
-        i < cacheResult['matches'].length - numberOfNotCachedMatches!;
+        i < cacheResult.matches.length - numberOfNotCachedMatches!;
         i++
       ) {
-        cacheResult['matches'][i]['timeAgo'] = timeSince(
-          cacheResult['matches'][i]['matchTime']
+        cacheResult.matches[i].timeAgo = timeSince(
+          cacheResult.matches[i].matchTime
         );
       }
-      last20Matches = last20MatchesData[1].concat(cacheResult['matches']);
+      last20Matches = last20MatchesData[1].concat(cacheResult.matches);
       last20Matches = last20Matches.slice(0, 20);
     }
 
-    let totalMatchesData: Object;
-    if (!isPlayerCached) {
-      totalMatchesData = await getPreviousMatchesData(
-        puuid,
-        region,
-        requestObject,
-        true,
-        gamesOverall
-      );
-    }
     const top = (((leagueInfo + 1) / 252500) * 100).toFixed(3);
     const profile = {
       name: riotName,
@@ -166,23 +148,30 @@ const getSummonersData = async (name: string, region: string) => {
       top: top
     };
 
-    let stats;
+    let stats: SummonerStats;
     if (!isPlayerCached) {
+      const totalMatchesData = await getPreviousMatchesData(
+        puuid,
+        region,
+        requestObject,
+        true,
+        gamesOverall
+      );
       stats = {
         top4: top4Overall,
         top4Percent: top4Procentage,
-        wins: totalMatchesData!['wins'],
-        winsPercent: totalMatchesData!['winsProcentage'],
-        avgPlacement: totalMatchesData!['avgPlacement']!,
+        wins: totalMatchesData.wins,
+        winsPercent: totalMatchesData.winsProcentage,
+        avgPlacement: totalMatchesData.avgPlacement,
         gamesPlayed: gamesOverall,
-        sumOfPlacements: totalMatchesData!['sumOfPlacements']
+        sumOfPlacements: totalMatchesData.sumOfPlacements
       };
     } else {
-      const wins = last20MatchesData[0]['wins'] + cacheResult['stats']['wins'];
+      const wins = last20MatchesData[0].wins + cacheResult.stats.wins;
       const winsPercent = ((wins / gamesOverall) * 100).toFixed(2);
       const sumOfPlacements =
-        cacheResult['stats']['sumOfPlacements'] +
-        last20MatchesData[0]['sumOfPlacements'];
+        cacheResult.stats.sumOfPlacements +
+        last20MatchesData[0].sumOfPlacements;
       const avgPlacement = (sumOfPlacements / gamesOverall).toFixed(2);
       stats = {
         top4: top4Overall,

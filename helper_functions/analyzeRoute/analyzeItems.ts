@@ -1,42 +1,42 @@
 const analyzeItems = (
-  inputData: Array<Object>,
-  itemsData: Object,
+  inputData: AnalysisInputData,
+  itemsData: ItemsData,
   numberOfMatchingComps: number
 ) => {
   for (const unit of inputData) {
-    const items: Object = itemsData[unit['name']];
-    let analyzedItems: Array<Object> = [];
+    const items = itemsData[unit.name];
+    let analyzedItems = new Array<AnalyzedItem>();
     for (const item in items) {
-      const analyzedItem: Object = {
-        id: item,
-        name: items[item]['name'],
+      const analyzedItem: AnalyzedItem = {
+        id: parseInt(item),
+        name: items[item].name,
         playRate: (
-          (items[item]['numberOfComps'] / numberOfMatchingComps) *
+          (items[item].numberOfComps / numberOfMatchingComps) *
           100
         ).toFixed(2),
         avgPlace: (
-          items[item]['sumOfPlacements'] / items[item]['numberOfComps']
+          items[item].sumOfPlacements / items[item].numberOfComps
         ).toFixed(2)
       };
       analyzedItems.push(analyzedItem);
     }
 
     analyzedItems.sort((a, b) => {
-      if (parseFloat(a['playRate']) > parseFloat(b['playRate'])) {
+      if (parseFloat(a.playRate) > parseFloat(b.playRate)) {
         return -1;
-      } else if (parseFloat(a['playRate']) < parseFloat(b['playRate'])) {
+      } else if (parseFloat(a.playRate) < parseFloat(b.playRate)) {
         return 1;
       } else {
-        if (parseFloat(a['avgPlace']) < parseFloat(b['avgPlace'])) {
+        if (parseFloat(a.avgPlace) < parseFloat(b.avgPlace)) {
           return -1;
-        } else if (parseFloat(a['avgPlace']) > parseFloat(b['avgPlace'])) {
+        } else if (parseFloat(a.avgPlace) > parseFloat(b.avgPlace)) {
           return 1;
         }
       }
       return 0;
     });
 
-    unit['items'] = analyzedItems;
+    unit.items = analyzedItems;
   }
 };
 

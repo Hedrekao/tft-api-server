@@ -1,14 +1,13 @@
-const transformUnitsData = (units: Array<Object>) => {
-  return units.reduce((object: Object, item: Object) => {
-    const name = item['character_id'];
+const transformUnitsData = (units: RiotAPIUnitDto[]) => {
+  return units.reduce((object, unit) => {
+    const name = unit.character_id;
     object[name] = {
-      level: item['tier'],
-      items: item['items'],
-      itemsNames: item['itemNames']
+      level: unit.tier,
+      items: unit.items,
+      itemsNames: unit.itemNames
     };
 
     return object;
-  }, {});
+  }, {} as TransformedUnits);
 };
-
 export default transformUnitsData;

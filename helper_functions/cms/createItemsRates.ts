@@ -1,13 +1,13 @@
 import { Comp, ItemUnit, UnitItems } from '../../types/classes.js';
 import { createRequire } from 'module'; // Bring in the ability to create the 'require' method
 const require = createRequire(import.meta.url); // construct the require method
-const itemsJson: Object = require('../../static/Items.json');
-const itemsDataJson: Array<Object> = itemsJson['items'];
+const itemsJson: ItemsJSONFile = require('../../static/Items.json');
+const itemsDataJson = itemsJson.items;
 
 const createItemsRates = (
   compositionInput: Comp,
   numberOfComps: number,
-  itemsData: Object
+  itemsData: ItemsDataCMS
 ) => {
   const unitItemsArr = [];
   for (const unit of compositionInput.units) {
@@ -16,15 +16,17 @@ const createItemsRates = (
     for (const item in itemsData[unit.id]) {
       if (item != 'numberOfAppearances') {
         const rate = (
-          (itemsData[unit.id][item]['numberOfComps'] /
-            itemsData[unit.id]['numberOfAppearances']) *
+          (itemsData[unit.id][item].numberOfComps /
+            itemsData[unit.id].numberOfAppearances) *
           100
         ).toFixed(1);
         const src = `https://ittledul.sirv.com/Images/items/${item}.png`;
-        const itemNameObject = itemsDataJson.find((val) => val['id'] == item);
+        const itemNameObject = itemsDataJson.find(
+          (val) => val.id == parseInt(item)
+        );
         let name;
         if (itemNameObject != null && itemNameObject.hasOwnProperty('name')) {
-          name = itemNameObject['name'];
+          name = itemNameObject.name;
         } else {
           name = '';
         }
@@ -50,12 +52,10 @@ const createItemsRates = (
     if (unit.items != null && unit.items.length > 0) {
       for (const item of unit.items) {
         const src = `https://ittledul.sirv.com/Images/items/${item.id}.png`;
-        const itemNameObject = itemsDataJson.find(
-          (val) => val['id'] == item.id
-        );
+        const itemNameObject = itemsDataJson.find((val) => val.id == item.id);
         let name;
         if (itemNameObject != null && itemNameObject.hasOwnProperty('name')) {
-          name = itemNameObject['name'];
+          name = itemNameObject.name;
         } else {
           name = '';
         }

@@ -15,26 +15,26 @@ const getSummonerBasicData = async (
   | undefined
 > => {
   try {
-    const summonerDataResponse = await axios.get(
+    const summonerDataResponse = await axios.get<RiotAPISummonerDto>(
       encodeURI(
         `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/by-name/${name}`
       )
     );
 
-    const summonerData: Object = summonerDataResponse!.data;
-    const id: string = summonerData['id'];
+    const summonerData = summonerDataResponse!.data;
+    const id = summonerData.id;
 
-    const iconId: string = summonerData['profileIconId'];
-    const summonerName: string = summonerData['name'];
+    const iconId = summonerData.profileIconId;
+    const summonerName: string = summonerData.name;
 
-    const summonerLeagueResponse = await axios.get(
+    const summonerLeagueResponse = await axios.get<RiotAPISummonerLeague[]>(
       `https://${region}.api.riotgames.com/tft/league/v1/entries/by-summoner/${id}`
     );
 
     const summonerLeague = summonerLeagueResponse.data[0];
-    const lp = summonerLeague['leaguePoints'];
-    const tier = summonerLeague['tier'];
-    const division = summonerLeague['rank'];
+    const lp = summonerLeague.leaguePoints;
+    const tier = summonerLeague.tier;
+    const division = summonerLeague.rank;
 
     const result = {
       summonerName: summonerName,

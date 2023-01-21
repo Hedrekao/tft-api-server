@@ -9,7 +9,7 @@ import { cache } from '../helper_functions/singletonCache.js';
 import sleep from '../helper_functions/sleep.js';
 
 const analyzeComposition = async (
-  inputData: Array<Object>,
+  inputData: AnalysisInputData,
   socketSessionId: string,
   io: any,
   sampleSize?: number,
@@ -36,24 +36,25 @@ const analyzeComposition = async (
       socketInstance = io.to(thisSocketId);
     }
 
-    const itemsData = {};
-    const augmentsData = {};
+    const itemsData: ItemsData = {};
+    const augmentsData: AugmentsData = {};
     let previousProgress = -1;
 
-    const challengersData: Array<any> = challengerDataResponse.data['entries'];
+    const challengersData: RiotAPIChallengerDataEntry[] =
+      challengerDataResponse.data['entries'];
 
     for (const challengerData of challengersData) {
       const summonerPuuidResponse = await axios
-        .get(
-          `https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`
+        .get<RiotAPISummonerDto>(
+          `https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData.summonerId}`
         )
         .catch(async (e) => {
-          return axios.get(
-            `https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`
+          return axios.get<RiotAPISummonerDto>(
+            `https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData.summonerId}`
           );
         });
 
-      const summonerPuuid: string = summonerPuuidResponse.data['puuid'];
+      const summonerPuuid: string = summonerPuuidResponse.data.puuid;
 
       const matchesIdResponse = await axios
         .get(
@@ -69,16 +70,16 @@ const analyzeComposition = async (
       const matchesId: Array<string> = matchesIdResponse.data;
       for (const matchId of matchesId) {
         const matchDataResponse = axios
-          .get(
+          .get<RiotAPIMatchDto>(
             `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
           )
           .catch(async (e) => {
             return axios
-              .get(
+              .get<RiotAPIMatchDto>(
                 `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
               )
               .catch(async (e) => {
-                return axios.get(
+                return axios.get<RiotAPIMatchDto>(
                   `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
                 );
               });
@@ -103,7 +104,7 @@ const analyzeComposition = async (
       for (const matchData of resolvedPromisesData) {
         let firstCompositionInMatch = true;
 
-        const participants = matchData['info']['participants'];
+        const participants = matchData.info.participants;
 
         const progress = Math.round(
           ((totalNumberOfMatchesOverall + 1) / maxNumberOfMatches!) * 100
@@ -117,7 +118,7 @@ const analyzeComposition = async (
         previousProgress = progress;
 
         for (const composition of participants) {
-          const compositionUnits = transformUnitsData(composition['units']);
+          const compositionUnits = transformUnitsData(composition.units);
 
           const isAMatch = isCompositionMatchingInput(
             inputData,
@@ -131,10 +132,10 @@ const analyzeComposition = async (
               totalNumberOfMatches++;
               firstCompositionInMatch = false;
             }
-            placementOverall += composition['placement'];
-            if (composition['placement'] <= 4) {
+            placementOverall += composition.placement;
+            if (composition.placement <= 4) {
               top4Count++;
-              if (composition['placement'] == 1) {
+              if (composition.placement == 1) {
                 winCount++;
               }
             }

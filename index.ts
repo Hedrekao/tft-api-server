@@ -22,6 +22,7 @@ import login from './routes_functions/loginRoute.js';
 import getSummonerBasicData from './routes_functions/summonerBasicRoute.js';
 import timeSince from './helper_functions/summonerRoute/timeSince.js';
 import { cache } from './helper_functions/singletonCache.js';
+import { Comp } from 'types/classes.js';
 
 dotenv.config();
 axios.defaults.headers.common['X-Riot-Token'] = process.env.API_KEY;
@@ -48,26 +49,29 @@ app.register(cookies, {
 const port = process.env.PORT || 8080;
 const prisma = new PrismaClient();
 
-app.post('/comps', async (req: any, res) => {
-  console.log(req.body.inputData);
-  const io = app.io;
-  console.log(req.body.socketSessionId);
-  const result: Object = await analyzeComposition(
-    req.body.inputData,
-    req.body.socketSessionId,
-    io,
-    1000,
-    650
-  );
+app.post<{ Body: { inputData: AnalysisInputData; socketSessionId: string } }>(
+  '/comps',
+  async (req, res) => {
+    console.log(req.body.inputData);
+    const io = app.io;
+    console.log(req.body.socketSessionId);
+    const result = await analyzeComposition(
+      req.body.inputData,
+      req.body.socketSessionId,
+      io,
+      1000,
+      650
+    );
 
-  if (result.hasOwnProperty('error')) {
-    res.code(502).send(result);
-  } else {
-    res.code(200).send(result);
+    if (result.hasOwnProperty('error')) {
+      res.code(502).send(result);
+    } else {
+      res.code(200).send(result);
+    }
   }
-});
+);
 
-app.get('/comps/:id', async (req: any, res) => {
+app.get<{ Params: { id: string } }>('/comps/:id', async (req, res) => {
   const composition = await commitToDb(
     prisma.userCompositionJSON.findUnique({ where: { id: req.params.id } })
   );
@@ -77,13 +81,16 @@ app.get('/comps/:id', async (req: any, res) => {
   );
 
   if (analysis == null) {
-    return { composition: composition.json, analysis: 'Wait' };
+    return { composition: composition!.json, analysis: 'Wait' };
   } else {
-    return { composition: composition.json, analysis: analysis.json };
+    return { composition: composition!.json, analysis: analysis.json };
   }
 });
 
-app.post('/comps/:id', async (req: any, res) => {
+app.post<{
+  Params: { id: string };
+  Body: { composition?: string; analysis?: string };
+}>('/comps/:id', async (req, res) => {
   if (req.body.composition != undefined) {
     await commitToDb(
       prisma.userCompositionJSON.create({
@@ -101,11 +108,14 @@ app.post('/comps/:id', async (req: any, res) => {
   }
 });
 
-app.get('/summoner/:region/:name', async (req: any, res) => {
-  return await getSummonersData(req.params.name, req.params.region);
-});
+app.get<{ Params: { region: string; name: string } }>(
+  '/summoner/:region/:name',
+  async (req, res) => {
+    return await getSummonersData(req.params.name, req.params.region);
+  }
+);
 
-app.get('/leaderboard/:region', (req: any, res) => {
+app.get<{ Params: { region: string } }>('/leaderboard/:region', (req, res) => {
   return getLeaderboardData(req.params.region, 99);
 });
 
@@ -113,7 +123,10 @@ app.get('/units', async (req, res) => {
   return await commitToDb(prisma.champions.findMany());
 });
 
-app.post('/cms', async (req: any, res) => {
+app.post<{
+  Headers: { 'x-api-key': string };
+  Body: { inputData: AnalysisInputData };
+}>('/cms', async (req, res) => {
   if (req.headers['x-api-key'] == process.env.CMS_API_KEY) {
     return await getPerformanceForCoreUnits(req.body.inputData, 1000, 1000);
   } else {
@@ -129,7 +142,9 @@ app.get('/preparedComps', (req, res) => {
   }
 });
 
-app.get('/cms/comps', async (req, res) => {
+app.get<{
+  Headers: { 'x-api-key': string };
+}>('/cms/comps', async (req, res) => {
   try {
     if (req.headers['x-api-key'] == process.env.CMS_API_KEY) {
       const comps = await prisma.compositionJSON.findMany();
@@ -149,7 +164,10 @@ app.get('/cms/comps', async (req, res) => {
   }
 });
 
-app.post('/cms/changeVisibility', async (req: any, res) => {
+app.post<{
+  Headers: { 'x-api-key': string };
+  Body: { id: number; visibility: boolean };
+}>('/cms/changeVisibility', async (req, res) => {
   try {
     if (req.headers['x-api-key'] == process.env.CMS_API_KEY) {
       await prisma.compositionJSON.update({
@@ -165,7 +183,10 @@ app.post('/cms/changeVisibility', async (req: any, res) => {
   }
 });
 
-app.delete('/cms/comps/:id', async (req: any, res) => {
+app.delete<{
+  Headers: { 'x-api-key': string };
+  Params: { id: string };
+}>('/cms/comps/:id', async (req, res) => {
   try {
     if (req.headers['x-api-key'] == process.env.CMS_API_KEY) {
       const id = parseInt(req.params.id);
@@ -181,7 +202,10 @@ app.delete('/cms/comps/:id', async (req: any, res) => {
   }
 });
 
-app.post('/cms/save', async (req: any, res) => {
+app.post<{
+  Headers: { 'x-api-key': string };
+  Body: { composition: Comp };
+}>('/cms/save', async (req, res) => {
   try {
     if (req.headers['x-api-key'] == process.env.CMS_API_KEY) {
       console.log(JSON.stringify(req.body.composition));
@@ -220,14 +244,14 @@ app.get('/units-ranking', async (req, res) => {
     return object;
   });
   data.sort((a, b) => {
-    if (a['avg_place'] < b['avg_place']) {
+    if (a.avg_place < b.avg_place) {
       return -1;
-    } else if (a['avg_place'] > b['avg_place']) {
+    } else if (a.avg_place > b.avg_place) {
       return 1;
     } else {
-      if (a['frequency'] > b['frequency']) {
+      if (a.frequency > b.frequency) {
         return -1;
-      } else if (a['frequency'] < b['frequency']) {
+      } else if (a.frequency < b.frequency) {
         return 1;
       }
     }
@@ -450,70 +474,73 @@ app.get('/compare-augments', async (req, res) => {
   return result;
 });
 
-app.get('/augments-ranking/:stage', async (req: any, res) => {
-  const numberOfCompsQuery = await prisma.general_data.findUnique({
-    where: { id: 1 }
-  });
-  const numberOfComps = numberOfCompsQuery?.totalNumberOfComps;
-  let result;
+app.get<{ Params: { stage: string } }>(
+  '/augments-ranking/:stage',
+  async (req, res) => {
+    const numberOfCompsQuery = await prisma.general_data.findUnique({
+      where: { id: 1 }
+    });
+    const numberOfComps = numberOfCompsQuery?.totalNumberOfComps;
+    let result;
 
-  switch (req.params.stage) {
-    case '1':
-      result = await prisma.augments_first_choice_ranking.findMany();
-      break;
-    case '2':
-      result = await prisma.augments_second_choice_ranking.findMany();
-      break;
-    case '3':
-      result = await prisma.augments_third_choice_ranking.findMany();
-      break;
-  }
-
-  const data = result?.map((augment) => {
-    const object = {
-      id: augment.id,
-      avg_place: (
-        augment.sumOfPlacements /
-        (augment.numberOfAppearances != 0 ? augment.numberOfAppearances : 1)
-      ).toFixed(2),
-      frequency: (
-        (augment.numberOfAppearances / numberOfComps!) *
-        100 *
-        3
-      ).toFixed(2),
-      winrate: (
-        (augment.sumOfWins /
-          (augment.numberOfAppearances != 0
-            ? augment.numberOfAppearances
-            : 1)) *
-        100
-      ).toFixed(2)
-    };
-    return object;
-  });
-
-  data?.sort((a, b) => {
-    if (a['avg_place'] < b['avg_place']) {
-      return -1;
-    } else if (a['avg_place'] > b['avg_place']) {
-      return 1;
-    } else {
-      if (a['frequency'] > b['frequency']) {
-        return -1;
-      } else if (a['frequency'] < b['frequency']) {
-        return 1;
-      }
+    switch (req.params.stage) {
+      case '1':
+        result = await prisma.augments_first_choice_ranking.findMany();
+        break;
+      case '2':
+        result = await prisma.augments_second_choice_ranking.findMany();
+        break;
+      case '3':
+        result = await prisma.augments_third_choice_ranking.findMany();
+        break;
     }
-    return 0;
-  });
-  return data;
+
+    const data = result?.map((augment) => {
+      const object = {
+        id: augment.id,
+        avg_place: (
+          augment.sumOfPlacements /
+          (augment.numberOfAppearances != 0 ? augment.numberOfAppearances : 1)
+        ).toFixed(2),
+        frequency: (
+          (augment.numberOfAppearances / numberOfComps!) *
+          100 *
+          3
+        ).toFixed(2),
+        winrate: (
+          (augment.sumOfWins /
+            (augment.numberOfAppearances != 0
+              ? augment.numberOfAppearances
+              : 1)) *
+          100
+        ).toFixed(2)
+      };
+      return object;
+    });
+
+    data?.sort((a, b) => {
+      if (a['avg_place'] < b['avg_place']) {
+        return -1;
+      } else if (a['avg_place'] > b['avg_place']) {
+        return 1;
+      } else {
+        if (a['frequency'] > b['frequency']) {
+          return -1;
+        } else if (a['frequency'] < b['frequency']) {
+          return 1;
+        }
+      }
+      return 0;
+    });
+    return data;
+  }
+);
+
+app.get('/test', async (req, res) => {
+  return await collectDataAboutRankings(1000);
 });
 
-app.get('/test', async (req: any, res) => {
-  res.code(401).send(new Error('You are not authorized'));
-});
-
-app.get('/unit/:id', async (req: any, res) => {
+app.get<{ Params: { id: string } }>('/unit/:id', async (req, res) => {
   return await commitToDb(
     prisma.champions.findUnique({
       where: {
@@ -523,9 +550,9 @@ app.get('/unit/:id', async (req: any, res) => {
   );
 });
 
-app.post('/register', async (req: any, res) => {
+app.post<{ Body: { user: RegisterDto } }>('/register', async (req, res) => {
   try {
-    const user: RegisterDto = req.body.user;
+    const user = req.body.user;
     if (await register(user)) {
       res.code(201).send({ message: 'User was registered' });
     } else {
@@ -536,7 +563,7 @@ app.post('/register', async (req: any, res) => {
   }
 });
 
-app.post('/verifyEmail', (req: any, res) => {
+app.post<{ Body: { email: string } }>('/verifyEmail', (req, res) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -569,20 +596,23 @@ app.post('/verifyEmail', (req: any, res) => {
   });
 });
 
-app.get('/riotAccount/:region/:name', async (req: any, res) => {
-  try {
-    const summonerData = await getSummonerBasicData(
-      req.params.region,
-      req.params.name
-    );
-    if (summonerData == undefined) {
-      res.code(502).send({ error: 'something went wrong' });
-    }
-    res.code(200).send(summonerData);
-  } catch (error: any) {}
-});
+app.get<{ Params: { region: string; name: string } }>(
+  '/riotAccount/:region/:name',
+  async (req, res) => {
+    try {
+      const summonerData = await getSummonerBasicData(
+        req.params.region,
+        req.params.name
+      );
+      if (summonerData == undefined) {
+        res.code(502).send({ error: 'something went wrong' });
+      }
+      res.code(200).send(summonerData);
+    } catch (error: any) {}
+  }
+);
 
-app.post('/login', async (req: any, res) => {
+app.post<{ Body: { user: LoginDto } }>('/login', async (req, res) => {
   try {
     const user: LoginDto = req.body.user;
     const result = await login(user);
@@ -590,7 +620,7 @@ app.post('/login', async (req: any, res) => {
     res
       .code(200)
       .setCookie('jwt', result.token, {
-        domain: 'tactix.gg', // same options as before
+        domain: 'tactix.gg',
         path: '/',
         maxAge: 2147483647
       })
@@ -605,9 +635,12 @@ app.post('/login', async (req: any, res) => {
   }
 });
 
-app.get('/logout', (req: any, res) => {
+app.get('/logout', (req, res) => {
   try {
     const token = req.cookies.jwt;
+    if (token == undefined) {
+      throw new Error('Error with logging out');
+    }
     const payload = jwt.verify(token, process.env.JWT_SECRET_KEY);
     cache.del(payload['email']);
     res.code(200).clearCookie('jwt').send({ message: 'you have been log out' });
@@ -616,68 +649,73 @@ app.get('/logout', (req: any, res) => {
   }
 });
 
-app.post('/resetPasswordMail', async (req: any, res) => {
-  try {
-    const email = req.body.email;
-    const user = await prisma.users.findFirstOrThrow({
-      where: { email: email }
-    });
+app.post<{ Body: { email: string } }>(
+  '/resetPasswordMail',
+  async (req, res) => {
+    try {
+      const email = req.body.email;
+      const user = await prisma.users.findFirstOrThrow({
+        where: { email: email }
+      });
 
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL,
-        pass: process.env.EMAIL_PASSWORD
-      }
-    });
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.EMAIL,
+          pass: process.env.EMAIL_PASSWORD
+        }
+      });
 
-    const payload = {
-      email: user.email
-    };
+      const payload = {
+        email: user.email
+      };
 
-    const token_mail_verification = jwt.sign(
-      payload,
-      process.env.JWT_SECRET_KEY,
-      {
-        expiresIn: '10m'
-      }
-    );
-
-    const mailOptions = {
-      from: process.env.EMAIL,
-      to: req.body.email,
-      subject: 'Password reset - tactix.gg',
-      text: `Here is the link to reset password: https://tactix.gg/resetPassword/${token_mail_verification}`
-    };
-
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error);
-        res.code(502).send({ error: error.message });
-      } else {
-        transporter.close();
-        res.code(200).send({ message: 'email has been sent' });
-      }
-    });
-  } catch (error: any) {
-    res.code(502).send({ error: error.message });
-  }
-});
-
-app.post('/resetPassword', (req: any, res) => {
-  try {
-    const password = req.body.password;
-    const token = req.body.token;
-    if (token && password) {
-      jwt.verify(
-        token,
+      const token_mail_verification = jwt.sign(
+        payload,
         process.env.JWT_SECRET_KEY,
-        async (e: any, decoded: any) => {
+        {
+          expiresIn: '10m'
+        }
+      );
+
+      const mailOptions = {
+        from: process.env.EMAIL,
+        to: req.body.email,
+        subject: 'Password reset - tactix.gg',
+        text: `Here is the link to reset password: https://tactix.gg/resetPassword/${token_mail_verification}`
+      };
+
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+          res.code(502).send({ error: error.message });
+        } else {
+          transporter.close();
+          res.code(200).send({ message: 'email has been sent' });
+        }
+      });
+    } catch (error: any) {
+      res.code(502).send({ error: error.message });
+    }
+  }
+);
+
+app.post<{ Body: { password: string; token: string } }>(
+  '/resetPassword',
+  (req, res) => {
+    try {
+      const password = req.body.password;
+      const token = req.body.token;
+      if (token && password) {
+        jwt.verify(token, process.env.JWT_SECRET_KEY, async (e, decoded) => {
           if (e) {
             console.log(e);
             return res.code(403);
           } else {
-            const email = decoded.email;
+            if (decoded == undefined) {
+              return res.code(403);
+            }
+            const email = decoded['email'];
             const encryptedPassword = await bcrypt.hash(password, 10);
             await prisma.users.update({
               where: { email: email },
@@ -685,15 +723,15 @@ app.post('/resetPassword', (req: any, res) => {
             });
             res.code(200).send({ message: 'Password has been changed' });
           }
-        }
-      );
-    } else {
-      return res.code(403);
+        });
+      } else {
+        return res.code(403);
+      }
+    } catch (error: any) {
+      res.code(403).send({ error: error.message });
     }
-  } catch (error: any) {
-    res.code(403).send({ error: error.message });
   }
-});
+);
 
 app.get('/generalData', async (req, res) => {
   try {
@@ -701,9 +739,9 @@ app.get('/generalData', async (req, res) => {
       where: { id: 1 }
     });
     if (general_data == null) {
-      throw new Error('weird error');
+      throw new Error('no data found');
     }
-    const timeSinceNow: string = timeSince(general_data?.lastChange * 1000);
+    const timeSinceNow: string = timeSince(general_data.lastChange * 1000);
 
     res.code(200).send({
       lastChange: timeSinceNow,
@@ -716,7 +754,7 @@ app.get('/generalData', async (req, res) => {
 
 app.ready().then(async () => {
   app.io.on('connection', (socket) => {
-    socket.on('connectInit', (sessionId) => {
+    socket.on('connectInit', (sessionId: string | undefined) => {
       // The socket ID is stored along with the unique ID generated by the client
       console.log(sessionId);
       if (sessionId != undefined) {
@@ -725,8 +763,8 @@ app.ready().then(async () => {
     });
   });
 
-  const rawDataDragon: RawDataDragon = (
-    await axios.get(
+  const rawDataDragon = (
+    await axios.get<RawDataDragon>(
       'https://raw.communitydragon.org/latest/cdragon/tft/en_us.json'
     )
   )?.data;
@@ -780,7 +818,7 @@ app.listen({ port: port, host: '0.0.0.0' }, (err) => {
   console.log('Server is running');
 });
 
-async function commitToDb(promise: Promise<any>) {
+async function commitToDb<T>(promise: Promise<T>) {
   const [error, data] = await app.to(promise);
 
   if (error) return app.httpErrors.internalServerError(error.message);

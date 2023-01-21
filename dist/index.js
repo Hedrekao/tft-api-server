@@ -11,6 +11,7 @@ import bcrypt from 'bcrypt';
 import nodemailer from 'nodemailer';
 import getSummonersData from './routes_functions/summonerRoute.js';
 import analyzeComposition from './routes_functions/analyzeCompRoute.js';
+import collectDataAboutRankings from './task_functions/collectDataAboutRankings.js';
 import getPerformanceForCoreUnits from './routes_functions/cmsRoute.js';
 import saveCompositionIntoDatabase from './routes_functions/cmsSaveRoute.js';
 import getCompsFromDb from './routes_functions/preparedCompsRoute.js';
@@ -190,17 +191,17 @@ app.get('/units-ranking', async (req, res) => {
         return object;
     });
     data.sort((a, b) => {
-        if (a['avg_place'] < b['avg_place']) {
+        if (a.avg_place < b.avg_place) {
             return -1;
         }
-        else if (a['avg_place'] > b['avg_place']) {
+        else if (a.avg_place > b.avg_place) {
             return 1;
         }
         else {
-            if (a['frequency'] > b['frequency']) {
+            if (a.frequency > b.frequency) {
                 return -1;
             }
-            else if (a['frequency'] < b['frequency']) {
+            else if (a.frequency < b.frequency) {
                 return 1;
             }
         }
@@ -426,7 +427,7 @@ app.get('/augments-ranking/:stage', async (req, res) => {
     return data;
 });
 app.get('/test', async (req, res) => {
-    res.code(401).send(new Error('You are not authorized'));
+    return await collectDataAboutRankings(1000);
 });
 app.get('/unit/:id', async (req, res) => {
     return await commitToDb(prisma.champions.findUnique({
@@ -515,6 +516,9 @@ app.post('/login', async (req, res) => {
 app.get('/logout', (req, res) => {
     try {
         const token = req.cookies.jwt;
+        if (token == undefined) {
+            throw new Error('Error with logging out');
+        }
         const payload = jwt.verify(token, process.env.JWT_SECRET_KEY);
         cache.del(payload['email']);
         res.code(200).clearCookie('jwt').send({ message: 'you have been log out' });
@@ -574,7 +578,10 @@ app.post('/resetPassword', (req, res) => {
                     return res.code(403);
                 }
                 else {
-                    const email = decoded.email;
+                    if (decoded == undefined) {
+                        return res.code(403);
+                    }
+                    const email = decoded['email'];
                     const encryptedPassword = await bcrypt.hash(password, 10);
                     await prisma.users.update({
                         where: { email: email },
@@ -598,9 +605,9 @@ app.get('/generalData', async (req, res) => {
             where: { id: 1 }
         });
         if (general_data == null) {
-            throw new Error('weird error');
+            throw new Error('no data found');
         }
-        const timeSinceNow = timeSince(general_data?.lastChange * 1000);
+        const timeSinceNow = timeSince(general_data.lastChange * 1000);
         res.code(200).send({
             lastChange: timeSinceNow,
             analyzedComps: general_data.totalNumberOfComps

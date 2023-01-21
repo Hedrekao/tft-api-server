@@ -1,12 +1,16 @@
 const collectDataAboutVariation = (
-  composition: Array<Object>,
-  variationPerformance: Object
+  composition: RiotAPIParticipantDto,
+  variationPerformance: {
+    placementOverall: number;
+    top4Count: number;
+    numberOfComps: number;
+  }
 ) => {
-  variationPerformance['placementOverall'] += composition['placement'];
-  if (composition['placement'] <= 4) {
-    variationPerformance['top4Count']++;
+  variationPerformance.placementOverall += composition.placement;
+  if (composition.placement <= 4) {
+    variationPerformance.top4Count++;
   }
 
-  variationPerformance['numberOfComps']++;
+  variationPerformance.numberOfComps++;
 };
 export default collectDataAboutVariation;

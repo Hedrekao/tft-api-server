@@ -17,17 +17,18 @@ const collectDataAboutRankings = async (limitOfMatches) => {
         const firstChoiceAugmentObject = {};
         const secondChoiceAugmentObject = {};
         const thirdChoiceAugmentObject = {};
-        const usedChallengersIdArray = [];
-        const challengersData = challengerDataResponse.data['entries'];
+        // const usedChallengersIdArray: Array<number> = [];
+        const challengersData = challengerDataResponse.data.entries;
         while (totalNumberOfMatches < limitOfMatches) {
             let challengerArrayId = Math.floor(Math.random() * challengersData.length);
-            while (usedChallengersIdArray.includes(challengerArrayId)) {
+            challengerArrayId++;
+            let challengerData = challengersData[challengerArrayId];
+            if (challengerData == undefined) {
                 challengerArrayId = Math.floor(Math.random() * challengersData.length);
+                challengerData = challengersData[challengerArrayId];
             }
-            usedChallengersIdArray.push(challengerArrayId);
-            const challengerData = challengersData[challengerArrayId];
             const summonerPuuidResponse = await axios.get(`https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`);
-            const summonerPuuid = summonerPuuidResponse.data['puuid'];
+            const summonerPuuid = summonerPuuidResponse.data.puuid;
             const matchesIdResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=10
 `);
             const matchesId = matchesIdResponse.data;
@@ -36,7 +37,7 @@ const collectDataAboutRankings = async (limitOfMatches) => {
                     .get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`)
                     .catch(async (e) => await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`));
                 const matchData = matchDataResponse.data;
-                const participants = matchData['info']['participants'];
+                const participants = matchData.info.participants;
                 for (const composition of participants) {
                     numberOfComps++;
                     analyzeUnitsPerformance(unitsObject, composition);
@@ -45,15 +46,6 @@ const collectDataAboutRankings = async (limitOfMatches) => {
                 }
                 totalNumberOfMatches++;
                 if (totalNumberOfMatches == limitOfMatches) {
-                    // const data = { matches: usedMatchesData };
-                    // fs.writeFile(
-                    //   './dist/static/UsedMatches.json',
-                    //   JSON.stringify(data),
-                    //   function (err) {
-                    //     if (err) throw err;
-                    //     console.log('writing to file completed');
-                    //   }
-                    // );
                     saveTotalNumberOfMatches(totalNumberOfMatches, numberOfComps);
                     calculateAndSaveUnitsDataIntoDb(unitsObject);
                     calculateAndSaveItemsDataIntoDb(itemsObject);

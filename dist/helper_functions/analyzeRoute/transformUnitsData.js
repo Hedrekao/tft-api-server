@@ -1,10 +1,10 @@
 const transformUnitsData = (units) => {
-    return units.reduce((object, item) => {
-        const name = item['character_id'];
+    return units.reduce((object, unit) => {
+        const name = unit.character_id;
         object[name] = {
-            level: item['tier'],
-            items: item['items'],
-            itemsNames: item['itemNames']
+            level: unit.tier,
+            items: unit.items,
+            itemsNames: unit.itemNames
         };
         return object;
     }, {});

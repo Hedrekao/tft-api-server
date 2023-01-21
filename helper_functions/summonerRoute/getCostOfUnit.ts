@@ -1,4 +1,4 @@
-const getCostOfUnit: any = (rarity: number) => {
+const getCostOfUnit = (rarity: number) => {
   switch (rarity) {
     case 0:
       return 1;

@@ -14,63 +14,63 @@ const getDetailedLeagueInfoData = async (
   const startingDivision = division;
 
   if (tier == 'CHALLENGER' || tier == 'MASTER' || tier == 'GRANDMASTER') {
-    const leagueResponse = await axios.get(
+    const leagueResponse = await axios.get<RiotAPIChallengerData>(
       `https://${region}.api.riotgames.com/tft/league/v1/${tier.toLowerCase()}
       `
     );
 
     const leagueData = leagueResponse.data;
-    for (const entry of leagueData['entries']) {
-      if (entry['id'] != id && entry['leaguePoints'] > lp) {
+    for (const entry of leagueData.entries) {
+      if (entry.summonerId != id && entry.leaguePoints > lp) {
         peopleWithHigherLp++;
       }
     }
     if (tier == 'MASTER') {
-      const grandmasterResponse = await axios.get(
+      const grandmasterResponse = await axios.get<RiotAPIChallengerData>(
         `https://${region}.api.riotgames.com/tft/league/v1/grandmaster`
       );
 
-      peopleWithHigherLp += grandmasterResponse.data['entries'].length;
+      peopleWithHigherLp += grandmasterResponse.data.entries.length;
 
-      const challengerResponse = await axios.get(
+      const challengerResponse = await axios.get<RiotAPIChallengerData>(
         `https://${region}.api.riotgames.com/tft/league/v1/challenger`
       );
 
-      peopleWithHigherLp += challengerResponse.data['entries'].length;
+      peopleWithHigherLp += challengerResponse.data.entries.length;
     }
     if (tier == 'GRANDMASTER') {
-      const challengerResponse = await axios.get(
+      const challengerResponse = await axios.get<RiotAPIChallengerData>(
         `https://${region}.api.riotgames.com/tft/league/v1/challenger`
       );
 
-      peopleWithHigherLp += challengerResponse.data['entries'].length;
+      peopleWithHigherLp += challengerResponse.data.entries.length;
     }
   } else if (
     tier == 'DIAMOND' &&
     (division == 'I' || division == 'II' || division == 'III')
   ) {
-    const challengerResponse = await axios.get(
+    const challengerResponse = await axios.get<RiotAPIChallengerData>(
       `https://${region}.api.riotgames.com/tft/league/v1/challenger`
     );
 
-    peopleWithHigherLp += challengerResponse.data['entries'].length;
+    peopleWithHigherLp += challengerResponse.data.entries.length;
 
-    const grandmasterResponse = await axios.get(
+    const grandmasterResponse = await axios.get<RiotAPIChallengerData>(
       `https://${region}.api.riotgames.com/tft/league/v1/grandmaster`
     );
 
-    peopleWithHigherLp += grandmasterResponse.data['entries'].length;
+    peopleWithHigherLp += grandmasterResponse.data.entries.length;
 
-    const masterResponse = await axios.get(
+    const masterResponse = await axios.get<RiotAPIChallengerData>(
       `https://${region}.api.riotgames.com/tft/league/v1/master`
     );
 
-    peopleWithHigherLp += masterResponse.data['entries'].length;
+    peopleWithHigherLp += masterResponse.data.entries.length;
 
     let isFinished = false;
     let pageCount = 1;
     do {
-      let currentLeagueResponse = await axios.get(
+      let currentLeagueResponse = await axios.get<RiotAPIChallengerDataEntry[]>(
         `https://${region}.api.riotgames.com/tft/league/v1/entries/${tier}/${division}?page=${pageCount}`
       );
 
@@ -79,7 +79,7 @@ const getDetailedLeagueInfoData = async (
       if (currentLeague.length != 0) {
         if (tier == startingTier && division == startingDivision) {
           for (const entry of currentLeague) {
-            if (entry['leaguePoints'] > lp) {
+            if (entry.leaguePoints > lp) {
               peopleWithHigherLp++;
             }
           }

@@ -11,7 +11,7 @@ import sleep from '../helper_functions/sleep.js';
 
 const collectDataAboutRankings = async (limitOfMatches: number) => {
   try {
-    const challengerDataResponse = await axios.get(
+    const challengerDataResponse = await axios.get<RiotAPIChallengerData>(
       `https://euw1.api.riotgames.com/tft/league/v1/challenger`
     );
 
@@ -23,26 +23,27 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
     const firstChoiceAugmentObject = {};
     const secondChoiceAugmentObject = {};
     const thirdChoiceAugmentObject = {};
-    const usedChallengersIdArray: Array<number> = [];
+    // const usedChallengersIdArray: Array<number> = [];
 
-    const challengersData: Array<any> = challengerDataResponse.data['entries'];
+    const challengersData: Array<any> = challengerDataResponse.data.entries;
 
     while (totalNumberOfMatches < limitOfMatches) {
       let challengerArrayId = Math.floor(
         Math.random() * challengersData.length
       );
+      challengerArrayId++;
 
-      while (usedChallengersIdArray.includes(challengerArrayId)) {
+      let challengerData = challengersData[challengerArrayId];
+      if (challengerData == undefined) {
         challengerArrayId = Math.floor(Math.random() * challengersData.length);
+        challengerData = challengersData[challengerArrayId];
       }
-      usedChallengersIdArray.push(challengerArrayId);
-      const challengerData = challengersData[challengerArrayId];
 
-      const summonerPuuidResponse = await axios.get(
+      const summonerPuuidResponse = await axios.get<RiotAPISummonerDto>(
         `https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`
       );
 
-      const summonerPuuid: string = summonerPuuidResponse.data['puuid'];
+      const summonerPuuid = summonerPuuidResponse.data.puuid;
 
       const matchesIdResponse =
         await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=10
@@ -51,19 +52,19 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
       const matchesId: Array<string> = matchesIdResponse.data;
       for (const matchId of matchesId) {
         const matchDataResponse = await axios
-          .get(
+          .get<RiotAPIMatchDto>(
             `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
           )
           .catch(
             async (e) =>
-              await axios.get(
+              await axios.get<RiotAPIMatchDto>(
                 `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
               )
           );
 
-        const matchData: Object = matchDataResponse.data;
+        const matchData = matchDataResponse.data;
 
-        const participants = matchData['info']['participants'];
+        const participants = matchData.info.participants;
 
         for (const composition of participants) {
           numberOfComps++;
@@ -79,15 +80,6 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
         }
         totalNumberOfMatches++;
         if (totalNumberOfMatches == limitOfMatches) {
-          // const data = { matches: usedMatchesData };
-          // fs.writeFile(
-          //   './dist/static/UsedMatches.json',
-          //   JSON.stringify(data),
-          //   function (err) {
-          //     if (err) throw err;
-          //     console.log('writing to file completed');
-          //   }
-          // );
           saveTotalNumberOfMatches(totalNumberOfMatches, numberOfComps);
           calculateAndSaveUnitsDataIntoDb(unitsObject);
           calculateAndSaveItemsDataIntoDb(itemsObject);

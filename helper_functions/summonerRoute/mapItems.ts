@@ -1,7 +1,7 @@
 import { cache } from '../singletonCache.js';
 
 const mapItems = (names: Array<string>, ids: Array<number>) => {
-  const dataDragon: DataDragon | undefined = cache.get('dataDragon');
+  const dataDragon = cache.get<DataDragon>('dataDragon');
   const set8Data = dataDragon?.items;
   const result = [];
 

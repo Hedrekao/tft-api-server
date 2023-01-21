@@ -8,8 +8,7 @@ const isCompositionMatchingInputCMS = (input, compositionUnits) => {
                 break;
             }
             else {
-                if (unit.level != 0 &&
-                    compositionUnits[unit.id]['level'] != unit.level) {
+                if (unit.level != 0 && compositionUnits[unit.id].level != unit.level) {
                     isCompositionMatchingInput = false;
                     break;
                 }

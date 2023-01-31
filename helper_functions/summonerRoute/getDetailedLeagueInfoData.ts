@@ -74,6 +74,15 @@ const getDetailedLeagueInfoData = async (
         `https://${region}.api.riotgames.com/tft/league/v1/entries/${tier}/${division}?page=${pageCount}`
       );
 
+      if (
+        parseInt(
+          currentLeagueResponse.headers['x-method-rate-limit-count']!.split(
+            ':'
+          )[0]
+        ) >= 35
+      ) {
+        await sleep(5000);
+      }
       let currentLeague = currentLeagueResponse.data;
 
       if (currentLeague.length != 0) {

@@ -1,7 +1,9 @@
 import { cache } from '../singletonCache.js';
 
-const mapAugments = (augments: Array<string>) => {
-  const dataDragon = cache.get<DataDragon>('dataDragon');
+const mapAugments = (
+  augments: Array<string>,
+  dataDragon: DataDragon | undefined
+) => {
   const set8Data = dataDragon?.augments;
   const result = [];
 
@@ -18,6 +20,7 @@ const mapAugments = (augments: Array<string>) => {
     };
     result.push(augment);
   }
+
   return result;
 };
 

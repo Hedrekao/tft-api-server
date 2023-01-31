@@ -2,8 +2,10 @@ import getCostOfUnit from './getCostOfUnit.js';
 import mapItems from './mapItems.js';
 import { cache } from '../singletonCache.js';
 
-const mapUnits = (rawUnits: RiotAPIUnitDto[]) => {
-  const dataDragon = cache.get<DataDragon>('dataDragon');
+const mapUnits = (
+  rawUnits: RiotAPIUnitDto[],
+  dataDragon: DataDragon | undefined
+) => {
   const set8Data = dataDragon?.sets[8].champions;
   const units = rawUnits.map((unit) => {
     const dataDragonUnit = set8Data![unit.character_id];
@@ -15,14 +17,18 @@ const mapUnits = (rawUnits: RiotAPIUnitDto[]) => {
     const idx = icon?.indexOf('.tft');
     const prefix = icon?.substring(0, idx);
     icon = prefix?.concat('_square').concat(icon?.substring(idx!)!);
+
     const cost: number = getCostOfUnit(unit.rarity);
+
+    const items = mapItems(unit.itemNames, unit.items, dataDragon!);
+
     const result = {
       id: unit.character_id,
       name: dataDragonUnit?.name,
       icon: `https://raw.communitydragon.org/latest/game/${icon}`,
       level: unit.tier,
       cost: cost,
-      items: mapItems(unit.itemNames, unit.items)
+      items: items
     };
 
     return result;

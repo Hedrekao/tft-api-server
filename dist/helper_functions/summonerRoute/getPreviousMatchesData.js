@@ -4,8 +4,10 @@ import mapTraits from './mapTraits.js';
 import mapUnits from './mapUnits.js';
 import getMatchRegion from './getMatchRegion.js';
 import mapAugments from './mapAugments.js';
+import { cache } from '../../helper_functions/singletonCache.js';
 async function getPreviousMatchesData(puuid, region, requestObject, generalData, count) {
     const matchRegion = getMatchRegion(region);
+    const dataDragon = cache.get('dataDragon');
     const matchesIdResponse = await axios.get(`https://${matchRegion}.api.riotgames.com/tft/match/v1/matches/by-puuid/${puuid}/ids?start=0&count=${count == undefined ? 20 : count}`);
     const matchesId = matchesIdResponse.data;
     const placements = [];
@@ -40,11 +42,11 @@ async function getPreviousMatchesData(puuid, region, requestObject, generalData,
                         eliminated = `${1 + Math.ceil((item.last_round - 3) / 7)}-${(item.last_round - 3) % 7 == 0 ? 7 : (item.last_round - 3) % 7}`;
                     }
                     const result = {
-                        augments: mapAugments(item.augments),
+                        augments: mapAugments(item.augments, dataDragon),
                         goldLeft: item.gold_left,
                         placement: item.placement,
-                        traits: mapTraits(item.traits),
-                        units: mapUnits(item.units),
+                        traits: mapTraits(item.traits, dataDragon),
+                        units: mapUnits(item.units, dataDragon),
                         eliminated: eliminated,
                         summonerName: name,
                         summonerIcon: summonerIcon
@@ -66,9 +68,9 @@ async function getPreviousMatchesData(puuid, region, requestObject, generalData,
                     timeAgo: timeSince(matchData.info.game_datetime),
                     queueType: matchData.info.tft_game_type === 'standard' ? 'Ranked' : 'Normal',
                     placement: placement,
-                    trait: mapTraits(playerInfo.traits),
-                    units: mapUnits(playerInfo.units),
-                    augments: mapAugments(playerInfo.augments)
+                    trait: mapTraits(playerInfo.traits, dataDragon),
+                    units: mapUnits(playerInfo.units, dataDragon),
+                    augments: mapAugments(playerInfo.augments, dataDragon)
                 };
                 allComps.push(match);
             }

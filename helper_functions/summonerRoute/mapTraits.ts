@@ -1,7 +1,9 @@
 import { cache } from '../singletonCache.js';
 
-const mapTraits = (rawTraits: RiotAPITraitDto[]) => {
-  const dataDragon = cache.get<DataDragon>('dataDragon');
+const mapTraits = (
+  rawTraits: RiotAPITraitDto[],
+  dataDragon: DataDragon | undefined
+) => {
   const set8Data = dataDragon?.sets[8].traits;
   rawTraits = rawTraits.filter((trait) => {
     return trait.style != 0;

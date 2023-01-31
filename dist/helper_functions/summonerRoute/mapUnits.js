@@ -1,8 +1,6 @@
 import getCostOfUnit from './getCostOfUnit.js';
 import mapItems from './mapItems.js';
-import { cache } from '../singletonCache.js';
-const mapUnits = (rawUnits) => {
-    const dataDragon = cache.get('dataDragon');
+const mapUnits = (rawUnits, dataDragon) => {
     const set8Data = dataDragon?.sets[8].champions;
     const units = rawUnits.map((unit) => {
         const dataDragonUnit = set8Data[unit.character_id];
@@ -14,13 +12,14 @@ const mapUnits = (rawUnits) => {
         const prefix = icon?.substring(0, idx);
         icon = prefix?.concat('_square').concat(icon?.substring(idx));
         const cost = getCostOfUnit(unit.rarity);
+        const items = mapItems(unit.itemNames, unit.items, dataDragon);
         const result = {
             id: unit.character_id,
             name: dataDragonUnit?.name,
             icon: `https://raw.communitydragon.org/latest/game/${icon}`,
             level: unit.tier,
             cost: cost,
-            items: mapItems(unit.itemNames, unit.items)
+            items: items
         };
         return result;
     });

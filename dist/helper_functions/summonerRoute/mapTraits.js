@@ -1,6 +1,4 @@
-import { cache } from '../singletonCache.js';
-const mapTraits = (rawTraits) => {
-    const dataDragon = cache.get('dataDragon');
+const mapTraits = (rawTraits, dataDragon) => {
     const set8Data = dataDragon?.sets[8].traits;
     rawTraits = rawTraits.filter((trait) => {
         return trait.style != 0;

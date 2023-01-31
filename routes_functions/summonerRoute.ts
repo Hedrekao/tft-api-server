@@ -157,6 +157,7 @@ const getSummonersData = async (name: string, region: string) => {
         true,
         gamesOverall
       );
+
       stats = {
         top4: top4Overall,
         top4Percent: top4Procentage,

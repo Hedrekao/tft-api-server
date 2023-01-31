@@ -1,6 +1,4 @@
-import { cache } from '../singletonCache.js';
-const mapAugments = (augments) => {
-    const dataDragon = cache.get('dataDragon');
+const mapAugments = (augments, dataDragon) => {
     const set8Data = dataDragon?.augments;
     const result = [];
     for (let i = 0; i < augments.length; i++) {

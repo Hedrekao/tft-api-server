@@ -825,7 +825,7 @@ async function commitToDb<T>(promise: Promise<T>) {
   return data;
 }
 
-// TODO RETHINK CRON JOB (GO THROUGH CODE, RESET DB, MAYBE ALTERNATIVE TO NODE CRONE)
+// TODO RETHINK CRON JOB (GO THROUGH CODE, MAYBE ALTERNATIVE TO NODE CRONE)
 
 // cron.schedule('0 */12 * * *', () => {
 //   collectDataAboutRankings(1000);

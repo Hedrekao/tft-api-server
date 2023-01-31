@@ -1,11 +1,19 @@
 import { cache } from '../singletonCache.js';
 
-const mapItems = (names: Array<string>, ids: Array<number>) => {
-  const dataDragon = cache.get<DataDragon>('dataDragon');
+const mapItems = (
+  names: Array<string>,
+  ids: Array<number>,
+  dataDragon: DataDragon
+) => {
   const set8Data = dataDragon?.items;
   const result = [];
 
   for (let i = 0; i < names.length; i++) {
+    const cachedItem = cache.get(`item-${names[i]}`);
+    if (cachedItem != undefined) {
+      result.push(cachedItem);
+      continue;
+    }
     const dataDragonItem = set8Data![names[i]];
     const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
     const icon = iconWithWrongExt
@@ -17,8 +25,10 @@ const mapItems = (names: Array<string>, ids: Array<number>) => {
       name: dataDragonItem?.name,
       icon: `https://raw.communitydragon.org/latest/game/${icon}`
     };
+    cache.set(`item-${names[i]}`, item);
     result.push(item);
   }
+
   return result;
 };
 

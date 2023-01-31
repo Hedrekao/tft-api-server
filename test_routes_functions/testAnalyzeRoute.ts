@@ -6,7 +6,7 @@ import prepareAnalysisResult from '../helper_functions/analyzeRoute/prepareAnaly
 import collectDataAboutAugments from '../helper_functions/analyzeRoute/collectDataAboutAugments.js';
 
 const analyzeCompositionTest = async (
-  inputData: Array<Object>,
+  inputData: AnalysisInputData,
   sampleSize?: number,
   maxNumberOfMatches?: number
 ) => {

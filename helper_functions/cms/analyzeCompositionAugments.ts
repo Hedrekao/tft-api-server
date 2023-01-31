@@ -1,11 +1,11 @@
 import { Augment, Comp } from '../../types/classes.js';
 import { createRequire } from 'module'; // Bring in the ability to create the 'require' method
 const require = createRequire(import.meta.url); // construct the require method
-const augmentsJson: Object = require('../../static/Augments.json');
-const augmentsDataJson: Array<Object> = augmentsJson['items'];
+const augmentsJson: AugmentsJSONFile = require('../../static/Augments.json');
+const augmentsDataJson = augmentsJson.items;
 
 const analyzeCompositionAugments = (
-  augmentsData: Object,
+  augmentsData: AugmentsData,
   composition: Comp,
   numberOfMatchingComps: number
 ) => {
@@ -14,20 +14,20 @@ const analyzeCompositionAugments = (
   for (const augmentData in augmentsData) {
     const avgPlace = parseFloat(
       (
-        augmentsData[augmentData]['sumOfPlacements'] /
-        augmentsData[augmentData]['numberOfComps']
+        augmentsData[augmentData].sumOfPlacements /
+        augmentsData[augmentData].numberOfComps
       ).toFixed(2)
     );
     const winRate = parseFloat(
       (
-        (augmentsData[augmentData]['numberOfWins'] /
-          augmentsData[augmentData]['numberOfComps']) *
+        (augmentsData[augmentData].numberOfWins /
+          augmentsData[augmentData].numberOfComps) *
         100
       ).toFixed(2)
     );
     const playRate = parseFloat(
       (
-        (augmentsData[augmentData]['numberOfComps'] / numberOfMatchingComps) *
+        (augmentsData[augmentData].numberOfComps / numberOfMatchingComps) *
         100
       ).toFixed(2)
     );
@@ -35,11 +35,11 @@ const analyzeCompositionAugments = (
     const src = `https://ittledul.sirv.com/Images/augments/${augmentData}.png`;
 
     const augmentNameObject = augmentsDataJson.find(
-      (val) => val['apiName'] == augmentData
+      (val) => val.apiName == augmentData
     );
     let name;
     if (augmentNameObject != null && augmentNameObject.hasOwnProperty('name')) {
-      name = augmentNameObject['name'];
+      name = augmentNameObject.name;
     } else {
       name = augmentData;
     }

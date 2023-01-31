@@ -11,6 +11,7 @@ import bcrypt from 'bcrypt';
 import nodemailer from 'nodemailer';
 import getSummonersData from './routes_functions/summonerRoute.js';
 import analyzeComposition from './routes_functions/analyzeCompRoute.js';
+import collectDataAboutRankings from './task_functions/collectDataAboutRankings.js';
 import getPerformanceForCoreUnits from './routes_functions/cmsRoute.js';
 import saveCompositionIntoDatabase from './routes_functions/cmsSaveRoute.js';
 import getCompsFromDb from './routes_functions/preparedCompsRoute.js';
@@ -23,7 +24,7 @@ import { cache } from './helper_functions/singletonCache.js';
 dotenv.config();
 axios.defaults.headers.common['X-Riot-Token'] = process.env.API_KEY;
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-axios.defaults.timeout = 3600;
+axios.defaults.timeout = 5000;
 const app = fastify();
 app.register(sensible);
 app.register(fastifyIO, {
@@ -190,17 +191,17 @@ app.get('/units-ranking', async (req, res) => {
         return object;
     });
     data.sort((a, b) => {
-        if (a['avg_place'] < b['avg_place']) {
+        if (a.avg_place < b.avg_place) {
             return -1;
         }
-        else if (a['avg_place'] > b['avg_place']) {
+        else if (a.avg_place > b.avg_place) {
             return 1;
         }
         else {
-            if (a['frequency'] > b['frequency']) {
+            if (a.frequency > b.frequency) {
                 return -1;
             }
-            else if (a['frequency'] < b['frequency']) {
+            else if (a.frequency < b.frequency) {
                 return 1;
             }
         }
@@ -426,7 +427,7 @@ app.get('/augments-ranking/:stage', async (req, res) => {
     return data;
 });
 app.get('/test', async (req, res) => {
-    res.code(401).send(new Error('You are not authorized'));
+    return await collectDataAboutRankings(1000);
 });
 app.get('/unit/:id', async (req, res) => {
     return await commitToDb(prisma.champions.findUnique({
@@ -515,6 +516,9 @@ app.post('/login', async (req, res) => {
 app.get('/logout', (req, res) => {
     try {
         const token = req.cookies.jwt;
+        if (token == undefined) {
+            throw new Error('Error with logging out');
+        }
         const payload = jwt.verify(token, process.env.JWT_SECRET_KEY);
         cache.del(payload['email']);
         res.code(200).clearCookie('jwt').send({ message: 'you have been log out' });
@@ -574,7 +578,10 @@ app.post('/resetPassword', (req, res) => {
                     return res.code(403);
                 }
                 else {
-                    const email = decoded.email;
+                    if (decoded == undefined) {
+                        return res.code(403);
+                    }
+                    const email = decoded['email'];
                     const encryptedPassword = await bcrypt.hash(password, 10);
                     await prisma.users.update({
                         where: { email: email },
@@ -598,9 +605,9 @@ app.get('/generalData', async (req, res) => {
             where: { id: 1 }
         });
         if (general_data == null) {
-            throw new Error('weird error');
+            throw new Error('no data found');
         }
-        const timeSinceNow = timeSince(general_data?.lastChange * 1000);
+        const timeSinceNow = timeSince(general_data.lastChange * 1000);
         res.code(200).send({
             lastChange: timeSinceNow,
             analyzedComps: general_data.totalNumberOfComps
@@ -620,7 +627,48 @@ app.ready().then(async () => {
             }
         });
     });
-    const dataDragon = (await axios.get('https://raw.communitydragon.org/latest/cdragon/tft/en_us.json'))?.data;
+    const rawDataDragon = (await axios.get('https://raw.communitydragon.org/latest/cdragon/tft/en_us.json'))?.data;
+    const augmentsPairs = [];
+    const itemsPairs = [];
+    rawDataDragon.items.forEach((val) => {
+        if (val.apiName.includes('Augment')) {
+            augmentsPairs.push([val.apiName, val]);
+        }
+        else if (val.apiName.includes('Item')) {
+            itemsPairs.push([val.apiName, val]);
+        }
+    });
+    const improvedItems = Object.fromEntries(itemsPairs);
+    const improvedAugments = Object.fromEntries(augmentsPairs);
+    const improvedSets = {};
+    for (const setName in rawDataDragon.sets) {
+        const set = rawDataDragon.sets[setName];
+        const improvedUnits = set.champions.reduce((prev, val) => {
+            prev[val.apiName] = {
+                ...val
+            };
+            delete prev[val.apiName]['apiName'];
+            return prev;
+        }, {});
+        const improvedTraits = set.traits.reduce((prev, val) => {
+            prev[val.apiName] = {
+                ...val
+            };
+            delete prev[val.apiName]['apiName'];
+            return prev;
+        }, {});
+        improvedSets[setName] = {
+            name: set.name,
+            champions: improvedUnits,
+            traits: improvedTraits
+        };
+    }
+    const dataDragon = {
+        ...rawDataDragon,
+        augments: improvedAugments,
+        sets: improvedSets,
+        items: improvedItems
+    };
     cache.set('dataDragon', dataDragon, 0);
 });
 app.listen({ port: port, host: '0.0.0.0' }, (err) => {
@@ -632,7 +680,7 @@ async function commitToDb(promise) {
         return app.httpErrors.internalServerError(error.message);
     return data;
 }
-// TODO RETHINK CRON JOB (GO THROUGH CODE, RESET DB, MAYBE ALTERNATIVE TO NODE CRONE)
+// TODO RETHINK CRON JOB (GO THROUGH CODE, MAYBE ALTERNATIVE TO NODE CRONE)
 // cron.schedule('0 */12 * * *', () => {
 //   collectDataAboutRankings(1000);
 // });

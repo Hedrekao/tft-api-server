@@ -4,22 +4,23 @@ const prepareAnalysisResult = (top4Count, winCount, placementOverall, numberOfMa
     if (numberOfMatchingComps == 0) {
         return { info: 'No matches' };
     }
-    const result = {};
     const top4Procentage = ((top4Count / numberOfMatchingComps) * 100).toFixed(2);
     const winsProcentage = ((winCount / numberOfMatchingComps) * 100).toFixed(2);
     const avgPlacement = (placementOverall / numberOfMatchingComps).toFixed(2);
     const playRate = (numberOfMatchingComps / totalNumberOfMatchesOverall).toFixed(2);
-    result['top4Ratio'] = parseFloat(top4Procentage);
-    result['winRate'] = parseFloat(winsProcentage);
-    result['avgPlace'] = parseFloat(avgPlacement);
-    result['playRate'] = parseFloat(playRate); // this should include matches that were also without this comp? also how tf u actually calculate this
     if (itemsData != undefined) {
         analyzeItems(inputData, itemsData, numberOfMatchingComps);
-        result['units'] = inputData;
     }
-    if (augmentsData != undefined) {
-        result['augments'] = analyzeAugments(augmentsData, numberOfMatchingComps);
-    }
+    const result = {
+        top4Ratio: parseFloat(top4Procentage),
+        winRate: parseFloat(winsProcentage),
+        avgPlace: parseFloat(avgPlacement),
+        playRate: parseFloat(playRate),
+        augments: augmentsData != undefined
+            ? analyzeAugments(augmentsData, numberOfMatchingComps)
+            : null,
+        units: inputData
+    };
     return result;
 };
 export default prepareAnalysisResult;

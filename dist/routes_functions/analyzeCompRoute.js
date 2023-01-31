@@ -30,11 +30,11 @@ const analyzeComposition = async (inputData, socketSessionId, io, sampleSize, ma
         const challengersData = challengerDataResponse.data['entries'];
         for (const challengerData of challengersData) {
             const summonerPuuidResponse = await axios
-                .get(`https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`)
+                .get(`https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData.summonerId}`)
                 .catch(async (e) => {
-                return axios.get(`https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`);
+                return axios.get(`https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData.summonerId}`);
             });
-            const summonerPuuid = summonerPuuidResponse.data['puuid'];
+            const summonerPuuid = summonerPuuidResponse.data.puuid;
             const matchesIdResponse = await axios
                 .get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=10
 `)
@@ -62,7 +62,7 @@ const analyzeComposition = async (inputData, socketSessionId, io, sampleSize, ma
             const resolvedPromisesData = resolvedPromises.map((result) => result.data);
             for (const matchData of resolvedPromisesData) {
                 let firstCompositionInMatch = true;
-                const participants = matchData['info']['participants'];
+                const participants = matchData.info.participants;
                 const progress = Math.round(((totalNumberOfMatchesOverall + 1) / maxNumberOfMatches) * 100);
                 if (socketInstance != null) {
                     if (progress != previousProgress && progress != 100) {
@@ -71,7 +71,7 @@ const analyzeComposition = async (inputData, socketSessionId, io, sampleSize, ma
                 }
                 previousProgress = progress;
                 for (const composition of participants) {
-                    const compositionUnits = transformUnitsData(composition['units']);
+                    const compositionUnits = transformUnitsData(composition.units);
                     const isAMatch = isCompositionMatchingInput(inputData, compositionUnits);
                     if (isAMatch) {
                         numberOfMatchingComps++;
@@ -79,10 +79,10 @@ const analyzeComposition = async (inputData, socketSessionId, io, sampleSize, ma
                             totalNumberOfMatches++;
                             firstCompositionInMatch = false;
                         }
-                        placementOverall += composition['placement'];
-                        if (composition['placement'] <= 4) {
+                        placementOverall += composition.placement;
+                        if (composition.placement <= 4) {
                             top4Count++;
-                            if (composition['placement'] == 1) {
+                            if (composition.placement == 1) {
                                 winCount++;
                             }
                         }

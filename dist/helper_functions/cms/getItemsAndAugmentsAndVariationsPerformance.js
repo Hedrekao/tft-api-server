@@ -14,11 +14,11 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
         let totalNumberOfMatches = 0;
         let numberOfAugmentMatchingComps = 0;
         let totalNumberOfMatchesOverall = 0;
-        const usedChallengersIdArray = [];
+        // const usedChallengersIdArray: Array<number> = [];
         const itemsData = {};
         const augmentData = {};
         const variationPerformance = [];
-        const challengersData = challengerDataResponse.data['entries'];
+        const challengersData = challengerDataResponse.data.entries;
         while (totalNumberOfMatchesOverall < 1000) {
             let challengerArrayId = Math.floor(Math.random() * challengersData.length);
             challengerArrayId++;
@@ -28,7 +28,7 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
                 challengerData = challengersData[challengerArrayId];
             }
             const summonerPuuidResponse = await axios.get(`https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`);
-            const summonerPuuid = summonerPuuidResponse.data['puuid'];
+            const summonerPuuid = summonerPuuidResponse.data.puuid;
             const matchesIdResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=10
 `);
             const matchesId = matchesIdResponse.data;
@@ -38,9 +38,9 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
                     .catch(async (e) => await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`));
                 const matchData = matchDataResponse.data;
                 let firstCompositionInMatch = true;
-                const participants = matchData['info']['participants'];
+                const participants = matchData.info.participants;
                 for (const composition of participants) {
-                    const compositionUnits = transformUnitsData(composition['units']);
+                    const compositionUnits = transformUnitsData(composition.units);
                     const isMatchForAugmentCheck = isCompositionMatchingInputCMS(compositionInput, compositionUnits);
                     if (isMatchForAugmentCheck) {
                         collectDataAboutAugments(composition, augmentData);
@@ -82,5 +82,4 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
         return { error: `error - ${error.message}` };
     }
 };
-// 6 itemow kazdy unit w compie
 export default find4MostFrequentItemsOnCoreUnits;

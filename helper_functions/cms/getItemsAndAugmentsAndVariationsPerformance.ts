@@ -13,7 +13,7 @@ import analyzeAugments from 'helper_functions/analyzeRoute/analyzeAugments.js';
 
 const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
   try {
-    const challengerDataResponse = await axios.get(
+    const challengerDataResponse = await axios.get<RiotAPIChallengerData>(
       `https://euw1.api.riotgames.com/tft/league/v1/challenger`
     );
 
@@ -21,13 +21,13 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
     let totalNumberOfMatches = 0;
     let numberOfAugmentMatchingComps = 0;
     let totalNumberOfMatchesOverall = 0;
-    const usedChallengersIdArray: Array<number> = [];
+    // const usedChallengersIdArray: Array<number> = [];
 
-    const itemsData = {};
-    const augmentData = {};
-    const variationPerformance: any = [];
+    const itemsData: ItemsDataCMS = {};
+    const augmentData: AugmentsData = {};
+    const variationPerformance = [];
 
-    const challengersData: Array<any> = challengerDataResponse.data['entries'];
+    const challengersData = challengerDataResponse.data.entries;
 
     while (totalNumberOfMatchesOverall < 1000) {
       let challengerArrayId = Math.floor(
@@ -40,11 +40,11 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
         challengerArrayId = Math.floor(Math.random() * challengersData.length);
         challengerData = challengersData[challengerArrayId];
       }
-      const summonerPuuidResponse = await axios.get(
+      const summonerPuuidResponse = await axios.get<RiotAPISummonerDto>(
         `https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`
       );
 
-      const summonerPuuid: string = summonerPuuidResponse.data['puuid'];
+      const summonerPuuid = summonerPuuidResponse.data.puuid;
 
       const matchesIdResponse =
         await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=10
@@ -53,23 +53,23 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
       const matchesId: Array<string> = matchesIdResponse.data;
       for (const matchId of matchesId) {
         const matchDataResponse = await axios
-          .get(
+          .get<RiotAPIMatchDto>(
             `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
           )
           .catch(
             async (e) =>
-              await axios.get(
+              await axios.get<RiotAPIMatchDto>(
                 `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
               )
           );
 
-        const matchData: Object = matchDataResponse.data;
+        const matchData = matchDataResponse.data;
         let firstCompositionInMatch = true;
 
-        const participants = matchData['info']['participants'];
+        const participants = matchData.info.participants;
 
         for (const composition of participants) {
-          const compositionUnits = transformUnitsData(composition['units']);
+          const compositionUnits = transformUnitsData(composition.units);
 
           const isMatchForAugmentCheck = isCompositionMatchingInputCMS(
             compositionInput,
@@ -141,5 +141,4 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
   }
 };
 
-// 6 itemow kazdy unit w compie
 export default find4MostFrequentItemsOnCoreUnits;

@@ -18,8 +18,8 @@ const getCompsFromDb = async () => {
   const comps = await prisma.compositionJSON.findMany();
   for (const comp of comps) {
     if (comp.visibility) {
-      const jsonString: any = comp.json;
-      const composition: Comp = JSON.parse(jsonString);
+      const jsonString = comp.json;
+      const composition: Comp = JSON.parse(jsonString as string);
       result.push(composition);
     }
   }

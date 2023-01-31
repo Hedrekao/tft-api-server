@@ -6,7 +6,7 @@ import sleep from '../helper_functions/sleep.js';
 import isCompositionMatchingInput from '../helper_functions/analyzeRoute/isCompositionMatchingInput.js';
 
 const getPerformanceForCoreUnits = async (
-  inputData: Array<Object>,
+  inputData: AnalysisInputData,
   sampleSize?: number,
   maxNumberOfMatches?: number
 ) => {

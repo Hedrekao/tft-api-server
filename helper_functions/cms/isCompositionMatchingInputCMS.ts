@@ -2,7 +2,7 @@ import { Comp, Variation } from '../../types/classes.js';
 
 const isCompositionMatchingInputCMS = (
   input: Comp | Variation,
-  compositionUnits: Object
+  compositionUnits: TransformedUnits
 ): boolean => {
   let isCompositionMatchingInput = true;
   for (const unit of input.units) {
@@ -13,10 +13,7 @@ const isCompositionMatchingInputCMS = (
         isCompositionMatchingInput = false;
         break;
       } else {
-        if (
-          unit.level != 0 &&
-          compositionUnits[unit.id]['level'] != unit.level
-        ) {
+        if (unit.level != 0 && compositionUnits[unit.id].level != unit.level) {
           isCompositionMatchingInput = false;
           break;
         }

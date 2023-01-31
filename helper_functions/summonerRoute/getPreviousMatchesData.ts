@@ -4,15 +4,39 @@ import mapTraits from './mapTraits.js';
 import mapUnits from './mapUnits.js';
 import getMatchRegion from './getMatchRegion.js';
 import sleep from '../sleep.js';
+import mapAugments from './mapAugments.js';
+import { cache } from '../../helper_functions/singletonCache.js';
 
-const getPreviousMatchesData = async (
+async function getPreviousMatchesData(
+  puuid: string,
+  region: string,
+  requestObject: Object,
+  generalData?: true,
+  count?: number
+): Promise<{
+  winsProcentage: string;
+  avgPlacement: string;
+  wins: number;
+  sumOfPlacements: number;
+}>;
+
+async function getPreviousMatchesData(
+  puuid: string,
+  region: string,
+  requestObject: Object,
+  generalData?: false,
+  count?: number
+): Promise<[SummonerLast20MatchesStats, SummonerMatch[]]>;
+
+async function getPreviousMatchesData(
   puuid: string,
   region: string,
   requestObject: Object,
   generalData?: boolean,
   count?: number
-) => {
+) {
   const matchRegion = getMatchRegion(region);
+  const dataDragon = cache.get<DataDragon>('dataDragon');
 
   const matchesIdResponse = await axios.get(
     `https://${matchRegion}.api.riotgames.com/tft/match/v1/matches/by-puuid/${puuid}/ids?start=0&count=${
@@ -20,7 +44,7 @@ const getPreviousMatchesData = async (
     }`
   );
 
-  const matchesId = matchesIdResponse.data;
+  const matchesId: string[] = matchesIdResponse.data;
   const placements = [];
 
   let sumOfPlacements = 0;
@@ -31,56 +55,55 @@ const getPreviousMatchesData = async (
 
   for (const matchId of matchesId) {
     const matchDataResponse = await axios
-      .get(
+      .get<RiotAPIMatchDto>(
         `https://${matchRegion}.api.riotgames.com/tft/match/v1/matches/${matchId}`
       )
       .catch(
         async (e) =>
-          await axios.get(
+          await axios.get<RiotAPIMatchDto>(
             `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
           )
       );
 
     const matchData = matchDataResponse.data;
-    if (matchData['info']['tft_set_core_name'] == 'TFTSet8') {
-      const participants: Array<any> = matchData['info']['participants'];
-      const playerIndex = matchData['metadata']['participants'].indexOf(puuid);
+    if (matchData.info.tft_set_core_name == 'TFTSet8') {
+      const participants = matchData.info.participants;
+      const playerIndex = matchData.metadata.participants.indexOf(puuid);
       countOfGames++;
       const playerInfo = participants[playerIndex];
-      const placement = playerInfo['placement'];
+      const placement = playerInfo.placement;
 
       if (!generalData) {
         const otherCompositions = await Promise.all(
           participants.map(async (item) => {
             let eliminated;
             const summonerResponse = await axios
-              .get(
-                `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/${item['puuid']}`
+              .get<RiotAPISummonerDto>(
+                `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/${item.puuid}`
               )
               .catch(
                 async (e) =>
-                  await axios.get(
-                    `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/${item['puuid']}`
+                  await axios.get<RiotAPISummonerDto>(
+                    `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/${item.puuid}`
                   )
               );
 
-            const name = summonerResponse.data['name'];
-            const summonerIcon = summonerResponse.data['profileIconId'];
-            if (item['last_round'] <= 3) {
-              eliminated = `1-${item['last_round']}`;
+            const name = summonerResponse.data.name;
+            const summonerIcon = summonerResponse.data.profileIconId;
+            if (item.last_round <= 3) {
+              eliminated = `1-${item.last_round}`;
             } else {
-              eliminated = `${1 + Math.ceil((item['last_round'] - 3) / 7)}-${
-                (item['last_round'] - 3) % 7 == 0
-                  ? 7
-                  : (item['last_round'] - 3) % 7
+              eliminated = `${1 + Math.ceil((item.last_round - 3) / 7)}-${
+                (item.last_round - 3) % 7 == 0 ? 7 : (item.last_round - 3) % 7
               }`;
             }
+
             const result = {
-              augments: item['augments'],
-              goldLeft: item['gold_left'],
-              placement: item['placement'],
-              traits: mapTraits(item['traits']),
-              units: mapUnits(item['units']),
+              augments: mapAugments(item.augments, dataDragon),
+              goldLeft: item.gold_left,
+              placement: item.placement,
+              traits: mapTraits(item.traits, dataDragon),
+              units: mapUnits(item.units, dataDragon),
               eliminated: eliminated,
               summonerName: name,
               summonerIcon: summonerIcon
@@ -88,27 +111,27 @@ const getPreviousMatchesData = async (
             return result;
           })
         );
+
         otherCompositions.sort((a, b) => {
-          if (a['placement'] < b['placement']) {
+          if (a.placement < b.placement) {
             return -1;
           }
-          if (a['placement'] < b['placement']) {
+          if (a.placement < b.placement) {
             return 1;
           }
           return 0;
         });
+
         const match = {
           players: otherCompositions,
-          matchTime: matchData['info']['game_datetime'],
-          timeAgo: timeSince(matchData['info']['game_datetime']),
+          matchTime: matchData.info.game_datetime,
+          timeAgo: timeSince(matchData.info.game_datetime),
           queueType:
-            matchData['info']['tft_game_type'] === 'standard'
-              ? 'Ranked'
-              : 'Normal',
+            matchData.info.tft_game_type === 'standard' ? 'Ranked' : 'Normal',
           placement: placement,
-          trait: mapTraits(playerInfo['traits']),
-          units: mapUnits(playerInfo['units']),
-          augments: playerInfo['augments']
+          trait: mapTraits(playerInfo.traits, dataDragon),
+          units: mapUnits(playerInfo.units, dataDragon),
+          augments: mapAugments(playerInfo.augments, dataDragon)
         };
         allComps.push(match);
       }
@@ -128,9 +151,8 @@ const getPreviousMatchesData = async (
   const top4Procentage = ((top4Placements / countOfGames) * 100).toFixed(2);
   const avgPlacement = (sumOfPlacements / countOfGames).toFixed(2);
 
-  let result = {};
   if (!generalData) {
-    result = {
+    const result = {
       winsProcentage: winsProcentage,
       top4Procentage: top4Procentage,
       avgPlacement: avgPlacement,
@@ -141,7 +163,7 @@ const getPreviousMatchesData = async (
     };
     return [result, allComps];
   } else {
-    result = {
+    const result = {
       winsProcentage: winsProcentage,
       avgPlacement: avgPlacement,
       wins: wins,
@@ -149,6 +171,6 @@ const getPreviousMatchesData = async (
     };
     return result;
   }
-};
+}
 
 export default getPreviousMatchesData;

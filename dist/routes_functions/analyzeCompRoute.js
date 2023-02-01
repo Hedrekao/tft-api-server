@@ -62,11 +62,16 @@ const analyzeComposition = async (inputData, socketSessionId, io, sampleSize, ma
                 });
                 promises.push(matchDataResponse);
             }
-            const resolvedPromises = await Promise.all(promises);
-            if (parseInt(resolvedPromises[0].headers['x-method-rate-limit-count'].split(':')[0]) >= 165) {
-                await sleep(5000);
-            }
-            const resolvedPromisesData = resolvedPromises.map((result) => result.data);
+            const resolvedPromises = await Promise.allSettled(promises);
+            const resolvedPromisesData = [];
+            resolvedPromises.forEach(async (promise) => {
+                if (promise.status == 'fulfilled') {
+                    if (parseInt(promise.value.headers['x-method-rate-limit-count'].split(':')[0]) >= 165) {
+                        await sleep(5000);
+                    }
+                    resolvedPromisesData.push(promise.value.data);
+                }
+            });
             for (const matchData of resolvedPromisesData) {
                 let firstCompositionInMatch = true;
                 const participants = matchData.info.participants;

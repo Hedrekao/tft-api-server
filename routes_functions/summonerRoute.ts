@@ -195,7 +195,7 @@ const getSummonersData = async (name: string, region: string) => {
 
     return result;
   } catch (error: any) {
-    console.log('wtf');
+    console.log(error.message);
     return { error: `error - ${error.message}` };
   }
 };

@@ -1,5 +1,6 @@
 import analyzeItems from './analyzeItems.js';
 import analyzeAugments from './analyzeAugments.js';
+import { cache } from '../singletonCache.js';
 
 const prepareAnalysisResult = (
   top4Count: number,
@@ -15,6 +16,9 @@ const prepareAnalysisResult = (
   if (numberOfMatchingComps == 0) {
     return { info: 'No matches' };
   }
+
+  const dataDragon = cache.get<DataDragon>('dataDragon');
+
   const top4Procentage = ((top4Count / numberOfMatchingComps) * 100).toFixed(2);
 
   const winsProcentage = ((winCount / numberOfMatchingComps) * 100).toFixed(2);
@@ -26,7 +30,7 @@ const prepareAnalysisResult = (
   ).toFixed(2);
 
   if (itemsData != undefined) {
-    analyzeItems(inputData, itemsData, numberOfMatchingComps);
+    analyzeItems(inputData, itemsData, numberOfMatchingComps, dataDragon);
   }
 
   const result = {
@@ -36,7 +40,7 @@ const prepareAnalysisResult = (
     playRate: parseFloat(playRate),
     augments:
       augmentsData != undefined
-        ? analyzeAugments(augmentsData, numberOfMatchingComps)
+        ? analyzeAugments(augmentsData, numberOfMatchingComps, dataDragon)
         : null,
     units: inputData
   };

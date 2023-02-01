@@ -1,5 +1,3 @@
-import { cache } from '../singletonCache.js';
-
 const mapAugments = (
   augments: Array<string>,
   dataDragon: DataDragon | undefined

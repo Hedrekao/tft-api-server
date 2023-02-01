@@ -1,5 +1,3 @@
-import { cache } from '../singletonCache.js';
-
 const mapTraits = (
   rawTraits: RiotAPITraitDto[],
   dataDragon: DataDragon | undefined

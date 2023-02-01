@@ -1,22 +1,17 @@
-import { createRequire } from 'module'; // Bring in the ability to create the 'require' method
-const require = createRequire(import.meta.url); // construct the require method
-const augmentsJson = require('../../static/Augments.json');
-const augmentsDataJson = augmentsJson.items;
-const analyzeAugments = (augmentsData, numberOfMatchingComps) => {
+const analyzeAugments = (augmentsData, numberOfMatchingComps, dataDragon) => {
     const result = [];
+    const set8Data = dataDragon?.augments;
     for (const augmentData in augmentsData) {
-        const augmentNameObject = augmentsDataJson.find((val) => val.apiName == augmentData);
-        let name;
-        if (augmentNameObject != null && augmentNameObject.hasOwnProperty('name')) {
-            name = augmentNameObject.name;
-        }
-        else {
-            name = augmentData;
-        }
-        const src = `https://ittledul.sirv.com/Images/augments/${augmentData}.png`;
+        const dataDragonItem = set8Data[augmentData];
+        const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
+        const src = iconWithWrongExt
+            ?.substring(0, iconWithWrongExt.length - 3)
+            .concat('png');
+        const name = dataDragonItem.name;
         const augment = {
+            apiName: augmentData,
             name: name,
-            src: src,
+            src: `https://raw.communitydragon.org/latest/game/${src}`,
             avgPlace: (augmentsData[augmentData].sumOfPlacements /
                 augmentsData[augmentData].numberOfComps).toFixed(2),
             winRate: ((augmentsData[augmentData].numberOfWins /

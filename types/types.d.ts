@@ -86,6 +86,7 @@ type DataDragonSet = {
 type AnalysisInputData = [
   {
     name: string;
+    icon: string?;
     level: number;
     items: { id: number }[] | [] | Array<AnalyzedItem>;
   }
@@ -93,7 +94,9 @@ type AnalysisInputData = [
 
 type AnalyzedItem = {
   id: number;
+  apiName: string;
   name: string;
+  icon: string;
   playRate: string;
   avgPlace: string;
 };

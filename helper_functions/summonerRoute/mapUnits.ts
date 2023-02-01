@@ -1,6 +1,5 @@
 import getCostOfUnit from './getCostOfUnit.js';
 import mapItems from './mapItems.js';
-import { cache } from '../singletonCache.js';
 
 const mapUnits = (
   rawUnits: RiotAPIUnitDto[],

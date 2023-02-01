@@ -433,7 +433,7 @@ app.get('/augments-ranking/:stage', async (req, res) => {
     return data;
 });
 app.get('/test', async (req, res) => {
-    await collectDataAboutRankings(500);
+    await collectDataAboutRankings(700);
     return 'test done';
 });
 app.get('/unit/:id', async (req, res) => {

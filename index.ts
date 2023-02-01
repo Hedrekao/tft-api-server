@@ -541,7 +541,7 @@ app.get<{ Params: { stage: string } }>(
 );
 
 app.get('/test', async (req, res) => {
-  await collectDataAboutRankings(500);
+  await collectDataAboutRankings(700);
   return 'test done';
 });
 

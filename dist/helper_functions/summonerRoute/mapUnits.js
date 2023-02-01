@@ -5,18 +5,17 @@ const mapUnits = (rawUnits, dataDragon) => {
     const units = rawUnits.map((unit) => {
         const dataDragonUnit = set8Data[unit.character_id];
         const iconWithWrongExt = dataDragonUnit?.icon.toLowerCase();
-        let icon = iconWithWrongExt
-            ?.substring(0, iconWithWrongExt.length - 3)
-            .concat('png');
-        const idx = icon?.indexOf('.tft');
-        const prefix = icon?.substring(0, idx);
-        icon = prefix?.concat('_square').concat(icon?.substring(idx));
+        const urlArr = iconWithWrongExt.split('/');
+        const elementUrl = urlArr[4];
+        const url = `https://raw.communitydragon.org/latest/game/assets/characters/${unit.character_id.toLowerCase()}/hud/${elementUrl
+            .replace('.dds', '')
+            .toLowerCase()}.png`;
         const cost = getCostOfUnit(unit.rarity);
         const items = mapItems(unit.itemNames, unit.items, dataDragon);
         const result = {
             id: unit.character_id,
             name: dataDragonUnit?.name,
-            icon: `https://raw.communitydragon.org/latest/game/${icon}`,
+            icon: url,
             level: unit.tier,
             cost: cost,
             items: items

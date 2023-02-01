@@ -1,9 +1,10 @@
 import axios from 'axios';
-import sleep from '../sleep.js';
+import throttledQueue from 'throttled-queue';
 const getDetailedLeagueInfoData = async (id, tier, region, division, lp, requestObject) => {
     let peopleWithHigherLp = 0;
     const startingTier = tier;
     const startingDivision = division;
+    const throttle = throttledQueue(50, 10000);
     if (tier == 'CHALLENGER' || tier == 'MASTER' || tier == 'GRANDMASTER') {
         const leagueResponse = await axios.get(`https://${region}.api.riotgames.com/tft/league/v1/${tier.toLowerCase()}
       `);
@@ -35,10 +36,7 @@ const getDetailedLeagueInfoData = async (id, tier, region, division, lp, request
         let isFinished = false;
         let pageCount = 1;
         do {
-            let currentLeagueResponse = await axios.get(`https://${region}.api.riotgames.com/tft/league/v1/entries/${tier}/${division}?page=${pageCount}`);
-            if (parseInt(currentLeagueResponse.headers['x-method-rate-limit-count'].split(':')[0]) >= 35) {
-                await sleep(5000);
-            }
+            let currentLeagueResponse = await throttle(() => axios.get(`https://${region}.api.riotgames.com/tft/league/v1/entries/${tier}/${division}?page=${pageCount}`));
             let currentLeague = currentLeagueResponse.data;
             if (currentLeague.length != 0) {
                 if (tier == startingTier && division == startingDivision) {

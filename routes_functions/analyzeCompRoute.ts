@@ -7,8 +7,6 @@ import collectDataAboutAugments from '../helper_functions/analyzeRoute/collectDa
 import { cache } from '../helper_functions/singletonCache.js';
 
 import sleep from '../helper_functions/sleep.js';
-import throttledQueue from 'throttled-queue';
-import { match } from 'assert';
 
 const analyzeComposition = async (
   inputData: AnalysisInputData,
@@ -78,37 +76,36 @@ const analyzeComposition = async (
         } else {
           visitedMatches.push(matchId);
         }
-        const throttle = throttledQueue(200, 10000);
-        const matchDataResponse = throttle(() =>
-          axios
-            .get<RiotAPIMatchDto>(
-              `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
-            )
-            .catch(async (e) => {
-              return axios
-                .get<RiotAPIMatchDto>(
+
+        const matchDataResponse = axios
+          .get<RiotAPIMatchDto>(
+            `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
+          )
+          .catch(async (e) => {
+            return axios
+              .get<RiotAPIMatchDto>(
+                `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
+              )
+              .catch(async (e) => {
+                return axios.get<RiotAPIMatchDto>(
                   `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
-                )
-                .catch(async (e) => {
-                  return axios.get<RiotAPIMatchDto>(
-                    `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
-                  );
-                });
-            })
-        );
+                );
+              });
+          });
+
         promises.push(matchDataResponse);
       }
 
       const resolvedPromises = await Promise.all(promises);
-      // if (
-      //   parseInt(
-      //     resolvedPromises[0].headers['x-method-rate-limit-count']!.split(
-      //       ':'
-      //     )[0]
-      //   ) >= 165
-      // ) {
-      //   await sleep(5000);
-      // }
+      if (
+        parseInt(
+          resolvedPromises[0].headers['x-method-rate-limit-count']!.split(
+            ':'
+          )[0]
+        ) >= 165
+      ) {
+        await sleep(5000);
+      }
       const resolvedPromisesData = resolvedPromises.map(
         (result) => result.data
       );

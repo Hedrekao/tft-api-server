@@ -5,7 +5,7 @@ import collectDataAboutItems from '../helper_functions/analyzeRoute/collectDataA
 import prepareAnalysisResult from '../helper_functions/analyzeRoute/prepareAnalysisResult.js';
 import collectDataAboutAugments from '../helper_functions/analyzeRoute/collectDataAboutAugments.js';
 import { cache } from '../helper_functions/singletonCache.js';
-import throttledQueue from 'throttled-queue';
+import sleep from '../helper_functions/sleep.js';
 const analyzeComposition = async (inputData, socketSessionId, io, sampleSize, maxNumberOfMatches) => {
     try {
         const challengerDataResponse = await axios
@@ -51,8 +51,7 @@ const analyzeComposition = async (inputData, socketSessionId, io, sampleSize, ma
                 else {
                     visitedMatches.push(matchId);
                 }
-                const throttle = throttledQueue(200, 10000);
-                const matchDataResponse = throttle(() => axios
+                const matchDataResponse = axios
                     .get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`)
                     .catch(async (e) => {
                     return axios
@@ -60,19 +59,13 @@ const analyzeComposition = async (inputData, socketSessionId, io, sampleSize, ma
                         .catch(async (e) => {
                         return axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`);
                     });
-                }));
+                });
                 promises.push(matchDataResponse);
             }
             const resolvedPromises = await Promise.all(promises);
-            // if (
-            //   parseInt(
-            //     resolvedPromises[0].headers['x-method-rate-limit-count']!.split(
-            //       ':'
-            //     )[0]
-            //   ) >= 165
-            // ) {
-            //   await sleep(5000);
-            // }
+            if (parseInt(resolvedPromises[0].headers['x-method-rate-limit-count'].split(':')[0]) >= 165) {
+                await sleep(5000);
+            }
             const resolvedPromisesData = resolvedPromises.map((result) => result.data);
             for (const matchData of resolvedPromisesData) {
                 let firstCompositionInMatch = true;

@@ -4,9 +4,10 @@ const mapAugments = (augments, dataDragon) => {
     for (let i = 0; i < augments.length; i++) {
         const dataDragonItem = set8Data[augments[i]];
         const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
-        const icon = iconWithWrongExt
+        let icon = iconWithWrongExt
             ?.substring(0, iconWithWrongExt.length - 3)
             .concat('png');
+        icon = icon.replace('hexcore', 'choiceui');
         const augment = {
             apiName: augments[i],
             name: dataDragonItem?.name,

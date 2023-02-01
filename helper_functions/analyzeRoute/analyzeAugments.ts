@@ -8,9 +8,10 @@ const analyzeAugments = (
   for (const augmentData in augmentsData) {
     const dataDragonItem = set8Data![augmentData];
     const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
-    const src = iconWithWrongExt
+    let src = iconWithWrongExt
       ?.substring(0, iconWithWrongExt.length - 3)
       .concat('png');
+    src = src.replace('hexcore', 'choiceui');
 
     const name = dataDragonItem.name;
 

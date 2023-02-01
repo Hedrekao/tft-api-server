@@ -29,6 +29,7 @@ const calculateAndSaveItemsDataIntoDb = async (
       } else {
         const dataDragonItem = set8DataItems![id];
         const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
+        const type = iconWithWrongExt?.split('/')[5];
         const icon = iconWithWrongExt
           ?.substring(0, iconWithWrongExt.length - 3)
           .concat('png');
@@ -39,7 +40,8 @@ const calculateAndSaveItemsDataIntoDb = async (
             numberOfAppearances: itemsObject[id].numberOfComps,
             sumOfWins: itemsObject[id].numberOfWins,
             icon: `https://raw.communitydragon.org/latest/game/${icon}`,
-            name: dataDragonItem.name
+            name: dataDragonItem.name,
+            type: type
           }
         });
       }

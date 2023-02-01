@@ -43,6 +43,7 @@ model items_ranking {
   numberOfAppearances Int    @default(0)
   sumOfPlacements     Int    @default(0)
   sumOfWins           Int    @default(0)
+  type                String
   icon                String
   name                String
 }

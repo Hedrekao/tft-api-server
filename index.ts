@@ -272,6 +272,7 @@ app.get('/items-ranking', async (req, res) => {
       id: item.id,
       name: item.name,
       icon: item.icon,
+      type: item.type,
       avg_place: (
         item.sumOfPlacements /
         (item.numberOfAppearances != 0 ? item.numberOfAppearances : 1)

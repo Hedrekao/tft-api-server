@@ -341,3 +341,7 @@ type RiotAPIUnitDto = {
   rarity: number;
   tier: number;
 };
+
+// Cron task types
+
+type CronTaskData = AugmentsData;

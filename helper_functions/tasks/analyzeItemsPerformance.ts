@@ -1,23 +1,28 @@
 const analyzeItemsPerformance = (
-  itemsObject: Object,
+  itemsObject: CronTaskData,
   composition: RiotAPIParticipantDto
 ) => {
   for (const unit of composition.units) {
-    for (const item of unit.items) {
+    for (const item of unit.itemNames) {
+      const itemId = unit.items[unit.itemNames.indexOf(item)];
+      if (itemId < 10 || itemId == 88 || itemId == 10006) {
+        continue;
+      }
       if (itemsObject.hasOwnProperty(item)) {
-        itemsObject[item]['sumOfPlacement'] += composition.placement;
-        itemsObject[item]['frequency'] += 1;
+        itemsObject[item].sumOfPlacements += composition.placement;
+        itemsObject[item].numberOfComps += 1;
         if (composition.placement == 1) {
-          itemsObject[item]['winrate'] += 1;
+          itemsObject[item].numberOfWins += 1;
         }
       } else {
-        itemsObject[item] = {};
-        itemsObject[item]['sumOfPlacement'] = composition.placement;
-        itemsObject[item]['frequency'] = 1;
+        itemsObject[item] = {
+          sumOfPlacements: composition.placement,
+          numberOfComps: 1,
+          numberOfWins: 0
+        };
+
         if (composition.placement == 1) {
-          itemsObject[item]['winrate'] = 1;
-        } else {
-          itemsObject[item]['winrate'] = 0;
+          itemsObject[item].numberOfWins++;
         }
       }
     }

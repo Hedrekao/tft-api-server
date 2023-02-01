@@ -228,6 +228,8 @@ app.get('/units-ranking', async (req, res) => {
   const data = result.map((unit) => {
     const object = {
       id: unit.id,
+      name: unit.name,
+      icon: unit.icon,
       avg_place: (
         unit.sumOfPlacements /
         (unit.numberOfAppearances != 0 ? unit.numberOfAppearances : 1)
@@ -265,13 +267,11 @@ app.get('/items-ranking', async (req, res) => {
   const numberOfComps = numberOfCompsQuery?.totalNumberOfComps;
   let result = await prisma.items_ranking.findMany();
 
-  result = result.filter((item) => {
-    return item.id != 88 && item.id != 10006 && item.id > 10;
-  });
-
   const data = result.map((item) => {
     const object = {
       id: item.id,
+      name: item.name,
+      icon: item.icon,
       avg_place: (
         item.sumOfPlacements /
         (item.numberOfAppearances != 0 ? item.numberOfAppearances : 1)
@@ -312,6 +312,8 @@ app.get('/augments-ranking', async (req, res) => {
   const data = result.map((augment) => {
     const object = {
       id: augment.id,
+      name: augment.name,
+      icon: augment.icon,
       avg_place: (
         augment.sumOfPlacements /
         (augment.numberOfAppearances != 0 ? augment.numberOfAppearances : 1)
@@ -363,6 +365,8 @@ app.get('/compare-augments', async (req, res) => {
   const result = overallAugments.map((augment) => {
     const object = {
       id: augment.id,
+      name: augment.name,
+      icon: augment.icon,
       overall_avg_place: (
         augment.sumOfPlacements /
         (augment.numberOfAppearances != 0 ? augment.numberOfAppearances : 1)
@@ -496,6 +500,8 @@ app.get<{ Params: { stage: string } }>(
     const data = result?.map((augment) => {
       const object = {
         id: augment.id,
+        name: augment.name,
+        icon: augment.icon,
         avg_place: (
           augment.sumOfPlacements /
           (augment.numberOfAppearances != 0 ? augment.numberOfAppearances : 1)
@@ -535,7 +541,8 @@ app.get<{ Params: { stage: string } }>(
 );
 
 app.get('/test', async (req, res) => {
-  return await collectDataAboutRankings(1000);
+  await collectDataAboutRankings(500);
+  return 'test done';
 });
 
 app.get<{ Params: { id: string } }>('/unit/:id', async (req, res) => {
@@ -739,7 +746,7 @@ app.get('/generalData', async (req, res) => {
     if (general_data == null) {
       throw new Error('no data found');
     }
-    const timeSinceNow: string = timeSince(general_data.lastChange * 1000);
+    const timeSinceNow: string = timeSince(Number(general_data.lastChange));
 
     res.code(200).send({
       lastChange: timeSinceNow,
@@ -822,8 +829,6 @@ async function commitToDb<T>(promise: Promise<T>) {
   return data;
 }
 
-// TODO RETHINK CRON JOB (GO THROUGH CODE, MAYBE ALTERNATIVE TO NODE CRONE)
-
-// cron.schedule('0 */12 * * *', () => {
-//   collectDataAboutRankings(1000);
-// });
+cron.schedule('0 */12 * * *', () => {
+  collectDataAboutRankings(1000);
+});

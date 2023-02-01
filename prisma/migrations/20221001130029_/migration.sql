@@ -1,4 +1,0 @@
--- AlterTable
-ALTER TABLE "composition" ADD COLUMN     "winrate" DECIMAL(5,2),
-ALTER COLUMN "top4ratio" SET DATA TYPE DECIMAL(5,2),
-ALTER COLUMN "playrate" SET DATA TYPE DECIMAL(5,2);

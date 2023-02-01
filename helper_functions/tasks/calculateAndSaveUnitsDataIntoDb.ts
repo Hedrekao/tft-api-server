@@ -1,7 +1,12 @@
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
-const calculateAndSaveUnitsDataIntoDb = async (unitsObject: Object) => {
+const calculateAndSaveUnitsDataIntoDb = async (
+  unitsObject: CronTaskData,
+  dataDragon: DataDragon | undefined
+) => {
+  const set8DataChampions = dataDragon?.sets[8].champions;
+
   for (const id in unitsObject) {
     try {
       const numOfRecords = await prisma.champions_ranking.count({
@@ -12,21 +17,31 @@ const calculateAndSaveUnitsDataIntoDb = async (unitsObject: Object) => {
           where: { id: id },
           data: {
             sumOfPlacements: {
-              increment: unitsObject[id]['sumOfPlacement']
+              increment: unitsObject[id].sumOfPlacements
             },
-            sumOfWins: { increment: unitsObject[id]['winrate'] },
+            sumOfWins: { increment: unitsObject[id].numberOfWins },
             numberOfAppearances: {
-              increment: unitsObject[id]['frequency']
+              increment: unitsObject[id].numberOfComps
             }
           }
         });
       } else {
+        const dataDragonUnit = set8DataChampions![id];
+        const iconWithWrongExt = dataDragonUnit?.icon.toLowerCase();
+        const urlArr: string[] = iconWithWrongExt.split('/');
+        const elementUrl = urlArr[4];
+        const url = `https://raw.communitydragon.org/latest/game/assets/characters/${id.toLowerCase()}/hud/${elementUrl
+          .replace('.dds', '')
+          .toLowerCase()}.png`;
+        const name = dataDragonUnit.name;
         await prisma.champions_ranking.create({
           data: {
             id: id,
-            sumOfPlacements: unitsObject[id]['sumOfPlacement'],
-            numberOfAppearances: unitsObject[id]['frequency'],
-            sumOfWins: unitsObject[id]['winrate']
+            name: name,
+            icon: url,
+            sumOfPlacements: unitsObject[id].sumOfPlacements,
+            numberOfAppearances: unitsObject[id].numberOfComps,
+            sumOfWins: unitsObject[id].numberOfWins
           }
         });
       }

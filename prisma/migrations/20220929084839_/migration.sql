@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "item" ALTER COLUMN "unitid" DROP NOT NULL,
-ALTER COLUMN "unithexid" DROP NOT NULL;

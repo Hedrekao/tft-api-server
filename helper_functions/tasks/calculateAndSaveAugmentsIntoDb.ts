@@ -3,12 +3,15 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 const calculateAndSaveAugmentsDataIntoDb = async (
-  augmentsObject: Object,
-  firstChoiceAugmentObject: Object,
-  secondChoiceAugmentObject: Object,
-  thirdChoiceAugmentObject: Object
+  augmentsObject: AugmentsData,
+  firstChoiceAugmentObject: AugmentsData,
+  secondChoiceAugmentObject: AugmentsData,
+  thirdChoiceAugmentObject: AugmentsData,
+  dataDragon: DataDragon | undefined
 ) => {
   try {
+    const set8Data = dataDragon?.augments;
+
     for (const id in augmentsObject) {
       const numOfRecords = await prisma.augments_ranking.count({
         where: { id: id }
@@ -18,21 +21,31 @@ const calculateAndSaveAugmentsDataIntoDb = async (
           where: { id: id },
           data: {
             sumOfPlacements: {
-              increment: augmentsObject[id]['sumOfPlacement']
+              increment: augmentsObject[id].sumOfPlacements
             },
-            sumOfWins: { increment: augmentsObject[id]['winrate'] },
+            sumOfWins: { increment: augmentsObject[id].numberOfWins },
             numberOfAppearances: {
-              increment: augmentsObject[id]['frequency']
+              increment: augmentsObject[id].numberOfComps
             }
           }
         });
       } else {
+        const dataDragonItem = set8Data![id];
+        const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
+        let src = iconWithWrongExt
+          ?.substring(0, iconWithWrongExt.length - 3)
+          .concat('png');
+        src = src.replace('hexcore', 'choiceui');
+
+        const name = dataDragonItem.name;
         await prisma.augments_ranking.create({
           data: {
             id: id,
-            sumOfPlacements: augmentsObject[id]['sumOfPlacement'],
-            numberOfAppearances: augmentsObject[id]['frequency'],
-            sumOfWins: augmentsObject[id]['winrate']
+            name: name,
+            icon: src,
+            sumOfPlacements: augmentsObject[id].sumOfPlacements,
+            numberOfAppearances: augmentsObject[id].numberOfComps,
+            sumOfWins: augmentsObject[id].numberOfWins
           }
         });
       }
@@ -47,21 +60,31 @@ const calculateAndSaveAugmentsDataIntoDb = async (
           where: { id: id },
           data: {
             sumOfPlacements: {
-              increment: firstChoiceAugmentObject[id]['sumOfPlacement']
+              increment: firstChoiceAugmentObject[id].sumOfPlacements
             },
-            sumOfWins: { increment: firstChoiceAugmentObject[id]['winrate'] },
+            sumOfWins: { increment: firstChoiceAugmentObject[id].numberOfWins },
             numberOfAppearances: {
-              increment: firstChoiceAugmentObject[id]['frequency']
+              increment: firstChoiceAugmentObject[id].numberOfComps
             }
           }
         });
       } else {
+        const dataDragonItem = set8Data![id];
+        const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
+        let src = iconWithWrongExt
+          ?.substring(0, iconWithWrongExt.length - 3)
+          .concat('png');
+        src = src.replace('hexcore', 'choiceui');
+
+        const name = dataDragonItem.name;
         await prisma.augments_first_choice_ranking.create({
           data: {
             id: id,
-            sumOfPlacements: firstChoiceAugmentObject[id]['sumOfPlacement'],
-            numberOfAppearances: firstChoiceAugmentObject[id]['frequency'],
-            sumOfWins: firstChoiceAugmentObject[id]['winrate']
+            name: name,
+            icon: src,
+            sumOfPlacements: firstChoiceAugmentObject[id].sumOfPlacements,
+            numberOfAppearances: firstChoiceAugmentObject[id].numberOfComps,
+            sumOfWins: firstChoiceAugmentObject[id].numberOfWins
           }
         });
       }
@@ -76,21 +99,33 @@ const calculateAndSaveAugmentsDataIntoDb = async (
           where: { id: id },
           data: {
             sumOfPlacements: {
-              increment: secondChoiceAugmentObject[id]['sumOfPlacement']
+              increment: secondChoiceAugmentObject[id].sumOfPlacements
             },
-            sumOfWins: { increment: secondChoiceAugmentObject[id]['winrate'] },
+            sumOfWins: {
+              increment: secondChoiceAugmentObject[id].numberOfWins
+            },
             numberOfAppearances: {
-              increment: secondChoiceAugmentObject[id]['frequency']
+              increment: secondChoiceAugmentObject[id].numberOfComps
             }
           }
         });
       } else {
+        const dataDragonItem = set8Data![id];
+        const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
+        let src = iconWithWrongExt
+          ?.substring(0, iconWithWrongExt.length - 3)
+          .concat('png');
+        src = src.replace('hexcore', 'choiceui');
+
+        const name = dataDragonItem.name;
         await prisma.augments_second_choice_ranking.create({
           data: {
             id: id,
-            sumOfPlacements: secondChoiceAugmentObject[id]['sumOfPlacement'],
-            numberOfAppearances: secondChoiceAugmentObject[id]['frequency'],
-            sumOfWins: secondChoiceAugmentObject[id]['winrate']
+            name: name,
+            icon: src,
+            sumOfPlacements: secondChoiceAugmentObject[id].sumOfPlacements,
+            numberOfAppearances: secondChoiceAugmentObject[id].numberOfComps,
+            sumOfWins: secondChoiceAugmentObject[id].numberOfWins
           }
         });
       }
@@ -105,21 +140,31 @@ const calculateAndSaveAugmentsDataIntoDb = async (
           where: { id: id },
           data: {
             sumOfPlacements: {
-              increment: thirdChoiceAugmentObject[id]['sumOfPlacement']
+              increment: thirdChoiceAugmentObject[id].sumOfPlacements
             },
-            sumOfWins: { increment: thirdChoiceAugmentObject[id]['winrate'] },
+            sumOfWins: { increment: thirdChoiceAugmentObject[id].numberOfWins },
             numberOfAppearances: {
-              increment: thirdChoiceAugmentObject[id]['frequency']
+              increment: thirdChoiceAugmentObject[id].numberOfComps
             }
           }
         });
       } else {
+        const dataDragonItem = set8Data![id];
+        const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
+        let src = iconWithWrongExt
+          ?.substring(0, iconWithWrongExt.length - 3)
+          .concat('png');
+        src = src.replace('hexcore', 'choiceui');
+
+        const name = dataDragonItem.name;
         await prisma.augments_third_choice_ranking.create({
           data: {
             id: id,
-            sumOfPlacements: thirdChoiceAugmentObject[id]['sumOfPlacement'],
-            numberOfAppearances: thirdChoiceAugmentObject[id]['frequency'],
-            sumOfWins: thirdChoiceAugmentObject[id]['winrate']
+            name: name,
+            icon: src,
+            sumOfPlacements: thirdChoiceAugmentObject[id].sumOfPlacements,
+            numberOfAppearances: thirdChoiceAugmentObject[id].numberOfComps,
+            sumOfWins: thirdChoiceAugmentObject[id].numberOfWins
           }
         });
       }

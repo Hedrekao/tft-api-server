@@ -12,6 +12,8 @@ model augments_ranking {
   numberOfAppearances Int    @default(0)
   sumOfPlacements     Int    @default(0)
   sumOfWins           Int    @default(0)
+  icon                String
+  name                String
 }
 
 model champions {
@@ -25,26 +27,30 @@ model champions_ranking {
   numberOfAppearances Int    @default(0)
   sumOfPlacements     Int    @default(0)
   sumOfWins           Int    @default(0)
+  icon                String
+  name                String
 }
 
 model general_data {
   totalNumberOfMatches Int
-  id                   Int @id
-  totalNumberOfComps   Int @default(0)
-  lastChange           Int @default(1669673526)
+  id                   Int    @id
+  totalNumberOfComps   Int    @default(0)
+  lastChange           BigInt @default(1669673526)
 }
 
 model items_ranking {
-  id                  Int @id
-  numberOfAppearances Int @default(0)
-  sumOfPlacements     Int @default(0)
-  sumOfWins           Int @default(0)
+  id                  String @id
+  numberOfAppearances Int    @default(0)
+  sumOfPlacements     Int    @default(0)
+  sumOfWins           Int    @default(0)
+  icon                String
+  name                String
 }
 
 model compositionJSON {
   id         BigInt  @id @default(autoincrement())
-  visibility Boolean @default(true)
   json       Json?   @db.Json
+  visibility Boolean @default(true)
 }
 
 model userCompositionJSON {
@@ -62,6 +68,8 @@ model augments_first_choice_ranking {
   numberOfAppearances Int    @default(0)
   sumOfPlacements     Int    @default(0)
   sumOfWins           Int    @default(0)
+  icon                String
+  name                String
 }
 
 model augments_second_choice_ranking {
@@ -69,6 +77,8 @@ model augments_second_choice_ranking {
   numberOfAppearances Int    @default(0)
   sumOfPlacements     Int    @default(0)
   sumOfWins           Int    @default(0)
+  icon                String
+  name                String
 }
 
 model augments_third_choice_ranking {
@@ -76,6 +86,8 @@ model augments_third_choice_ranking {
   numberOfAppearances Int    @default(0)
   sumOfPlacements     Int    @default(0)
   sumOfWins           Int    @default(0)
+  icon                String
+  name                String
 }
 
 model users {

@@ -16,19 +16,21 @@ model augments_ranking {
   name                String
 }
 
-model champions {
-  id   String  @id @db.VarChar(100)
-  name String? @db.VarChar(50)
-  cost Int?
+model traits {
+  id        String              @id
+  icon      String
+  name      String
+  champions champions_ranking[]
 }
 
 model champions_ranking {
-  id                  String @id @db.VarChar
-  numberOfAppearances Int    @default(0)
-  sumOfPlacements     Int    @default(0)
-  sumOfWins           Int    @default(0)
+  id                  String   @id @db.VarChar
+  numberOfAppearances Int      @default(0)
+  sumOfPlacements     Int      @default(0)
+  sumOfWins           Int      @default(0)
   icon                String
   name                String
+  traits              traits[]
 }
 
 model general_data {

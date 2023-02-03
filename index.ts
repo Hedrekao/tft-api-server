@@ -118,10 +118,6 @@ app.get<{ Params: { region: string } }>('/leaderboard/:region', (req, res) => {
   return getLeaderboardData(req.params.region, 99);
 });
 
-app.get('/units', async (req, res) => {
-  return await commitToDb(prisma.champions.findMany());
-});
-
 app.post<{
   Headers: { 'x-api-key': string };
   Body: { inputData: AnalysisInputData };
@@ -223,13 +219,17 @@ app.get('/units-ranking', async (req, res) => {
     where: { id: 1 }
   });
   const numberOfComps = numberOfCompsQuery?.totalNumberOfComps;
-  const result = await prisma.champions_ranking.findMany();
+  const result = await prisma.champions_ranking.findMany({
+    include: { traits: true }
+  });
 
   const data = result.map((unit) => {
     const object = {
       id: unit.id,
       name: unit.name,
       icon: unit.icon,
+      traitNames: unit.traits.map((trait) => trait.name),
+      traitIcons: unit.traits.map((trait) => trait.icon),
       avg_place: (
         unit.sumOfPlacements /
         (unit.numberOfAppearances != 0 ? unit.numberOfAppearances : 1)
@@ -546,16 +546,6 @@ app.get('/test', async (req, res) => {
   return 'test done';
 });
 
-app.get<{ Params: { id: string } }>('/unit/:id', async (req, res) => {
-  return await commitToDb(
-    prisma.champions.findUnique({
-      where: {
-        id: req.params.id
-      }
-    })
-  );
-});
-
 app.post<{ Body: { user: RegisterDto } }>('/register', async (req, res) => {
   try {
     const user = req.body.user;
@@ -795,18 +785,11 @@ app.ready().then(async () => {
       delete prev[val.apiName]['apiName'];
       return prev;
     }, {});
-    const improvedTraits = set.traits.reduce((prev, val) => {
-      prev[val.apiName] = {
-        ...val
-      };
-      delete prev[val.apiName]['apiName'];
-      return prev;
-    }, {});
 
     improvedSets[setName] = {
       name: set.name,
       champions: improvedUnits,
-      traits: improvedTraits
+      traits: set.traits
     };
   }
 

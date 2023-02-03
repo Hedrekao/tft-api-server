@@ -8,7 +8,9 @@ const mapTraits = (
   });
 
   const traits = rawTraits.map((trait) => {
-    const dataDragonTrait = set8Data![trait.name];
+    const dataDragonTrait = set8Data!.find(
+      (traitData) => traitData.apiName == trait.name
+    );
     const iconWithWrongExt = dataDragonTrait?.icon.toLowerCase();
     const icon = iconWithWrongExt
       ?.substring(0, iconWithWrongExt.length - 3)

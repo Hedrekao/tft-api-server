@@ -78,7 +78,7 @@ type DataDragonSet = {
       traits: Array<string>;
     };
   };
-  traits: { [key: string]: { icon: string; name: string } };
+  traits: DataDragonTrait[];
 };
 
 // Analysis route types

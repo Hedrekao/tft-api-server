@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, traits } from '@prisma/client';
 
 const prisma = new PrismaClient();
 const calculateAndSaveUnitsDataIntoDb = async (
@@ -6,6 +6,7 @@ const calculateAndSaveUnitsDataIntoDb = async (
   dataDragon: DataDragon | undefined
 ) => {
   const set8DataChampions = dataDragon?.sets[8].champions;
+  const set8DataTraits = dataDragon?.sets[8].traits;
 
   for (const id in unitsObject) {
     try {
@@ -27,12 +28,38 @@ const calculateAndSaveUnitsDataIntoDb = async (
         });
       } else {
         const dataDragonUnit = set8DataChampions![id];
-        const iconWithWrongExt = dataDragonUnit?.icon.toLowerCase();
-        const urlArr: string[] = iconWithWrongExt.split('/');
+        const unitIconWithWrongExt = dataDragonUnit?.icon.toLowerCase();
+        const urlArr: string[] = unitIconWithWrongExt.split('/');
         const elementUrl = urlArr[4];
         const url = `https://raw.communitydragon.org/latest/game/assets/characters/${id.toLowerCase()}/hud/${elementUrl
           .replace('.dds', '')
           .toLowerCase()}.png`;
+
+        const traits: traits[] = [];
+        for (const traitName of dataDragonUnit.traits) {
+          let traitFromDb = await prisma.traits.findFirst({
+            where: { name: traitName }
+          });
+          if (traitFromDb == null) {
+            const traitFromDataDragon = set8DataTraits?.find(
+              (traitData) => traitData.name == traitName
+            );
+            const traitIconWithWrongExt =
+              traitFromDataDragon?.icon.toLowerCase();
+            const icon = traitIconWithWrongExt
+              ?.substring(0, traitIconWithWrongExt.length - 3)
+              .concat('png');
+            if (traitFromDataDragon == undefined) continue;
+            traitFromDb = await prisma.traits.create({
+              data: {
+                id: traitFromDataDragon.apiName,
+                name: traitName,
+                icon: `https://raw.communitydragon.org/latest/game/${icon}`
+              }
+            });
+          }
+          traits.push(traitFromDb);
+        }
         const name = dataDragonUnit.name;
         await prisma.champions_ranking.create({
           data: {
@@ -41,7 +68,12 @@ const calculateAndSaveUnitsDataIntoDb = async (
             icon: url,
             sumOfPlacements: unitsObject[id].sumOfPlacements,
             numberOfAppearances: unitsObject[id].numberOfComps,
-            sumOfWins: unitsObject[id].numberOfWins
+            sumOfWins: unitsObject[id].numberOfWins,
+            traits: {
+              connect: traits.map((trait) => {
+                return { id: trait.id };
+              })
+            }
           }
         });
       }

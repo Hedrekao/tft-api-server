@@ -82,9 +82,6 @@ app.get('/summoner/:region/:name', async (req, res) => {
 app.get('/leaderboard/:region', (req, res) => {
     return getLeaderboardData(req.params.region, 99);
 });
-app.get('/units', async (req, res) => {
-    return await commitToDb(prisma.champions.findMany());
-});
 app.post('/cms', async (req, res) => {
     if (req.headers['x-api-key'] == process.env.CMS_API_KEY) {
         return await getPerformanceForCoreUnits(req.body.inputData, 1000, 1000);
@@ -176,12 +173,16 @@ app.get('/units-ranking', async (req, res) => {
         where: { id: 1 }
     });
     const numberOfComps = numberOfCompsQuery?.totalNumberOfComps;
-    const result = await prisma.champions_ranking.findMany();
+    const result = await prisma.champions_ranking.findMany({
+        include: { traits: true }
+    });
     const data = result.map((unit) => {
         const object = {
             id: unit.id,
             name: unit.name,
             icon: unit.icon,
+            traitNames: unit.traits.map((trait) => trait.name),
+            traitIcons: unit.traits.map((trait) => trait.icon),
             avg_place: (unit.sumOfPlacements /
                 (unit.numberOfAppearances != 0 ? unit.numberOfAppearances : 1)).toFixed(2),
             frequency: ((unit.numberOfAppearances / numberOfComps) * 100).toFixed(2),
@@ -437,13 +438,6 @@ app.get('/test', async (req, res) => {
     await collectDataAboutRankings(700);
     return 'test done';
 });
-app.get('/unit/:id', async (req, res) => {
-    return await commitToDb(prisma.champions.findUnique({
-        where: {
-            id: req.params.id
-        }
-    }));
-});
 app.post('/register', async (req, res) => {
     try {
         const user = req.body.user;
@@ -657,17 +651,10 @@ app.ready().then(async () => {
             delete prev[val.apiName]['apiName'];
             return prev;
         }, {});
-        const improvedTraits = set.traits.reduce((prev, val) => {
-            prev[val.apiName] = {
-                ...val
-            };
-            delete prev[val.apiName]['apiName'];
-            return prev;
-        }, {});
         improvedSets[setName] = {
             name: set.name,
             champions: improvedUnits,
-            traits: improvedTraits
+            traits: set.traits
         };
     }
     const dataDragon = {

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import transformUnitsData from '../helper_functions/analyzeRoute/transformUnitsData.js';
 import prepareAnalysisResult from '../helper_functions/analyzeRoute/prepareAnalysisResult.js';
+import sleep from '../helper_functions/sleep.js';
 import isCompositionMatchingInput from '../helper_functions/analyzeRoute/isCompositionMatchingInput.js';
 const getPerformanceForCoreUnits = async (inputData, sampleSize, maxNumberOfMatches) => {
     try {
@@ -12,30 +13,50 @@ const getPerformanceForCoreUnits = async (inputData, sampleSize, maxNumberOfMatc
         let totalNumberOfMatches = 0;
         let totalNumberOfMatchesOverall = 0;
         const usedChallengersIdArray = [];
-        const challengersData = challengerDataResponse.data['entries'];
+        const visitedMatches = [];
+        const challengersData = challengerDataResponse.data.entries;
         while (totalNumberOfMatchesOverall < maxNumberOfMatches) {
             let challengerArrayId = Math.floor(Math.random() * challengersData.length);
-            challengerArrayId++;
             let challengerData = challengersData[challengerArrayId];
-            if (challengerData == undefined) {
+            while (challengerData == undefined ||
+                usedChallengersIdArray.includes(challengerArrayId)) {
+                if (usedChallengersIdArray.length == challengersData.length)
+                    break;
                 challengerArrayId = Math.floor(Math.random() * challengersData.length);
                 challengerData = challengersData[challengerArrayId];
             }
-            const summonerPuuidResponse = await axios.get(`https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`);
-            const summonerPuuid = summonerPuuidResponse.data['puuid'];
+            usedChallengersIdArray.push(challengerArrayId);
+            const summonerPuuidResponse = await axios.get(`https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData.summonerId}`);
+            const summonerPuuid = summonerPuuidResponse.data.puuid;
             const matchesIdResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=15
 `);
+            const promises = [];
             const matchesId = matchesIdResponse.data;
             for (const matchId of matchesId) {
-                console.log(matchId);
-                const matchDataResponse = await axios
+                if (visitedMatches.includes(matchId)) {
+                    continue;
+                }
+                visitedMatches.push(matchId);
+                const matchDataResponse = axios
                     .get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`)
                     .catch(async (e) => await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`));
-                const matchData = matchDataResponse.data;
+                promises.push(matchDataResponse);
+            }
+            const resolvedPromises = await Promise.allSettled(promises);
+            const resolvedPromisesData = [];
+            resolvedPromises.forEach(async (promise) => {
+                if (promise.status == 'fulfilled') {
+                    if (parseInt(promise.value.headers['x-method-rate-limit-count'].split(':')[0]) >= 165) {
+                        await sleep(5000);
+                    }
+                    resolvedPromisesData.push(promise.value.data);
+                }
+            });
+            for (const matchData of resolvedPromisesData) {
                 let firstCompositionInMatch = true;
-                const participants = matchData['info']['participants'];
+                const participants = matchData.info.participants;
                 for (const composition of participants) {
-                    const compositionUnits = transformUnitsData(composition['units']);
+                    const compositionUnits = transformUnitsData(composition.units);
                     const isAMatch = isCompositionMatchingInput(inputData, compositionUnits);
                     if (isAMatch) {
                         numberOfMatchingComps++;
@@ -43,10 +64,10 @@ const getPerformanceForCoreUnits = async (inputData, sampleSize, maxNumberOfMatc
                             totalNumberOfMatches++;
                             firstCompositionInMatch = false;
                         }
-                        placementOverall += composition['placement'];
-                        if (composition['placement'] <= 4) {
+                        placementOverall += composition.placement;
+                        if (composition.placement <= 4) {
                             top4Count++;
-                            if (composition['placement'] == 1) {
+                            if (composition.placement == 1) {
                                 winCount++;
                             }
                         }

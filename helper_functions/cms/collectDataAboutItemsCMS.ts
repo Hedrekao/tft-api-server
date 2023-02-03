@@ -12,7 +12,7 @@ const collectDataAboutItemsCMS = (
       } else {
         itemsData[unit.id].numberOfAppearances += 1;
       }
-      for (const item of compositionUnits[unit.id].items) {
+      for (const item of compositionUnits[unit.id].itemsNames) {
         const unitItems = itemsData[unit.id];
         if (unitItems.hasOwnProperty(item)) {
           unitItems[item].numberOfComps += 1;

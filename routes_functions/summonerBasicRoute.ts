@@ -49,7 +49,6 @@ const getSummonerBasicData = async (
     };
     return result;
   } catch (e) {
-    console.log(1);
     return undefined;
   }
 };

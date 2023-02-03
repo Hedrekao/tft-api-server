@@ -24,7 +24,6 @@ const getSummonerBasicData = async (region, name) => {
         return result;
     }
     catch (e) {
-        console.log(1);
         return undefined;
     }
 };

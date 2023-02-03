@@ -1,10 +1,7 @@
 import { Augment } from '../../types/classes.js';
-import { createRequire } from 'module'; // Bring in the ability to create the 'require' method
-const require = createRequire(import.meta.url); // construct the require method
-const augmentsJson = require('../../static/Augments.json');
-const augmentsDataJson = augmentsJson.items;
-const analyzeCompositionAugments = (augmentsData, composition, numberOfMatchingComps) => {
+const analyzeCompositionAugments = (augmentsData, composition, numberOfMatchingComps, dataDragon) => {
     const augments = [];
+    const set8Data = dataDragon?.augments;
     for (const augmentData in augmentsData) {
         const avgPlace = parseFloat((augmentsData[augmentData].sumOfPlacements /
             augmentsData[augmentData].numberOfComps).toFixed(2));
@@ -13,16 +10,13 @@ const analyzeCompositionAugments = (augmentsData, composition, numberOfMatchingC
             100).toFixed(2));
         const playRate = parseFloat(((augmentsData[augmentData].numberOfComps / numberOfMatchingComps) *
             100).toFixed(2));
-        const src = `https://ittledul.sirv.com/Images/augments/${augmentData}.png`;
-        const augmentNameObject = augmentsDataJson.find((val) => val.apiName == augmentData);
-        let name;
-        if (augmentNameObject != null && augmentNameObject.hasOwnProperty('name')) {
-            name = augmentNameObject.name;
-        }
-        else {
-            name = augmentData;
-        }
-        const augment = new Augment(src, name, avgPlace, winRate, playRate);
+        const dataDragonItem = set8Data[augmentData];
+        const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
+        let icon = iconWithWrongExt
+            ?.substring(0, iconWithWrongExt.length - 3)
+            .concat('png');
+        icon = icon.replace('hexcore', 'choiceui');
+        const augment = new Augment(`https://raw.communitydragon.org/latest/game/${icon}`, dataDragonItem.name, avgPlace, winRate, playRate);
         augments.push(augment);
     }
     augments.sort((a, b) => {

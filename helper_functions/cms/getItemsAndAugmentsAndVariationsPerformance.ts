@@ -9,7 +9,7 @@ import collectDataAboutVariation from './collectDataAboutVariation.js';
 import analyzeCompositionAugments from './analyzeCompositionAugments.js';
 import analyzeVariationPerformance from './analyzeVariationPerformance.js';
 import sleep from '../sleep.js';
-import analyzeAugments from 'helper_functions/analyzeRoute/analyzeAugments.js';
+import { cache } from '../singletonCache.js';
 
 const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
   try {
@@ -17,11 +17,14 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
       `https://euw1.api.riotgames.com/tft/league/v1/challenger`
     );
 
+    const dataDragon = cache.get<DataDragon>('dataDragon');
+
     let numberOfMatchingComps = 0;
     let totalNumberOfMatches = 0;
     let numberOfAugmentMatchingComps = 0;
     let totalNumberOfMatchesOverall = 0;
-    // const usedChallengersIdArray: Array<number> = [];
+    const usedChallengersIdArray: Array<number> = [];
+    const visitedMatches: string[] = [];
 
     const itemsData: ItemsDataCMS = {};
     const augmentData: AugmentsData = {};
@@ -33,13 +36,18 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
       let challengerArrayId = Math.floor(
         Math.random() * challengersData.length
       );
-      challengerArrayId++;
 
       let challengerData = challengersData[challengerArrayId];
-      if (challengerData == undefined) {
+      while (
+        challengerData == undefined ||
+        usedChallengersIdArray.includes(challengerArrayId)
+      ) {
+        if (usedChallengersIdArray.length == challengersData.length) break;
         challengerArrayId = Math.floor(Math.random() * challengersData.length);
         challengerData = challengersData[challengerArrayId];
       }
+
+      usedChallengersIdArray.push(challengerArrayId);
       const summonerPuuidResponse = await axios.get<RiotAPISummonerDto>(
         `https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`
       );
@@ -50,9 +58,16 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
         await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=10
 `);
 
+      const promises = [];
+
       const matchesId: Array<string> = matchesIdResponse.data;
       for (const matchId of matchesId) {
-        const matchDataResponse = await axios
+        if (visitedMatches.includes(matchId)) {
+          continue;
+        }
+
+        visitedMatches.push(matchId);
+        const matchDataResponse = axios
           .get<RiotAPIMatchDto>(
             `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
           )
@@ -63,7 +78,24 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
               )
           );
 
-        const matchData = matchDataResponse.data;
+        promises.push(matchDataResponse);
+      }
+      const resolvedPromises = await Promise.allSettled(promises);
+      const resolvedPromisesData: RiotAPIMatchDto[] = [];
+      resolvedPromises.forEach(async (promise) => {
+        if (promise.status == 'fulfilled') {
+          if (
+            parseInt(
+              promise.value.headers['x-method-rate-limit-count']!.split(':')[0]
+            ) >= 165
+          ) {
+            await sleep(5000);
+          }
+          resolvedPromisesData.push(promise.value.data);
+        }
+      });
+
+      for (const matchData of resolvedPromisesData) {
         let firstCompositionInMatch = true;
 
         const participants = matchData.info.participants;
@@ -124,11 +156,17 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
       }
     }
 
-    createItemsRates(compositionInput, numberOfMatchingComps, itemsData);
+    createItemsRates(
+      compositionInput,
+      numberOfMatchingComps,
+      itemsData,
+      dataDragon
+    );
     analyzeCompositionAugments(
       augmentData,
       compositionInput,
-      numberOfAugmentMatchingComps
+      numberOfAugmentMatchingComps,
+      dataDragon
     );
     for (const [index, variation] of compositionInput.variations.entries()) {
       analyzeVariationPerformance(variation, variationPerformance[index]);

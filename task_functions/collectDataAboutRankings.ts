@@ -47,7 +47,7 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
       usedChallengersIdArray.push(challengerArrayId);
 
       const summonerPuuidResponse = await axios.get<RiotAPISummonerDto>(
-        `https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`
+        `https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData.summonerId}`
       );
 
       const summonerPuuid = summonerPuuidResponse.data.puuid;

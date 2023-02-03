@@ -7,36 +7,60 @@ import collectDataAboutAugments from '../analyzeRoute/collectDataAboutAugments.j
 import collectDataAboutVariation from './collectDataAboutVariation.js';
 import analyzeCompositionAugments from './analyzeCompositionAugments.js';
 import analyzeVariationPerformance from './analyzeVariationPerformance.js';
+import sleep from '../sleep.js';
+import { cache } from '../singletonCache.js';
 const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
     try {
         const challengerDataResponse = await axios.get(`https://euw1.api.riotgames.com/tft/league/v1/challenger`);
+        const dataDragon = cache.get('dataDragon');
         let numberOfMatchingComps = 0;
         let totalNumberOfMatches = 0;
         let numberOfAugmentMatchingComps = 0;
         let totalNumberOfMatchesOverall = 0;
-        // const usedChallengersIdArray: Array<number> = [];
+        const usedChallengersIdArray = [];
+        const visitedMatches = [];
         const itemsData = {};
         const augmentData = {};
         const variationPerformance = [];
         const challengersData = challengerDataResponse.data.entries;
         while (totalNumberOfMatchesOverall < 1000) {
             let challengerArrayId = Math.floor(Math.random() * challengersData.length);
-            challengerArrayId++;
             let challengerData = challengersData[challengerArrayId];
-            if (challengerData == undefined) {
+            while (challengerData == undefined ||
+                usedChallengersIdArray.includes(challengerArrayId)) {
+                if (usedChallengersIdArray.length == challengersData.length)
+                    break;
                 challengerArrayId = Math.floor(Math.random() * challengersData.length);
                 challengerData = challengersData[challengerArrayId];
             }
+            usedChallengersIdArray.push(challengerArrayId);
             const summonerPuuidResponse = await axios.get(`https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`);
             const summonerPuuid = summonerPuuidResponse.data.puuid;
             const matchesIdResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=10
 `);
+            const promises = [];
             const matchesId = matchesIdResponse.data;
             for (const matchId of matchesId) {
-                const matchDataResponse = await axios
+                if (visitedMatches.includes(matchId)) {
+                    continue;
+                }
+                visitedMatches.push(matchId);
+                const matchDataResponse = axios
                     .get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`)
                     .catch(async (e) => await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`));
-                const matchData = matchDataResponse.data;
+                promises.push(matchDataResponse);
+            }
+            const resolvedPromises = await Promise.allSettled(promises);
+            const resolvedPromisesData = [];
+            resolvedPromises.forEach(async (promise) => {
+                if (promise.status == 'fulfilled') {
+                    if (parseInt(promise.value.headers['x-method-rate-limit-count'].split(':')[0]) >= 165) {
+                        await sleep(5000);
+                    }
+                    resolvedPromisesData.push(promise.value.data);
+                }
+            });
+            for (const matchData of resolvedPromisesData) {
                 let firstCompositionInMatch = true;
                 const participants = matchData.info.participants;
                 for (const composition of participants) {
@@ -70,8 +94,8 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
                 totalNumberOfMatchesOverall++;
             }
         }
-        createItemsRates(compositionInput, numberOfMatchingComps, itemsData);
-        analyzeCompositionAugments(augmentData, compositionInput, numberOfAugmentMatchingComps);
+        createItemsRates(compositionInput, numberOfMatchingComps, itemsData, dataDragon);
+        analyzeCompositionAugments(augmentData, compositionInput, numberOfAugmentMatchingComps, dataDragon);
         for (const [index, variation] of compositionInput.variations.entries()) {
             analyzeVariationPerformance(variation, variationPerformance[index]);
         }

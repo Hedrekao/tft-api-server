@@ -1,15 +1,13 @@
 import { Augment, Comp } from '../../types/classes.js';
-import { createRequire } from 'module'; // Bring in the ability to create the 'require' method
-const require = createRequire(import.meta.url); // construct the require method
-const augmentsJson: AugmentsJSONFile = require('../../static/Augments.json');
-const augmentsDataJson = augmentsJson.items;
 
 const analyzeCompositionAugments = (
   augmentsData: AugmentsData,
   composition: Comp,
-  numberOfMatchingComps: number
+  numberOfMatchingComps: number,
+  dataDragon: DataDragon | undefined
 ) => {
   const augments: Array<Augment> = [];
+  const set8Data = dataDragon?.augments;
 
   for (const augmentData in augmentsData) {
     const avgPlace = parseFloat(
@@ -32,19 +30,20 @@ const analyzeCompositionAugments = (
       ).toFixed(2)
     );
 
-    const src = `https://ittledul.sirv.com/Images/augments/${augmentData}.png`;
+    const dataDragonItem = set8Data![augmentData];
+    const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
+    let icon = iconWithWrongExt
+      ?.substring(0, iconWithWrongExt.length - 3)
+      .concat('png');
+    icon = icon.replace('hexcore', 'choiceui');
 
-    const augmentNameObject = augmentsDataJson.find(
-      (val) => val.apiName == augmentData
+    const augment = new Augment(
+      `https://raw.communitydragon.org/latest/game/${icon}`,
+      dataDragonItem.name,
+      avgPlace,
+      winRate,
+      playRate
     );
-    let name;
-    if (augmentNameObject != null && augmentNameObject.hasOwnProperty('name')) {
-      name = augmentNameObject.name;
-    } else {
-      name = augmentData;
-    }
-
-    const augment = new Augment(src, name, avgPlace, winRate, playRate);
     augments.push(augment);
   }
 

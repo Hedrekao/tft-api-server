@@ -1,14 +1,13 @@
 import { Comp, ItemUnit, UnitItems } from '../../types/classes.js';
-import { createRequire } from 'module'; // Bring in the ability to create the 'require' method
-const require = createRequire(import.meta.url); // construct the require method
-const itemsJson: ItemsJSONFile = require('../../static/Items.json');
-const itemsDataJson = itemsJson.items;
 
 const createItemsRates = (
   compositionInput: Comp,
   numberOfComps: number,
-  itemsData: ItemsDataCMS
+  itemsData: ItemsDataCMS,
+  dataDragon: DataDragon | undefined
 ) => {
+  const set8Data = dataDragon?.items;
+
   const unitItemsArr = [];
   for (const unit of compositionInput.units) {
     let itemRates: Array<ItemUnit> = [];
@@ -20,18 +19,17 @@ const createItemsRates = (
             itemsData[unit.id].numberOfAppearances) *
           100
         ).toFixed(1);
-        const src = `https://ittledul.sirv.com/Images/items/${item}.png`;
-        const itemNameObject = itemsDataJson.find(
-          (val) => val.id == parseInt(item)
-        );
-        let name;
-        if (itemNameObject != null && itemNameObject.hasOwnProperty('name')) {
-          name = itemNameObject.name;
-        } else {
-          name = '';
-        }
+        const dataDragonItem = set8Data![item];
+        const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
+        const icon = iconWithWrongExt
+          ?.substring(0, iconWithWrongExt.length - 3)
+          .concat('png');
 
-        const itemUnit = new ItemUnit(src, name, parseFloat(rate));
+        const itemUnit = new ItemUnit(
+          `https://raw.communitydragon.org/latest/game/${icon}`,
+          dataDragonItem.name,
+          parseFloat(rate)
+        );
         itemRates.push(itemUnit);
       }
     }
@@ -51,15 +49,7 @@ const createItemsRates = (
     let itemsBIS: Array<ItemUnit> = [];
     if (unit.items != null && unit.items.length > 0) {
       for (const item of unit.items) {
-        const src = `https://ittledul.sirv.com/Images/items/${item.id}.png`;
-        const itemNameObject = itemsDataJson.find((val) => val.id == item.id);
-        let name;
-        if (itemNameObject != null && itemNameObject.hasOwnProperty('name')) {
-          name = itemNameObject.name;
-        } else {
-          name = '';
-        }
-        const itemUnit = new ItemUnit(src, name, null);
+        const itemUnit = new ItemUnit(item.url, item.name, null);
         itemsBIS.push(itemUnit);
       }
     } else {

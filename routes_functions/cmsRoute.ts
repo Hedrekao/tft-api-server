@@ -35,7 +35,7 @@ const getPerformanceForCoreUnits = async (
         challengerData == undefined ||
         usedChallengersIdArray.includes(challengerArrayId)
       ) {
-        if (usedChallengersIdArray.length == challengersData.length) break;
+        if (usedChallengersIdArray.length - 1 == challengersData.length) break;
         challengerArrayId = Math.floor(Math.random() * challengersData.length);
         challengerData = challengersData[challengerArrayId];
       }

@@ -12,7 +12,6 @@ import { cache } from '../singletonCache.js';
 const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
     try {
         const challengerDataResponse = await axios.get(`https://euw1.api.riotgames.com/tft/league/v1/challenger`);
-        console.log(1);
         const dataDragon = cache.get('dataDragon');
         let numberOfMatchingComps = 0;
         let totalNumberOfMatches = 0;
@@ -36,11 +35,11 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
             }
             usedChallengersIdArray.push(challengerArrayId);
             const summonerPuuidResponse = await axios.get(`https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`);
-            console.log(2);
+            console.log('essa2', summonerPuuidResponse.headers['x-method-rate-limit-count']);
             const summonerPuuid = summonerPuuidResponse.data.puuid;
             const matchesIdResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=15
 `);
-            console.log(3);
+            console.log('essa1', matchesIdResponse.headers['x-method-rate-limit-count']);
             const promises = [];
             const matchesId = matchesIdResponse.data;
             for (const matchId of matchesId) {
@@ -54,10 +53,8 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
                     .get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`)
                     .catch(async (e) => await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`))
                     .catch(async (e) => await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`));
-                console.log(4);
                 promises.push(matchDataResponse);
             }
-            console.log('4 - done');
             const resolvedPromises = await Promise.allSettled(promises);
             const resolvedPromisesData = [];
             resolvedPromises.forEach(async (promise) => {

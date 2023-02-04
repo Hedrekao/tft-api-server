@@ -8,12 +8,15 @@ import analyzeItemsPerformance from '../helper_functions/tasks/analyzeItemsPerfo
 import saveTotalNumberOfMatches from '../helper_functions/tasks/saveTotalNumberOfMatches.js';
 import { cache } from '../helper_functions/singletonCache.js';
 import sleep from '../helper_functions/sleep.js';
+import throttledQueue from 'throttled-queue';
 
 const collectDataAboutRankings = async (limitOfMatches: number) => {
   try {
     const challengerDataResponse = await axios.get<RiotAPIChallengerData>(
       `https://euw1.api.riotgames.com/tft/league/v1/challenger`
     );
+
+    const throttle = throttledQueue(490, 10000, true);
 
     const dataDragon = cache.get<DataDragon>('dataDragon');
     let totalNumberOfMatches = 0;
@@ -46,15 +49,18 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
 
       usedChallengersIdArray.push(challengerArrayId);
 
-      const summonerPuuidResponse = await axios.get<RiotAPISummonerDto>(
-        `https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData.summonerId}`
+      const summonerPuuidResponse = await throttle(() =>
+        axios.get<RiotAPISummonerDto>(
+          `https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData.summonerId}`
+        )
       );
 
       const summonerPuuid = summonerPuuidResponse.data.puuid;
 
-      const matchesIdResponse =
-        await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=15
-`);
+      const matchesIdResponse = await throttle(() =>
+        axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=15
+`)
+      );
       const promises = [];
 
       const matchesId: Array<string> = matchesIdResponse.data;
@@ -64,16 +70,17 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
         }
 
         visitedMatches.push(matchId);
-        const matchDataResponse = axios
-          .get<RiotAPIMatchDto>(
-            `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
-          )
-          .catch(
-            async (e) =>
-              await axios.get<RiotAPIMatchDto>(
+        const matchDataResponse = throttle(() =>
+          axios
+            .get<RiotAPIMatchDto>(
+              `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
+            )
+            .catch((e) =>
+              axios.get<RiotAPIMatchDto>(
                 `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
               )
-          );
+            )
+        );
 
         promises.push(matchDataResponse);
       }

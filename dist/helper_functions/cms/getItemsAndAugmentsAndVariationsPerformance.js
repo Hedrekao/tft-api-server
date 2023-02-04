@@ -35,11 +35,11 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
             }
             usedChallengersIdArray.push(challengerArrayId);
             const summonerPuuidResponse = await axios.get(`https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`);
-            console.log('essa2', summonerPuuidResponse.headers['x-method-rate-limit-count']);
+            console.log('essa2', summonerPuuidResponse.headers['x-app-rate-limit-count']);
             const summonerPuuid = summonerPuuidResponse.data.puuid;
             const matchesIdResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=15
 `);
-            console.log('essa1', matchesIdResponse.headers['x-method-rate-limit-count']);
+            console.log('essa1', matchesIdResponse.headers['x-app-rate-limit-count']);
             const promises = [];
             const matchesId = matchesIdResponse.data;
             for (const matchId of matchesId) {

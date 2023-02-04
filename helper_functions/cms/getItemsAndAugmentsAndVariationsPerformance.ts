@@ -32,7 +32,7 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
 
     const challengersData = challengerDataResponse.data.entries;
 
-    while (totalNumberOfMatchesOverall < 1000) {
+    while (totalNumberOfMatchesOverall < 800) {
       let challengerArrayId = Math.floor(
         Math.random() * challengersData.length
       );
@@ -55,7 +55,7 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
       const summonerPuuid = summonerPuuidResponse.data.puuid;
 
       const matchesIdResponse =
-        await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=10
+        await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=20
 `);
 
       const promises = [];

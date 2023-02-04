@@ -54,7 +54,7 @@ const collectDataAboutRankings = async (limitOfMatches) => {
             const resolvedPromisesData = [];
             resolvedPromises.forEach(async (promise) => {
                 if (promise.status == 'fulfilled') {
-                    if (parseInt(promise.value.headers['x-method-rate-limit-count'].split(':')[0]) >= 165) {
+                    if (parseInt(promise.value.headers['x-method-rate-limit-count'].split(':')[0]) >= 155) {
                         await sleep(5000);
                     }
                     resolvedPromisesData.push(promise.value.data);

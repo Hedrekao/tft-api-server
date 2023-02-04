@@ -77,6 +77,12 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
               await axios.get<RiotAPIMatchDto>(
                 `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
               )
+          )
+          .catch(
+            async (e) =>
+              await axios.get<RiotAPIMatchDto>(
+                `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
+              )
           );
 
         promises.push(matchDataResponse);
@@ -88,9 +94,9 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
           if (
             parseInt(
               promise.value.headers['x-method-rate-limit-count']!.split(':')[0]
-            ) >= 165
+            ) >= 150
           ) {
-            await sleep(5000);
+            await sleep(7000);
           }
           resolvedPromisesData.push(promise.value.data);
         }

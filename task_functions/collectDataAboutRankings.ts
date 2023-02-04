@@ -84,7 +84,7 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
           if (
             parseInt(
               promise.value.headers['x-method-rate-limit-count']!.split(':')[0]
-            ) >= 165
+            ) >= 155
           ) {
             await sleep(5000);
           }

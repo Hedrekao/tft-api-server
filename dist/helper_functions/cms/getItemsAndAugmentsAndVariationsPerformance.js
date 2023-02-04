@@ -44,7 +44,9 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
                 if (visitedMatches.includes(matchId)) {
                     continue;
                 }
-                visitedMatches.push(matchId);
+                else {
+                    visitedMatches.push(matchId);
+                }
                 const matchDataResponse = axios
                     .get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`)
                     .catch(async (e) => await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`));
@@ -92,6 +94,14 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
                     // }
                 }
                 totalNumberOfMatchesOverall++;
+                if (totalNumberOfMatchesOverall == 1000) {
+                    createItemsRates(compositionInput, numberOfMatchingComps, itemsData, dataDragon);
+                    analyzeCompositionAugments(augmentData, compositionInput, numberOfAugmentMatchingComps, dataDragon);
+                    for (const [index, variation] of compositionInput.variations.entries()) {
+                        analyzeVariationPerformance(variation, variationPerformance[index]);
+                    }
+                    return;
+                }
             }
         }
         createItemsRates(compositionInput, numberOfMatchingComps, itemsData, dataDragon);

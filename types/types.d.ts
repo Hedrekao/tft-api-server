@@ -128,7 +128,7 @@ type ItemsData = {
 type ItemsDataCMS = {
   [key: string]: {
     numberOfAppearances: number;
-    [key: number]: {
+    [key]: {
       numberOfComps: number;
     };
   };

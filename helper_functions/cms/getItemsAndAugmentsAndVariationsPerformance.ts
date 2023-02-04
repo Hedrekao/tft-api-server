@@ -64,9 +64,10 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
       for (const matchId of matchesId) {
         if (visitedMatches.includes(matchId)) {
           continue;
+        } else {
+          visitedMatches.push(matchId);
         }
 
-        visitedMatches.push(matchId);
         const matchDataResponse = axios
           .get<RiotAPIMatchDto>(
             `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
@@ -153,6 +154,28 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
         }
 
         totalNumberOfMatchesOverall++;
+        if (totalNumberOfMatchesOverall == 1000) {
+          createItemsRates(
+            compositionInput,
+            numberOfMatchingComps,
+            itemsData,
+            dataDragon
+          );
+          analyzeCompositionAugments(
+            augmentData,
+            compositionInput,
+            numberOfAugmentMatchingComps,
+            dataDragon
+          );
+          for (const [
+            index,
+            variation
+          ] of compositionInput.variations.entries()) {
+            analyzeVariationPerformance(variation, variationPerformance[index]);
+          }
+
+          return;
+        }
       }
     }
 

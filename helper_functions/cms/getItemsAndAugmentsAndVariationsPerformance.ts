@@ -51,17 +51,21 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
       const summonerPuuidResponse = await axios.get<RiotAPISummonerDto>(
         `https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`
       );
-      console.log(
-        'essa2',
-        summonerPuuidResponse.headers['x-app-rate-limit-count']
-      );
 
       const summonerPuuid = summonerPuuidResponse.data.puuid;
 
       const matchesIdResponse =
         await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=15
 `);
-      console.log('essa1', matchesIdResponse.headers['x-app-rate-limit-count']);
+      if (
+        parseInt(
+          matchesIdResponse.headers['x-app-rate-limit-count']!.split(
+            ','
+          )[0].split(':')[0]
+        ) >= 400
+      ) {
+        await sleep(5000);
+      }
 
       const promises = [];
 

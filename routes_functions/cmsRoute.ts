@@ -16,7 +16,7 @@ const getPerformanceForCoreUnits = async (
       `https://euw1.api.riotgames.com/tft/league/v1/challenger?api_key=${process.env.API_KEY}`
     );
 
-    const throttle = throttledQueue(500, 10000);
+    const throttle = throttledQueue(490, 10000, true);
 
     let placementOverall = 0;
     let top4Count = 0;

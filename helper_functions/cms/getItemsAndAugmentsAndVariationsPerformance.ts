@@ -16,6 +16,7 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
     const challengerDataResponse = await axios.get<RiotAPIChallengerData>(
       `https://euw1.api.riotgames.com/tft/league/v1/challenger`
     );
+    console.log(1);
 
     const dataDragon = cache.get<DataDragon>('dataDragon');
 
@@ -51,12 +52,14 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
       const summonerPuuidResponse = await axios.get<RiotAPISummonerDto>(
         `https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`
       );
+      console.log(2);
 
       const summonerPuuid = summonerPuuidResponse.data.puuid;
 
       const matchesIdResponse =
         await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=15
 `);
+      console.log(3);
 
       const promises = [];
 
@@ -85,8 +88,12 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
               )
           );
 
+        console.log(4);
+
         promises.push(matchDataResponse);
       }
+      console.log('4 - done');
+
       const resolvedPromises = await Promise.allSettled(promises);
       const resolvedPromisesData: RiotAPIMatchDto[] = [];
       resolvedPromises.forEach(async (promise) => {

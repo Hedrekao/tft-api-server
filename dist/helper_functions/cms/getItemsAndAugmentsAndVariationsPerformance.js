@@ -9,9 +9,11 @@ import analyzeCompositionAugments from './analyzeCompositionAugments.js';
 import analyzeVariationPerformance from './analyzeVariationPerformance.js';
 import sleep from '../sleep.js';
 import { cache } from '../singletonCache.js';
+import throttledQueue from 'throttled-queue';
 const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
     try {
         const challengerDataResponse = await axios.get(`https://euw1.api.riotgames.com/tft/league/v1/challenger`);
+        const throttle = throttledQueue(500, 10000);
         const dataDragon = cache.get('dataDragon');
         let numberOfMatchingComps = 0;
         let totalNumberOfMatches = 0;
@@ -34,12 +36,12 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
                 challengerData = challengersData[challengerArrayId];
             }
             usedChallengersIdArray.push(challengerArrayId);
-            const summonerPuuidResponse = await axios.get(`https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`);
+            const summonerPuuidResponse = await throttle(() => axios.get(`https://euw1.api.riotgames.com/tft/summoner/v1/summoners/${challengerData['summonerId']}`));
             const summonerPuuid = summonerPuuidResponse.data.puuid;
-            const matchesIdResponse = await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=15
-`);
+            const matchesIdResponse = await throttle(() => axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=15
+`));
             if (parseInt(matchesIdResponse.headers['x-app-rate-limit-count'].split(',')[0].split(':')[0]) >= 400) {
-                await sleep(5000);
+                await sleep(6000);
             }
             const promises = [];
             const matchesId = matchesIdResponse.data;
@@ -50,10 +52,10 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
                 else {
                     visitedMatches.push(matchId);
                 }
-                const matchDataResponse = axios
+                const matchDataResponse = throttle(() => axios
                     .get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`)
                     .catch(async (e) => await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`))
-                    .catch(async (e) => await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`));
+                    .catch(async (e) => await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`)));
                 promises.push(matchDataResponse);
             }
             const resolvedPromises = await Promise.allSettled(promises);

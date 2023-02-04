@@ -88,17 +88,15 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
             .get<RiotAPIMatchDto>(
               `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
             )
-            .catch(
-              async (e) =>
-                await axios.get<RiotAPIMatchDto>(
-                  `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
-                )
+            .catch((e) =>
+              axios.get<RiotAPIMatchDto>(
+                `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
+              )
             )
-            .catch(
-              async (e) =>
-                await axios.get<RiotAPIMatchDto>(
-                  `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
-                )
+            .catch((e) =>
+              axios.get<RiotAPIMatchDto>(
+                `https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`
+              )
             )
         );
 

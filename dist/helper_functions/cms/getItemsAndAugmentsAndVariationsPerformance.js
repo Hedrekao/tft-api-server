@@ -54,8 +54,8 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
                 }
                 const matchDataResponse = throttle(() => axios
                     .get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`)
-                    .catch(async (e) => await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`))
-                    .catch(async (e) => await axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`)));
+                    .catch((e) => axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`))
+                    .catch((e) => axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/${matchId}`)));
                 promises.push(matchDataResponse);
             }
             const resolvedPromises = await Promise.allSettled(promises);

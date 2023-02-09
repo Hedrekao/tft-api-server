@@ -9,6 +9,11 @@ import saveTotalNumberOfMatches from '../helper_functions/tasks/saveTotalNumberO
 import { cache } from '../helper_functions/singletonCache.js';
 import sleep from '../helper_functions/sleep.js';
 import throttledQueue from 'throttled-queue';
+import { clearDatabase } from '../helper_functions/tasks/clearDatabase.js';
+
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 const collectDataAboutRankings = async (limitOfMatches: number) => {
   try {
@@ -29,6 +34,7 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
     const thirdChoiceAugmentObject: AugmentsData = {};
     const usedChallengersIdArray: Array<number> = [];
     const visitedMatches: string[] = [];
+    let gameVersion;
 
     const challengersData = challengerDataResponse.data.entries;
 
@@ -102,6 +108,19 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
       for (const matchData of resolvedPromisesData) {
         const participants = matchData.info.participants;
 
+        if (!(typeof gameVersion == 'string')) {
+          const gameVersionFragments = matchData.info.game_version.split('.');
+          gameVersion = gameVersionFragments[0] + '.' + gameVersionFragments[1];
+          const generalData = await prisma.general_data.findUnique({
+            where: { id: 1 }
+          });
+
+          if (generalData != null && generalData.gameVersion != gameVersion) {
+            await clearDatabase();
+            console.log('database cleared');
+          }
+        }
+
         for (const composition of participants) {
           numberOfComps++;
           analyzeUnitsPerformance(unitsObject, composition);
@@ -116,7 +135,11 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
         }
         totalNumberOfMatches++;
         if (totalNumberOfMatches == limitOfMatches) {
-          saveTotalNumberOfMatches(totalNumberOfMatches, numberOfComps);
+          saveTotalNumberOfMatches(
+            totalNumberOfMatches,
+            numberOfComps,
+            gameVersion
+          );
           calculateAndSaveUnitsDataIntoDb(unitsObject, dataDragon);
           calculateAndSaveItemsDataIntoDb(itemsObject, dataDragon);
           calculateAndSaveAugmentsDataIntoDb(
@@ -131,7 +154,7 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
       }
     }
 
-    saveTotalNumberOfMatches(totalNumberOfMatches, numberOfComps);
+    saveTotalNumberOfMatches(totalNumberOfMatches, numberOfComps, gameVersion);
     calculateAndSaveUnitsDataIntoDb(unitsObject, dataDragon);
     calculateAndSaveItemsDataIntoDb(itemsObject, dataDragon);
     calculateAndSaveAugmentsDataIntoDb(

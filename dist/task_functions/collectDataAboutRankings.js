@@ -9,6 +9,9 @@ import saveTotalNumberOfMatches from '../helper_functions/tasks/saveTotalNumberO
 import { cache } from '../helper_functions/singletonCache.js';
 import sleep from '../helper_functions/sleep.js';
 import throttledQueue from 'throttled-queue';
+import { clearDatabase } from '../helper_functions/tasks/clearDatabase.js';
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 const collectDataAboutRankings = async (limitOfMatches) => {
     try {
         const challengerDataResponse = await axios.get(`https://euw1.api.riotgames.com/tft/league/v1/challenger`);
@@ -24,6 +27,7 @@ const collectDataAboutRankings = async (limitOfMatches) => {
         const thirdChoiceAugmentObject = {};
         const usedChallengersIdArray = [];
         const visitedMatches = [];
+        let gameVersion;
         const challengersData = challengerDataResponse.data.entries;
         while (totalNumberOfMatches < limitOfMatches) {
             let challengerArrayId = Math.floor(Math.random() * challengersData.length);
@@ -64,6 +68,17 @@ const collectDataAboutRankings = async (limitOfMatches) => {
             });
             for (const matchData of resolvedPromisesData) {
                 const participants = matchData.info.participants;
+                if (!(typeof gameVersion == 'string')) {
+                    const gameVersionFragments = matchData.info.game_version.split('.');
+                    gameVersion = gameVersionFragments[0] + '.' + gameVersionFragments[1];
+                    const generalData = await prisma.general_data.findUnique({
+                        where: { id: 1 }
+                    });
+                    if (generalData != null && generalData.gameVersion != gameVersion) {
+                        await clearDatabase();
+                        console.log('database cleared');
+                    }
+                }
                 for (const composition of participants) {
                     numberOfComps++;
                     analyzeUnitsPerformance(unitsObject, composition);
@@ -72,7 +87,7 @@ const collectDataAboutRankings = async (limitOfMatches) => {
                 }
                 totalNumberOfMatches++;
                 if (totalNumberOfMatches == limitOfMatches) {
-                    saveTotalNumberOfMatches(totalNumberOfMatches, numberOfComps);
+                    saveTotalNumberOfMatches(totalNumberOfMatches, numberOfComps, gameVersion);
                     calculateAndSaveUnitsDataIntoDb(unitsObject, dataDragon);
                     calculateAndSaveItemsDataIntoDb(itemsObject, dataDragon);
                     calculateAndSaveAugmentsDataIntoDb(augmentsObject, firstChoiceAugmentObject, secondChoiceAugmentObject, thirdChoiceAugmentObject, dataDragon);
@@ -80,7 +95,7 @@ const collectDataAboutRankings = async (limitOfMatches) => {
                 }
             }
         }
-        saveTotalNumberOfMatches(totalNumberOfMatches, numberOfComps);
+        saveTotalNumberOfMatches(totalNumberOfMatches, numberOfComps, gameVersion);
         calculateAndSaveUnitsDataIntoDb(unitsObject, dataDragon);
         calculateAndSaveItemsDataIntoDb(itemsObject, dataDragon);
         calculateAndSaveAugmentsDataIntoDb(augmentsObject, firstChoiceAugmentObject, secondChoiceAugmentObject, thirdChoiceAugmentObject, dataDragon);

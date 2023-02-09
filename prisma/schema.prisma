@@ -37,6 +37,7 @@ model general_data {
   totalNumberOfMatches Int
   id                   Int    @id
   totalNumberOfComps   Int    @default(0)
+  gameVersion          String
   lastChange           BigInt @default(1669673526)
 }
 

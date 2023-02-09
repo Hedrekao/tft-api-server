@@ -542,7 +542,7 @@ app.get<{ Params: { stage: string } }>(
 );
 
 app.get('/test', async (req, res) => {
-  await collectDataAboutRankings(900);
+  await collectDataAboutRankings(1000);
   return 'test done';
 });
 
@@ -741,7 +741,8 @@ app.get('/generalData', async (req, res) => {
 
     res.code(200).send({
       lastChange: timeSinceNow,
-      analyzedComps: general_data.totalNumberOfComps
+      analyzedComps: general_data.totalNumberOfComps,
+      version: general_data.gameVersion
     });
   } catch (error: any) {
     res.code(502).send({ error: error.message });

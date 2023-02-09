@@ -435,7 +435,7 @@ app.get('/augments-ranking/:stage', async (req, res) => {
     return data;
 });
 app.get('/test', async (req, res) => {
-    await collectDataAboutRankings(900);
+    await collectDataAboutRankings(1000);
     return 'test done';
 });
 app.post('/register', async (req, res) => {
@@ -612,7 +612,8 @@ app.get('/generalData', async (req, res) => {
         const timeSinceNow = timeSince(Number(general_data.lastChange));
         res.code(200).send({
             lastChange: timeSinceNow,
-            analyzedComps: general_data.totalNumberOfComps
+            analyzedComps: general_data.totalNumberOfComps,
+            version: general_data.gameVersion
         });
     }
     catch (error) {

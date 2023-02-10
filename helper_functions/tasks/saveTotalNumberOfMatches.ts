@@ -9,7 +9,6 @@ const saveTotalNumberOfMatches = async (
   const numOfRecords = await prisma.general_data.count();
 
   if (numOfRecords == 1) {
-    if (gameVersion == undefined) return;
     await prisma.general_data.update({
       where: { id: 1 },
       data: {
@@ -21,6 +20,7 @@ const saveTotalNumberOfMatches = async (
     });
   } else {
     if (gameVersion == undefined) return;
+
     await prisma.general_data.create({
       data: {
         id: 1,

@@ -3,8 +3,6 @@ const prisma = new PrismaClient();
 const saveTotalNumberOfMatches = async (totalNumberOfMatches, totalNumberOfComps, gameVersion) => {
     const numOfRecords = await prisma.general_data.count();
     if (numOfRecords == 1) {
-        if (gameVersion == undefined)
-            return;
         await prisma.general_data.update({
             where: { id: 1 },
             data: {

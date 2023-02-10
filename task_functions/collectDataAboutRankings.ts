@@ -21,6 +21,15 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
       `https://euw1.api.riotgames.com/tft/league/v1/challenger`
     );
 
+    const generalData = await prisma.general_data.findUnique({
+      where: { id: 1 }
+    });
+
+    const prevAscii = generalData?.gameVersion
+      .split('.')[1]
+      .split('')
+      .reduce((sum, char) => sum + char.charCodeAt(0), 0);
+
     const throttle = throttledQueue(490, 10000, true);
 
     const dataDragon = cache.get<DataDragon>('dataDragon');
@@ -107,15 +116,20 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
 
       for (const matchData of resolvedPromisesData) {
         const participants = matchData.info.participants;
+        const gameVersionFragments = matchData.info.game_version.split('.');
 
-        if (!(typeof gameVersion == 'string')) {
-          const gameVersionFragments = matchData.info.game_version.split('.');
-          gameVersion = gameVersionFragments[0] + '.' + gameVersionFragments[1];
-          const generalData = await prisma.general_data.findUnique({
-            where: { id: 1 }
-          });
+        if (typeof gameVersion != 'string') {
+          const asciiValue = gameVersionFragments[1]
+            .split('')
+            .reduce((sum, char) => sum + char.charCodeAt(0), 0);
 
-          if (generalData != null && generalData.gameVersion != gameVersion) {
+          if (generalData != null && asciiValue > prevAscii!) {
+            gameVersion = (
+              gameVersionFragments[0] +
+              '.' +
+              gameVersionFragments[1]
+            ).split(' ')[1];
+
             await clearDatabase();
             console.log('database cleared');
           }

@@ -34,11 +34,12 @@ model champions_ranking {
 }
 
 model general_data {
-  totalNumberOfMatches Int
-  id                   Int    @id
-  totalNumberOfComps   Int    @default(0)
-  gameVersion          String
-  lastChange           BigInt @default(1669673526)
+  totalNumberOfMatches       Int
+  id                         Int    @id
+  totalNumberOfComps         Int    @default(0)
+  totalNumberOfCompsAnalysis Int    @default(8000)
+  gameVersion                String
+  lastChange                 BigInt @default(1669673526)
 }
 
 model items_ranking {
@@ -52,9 +53,10 @@ model items_ranking {
 }
 
 model compositionJSON {
-  id         BigInt  @id @default(autoincrement())
-  json       Json?   @db.Json
-  visibility Boolean @default(true)
+  id                 BigInt  @id @default(autoincrement())
+  json               Json?   @db.Json
+  visibility         Boolean @default(true)
+  numberOfCompsFound Int     @default(4000)
 }
 
 model userCompositionJSON {

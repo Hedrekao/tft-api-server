@@ -196,7 +196,7 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
             analyzeVariationPerformance(variation, variationPerformance[index]);
           }
 
-          return;
+          return numberOfMatchingComps;
         }
       }
     }
@@ -217,7 +217,7 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
       analyzeVariationPerformance(variation, variationPerformance[index]);
     }
 
-    return;
+    return numberOfMatchingComps;
   } catch (error: any) {
     console.log(error.message);
     return { error: `error - ${error.message}` };

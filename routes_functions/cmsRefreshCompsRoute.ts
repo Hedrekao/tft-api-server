@@ -12,12 +12,16 @@ export async function refreshCompsData(id: string) {
 
   const comp: Comp = JSON.parse(compDb.json as string);
 
-  await refreshSingularCompData(comp);
+  const numberOfMatchingComps = await refreshSingularCompData(comp);
+
+  if (typeof numberOfMatchingComps == 'object') {
+    throw new Error('Something went wrong');
+  }
 
   const compositionJSON = JSON.stringify(comp);
 
   await prisma.compositionJSON.update({
     where: { id: parseInt(id) },
-    data: { json: compositionJSON }
+    data: { json: compositionJSON, numberOfCompsFound: numberOfMatchingComps }
   });
 }

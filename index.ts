@@ -24,6 +24,7 @@ import timeSince from './helper_functions/summonerRoute/timeSince.js';
 import { cache } from './helper_functions/singletonCache.js';
 import { Comp } from 'types/classes.js';
 import { refreshCompsData } from './routes_functions/cmsRefreshCompsRoute.js';
+import { refreshAllCompsData } from './routes_functions/cmsRefreshAllCompsRoute.js';
 
 dotenv.config();
 axios.defaults.headers.common['X-Riot-Token'] = process.env.API_KEY;
@@ -167,7 +168,22 @@ app.patch<{
   try {
     if (req.headers['x-api-key'] == process.env.CMS_API_KEY) {
       await refreshCompsData(req.params.id);
-      res.code(201).send('Composition augments and items data was refreshed');
+      res.code(200).send('Composition data was refreshed');
+    } else {
+      res.code(401).send(new Error('You are not authorized'));
+    }
+  } catch (error: any) {
+    return { error: error.message };
+  }
+});
+
+app.patch<{
+  Headers: { 'x-api-key': string };
+}>('/cms/comps', async (req, res) => {
+  try {
+    if (req.headers['x-api-key'] == process.env.CMS_API_KEY) {
+      await refreshAllCompsData();
+      res.code(200).send('Compositions data was refreshed');
     } else {
       res.code(401).send(new Error('You are not authorized'));
     }

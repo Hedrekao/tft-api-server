@@ -23,6 +23,7 @@ import getSummonerBasicData from './routes_functions/summonerBasicRoute.js';
 import timeSince from './helper_functions/summonerRoute/timeSince.js';
 import { cache } from './helper_functions/singletonCache.js';
 import { refreshCompsData } from './routes_functions/cmsRefreshCompsRoute.js';
+import { refreshAllCompsData } from './routes_functions/cmsRefreshAllCompsRoute.js';
 dotenv.config();
 axios.defaults.headers.common['X-Riot-Token'] = process.env.API_KEY;
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
@@ -124,7 +125,21 @@ app.patch('/cms/comps/:id', async (req, res) => {
     try {
         if (req.headers['x-api-key'] == process.env.CMS_API_KEY) {
             await refreshCompsData(req.params.id);
-            res.code(201).send('Composition augments and items data was refreshed');
+            res.code(200).send('Composition data was refreshed');
+        }
+        else {
+            res.code(401).send(new Error('You are not authorized'));
+        }
+    }
+    catch (error) {
+        return { error: error.message };
+    }
+});
+app.patch('/cms/comps', async (req, res) => {
+    try {
+        if (req.headers['x-api-key'] == process.env.CMS_API_KEY) {
+            await refreshAllCompsData();
+            res.code(200).send('Compositions data was refreshed');
         }
         else {
             res.code(401).send(new Error('You are not authorized'));

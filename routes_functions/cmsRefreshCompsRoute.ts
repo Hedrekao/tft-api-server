@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
+import { refreshSingularCompData } from '../helper_functions/cms/refreshSingularCompData.js';
 import { Comp } from 'types/classes';
-import find4MostFrequentItemsOnCoreUnits from '../helper_functions/cms/getItemsAndAugmentsAndVariationsPerformance.js';
 
 const prisma = new PrismaClient();
 export async function refreshCompsData(id: string) {
@@ -12,7 +12,7 @@ export async function refreshCompsData(id: string) {
 
   const comp: Comp = JSON.parse(compDb.json as string);
 
-  await find4MostFrequentItemsOnCoreUnits(comp);
+  await refreshSingularCompData(comp);
 
   const compositionJSON = JSON.stringify(comp);
 

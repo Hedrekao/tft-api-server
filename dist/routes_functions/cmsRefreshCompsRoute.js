@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import find4MostFrequentItemsOnCoreUnits from '../helper_functions/cms/getItemsAndAugmentsAndVariationsPerformance.js';
+import { refreshSingularCompData } from '../helper_functions/cms/refreshSingularCompData.js';
 const prisma = new PrismaClient();
 export async function refreshCompsData(id) {
     const compDb = await prisma.compositionJSON.findUnique({
@@ -8,7 +8,7 @@ export async function refreshCompsData(id) {
     if (compDb == null)
         return;
     const comp = JSON.parse(compDb.json);
-    await find4MostFrequentItemsOnCoreUnits(comp);
+    await refreshSingularCompData(comp);
     const compositionJSON = JSON.stringify(comp);
     await prisma.compositionJSON.update({
         where: { id: parseInt(id) },

@@ -2,7 +2,6 @@ import { Comp, ItemUnit, UnitItems } from '../../types/classes.js';
 
 const createItemsRates = (
   compositionInput: Comp,
-  numberOfComps: number,
   itemsData: ItemsDataCMS,
   dataDragon: DataDragon | undefined
 ) => {

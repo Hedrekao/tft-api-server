@@ -1,5 +1,5 @@
 import { ItemUnit, UnitItems } from '../../types/classes.js';
-const createItemsRates = (compositionInput, numberOfComps, itemsData, dataDragon) => {
+const createItemsRates = (compositionInput, itemsData, dataDragon) => {
     const set8Data = dataDragon?.items;
     const unitItemsArr = [];
     for (const unit of compositionInput.units) {

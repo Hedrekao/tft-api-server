@@ -101,7 +101,7 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
                 }
                 totalNumberOfMatchesOverall++;
                 if (totalNumberOfMatchesOverall == 1000) {
-                    createItemsRates(compositionInput, numberOfMatchingComps, itemsData, dataDragon);
+                    createItemsRates(compositionInput, itemsData, dataDragon);
                     analyzeCompositionAugments(augmentData, compositionInput, numberOfAugmentMatchingComps, dataDragon);
                     for (const [index, variation] of compositionInput.variations.entries()) {
                         analyzeVariationPerformance(variation, variationPerformance[index]);
@@ -110,7 +110,7 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
                 }
             }
         }
-        createItemsRates(compositionInput, numberOfMatchingComps, itemsData, dataDragon);
+        createItemsRates(compositionInput, itemsData, dataDragon);
         analyzeCompositionAugments(augmentData, compositionInput, numberOfAugmentMatchingComps, dataDragon);
         for (const [index, variation] of compositionInput.variations.entries()) {
             analyzeVariationPerformance(variation, variationPerformance[index]);

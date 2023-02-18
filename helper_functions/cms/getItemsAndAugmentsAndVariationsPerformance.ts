@@ -177,12 +177,7 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
 
         totalNumberOfMatchesOverall++;
         if (totalNumberOfMatchesOverall == 1000) {
-          createItemsRates(
-            compositionInput,
-            numberOfMatchingComps,
-            itemsData,
-            dataDragon
-          );
+          createItemsRates(compositionInput, itemsData, dataDragon);
           analyzeCompositionAugments(
             augmentData,
             compositionInput,
@@ -201,12 +196,7 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
       }
     }
 
-    createItemsRates(
-      compositionInput,
-      numberOfMatchingComps,
-      itemsData,
-      dataDragon
-    );
+    createItemsRates(compositionInput, itemsData, dataDragon);
     analyzeCompositionAugments(
       augmentData,
       compositionInput,

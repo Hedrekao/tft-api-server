@@ -1,25 +1,33 @@
 import { PrismaClient } from '@prisma/client';
-import { refreshSingularCompData } from '../helper_functions/cms/refreshSingularCompData.js';
-import { Comp } from 'types/classes';
+import { refreshMultipleCompsData } from '../helper_functions/cms/refreshMultipleCompsData.js';
 
 const prisma = new PrismaClient();
 export async function refreshAllCompsData() {
-  const compsDb = await prisma.compositionJSON.findMany();
+  const compsFromDb = await prisma.compositionJSON.findMany();
 
-  for (const compDb of compsDb) {
-    const comp: Comp = JSON.parse(compDb.json as string);
+  const input = compsFromDb.map((compFromDb) => ({
+    compId: compFromDb.id,
+    comp: JSON.parse(compFromDb.json as string),
+    previousNumberOfComps: compFromDb.numberOfCompsFound,
+    currentNumberOfComps: 0,
+    itemsData: {} as ItemsDataCMS,
+    augmentData: {} as AugmentsData,
+    variationPerformance: [],
+    placementOverall: 0,
+    top4Count: 0,
+    winCount: 0
+  }));
 
-    const numberOfMatchingComps = await refreshSingularCompData(comp);
+  await refreshMultipleCompsData(input);
 
-    const compositionJSON = JSON.stringify(comp);
-
-    if (typeof numberOfMatchingComps == 'object') {
-      throw new Error('Something went wrong');
-    }
-
+  for (const comp of input) {
+    const compJSON = JSON.stringify(comp.comp);
     await prisma.compositionJSON.update({
-      where: { id: compDb.id },
-      data: { json: compositionJSON, numberOfCompsFound: numberOfMatchingComps }
+      where: { id: comp.compId },
+      data: {
+        json: compJSON,
+        numberOfCompsFound: comp.currentNumberOfComps
+      }
     });
   }
 }

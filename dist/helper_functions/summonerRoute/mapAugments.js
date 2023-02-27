@@ -7,7 +7,7 @@ const mapAugments = (augments, dataDragon) => {
         let icon = iconWithWrongExt
             ?.substring(0, iconWithWrongExt.length - 3)
             .concat('png');
-        icon = icon.replace('hexcore', 'choiceui');
+        icon = icon?.replace('hexcore', 'choiceui');
         const augment = {
             apiName: augments[i],
             name: dataDragonItem?.name,

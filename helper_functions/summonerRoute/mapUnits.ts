@@ -12,7 +12,7 @@ const mapUnits = (
     const urlArr: string[] = iconWithWrongExt.split('/');
     const elementUrl = urlArr[4];
     const url = `https://raw.communitydragon.org/latest/game/assets/characters/${unit.character_id.toLowerCase()}/hud/${elementUrl
-      .replace('.dds', '')
+      ?.replace('.dds', '')
       .toLowerCase()}.png`;
 
     const cost: number = getCostOfUnit(unit.rarity);

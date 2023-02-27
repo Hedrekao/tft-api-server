@@ -7,7 +7,7 @@ const analyzeAugments = (augmentsData, numberOfMatchingComps, dataDragon) => {
         let src = iconWithWrongExt
             ?.substring(0, iconWithWrongExt.length - 3)
             .concat('png');
-        src = src.replace('hexcore', 'choiceui');
+        src = src?.replace('hexcore', 'choiceui');
         const name = dataDragonItem.name;
         const augment = {
             apiName: augmentData,

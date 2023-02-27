@@ -35,7 +35,7 @@ const analyzeCompositionAugments = (
     let icon = iconWithWrongExt
       ?.substring(0, iconWithWrongExt.length - 3)
       .concat('png');
-    icon = icon.replace('hexcore', 'choiceui');
+    icon = icon?.replace('hexcore', 'choiceui');
 
     const augment = new Augment(
       `https://raw.communitydragon.org/latest/game/${icon}`,

@@ -3,20 +3,18 @@ const collectDataAboutItems = (composition, inputData, itemsData, compositionUni
         if (!itemsData.hasOwnProperty(unit.name)) {
             itemsData[unit.name] = {};
         }
-        for (const item of compositionUnits[unit.name].items) {
+        for (const item of compositionUnits[unit.name].itemsNames) {
             const unitItems = itemsData[unit.name];
-            if (item > 9) {
-                if (unitItems.hasOwnProperty(item)) {
-                    unitItems[item].sumOfPlacements += composition.placement;
-                    unitItems[item].numberOfComps += 1;
-                }
-                else {
-                    unitItems[item] = {
-                        name: compositionUnits[unit.name].itemsNames[compositionUnits[unit.name].items.indexOf(item)],
-                        sumOfPlacements: composition.placement,
-                        numberOfComps: 1
-                    };
-                }
+            if (unitItems.hasOwnProperty(item)) {
+                unitItems[item].sumOfPlacements += composition.placement;
+                unitItems[item].numberOfComps += 1;
+            }
+            else {
+                unitItems[item] = {
+                    name: item,
+                    sumOfPlacements: composition.placement,
+                    numberOfComps: 1
+                };
             }
         }
     }

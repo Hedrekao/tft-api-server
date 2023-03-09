@@ -20,7 +20,7 @@ const isCompositionMatchingInput = (inputData, compositionUnits) => {
             });
             if (items.length != 0 &&
                 !items.every((item) => {
-                    return compositionUnits[unit.name].items.indexOf(item) != -1;
+                    return compositionUnits[unit.name].itemsNames.indexOf(item) != -1;
                 })) {
                 isCompositionMatchingInput = false;
                 break;

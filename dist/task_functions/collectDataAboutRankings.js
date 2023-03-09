@@ -111,7 +111,7 @@ const collectDataAboutRankings = async (limitOfMatches) => {
         return;
     }
     catch (e) {
-        console.log(e.message);
+        console.log(e);
     }
 };
 export default collectDataAboutRankings;

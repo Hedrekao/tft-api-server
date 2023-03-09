@@ -1,10 +1,6 @@
 import { cache } from '../singletonCache.js';
 
-const mapItems = (
-  names: Array<string>,
-  ids: Array<number>,
-  dataDragon: DataDragon
-) => {
+const mapItems = (names: Array<string>, dataDragon: DataDragon) => {
   const set8Data = dataDragon?.items;
   const result = [];
 
@@ -20,7 +16,6 @@ const mapItems = (
       ?.substring(0, iconWithWrongExt.length - 3)
       .concat('png');
     const item = {
-      id: ids[i],
       apiName: names[i],
       name: dataDragonItem?.name,
       icon: `https://raw.communitydragon.org/latest/game/${icon}`

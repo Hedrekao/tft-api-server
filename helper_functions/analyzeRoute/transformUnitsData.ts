@@ -3,7 +3,6 @@ const transformUnitsData = (units: RiotAPIUnitDto[]) => {
     const name = unit.character_id;
     object[name] = {
       level: unit.tier,
-      items: unit.items,
       itemsNames: unit.itemNames
     };
 

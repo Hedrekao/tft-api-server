@@ -1,10 +1,6 @@
 const analyzeItemsPerformance = (itemsObject, composition) => {
     for (const unit of composition.units) {
         for (const item of unit.itemNames) {
-            const itemId = unit.items[unit.itemNames.indexOf(item)];
-            if (itemId < 10 || itemId == 88 || itemId == 10006) {
-                continue;
-            }
             if (itemsObject.hasOwnProperty(item)) {
                 itemsObject[item].sumOfPlacements += composition.placement;
                 itemsObject[item].numberOfComps += 1;

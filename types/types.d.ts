@@ -88,13 +88,12 @@ type AnalysisInputData = [
     name: string;
     icon: string?;
     level: number;
-    items: { id: number }[] | [] | Array<AnalyzedItem>;
+    items: { id: string }[] | [] | Array<AnalyzedItem>;
   }
 ];
 
 type AnalyzedItem = {
-  id: number;
-  apiName: string;
+  id: string;
   name: string;
   icon: string;
   playRate: string;
@@ -102,7 +101,7 @@ type AnalyzedItem = {
 };
 
 type TransformedUnits = {
-  [key: string]: { level: number; items: number[]; itemsNames: string[] };
+  [key: string]: { level: number; itemsNames: string[] };
 };
 
 type AugmentsData = {
@@ -115,7 +114,7 @@ type AugmentsData = {
 
 type ItemsData = {
   [key: string]: {
-    [key: number]: {
+    [key: string]: {
       name: string;
       sumOfPlacements: number;
       numberOfComps: number;
@@ -333,7 +332,6 @@ type RiotAPITraitDto = {
 };
 
 type RiotAPIUnitDto = {
-  items: number[];
   itemNames: string[];
   character_id: string;
   chosen: string;

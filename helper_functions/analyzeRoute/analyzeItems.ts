@@ -24,8 +24,7 @@ const analyzeItems = (
         ?.substring(0, iconWithWrongExt.length - 3)
         .concat('png');
       const analyzedItem: AnalyzedItem = {
-        id: parseInt(item),
-        apiName: items[item].name,
+        id: items[item].name,
         name: dataDragonItem.name,
         icon: `https://raw.communitydragon.org/latest/game/${icon}`,
         playRate: (

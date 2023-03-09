@@ -181,7 +181,7 @@ const collectDataAboutRankings = async (limitOfMatches: number) => {
 
     return;
   } catch (e: any) {
-    console.log(e.message);
+    console.log(e);
   }
 };
 

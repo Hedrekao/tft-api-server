@@ -17,7 +17,7 @@ const mapUnits = (
 
     const cost: number = getCostOfUnit(unit.rarity);
 
-    const items = mapItems(unit.itemNames, unit.items, dataDragon!);
+    const items = mapItems(unit.itemNames, dataDragon!);
 
     const result = {
       id: unit.character_id,

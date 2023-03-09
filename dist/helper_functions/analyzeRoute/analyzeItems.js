@@ -19,8 +19,7 @@ const analyzeItems = (inputData, itemsData, numberOfMatchingComps, dataDragon) =
                 ?.substring(0, iconWithWrongExt.length - 3)
                 .concat('png');
             const analyzedItem = {
-                id: parseInt(item),
-                apiName: items[item].name,
+                id: items[item].name,
                 name: dataDragonItem.name,
                 icon: `https://raw.communitydragon.org/latest/game/${icon}`,
                 playRate: ((items[item].numberOfComps / numberOfMatchingComps) *

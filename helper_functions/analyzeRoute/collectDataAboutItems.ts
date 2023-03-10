@@ -12,7 +12,7 @@ const collectDataAboutItems = (
     }
     for (const item of compositionUnits[unit.name].itemsNames) {
       const unitItems = itemsData[unit.name];
-      if (item === 'TFT_Item_EmptyBag') continue;
+      if (item == 'TFT_Item_EmptyBag') continue;
       if (unitItems.hasOwnProperty(item)) {
         unitItems[item].sumOfPlacements += composition.placement;
         unitItems[item].numberOfComps += 1;

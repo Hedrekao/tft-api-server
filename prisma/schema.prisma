@@ -53,10 +53,33 @@ model items_ranking {
 }
 
 model compositionJSON {
-  id                 BigInt  @id @default(autoincrement())
-  json               Json?   @db.Json
-  visibility         Boolean @default(true)
-  numberOfCompsFound Int     @default(4000)
+  id                 BigInt          @id @default(autoincrement())
+  json               Json?           @db.Json
+  visibility         Boolean         @default(true)
+  numberOfCompsFound Int             @default(4000)
+  augments           compsAugments[]
+  items              compsItems[]
+}
+
+model compsAugments {
+  compId      BigInt
+  comp        compositionJSON @relation(fields: [compId], references: [id])
+  augmentId   String
+  numOfTop4   Int
+  numOfWins   Int
+  numOfAppear Int
+
+  @@id([compId, augmentId])
+}
+
+model compsItems {
+  compId      BigInt
+  comp        compositionJSON @relation(fields: [compId], references: [id])
+  itemId      String
+  numOfAppear Int
+  unitId      String
+
+  @@id([compId, itemId, unitId])
 }
 
 model userCompositionJSON {
@@ -103,4 +126,25 @@ model users {
   userName     String?
   summonerName String?
   region       String?
+}
+
+model guides {
+  title               String          @id
+  description         String
+  set                 String
+  timeRead            Int
+  date                String
+  imageUrl            String
+  borderColorUnitCost Int
+  elements            guideElements[]
+}
+
+model guideElements {
+  order      Int
+  type       String
+  content    String?
+  guideTitle String
+  guide      guides  @relation(fields: [guideTitle], references: [title])
+
+  @@id([order, guideTitle])
 }

@@ -343,3 +343,21 @@ type RiotAPIUnitDto = {
 // Cron task types
 
 type CronTaskData = AugmentsData;
+
+//Guide types
+
+type Guide = {
+  elements: GuideElement[];
+  title: string;
+  description: string;
+  set: string;
+  timeRead: number;
+  date: string;
+  imageUrl: string;
+  borderColorUnitCost: number;
+};
+
+type GuideElement = {
+  type: 'paragraph' | 'heading' | 'subheading' | 'board' | 'divider';
+  content?: string;
+};

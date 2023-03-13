@@ -24,6 +24,7 @@ import timeSince from './helper_functions/summonerRoute/timeSince.js';
 import { cache } from './helper_functions/singletonCache.js';
 import { refreshCompsData } from './routes_functions/cmsRefreshCompsRoute.js';
 import { refreshAllCompsData } from './routes_functions/cmsRefreshAllCompsRoute.js';
+import { getGuideByTitle, getAllGuidesWithoutDetails, saveGuide } from './routes_functions/guidesRoutes.js';
 dotenv.config();
 axios.defaults.headers.common['X-Riot-Token'] = process.env.API_KEY;
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
@@ -650,6 +651,37 @@ app.get('/generalData', async (req, res) => {
         res.code(502).send({ error: error.message });
     }
 });
+app.get('/guides', async (req, res) => {
+    try {
+        return res.code(200).send(await getAllGuidesWithoutDetails());
+    }
+    catch (error) {
+        return res.code(502).send({ error: error.message });
+    }
+});
+app.get('/guides/:title', async (req, res) => {
+    try {
+        const title = req.params.title;
+        const guide = await getGuideByTitle(title);
+        if (guide == null) {
+            throw new Error('no guide found');
+        }
+        return res.code(200).send(guide);
+    }
+    catch (error) {
+        return res.code(502).send({ error: error.message });
+    }
+});
+app.post('/guides', async (req, res) => {
+    try {
+        const guide = req.body.guide;
+        await saveGuide(guide);
+        return res.code(200).send({ message: 'guide has been saved' });
+    }
+    catch (error) {
+        return res.code(502).send({ error: error.message });
+    }
+});
 app.ready().then(async () => {
     app.io.on('connection', (socket) => {
         socket.on('connectInit', (sessionId) => {
@@ -708,3 +740,6 @@ async function commitToDb(promise) {
 cron.schedule('0 */12 * * *', () => {
     collectDataAboutRankings(1000);
 });
+// cron.schedule('0 5 * * */5', () => {
+//   collectDataAboutCompositions();
+// });

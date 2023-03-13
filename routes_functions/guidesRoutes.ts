@@ -19,20 +19,33 @@ export async function getAllGuidesWithoutDetails() {
 
 export async function getGuideByTitle(title: string) {
   const prisma = new PrismaClient();
-  const guide = await prisma.guides.findUnique({
-    where: { title: title },
+  const correctTitle = title.replaceAll('-', ' ');
+  const guide = await prisma.guides.findMany({
+    where: {
+      title: { equals: correctTitle, mode: 'insensitive' }
+    },
     include: { elements: true }
   });
 
-  guide?.elements.sort((a, b) => a.order - b.order);
+  if (!guide.length) return null;
 
-  return guide as Guide;
+  guide[0]?.elements.sort((a, b) => a.order - b.order);
+
+  return guide[0] as Guide;
 }
 
 export async function saveGuide(guide: Guide) {
   const prisma = new PrismaClient();
+  const currentDate = new Date();
+  const options: Intl.DateTimeFormatOptions = {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric'
+  };
+  const formattedDate = currentDate.toLocaleString('en-US', options);
   const guideData = {
     ...guide,
+    date: formattedDate,
     elements: {
       create: guide.elements.map((element, index) => ({
         ...element,

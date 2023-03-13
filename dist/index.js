@@ -674,9 +674,14 @@ app.get('/guides/:title', async (req, res) => {
 });
 app.post('/guides', async (req, res) => {
     try {
-        const guide = req.body.guide;
-        await saveGuide(guide);
-        return res.code(200).send({ message: 'guide has been saved' });
+        if (req.headers['x-api-key'] == process.env.CMS_API_KEY) {
+            const guide = req.body.guide;
+            await saveGuide(guide);
+            return res.code(200).send({ message: 'guide has been saved' });
+        }
+        else {
+            res.code(401).send({ error: 'You are not authorized' });
+        }
     }
     catch (error) {
         return res.code(502).send({ error: error.message });

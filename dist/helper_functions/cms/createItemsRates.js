@@ -1,5 +1,7 @@
+import { PrismaClient } from '@prisma/client';
 import { ItemUnit, UnitItems } from '../../types/classes.js';
-const createItemsRates = (compositionInput, itemsData, dataDragon) => {
+const prisma = new PrismaClient();
+const createItemsRates = async (compositionInput, itemsData, dataDragon) => {
     const set8Data = dataDragon?.items;
     const unitItemsArr = [];
     for (const unit of compositionInput.units) {

@@ -24,6 +24,7 @@ import timeSince from './helper_functions/summonerRoute/timeSince.js';
 import { cache } from './helper_functions/singletonCache.js';
 import { refreshCompsData } from './routes_functions/cmsRefreshCompsRoute.js';
 import { refreshAllCompsData } from './routes_functions/cmsRefreshAllCompsRoute.js';
+import { collectDataAboutCompositions } from './task_functions/collectDataAboutCompositions.js';
 import { getGuideByTitle, getAllGuidesWithoutDetails, saveGuide } from './routes_functions/guidesRoutes.js';
 dotenv.config();
 axios.defaults.headers.common['X-Riot-Token'] = process.env.API_KEY;
@@ -465,10 +466,10 @@ app.get('/augments-ranking/:stage', async (req, res) => {
     });
     return data;
 });
-app.get('/test', async (req, res) => {
-    await collectDataAboutRankings(1000);
-    return 'test done';
-});
+// app.get('/test', async (req, res) => {
+//   await collectDataAboutCompositions();
+//   return 'test done';
+// });
 app.post('/register', async (req, res) => {
     try {
         const user = req.body.user;
@@ -745,6 +746,6 @@ async function commitToDb(promise) {
 cron.schedule('0 */12 * * *', () => {
     collectDataAboutRankings(1000);
 });
-// cron.schedule('0 5 * * */5', () => {
-//   collectDataAboutCompositions();
-// });
+cron.schedule('0 3 * * *', () => {
+    collectDataAboutCompositions();
+});

@@ -1,23 +1,30 @@
 import axios from 'axios';
-import collectDataAboutAugments from '../analyzeRoute/collectDataAboutAugments.js';
-import transformUnitsData from '../analyzeRoute/transformUnitsData.js';
-import { cache } from '../singletonCache.js';
-import sleep from '../sleep.js';
+import sleep from '../../helper_functions/sleep.js';
 import throttledQueue from 'throttled-queue';
-import { Comp } from 'types/classes';
-import analyzeCompositionAugments from './analyzeCompositionAugments.js';
-import analyzeVariationPerformance from './analyzeVariationPerformance.js';
-import collectDataAboutItemsCMS from './collectDataAboutItemsCMS.js';
-import collectDataAboutVariation from './collectDataAboutVariation.js';
-import createItemsRates from './createItemsRates.js';
-import isCompositionMatchingInputCMS from './isCompositionMatchingInputCMS.js';
+import { Comp } from '../../types/classes.js';
+import isCompositionMatchingInputCMS from '../cms/isCompositionMatchingInputCMS.js';
+import transformUnitsData from '../analyzeRoute/transformUnitsData.js';
+import collectDataAboutAugments from '../analyzeRoute/collectDataAboutAugments.js';
+import collectDataAboutItemsCMS from '../cms/collectDataAboutItemsCMS.js';
+import collectDataAboutVariation from '../cms/collectDataAboutVariation.js';
+import { cache } from '../singletonCache.js';
+import createItemsRates from '../cms/createItemsRates.js';
 
-export async function refreshMultipleCompsData(
+import { analyzeVariationPerformanceTask } from './analyzeVariationPerformanceTask.js';
+import { PrismaClient } from '@prisma/client';
+import analyzeCompositionAugments from '../cms/analyzeCompositionAugments.js';
+import { reanalyzeAugmentsPerformance } from './reanalyzeAugmentsPerformance.js';
+import { reanalyzeItemsPerformance } from './reanalyzeItemsPerformance.js';
+
+const prisma = new PrismaClient();
+
+export async function reanalyzeComps(
   input: {
     compId: bigint;
     comp: Comp;
     previousNumberOfComps: number;
     currentNumberOfComps: number;
+    previousTotalNumberOfMatches: number;
     itemsData: ItemsDataCMS;
     augmentData: AugmentsData;
     variationPerformance: any[];
@@ -27,6 +34,10 @@ export async function refreshMultipleCompsData(
   }[]
 ) {
   try {
+    const generalData = await prisma.general_data.findUnique({
+      where: { id: 1 }
+    });
+    if (generalData == null) return;
     const challengerDataResponse = await axios.get<RiotAPIChallengerData>(
       `https://euw1.api.riotgames.com/tft/league/v1/challenger`
     );
@@ -68,7 +79,7 @@ export async function refreshMultipleCompsData(
 
       const matchesIdResponse = await throttle(() =>
         axios.get(`https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${summonerPuuid}/ids?start=0&count=15
-          `)
+    `)
       );
       const promises = [];
 
@@ -150,9 +161,9 @@ export async function refreshMultipleCompsData(
               inputComp.comp
             );
             if (!isMatching) continue;
-            inputComp.currentNumberOfComps++;
 
             collectDataAboutAugments(composition, inputComp.augmentData);
+            inputComp.currentNumberOfComps++;
             inputComp.placementOverall += composition.placement;
             if (composition.placement <= 4) {
               inputComp.top4Count++;
@@ -165,44 +176,66 @@ export async function refreshMultipleCompsData(
         if (totalNumberOfMatches == 1000) {
           for (const inputComp of input) {
             const comp = inputComp.comp;
-            createItemsRates(inputComp.comp, inputComp.itemsData, dataDragon);
-            analyzeCompositionAugments(
+            const newNumberOfComps =
+              inputComp.currentNumberOfComps + inputComp.previousNumberOfComps;
+            await reanalyzeItemsPerformance(
+              inputComp.compId,
+              inputComp.comp,
+              inputComp.itemsData,
+              dataDragon,
+              prisma
+            );
+            await reanalyzeAugmentsPerformance(
+              inputComp.compId,
               inputComp.augmentData,
               inputComp.comp,
               inputComp.currentNumberOfComps,
-              dataDragon
+              inputComp.previousNumberOfComps,
+              dataDragon,
+              prisma
             );
+
             for (const [
               index,
               variation
             ] of inputComp.comp.variations.entries()) {
-              analyzeVariationPerformance(
+              analyzeVariationPerformanceTask(
                 variation,
                 inputComp.variationPerformance[index]
               );
             }
             comp.avgPlacement = parseFloat(
               (
-                inputComp.placementOverall / inputComp.currentNumberOfComps
+                (comp.avgPlacement * inputComp.previousNumberOfComps +
+                  inputComp.placementOverall) /
+                newNumberOfComps
               ).toFixed(2)
             );
 
             comp.winrate = parseFloat(
               (
-                (inputComp.winCount / inputComp.currentNumberOfComps) *
+                (((comp.winrate * inputComp.previousNumberOfComps) / 100 +
+                  inputComp.winCount) /
+                  newNumberOfComps) *
                 100
               ).toFixed(2)
             );
 
             comp.top4Ratio = parseFloat(
               (
-                (inputComp.top4Count / inputComp.currentNumberOfComps) *
+                (((comp.top4Ratio * inputComp.previousNumberOfComps) / 100 +
+                  inputComp.top4Count) /
+                  newNumberOfComps) *
                 100
               ).toFixed(2)
             );
 
             comp.playrate = parseFloat(
-              (inputComp.currentNumberOfComps / totalNumberOfMatches).toFixed(2)
+              (
+                (comp.playrate * inputComp.previousTotalNumberOfMatches +
+                  inputComp.currentNumberOfComps) /
+                (inputComp.previousTotalNumberOfMatches + totalNumberOfMatches)
+              ).toFixed(2)
             );
           }
 
@@ -212,35 +245,62 @@ export async function refreshMultipleCompsData(
     }
     for (const inputComp of input) {
       const comp = inputComp.comp;
-      createItemsRates(inputComp.comp, inputComp.itemsData, dataDragon);
-      analyzeCompositionAugments(
+      const newNumberOfComps =
+        inputComp.currentNumberOfComps + inputComp.previousNumberOfComps;
+      await reanalyzeItemsPerformance(
+        inputComp.compId,
+        inputComp.comp,
+        inputComp.itemsData,
+        dataDragon,
+        prisma
+      );
+      await reanalyzeAugmentsPerformance(
+        inputComp.compId,
         inputComp.augmentData,
         inputComp.comp,
         inputComp.currentNumberOfComps,
-        dataDragon
+        inputComp.previousNumberOfComps,
+        dataDragon,
+        prisma
       );
       for (const [index, variation] of inputComp.comp.variations.entries()) {
-        analyzeVariationPerformance(
+        analyzeVariationPerformanceTask(
           variation,
           inputComp.variationPerformance[index]
         );
       }
       comp.avgPlacement = parseFloat(
-        (inputComp.placementOverall / inputComp.currentNumberOfComps).toFixed(2)
+        (
+          (comp.avgPlacement * inputComp.previousNumberOfComps +
+            inputComp.placementOverall) /
+          newNumberOfComps
+        ).toFixed(2)
       );
 
       comp.winrate = parseFloat(
-        ((inputComp.winCount / inputComp.currentNumberOfComps) * 100).toFixed(2)
+        (
+          (((comp.winrate * inputComp.previousNumberOfComps) / 100 +
+            inputComp.winCount) /
+            newNumberOfComps) *
+          100
+        ).toFixed(2)
       );
 
       comp.top4Ratio = parseFloat(
-        ((inputComp.top4Count / inputComp.currentNumberOfComps) * 100).toFixed(
-          2
-        )
+        (
+          (((comp.top4Ratio * inputComp.previousNumberOfComps) / 100 +
+            inputComp.top4Count) /
+            newNumberOfComps) *
+          100
+        ).toFixed(2)
       );
 
       comp.playrate = parseFloat(
-        (inputComp.currentNumberOfComps / totalNumberOfMatches).toFixed(2)
+        (
+          (comp.playrate * inputComp.previousTotalNumberOfMatches +
+            inputComp.currentNumberOfComps) /
+          (inputComp.previousTotalNumberOfMatches + totalNumberOfMatches)
+        ).toFixed(2)
       );
     }
     return totalNumberOfMatches;

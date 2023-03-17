@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { refreshSingularCompData } from '../helper_functions/cms/refreshSingularCompData.js';
+import { saveAugmentsAndItemsIntoDatabase } from '../helper_functions/cms/saveAugmentsAndItemsIntoDb.js';
 const prisma = new PrismaClient();
 export async function refreshCompsData(id) {
     const compDb = await prisma.compositionJSON.findUnique({
@@ -7,14 +8,27 @@ export async function refreshCompsData(id) {
     });
     if (compDb == null)
         return;
+    await prisma.compsUnits.deleteMany({
+        where: { compId: parseInt(id) }
+    });
+    await prisma.compsAugments.deleteMany({
+        where: { compId: parseInt(id) }
+    });
     const comp = JSON.parse(compDb.json);
-    const numberOfMatchingComps = await refreshSingularCompData(comp);
-    if (typeof numberOfMatchingComps == 'object') {
+    const result = await refreshSingularCompData(comp);
+    if (result.error) {
         throw new Error('Something went wrong');
     }
     const compositionJSON = JSON.stringify(comp);
     await prisma.compositionJSON.update({
         where: { id: parseInt(id) },
-        data: { json: compositionJSON, numberOfCompsFound: numberOfMatchingComps }
+        data: {
+            json: compositionJSON,
+            numberOfCompsFound: result.numberOfAugmentMatchingComps,
+            totalNumberOfMatches: result.totalNumberOfMatchesOverall
+        }
     });
+    if (result.augmentData && result.itemsData) {
+        await saveAugmentsAndItemsIntoDatabase(compDb.id, result.augmentData, result.itemsData, comp.units, prisma);
+    }
 }

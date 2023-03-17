@@ -13,6 +13,7 @@ const collectDataAboutItemsCMS = (
         itemsData[unit.id].numberOfAppearances += 1;
       }
       for (const item of compositionUnits[unit.id].itemsNames) {
+        if (item == 'TFT_Item_EmptyBag') continue;
         const unitItems = itemsData[unit.id];
         if (unitItems.hasOwnProperty(item)) {
           unitItems[item].numberOfComps += 1;

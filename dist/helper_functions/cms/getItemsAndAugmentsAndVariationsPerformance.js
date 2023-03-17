@@ -13,10 +13,8 @@ import throttledQueue from 'throttled-queue';
 const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
     try {
         const challengerDataResponse = await axios.get(`https://euw1.api.riotgames.com/tft/league/v1/challenger`);
-        const throttle = throttledQueue(500, 10000);
+        const throttle = throttledQueue(490, 10000);
         const dataDragon = cache.get('dataDragon');
-        let numberOfMatchingComps = 0;
-        let totalNumberOfMatches = 0;
         let numberOfAugmentMatchingComps = 0;
         let totalNumberOfMatchesOverall = 0;
         const usedChallengersIdArray = [];
@@ -69,7 +67,6 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
                 }
             });
             for (const matchData of resolvedPromisesData) {
-                let firstCompositionInMatch = true;
                 const participants = matchData.info.participants;
                 for (const composition of participants) {
                     const compositionUnits = transformUnitsData(composition.units);
@@ -91,11 +88,6 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
                             collectDataAboutVariation(composition, variationPerformance[index]);
                         }
                     }
-                    numberOfMatchingComps++;
-                    if (firstCompositionInMatch) {
-                        totalNumberOfMatches++;
-                        firstCompositionInMatch = false;
-                    }
                     collectDataAboutItemsCMS(itemsData, compositionUnits, compositionInput);
                     // }
                 }
@@ -106,7 +98,12 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
                     for (const [index, variation] of compositionInput.variations.entries()) {
                         analyzeVariationPerformance(variation, variationPerformance[index]);
                     }
-                    return numberOfMatchingComps;
+                    return {
+                        numberOfAugmentMatchingComps,
+                        itemsData,
+                        augmentData,
+                        totalNumberOfMatchesOverall
+                    };
                 }
             }
         }
@@ -115,7 +112,12 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
         for (const [index, variation] of compositionInput.variations.entries()) {
             analyzeVariationPerformance(variation, variationPerformance[index]);
         }
-        return numberOfMatchingComps;
+        return {
+            numberOfAugmentMatchingComps,
+            itemsData,
+            augmentData,
+            totalNumberOfMatchesOverall
+        };
     }
     catch (error) {
         console.log(error.message);

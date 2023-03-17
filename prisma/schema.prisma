@@ -34,12 +34,11 @@ model champions_ranking {
 }
 
 model general_data {
-  totalNumberOfMatches       Int
-  id                         Int    @id
-  totalNumberOfComps         Int    @default(0)
-  totalNumberOfCompsAnalysis Int    @default(8000)
-  gameVersion                String
-  lastChange                 BigInt @default(1669673526)
+  totalNumberOfMatches Int
+  id                   Int    @id
+  totalNumberOfComps   Int    @default(0)
+  gameVersion          String
+  lastChange           BigInt @default(1669673526)
 }
 
 model items_ranking {
@@ -53,33 +52,44 @@ model items_ranking {
 }
 
 model compositionJSON {
-  id                 BigInt          @id @default(autoincrement())
-  json               Json?           @db.Json
-  visibility         Boolean         @default(true)
-  numberOfCompsFound Int             @default(4000)
-  augments           compsAugments[]
-  items              compsItems[]
+  id                   BigInt          @id @default(autoincrement())
+  json                 String
+  visibility           Boolean         @default(true)
+  numberOfCompsFound   Int             @default(4000)
+  totalNumberOfMatches Int             @default(1000)
+  augments             compsAugments[]
+  units                compsUnits[]
 }
 
 model compsAugments {
-  compId      BigInt
-  comp        compositionJSON @relation(fields: [compId], references: [id])
-  augmentId   String
-  numOfTop4   Int
-  numOfWins   Int
-  numOfAppear Int
+  compId          BigInt
+  comp            compositionJSON @relation(fields: [compId], references: [id])
+  augmentId       String
+  sumOfPlacements Int
+  numOfWins       Int
+  numOfAppear     Int
 
   @@id([compId, augmentId])
 }
 
 model compsItems {
   compId      BigInt
-  comp        compositionJSON @relation(fields: [compId], references: [id])
   itemId      String
   numOfAppear Int
   unitId      String
+  compsUnits  compsUnits @relation(fields: [compId, unitId], references: [compId, unitId], onDelete: Cascade)
 
   @@id([compId, itemId, unitId])
+}
+
+model compsUnits {
+  compId      BigInt
+  comp        compositionJSON @relation(fields: [compId], references: [id])
+  unitId      String
+  numOfAppear Int
+  items       compsItems[]
+
+  @@id([compId, unitId])
 }
 
 model userCompositionJSON {

@@ -20,6 +20,6 @@ export async function refreshSingularCompData(comp) {
         comp.top4Ratio = corePerformance['top4Ratio'];
         comp.playrate = corePerformance['playRate'];
     }
-    const numberOfMatchingComps = await find4MostFrequentItemsOnCoreUnits(comp);
-    return numberOfMatchingComps;
+    const result = await find4MostFrequentItemsOnCoreUnits(comp);
+    return result;
 }

@@ -9,6 +9,7 @@ declare global {
       EMAIL_PASSWORD: string;
       EMAIL: string;
       JWT_SECRET_KEY: string;
+      TEST_DATABASE_URL: string;
     }
   }
 }

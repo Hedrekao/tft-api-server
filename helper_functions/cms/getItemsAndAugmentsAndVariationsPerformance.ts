@@ -18,12 +18,10 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
       `https://euw1.api.riotgames.com/tft/league/v1/challenger`
     );
 
-    const throttle = throttledQueue(500, 10000);
+    const throttle = throttledQueue(490, 10000);
 
     const dataDragon = cache.get<DataDragon>('dataDragon');
 
-    let numberOfMatchingComps = 0;
-    let totalNumberOfMatches = 0;
     let numberOfAugmentMatchingComps = 0;
     let totalNumberOfMatchesOverall = 0;
     const usedChallengersIdArray: Array<number> = [];
@@ -119,8 +117,6 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
       });
 
       for (const matchData of resolvedPromisesData) {
-        let firstCompositionInMatch = true;
-
         const participants = matchData.info.participants;
 
         for (const composition of participants) {
@@ -160,13 +156,6 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
             }
           }
 
-          numberOfMatchingComps++;
-
-          if (firstCompositionInMatch) {
-            totalNumberOfMatches++;
-            firstCompositionInMatch = false;
-          }
-
           collectDataAboutItemsCMS(
             itemsData,
             compositionUnits,
@@ -191,7 +180,12 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
             analyzeVariationPerformance(variation, variationPerformance[index]);
           }
 
-          return numberOfMatchingComps;
+          return {
+            numberOfAugmentMatchingComps,
+            itemsData,
+            augmentData,
+            totalNumberOfMatchesOverall
+          };
         }
       }
     }
@@ -207,7 +201,12 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput: Comp) => {
       analyzeVariationPerformance(variation, variationPerformance[index]);
     }
 
-    return numberOfMatchingComps;
+    return {
+      numberOfAugmentMatchingComps,
+      itemsData,
+      augmentData,
+      totalNumberOfMatchesOverall
+    };
   } catch (error: any) {
     console.log(error.message);
     return { error: `error - ${error.message}` };

@@ -580,10 +580,10 @@ app.get<{ Params: { stage: string } }>(
   }
 );
 
-app.get('/test', async (req, res) => {
-  await collectDataAboutRankings(1000);
-  return 'test done';
-});
+// app.get('/test', async (req, res) => {
+//   await collectDataAboutCompositions();
+//   return 'test done';
+// });
 
 app.post<{ Body: { user: RegisterDto } }>('/register', async (req, res) => {
   try {
@@ -895,6 +895,6 @@ cron.schedule('0 */12 * * *', () => {
   collectDataAboutRankings(1000);
 });
 
-// cron.schedule('0 5 * * */5', () => {
-//   collectDataAboutCompositions();
-// });
+cron.schedule('0 3 * * *', () => {
+  collectDataAboutCompositions();
+});

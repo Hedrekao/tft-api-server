@@ -19,7 +19,7 @@ const getCompsFromDb = async () => {
   for (const comp of comps) {
     if (comp.visibility) {
       const jsonString = comp.json;
-      const composition: Comp = JSON.parse(jsonString as string);
+      const composition: Comp = JSON.parse(jsonString);
       result.push(composition);
     }
   }

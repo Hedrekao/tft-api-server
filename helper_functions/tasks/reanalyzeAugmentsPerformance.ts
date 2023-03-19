@@ -88,7 +88,7 @@ export async function reanalyzeAugmentsPerformance(
     }
     const augment = new Augment(
       `https://raw.communitydragon.org/latest/game/${icon}`,
-      dataDragonItem.name,
+      dataDragonItem?.name ?? 'Unknown',
       avgPlace,
       winRate,
       playRate

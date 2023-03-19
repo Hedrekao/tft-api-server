@@ -51,7 +51,7 @@ export async function reanalyzeAugmentsPerformance(compId, augmentsData, composi
                 }
             });
         }
-        const augment = new Augment(`https://raw.communitydragon.org/latest/game/${icon}`, dataDragonItem.name, avgPlace, winRate, playRate);
+        const augment = new Augment(`https://raw.communitydragon.org/latest/game/${icon}`, dataDragonItem?.name ?? 'Unknown', avgPlace, winRate, playRate);
         augments.push(augment);
     }
     augments.sort((a, b) => {

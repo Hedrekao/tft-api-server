@@ -77,7 +77,7 @@ export async function reanalyzeItemsPerformance(compId, compositionInput, itemsD
                         }
                     });
                 }
-                const itemUnit = new ItemUnit(`https://raw.communitydragon.org/latest/game/${icon}`, dataDragonItem.name, parseFloat(rate));
+                const itemUnit = new ItemUnit(`https://raw.communitydragon.org/latest/game/${icon}`, dataDragonItem?.name ?? 'Unknown', parseFloat(rate));
                 itemRates.push(itemUnit);
             }
         }

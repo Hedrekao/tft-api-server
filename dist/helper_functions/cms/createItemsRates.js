@@ -11,6 +11,9 @@ const createItemsRates = async (compositionInput, itemsData, dataDragon) => {
                 const rate = ((itemsData[unit.id][item].numberOfComps /
                     itemsData[unit.id].numberOfAppearances) *
                     100).toFixed(1);
+                if (set8Data == undefined) {
+                    break;
+                }
                 const dataDragonItem = set8Data[item];
                 const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
                 const icon = iconWithWrongExt

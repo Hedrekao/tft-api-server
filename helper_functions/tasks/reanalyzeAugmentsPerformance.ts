@@ -7,11 +7,11 @@ export async function reanalyzeAugmentsPerformance(
   composition: Comp,
   numberOfMatchingComps: number,
   previousNumberOfComps: number,
-  dataDragon: DataDragon | undefined,
+  dataDragon: DataDragon,
   prisma: PrismaClient
 ) {
   const augments: Array<Augment> = [];
-  const set8Data = dataDragon?.augments;
+  const set8Data = dataDragon.augments;
 
   const currentCompAugments = await prisma.compsAugments.findMany({
     where: { compId: compId }
@@ -21,7 +21,10 @@ export async function reanalyzeAugmentsPerformance(
     const augmentNumberOfComps = augmentsData[augmentData].numberOfComps;
     const augmentNumberOfWins = augmentsData[augmentData].numberOfWins;
     const augmentSumOfPlacements = augmentsData[augmentData].sumOfPlacements;
-    const dataDragonItem = set8Data![augmentData];
+    const dataDragonItem = set8Data[augmentData];
+    if (dataDragonItem == undefined) {
+      continue;
+    }
     const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
     let icon = iconWithWrongExt
       ?.substring(0, iconWithWrongExt.length - 3)
@@ -88,7 +91,7 @@ export async function reanalyzeAugmentsPerformance(
     }
     const augment = new Augment(
       `https://raw.communitydragon.org/latest/game/${icon}`,
-      dataDragonItem?.name ?? 'Unknown',
+      dataDragonItem?.name,
       avgPlace,
       winRate,
       playRate

@@ -30,7 +30,10 @@ const analyzeCompositionAugments = (
       ).toFixed(2)
     );
 
-    const dataDragonItem = set8Data![augmentData];
+    if (set8Data == undefined) {
+      break;
+    }
+    const dataDragonItem = set8Data[augmentData];
     const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
     let icon = iconWithWrongExt
       ?.substring(0, iconWithWrongExt.length - 3)

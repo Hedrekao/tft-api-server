@@ -2,13 +2,16 @@ const analyzeAugments = (augmentsData, numberOfMatchingComps, dataDragon) => {
     const result = [];
     const set8Data = dataDragon?.augments;
     for (const augmentData in augmentsData) {
+        if (set8Data == undefined) {
+            break;
+        }
         const dataDragonItem = set8Data[augmentData];
         const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
         let src = iconWithWrongExt
             ?.substring(0, iconWithWrongExt.length - 3)
             .concat('png');
         src = src?.replace('hexcore', 'choiceui');
-        const name = dataDragonItem.name;
+        const name = dataDragonItem?.name;
         const augment = {
             apiName: augmentData,
             name: name,

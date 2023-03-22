@@ -466,10 +466,10 @@ app.get('/augments-ranking/:stage', async (req, res) => {
     });
     return data;
 });
-// app.get('/test', async (req, res) => {
-//   await collectDataAboutCompositions();
-//   return 'test done';
-// });
+app.get('/test', async (req, res) => {
+    await collectDataAboutCompositions();
+    return 'test done';
+});
 app.post('/register', async (req, res) => {
     try {
         const user = req.body.user;

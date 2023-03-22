@@ -10,6 +10,9 @@ const analyzeCompositionAugments = (augmentsData, composition, numberOfMatchingC
             100).toFixed(2));
         const playRate = parseFloat(((augmentsData[augmentData].numberOfComps / numberOfMatchingComps) *
             100).toFixed(2));
+        if (set8Data == undefined) {
+            break;
+        }
         const dataDragonItem = set8Data[augmentData];
         const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
         let icon = iconWithWrongExt

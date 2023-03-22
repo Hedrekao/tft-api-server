@@ -20,7 +20,11 @@ const createItemsRates = async (
             itemsData[unit.id].numberOfAppearances) *
           100
         ).toFixed(1);
-        const dataDragonItem = set8Data![item];
+        if (set8Data == undefined) {
+          break;
+        }
+        const dataDragonItem = set8Data[item];
+
         const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
         const icon = iconWithWrongExt
           ?.substring(0, iconWithWrongExt.length - 3)

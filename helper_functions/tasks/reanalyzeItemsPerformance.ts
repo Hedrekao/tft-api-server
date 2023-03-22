@@ -5,10 +5,10 @@ export async function reanalyzeItemsPerformance(
   compId: bigint,
   compositionInput: Comp,
   itemsData: ItemsDataCMS,
-  dataDragon: DataDragon | undefined,
+  dataDragon: DataDragon,
   prisma: PrismaClient
 ) {
-  const set8Data = dataDragon?.items;
+  const set8Data = dataDragon.items;
 
   const unitItemsArr = [];
   const currentUnits = await prisma.compsUnits.findMany({
@@ -39,7 +39,10 @@ export async function reanalyzeItemsPerformance(
       if (item != 'numberOfAppearances') {
         let rate;
         const itemAppearances = itemsData[unit.id][item].numberOfComps;
-        const dataDragonItem = set8Data![item];
+        const dataDragonItem = set8Data[item];
+        if (!dataDragonItem) {
+          continue;
+        }
         const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
         const icon = iconWithWrongExt
           ?.substring(0, iconWithWrongExt.length - 3)
@@ -91,7 +94,7 @@ export async function reanalyzeItemsPerformance(
         }
         const itemUnit = new ItemUnit(
           `https://raw.communitydragon.org/latest/game/${icon}`,
-          dataDragonItem?.name ?? 'Unknown',
+          dataDragonItem?.name,
           parseFloat(rate)
         );
         itemRates.push(itemUnit);

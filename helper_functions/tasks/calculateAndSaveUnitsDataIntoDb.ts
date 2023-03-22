@@ -60,7 +60,7 @@ const calculateAndSaveUnitsDataIntoDb = async (
           }
           traits.push(traitFromDb);
         }
-        const name = dataDragonUnit.name;
+        const name = dataDragonUnit?.name;
         await prisma.champions_ranking.create({
           data: {
             id: id,

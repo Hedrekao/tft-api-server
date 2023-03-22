@@ -1,7 +1,7 @@
 import { Augment } from '../../types/classes.js';
 export async function reanalyzeAugmentsPerformance(compId, augmentsData, composition, numberOfMatchingComps, previousNumberOfComps, dataDragon, prisma) {
     const augments = [];
-    const set8Data = dataDragon?.augments;
+    const set8Data = dataDragon.augments;
     const currentCompAugments = await prisma.compsAugments.findMany({
         where: { compId: compId }
     });
@@ -10,6 +10,9 @@ export async function reanalyzeAugmentsPerformance(compId, augmentsData, composi
         const augmentNumberOfWins = augmentsData[augmentData].numberOfWins;
         const augmentSumOfPlacements = augmentsData[augmentData].sumOfPlacements;
         const dataDragonItem = set8Data[augmentData];
+        if (dataDragonItem == undefined) {
+            continue;
+        }
         const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
         let icon = iconWithWrongExt
             ?.substring(0, iconWithWrongExt.length - 3)
@@ -51,7 +54,7 @@ export async function reanalyzeAugmentsPerformance(compId, augmentsData, composi
                 }
             });
         }
-        const augment = new Augment(`https://raw.communitydragon.org/latest/game/${icon}`, dataDragonItem?.name ?? 'Unknown', avgPlace, winRate, playRate);
+        const augment = new Augment(`https://raw.communitydragon.org/latest/game/${icon}`, dataDragonItem?.name, avgPlace, winRate, playRate);
         augments.push(augment);
     }
     augments.sort((a, b) => {

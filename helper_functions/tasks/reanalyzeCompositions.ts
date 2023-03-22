@@ -46,6 +46,8 @@ export async function reanalyzeComps(
 
     const dataDragon = cache.get<DataDragon>('dataDragon');
 
+    if (dataDragon == undefined) return;
+
     let totalNumberOfMatches = 0;
     const usedChallengersIdArray: Array<number> = [];
     const visitedMatches: string[] = [];

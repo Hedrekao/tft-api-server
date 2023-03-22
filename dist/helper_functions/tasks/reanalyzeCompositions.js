@@ -22,6 +22,8 @@ export async function reanalyzeComps(input) {
         const challengerDataResponse = await axios.get(`https://euw1.api.riotgames.com/tft/league/v1/challenger`);
         const throttle = throttledQueue(490, 10000, true);
         const dataDragon = cache.get('dataDragon');
+        if (dataDragon == undefined)
+            return;
         let totalNumberOfMatches = 0;
         const usedChallengersIdArray = [];
         const visitedMatches = [];

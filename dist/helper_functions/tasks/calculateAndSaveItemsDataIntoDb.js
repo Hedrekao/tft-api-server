@@ -35,7 +35,7 @@ const calculateAndSaveItemsDataIntoDb = async (itemsObject, dataDragon) => {
                         numberOfAppearances: itemsObject[id].numberOfComps,
                         sumOfWins: itemsObject[id].numberOfWins,
                         icon: `https://raw.communitydragon.org/latest/game/${icon}`,
-                        name: dataDragonItem.name,
+                        name: dataDragonItem?.name,
                         type: type
                     }
                 });

@@ -580,10 +580,10 @@ app.get<{ Params: { stage: string } }>(
   }
 );
 
-// app.get('/test', async (req, res) => {
-//   await collectDataAboutCompositions();
-//   return 'test done';
-// });
+app.get('/test', async (req, res) => {
+  await collectDataAboutCompositions();
+  return 'test done';
+});
 
 app.post<{ Body: { user: RegisterDto } }>('/register', async (req, res) => {
   try {

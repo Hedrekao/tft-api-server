@@ -66,85 +66,83 @@ async function getPreviousMatchesData(
       );
 
     const matchData = matchDataResponse.data;
-    if (matchData.info.tft_set_core_name == 'TFTSet8') {
-      const participants = matchData.info.participants;
-      const playerIndex = matchData.metadata.participants.indexOf(puuid);
-      countOfGames++;
-      const playerInfo = participants[playerIndex];
-      const placement = playerInfo.placement;
+    const participants = matchData.info.participants;
+    const playerIndex = matchData.metadata.participants.indexOf(puuid);
+    countOfGames++;
+    const playerInfo = participants[playerIndex];
+    const placement = playerInfo.placement;
 
-      if (!generalData) {
-        const otherCompositions = await Promise.all(
-          participants.map(async (item) => {
-            let eliminated;
-            const summonerResponse = await axios
-              .get<RiotAPISummonerDto>(
-                `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/${item.puuid}`
-              )
-              .catch(
-                async (e) =>
-                  await axios.get<RiotAPISummonerDto>(
-                    `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/${item.puuid}`
-                  )
-              );
+    if (!generalData) {
+      const otherCompositions = await Promise.all(
+        participants.map(async (item) => {
+          let eliminated;
+          const summonerResponse = await axios
+            .get<RiotAPISummonerDto>(
+              `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/${item.puuid}`
+            )
+            .catch(
+              async (e) =>
+                await axios.get<RiotAPISummonerDto>(
+                  `https://${region}.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/${item.puuid}`
+                )
+            );
 
-            const name = summonerResponse.data.name;
-            const summonerIcon = summonerResponse.data.profileIconId;
-            if (item.last_round <= 3) {
-              eliminated = `1-${item.last_round}`;
-            } else {
-              eliminated = `${1 + Math.ceil((item.last_round - 3) / 7)}-${
-                (item.last_round - 3) % 7 == 0 ? 7 : (item.last_round - 3) % 7
-              }`;
-            }
-
-            const result = {
-              augments: mapAugments(item.augments, dataDragon),
-              goldLeft: item.gold_left,
-              placement: item.placement,
-              traits: mapTraits(item.traits, dataDragon),
-              units: mapUnits(item.units, dataDragon),
-              eliminated: eliminated,
-              summonerName: name,
-              summonerIcon: summonerIcon
-            };
-            return result;
-          })
-        );
-
-        otherCompositions.sort((a, b) => {
-          if (a.placement < b.placement) {
-            return -1;
+          const name = summonerResponse.data.name;
+          const summonerIcon = summonerResponse.data.profileIconId;
+          if (item.last_round <= 3) {
+            eliminated = `1-${item.last_round}`;
+          } else {
+            eliminated = `${1 + Math.ceil((item.last_round - 3) / 7)}-${
+              (item.last_round - 3) % 7 == 0 ? 7 : (item.last_round - 3) % 7
+            }`;
           }
-          if (a.placement < b.placement) {
-            return 1;
-          }
-          return 0;
-        });
 
-        const match = {
-          players: otherCompositions,
-          matchTime: matchData.info.game_datetime,
-          timeAgo: timeSince(matchData.info.game_datetime),
-          queueType:
-            matchData.info.tft_game_type === 'standard' ? 'Ranked' : 'Normal',
-          placement: placement,
-          trait: mapTraits(playerInfo.traits, dataDragon),
-          units: mapUnits(playerInfo.units, dataDragon),
-          augments: mapAugments(playerInfo.augments, dataDragon)
-        };
-        allComps.push(match);
-      }
-      sumOfPlacements += placement;
-      if (placement <= 4) {
-        top4Placements++;
-      }
-      if (placement == 1) {
-        wins++;
-      }
-      if (!generalData) {
-        placements.push(placement);
-      }
+          const result = {
+            augments: mapAugments(item.augments, dataDragon),
+            goldLeft: item.gold_left,
+            placement: item.placement,
+            traits: mapTraits(item.traits, dataDragon),
+            units: mapUnits(item.units, dataDragon),
+            eliminated: eliminated,
+            summonerName: name,
+            summonerIcon: summonerIcon
+          };
+          return result;
+        })
+      );
+
+      otherCompositions.sort((a, b) => {
+        if (a.placement < b.placement) {
+          return -1;
+        }
+        if (a.placement < b.placement) {
+          return 1;
+        }
+        return 0;
+      });
+
+      const match = {
+        players: otherCompositions,
+        matchTime: matchData.info.game_datetime,
+        timeAgo: timeSince(matchData.info.game_datetime),
+        queueType:
+          matchData.info.tft_game_type === 'standard' ? 'Ranked' : 'Normal',
+        placement: placement,
+        trait: mapTraits(playerInfo.traits, dataDragon),
+        units: mapUnits(playerInfo.units, dataDragon),
+        augments: mapAugments(playerInfo.augments, dataDragon)
+      };
+      allComps.push(match);
+    }
+    sumOfPlacements += placement;
+    if (placement <= 4) {
+      top4Placements++;
+    }
+    if (placement == 1) {
+      wins++;
+    }
+    if (!generalData) {
+      placements.push(placement);
     }
   }
   const winsProcentage = ((wins / countOfGames) * 100).toFixed(2);

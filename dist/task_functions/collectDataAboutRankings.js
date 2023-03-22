@@ -74,6 +74,8 @@ const collectDataAboutRankings = async (limitOfMatches) => {
                 }
             });
             for (const matchData of resolvedPromisesData) {
+                if (matchData.info.tft_set_core_name == 'TFTSet8_2')
+                    continue;
                 const participants = matchData.info.participants;
                 const gameVersionFragments = matchData.info.game_version.split('.');
                 if (typeof gameVersion != 'string') {

@@ -66,6 +66,8 @@ export async function reanalyzeComps(input) {
                 }
             });
             for (const matchData of resolvedPromisesData) {
+                if (matchData.info.tft_set_core_name == 'TFTSet8_2')
+                    continue;
                 const participants = matchData.info.participants;
                 totalNumberOfMatches++;
                 for (const composition of participants) {

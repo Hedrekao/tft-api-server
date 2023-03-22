@@ -580,10 +580,10 @@ app.get<{ Params: { stage: string } }>(
   }
 );
 
-app.get('/test', async (req, res) => {
-  await collectDataAboutCompositions();
-  return 'test done';
-});
+// app.get('/test', async (req, res) => {
+//   await collectDataAboutRankings(1000);
+//   return 'test done';
+// });
 
 app.post<{ Body: { user: RegisterDto } }>('/register', async (req, res) => {
   try {
@@ -877,7 +877,9 @@ app.ready().then(async () => {
     sets: improvedSets,
     items: improvedItems
   };
+
   cache.set('dataDragon', dataDragon, 0);
+  console.log('dataDragon has been cached');
 });
 
 app.listen({ port: port, host: '0.0.0.0' }, (err) => {
@@ -891,10 +893,10 @@ async function commitToDb<T>(promise: Promise<T>) {
   return data;
 }
 
-cron.schedule('0 */12 * * *', () => {
-  collectDataAboutRankings(1000);
-});
+// cron.schedule('0 */12 * * *', () => {
+//   collectDataAboutRankings(1000);
+// });
 
-cron.schedule('0 3 * * *', () => {
-  collectDataAboutCompositions();
-});
+// cron.schedule('0 3 * * *', () => {
+//   collectDataAboutCompositions();
+// });

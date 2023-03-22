@@ -5,14 +5,12 @@ import cookies from '@fastify/cookie';
 import fastifyIO from 'fastify-socket.io';
 import { PrismaClient } from '@prisma/client';
 import cors from '@fastify/cors';
-import cron from 'node-cron';
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import nodemailer from 'nodemailer';
 import getSummonersData from './routes_functions/summonerRoute.js';
 import analyzeComposition from './routes_functions/analyzeCompRoute.js';
-import collectDataAboutRankings from './task_functions/collectDataAboutRankings.js';
 import getPerformanceForCoreUnits from './routes_functions/cmsRoute.js';
 import saveCompositionIntoDatabase from './routes_functions/cmsSaveRoute.js';
 import getCompsFromDb from './routes_functions/preparedCompsRoute.js';
@@ -24,7 +22,6 @@ import timeSince from './helper_functions/summonerRoute/timeSince.js';
 import { cache } from './helper_functions/singletonCache.js';
 import { refreshCompsData } from './routes_functions/cmsRefreshCompsRoute.js';
 import { refreshAllCompsData } from './routes_functions/cmsRefreshAllCompsRoute.js';
-import { collectDataAboutCompositions } from './task_functions/collectDataAboutCompositions.js';
 import { getGuideByTitle, getAllGuidesWithoutDetails, saveGuide } from './routes_functions/guidesRoutes.js';
 dotenv.config();
 axios.defaults.headers.common['X-Riot-Token'] = process.env.API_KEY;
@@ -466,10 +463,10 @@ app.get('/augments-ranking/:stage', async (req, res) => {
     });
     return data;
 });
-app.get('/test', async (req, res) => {
-    await collectDataAboutCompositions();
-    return 'test done';
-});
+// app.get('/test', async (req, res) => {
+//   await collectDataAboutRankings(1000);
+//   return 'test done';
+// });
 app.post('/register', async (req, res) => {
     try {
         const user = req.body.user;
@@ -733,6 +730,7 @@ app.ready().then(async () => {
         items: improvedItems
     };
     cache.set('dataDragon', dataDragon, 0);
+    console.log('dataDragon has been cached');
 });
 app.listen({ port: port, host: '0.0.0.0' }, (err) => {
     console.log('Server is running');
@@ -743,9 +741,9 @@ async function commitToDb(promise) {
         return app.httpErrors.internalServerError(error.message);
     return data;
 }
-cron.schedule('0 */12 * * *', () => {
-    collectDataAboutRankings(1000);
-});
-cron.schedule('0 3 * * *', () => {
-    collectDataAboutCompositions();
-});
+// cron.schedule('0 */12 * * *', () => {
+//   collectDataAboutRankings(1000);
+// });
+// cron.schedule('0 3 * * *', () => {
+//   collectDataAboutCompositions();
+// });

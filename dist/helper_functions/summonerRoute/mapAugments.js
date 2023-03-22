@@ -1,17 +1,15 @@
+import { getDataDragonAugmentInfo } from '../getDataDragonAugmentInfo.js';
 const mapAugments = (augments, dataDragon) => {
     const set8Data = dataDragon?.augments;
     const result = [];
+    if (set8Data == undefined)
+        return [];
     for (let i = 0; i < augments.length; i++) {
-        const dataDragonItem = set8Data[augments[i]];
-        const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
-        let icon = iconWithWrongExt
-            ?.substring(0, iconWithWrongExt.length - 3)
-            .concat('png');
-        icon = icon?.replace('hexcore', 'choiceui');
+        const { name, src } = getDataDragonAugmentInfo(set8Data, augments[i]);
         const augment = {
             apiName: augments[i],
-            name: dataDragonItem?.name,
-            icon: `https://raw.communitydragon.org/latest/game/${icon}`
+            name: name,
+            icon: src
         };
         result.push(augment);
     }

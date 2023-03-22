@@ -1,3 +1,4 @@
+import { getDataDragonAugmentInfo } from '../getDataDragonAugmentInfo.js';
 const analyzeAugments = (augmentsData, numberOfMatchingComps, dataDragon) => {
     const result = [];
     const set8Data = dataDragon?.augments;
@@ -5,17 +6,11 @@ const analyzeAugments = (augmentsData, numberOfMatchingComps, dataDragon) => {
         if (set8Data == undefined) {
             break;
         }
-        const dataDragonItem = set8Data[augmentData];
-        const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
-        let src = iconWithWrongExt
-            ?.substring(0, iconWithWrongExt.length - 3)
-            .concat('png');
-        src = src?.replace('hexcore', 'choiceui');
-        const name = dataDragonItem?.name;
+        const { name, src } = getDataDragonAugmentInfo(set8Data, augmentData);
         const augment = {
             apiName: augmentData,
             name: name,
-            src: `https://raw.communitydragon.org/latest/game/${src}`,
+            src: src,
             avgPlace: (augmentsData[augmentData].sumOfPlacements /
                 augmentsData[augmentData].numberOfComps).toFixed(2),
             winRate: ((augmentsData[augmentData].numberOfWins /

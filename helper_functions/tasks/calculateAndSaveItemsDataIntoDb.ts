@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { getDataDragonItemInfo } from '../getDataDragonItemInfo.js';
 
 const prisma = new PrismaClient();
 
@@ -7,6 +8,8 @@ const calculateAndSaveItemsDataIntoDb = async (
   dataDragon: DataDragon | undefined
 ) => {
   const set8DataItems = dataDragon?.items;
+
+  if (set8DataItems == undefined) return;
 
   for (const id in itemsObject) {
     try {
@@ -27,20 +30,15 @@ const calculateAndSaveItemsDataIntoDb = async (
           }
         });
       } else {
-        const dataDragonItem = set8DataItems![id];
-        const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
-        const type = iconWithWrongExt?.split('/')[5];
-        const icon = iconWithWrongExt
-          ?.substring(0, iconWithWrongExt.length - 3)
-          .concat('png');
+        const { name, src, type } = getDataDragonItemInfo(set8DataItems, id);
         await prisma.items_ranking.create({
           data: {
             id: id,
             sumOfPlacements: itemsObject[id].sumOfPlacements,
             numberOfAppearances: itemsObject[id].numberOfComps,
             sumOfWins: itemsObject[id].numberOfWins,
-            icon: `https://raw.communitydragon.org/latest/game/${icon}`,
-            name: dataDragonItem?.name,
+            icon: src,
+            name: name,
             type: type
           }
         });

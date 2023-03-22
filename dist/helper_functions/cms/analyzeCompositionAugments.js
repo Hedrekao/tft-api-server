@@ -1,7 +1,10 @@
+import { getDataDragonAugmentInfo } from '../getDataDragonAugmentInfo.js';
 import { Augment } from '../../types/classes.js';
 const analyzeCompositionAugments = (augmentsData, composition, numberOfMatchingComps, dataDragon) => {
     const augments = [];
     const set8Data = dataDragon?.augments;
+    if (set8Data == undefined)
+        return;
     for (const augmentData in augmentsData) {
         const avgPlace = parseFloat((augmentsData[augmentData].sumOfPlacements /
             augmentsData[augmentData].numberOfComps).toFixed(2));
@@ -13,13 +16,8 @@ const analyzeCompositionAugments = (augmentsData, composition, numberOfMatchingC
         if (set8Data == undefined) {
             break;
         }
-        const dataDragonItem = set8Data[augmentData];
-        const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
-        let icon = iconWithWrongExt
-            ?.substring(0, iconWithWrongExt.length - 3)
-            .concat('png');
-        icon = icon?.replace('hexcore', 'choiceui');
-        const augment = new Augment(`https://raw.communitydragon.org/latest/game/${icon}`, dataDragonItem.name, avgPlace, winRate, playRate);
+        const { name, src } = getDataDragonAugmentInfo(set8Data, augmentData);
+        const augment = new Augment(src, name, avgPlace, winRate, playRate);
         augments.push(augment);
     }
     augments.sort((a, b) => {

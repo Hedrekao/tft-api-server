@@ -1,3 +1,4 @@
+import { getDataDragonAugmentInfo } from '../getDataDragonAugmentInfo.js';
 import { Augment } from '../../types/classes.js';
 export async function reanalyzeAugmentsPerformance(compId, augmentsData, composition, numberOfMatchingComps, previousNumberOfComps, dataDragon, prisma) {
     const augments = [];
@@ -13,11 +14,7 @@ export async function reanalyzeAugmentsPerformance(compId, augmentsData, composi
         if (dataDragonItem == undefined) {
             continue;
         }
-        const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
-        let icon = iconWithWrongExt
-            ?.substring(0, iconWithWrongExt.length - 3)
-            .concat('png');
-        icon = icon?.replace('hexcore', 'choiceui');
+        const { name, src } = getDataDragonAugmentInfo(set8Data, augmentData);
         let avgPlace;
         let winRate;
         let playRate;
@@ -54,7 +51,7 @@ export async function reanalyzeAugmentsPerformance(compId, augmentsData, composi
                 }
             });
         }
-        const augment = new Augment(`https://raw.communitydragon.org/latest/game/${icon}`, dataDragonItem?.name, avgPlace, winRate, playRate);
+        const augment = new Augment(src, name, avgPlace, winRate, playRate);
         augments.push(augment);
     }
     augments.sort((a, b) => {

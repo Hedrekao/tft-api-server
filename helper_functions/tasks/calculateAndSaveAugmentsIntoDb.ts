@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { getDataDragonAugmentInfo } from '../getDataDragonAugmentInfo.js';
 
 const prisma = new PrismaClient();
 
@@ -11,6 +12,8 @@ const calculateAndSaveAugmentsDataIntoDb = async (
 ) => {
   try {
     const set8Data = dataDragon?.augments;
+
+    if (set8Data == undefined) return;
 
     for (const id in augmentsObject) {
       const numOfRecords = await prisma.augments_ranking.count({
@@ -30,19 +33,12 @@ const calculateAndSaveAugmentsDataIntoDb = async (
           }
         });
       } else {
-        const dataDragonItem = set8Data![id];
-        const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
-        let src = iconWithWrongExt
-          ?.substring(0, iconWithWrongExt.length - 3)
-          .concat('png');
-        src = src?.replace('hexcore', 'choiceui');
-
-        const name = dataDragonItem.name;
+        const { name, src } = getDataDragonAugmentInfo(set8Data, id);
         await prisma.augments_ranking.create({
           data: {
             id: id,
             name: name,
-            icon: `https://raw.communitydragon.org/latest/game/${src}`,
+            icon: src,
             sumOfPlacements: augmentsObject[id].sumOfPlacements,
             numberOfAppearances: augmentsObject[id].numberOfComps,
             sumOfWins: augmentsObject[id].numberOfWins
@@ -69,19 +65,13 @@ const calculateAndSaveAugmentsDataIntoDb = async (
           }
         });
       } else {
-        const dataDragonItem = set8Data![id];
-        const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
-        let src = iconWithWrongExt
-          ?.substring(0, iconWithWrongExt.length - 3)
-          .concat('png');
-        src = src?.replace('hexcore', 'choiceui');
+        const { name, src } = getDataDragonAugmentInfo(set8Data, id);
 
-        const name = dataDragonItem.name;
         await prisma.augments_first_choice_ranking.create({
           data: {
             id: id,
             name: name,
-            icon: `https://raw.communitydragon.org/latest/game/${src}`,
+            icon: src,
             sumOfPlacements: firstChoiceAugmentObject[id].sumOfPlacements,
             numberOfAppearances: firstChoiceAugmentObject[id].numberOfComps,
             sumOfWins: firstChoiceAugmentObject[id].numberOfWins
@@ -110,19 +100,13 @@ const calculateAndSaveAugmentsDataIntoDb = async (
           }
         });
       } else {
-        const dataDragonItem = set8Data![id];
-        const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
-        let src = iconWithWrongExt
-          ?.substring(0, iconWithWrongExt.length - 3)
-          .concat('png');
-        src = src?.replace('hexcore', 'choiceui');
+        const { name, src } = getDataDragonAugmentInfo(set8Data, id);
 
-        const name = dataDragonItem.name;
         await prisma.augments_second_choice_ranking.create({
           data: {
             id: id,
             name: name,
-            icon: `https://raw.communitydragon.org/latest/game/${src}`,
+            icon: src,
             sumOfPlacements: secondChoiceAugmentObject[id].sumOfPlacements,
             numberOfAppearances: secondChoiceAugmentObject[id].numberOfComps,
             sumOfWins: secondChoiceAugmentObject[id].numberOfWins
@@ -149,19 +133,13 @@ const calculateAndSaveAugmentsDataIntoDb = async (
           }
         });
       } else {
-        const dataDragonItem = set8Data![id];
-        const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
-        let src = iconWithWrongExt
-          ?.substring(0, iconWithWrongExt.length - 3)
-          .concat('png');
-        src = src?.replace('hexcore', 'choiceui');
+        const { name, src } = getDataDragonAugmentInfo(set8Data, id);
 
-        const name = dataDragonItem.name;
         await prisma.augments_third_choice_ranking.create({
           data: {
             id: id,
             name: name,
-            icon: `https://raw.communitydragon.org/latest/game/${src}`,
+            icon: src,
             sumOfPlacements: thirdChoiceAugmentObject[id].sumOfPlacements,
             numberOfAppearances: thirdChoiceAugmentObject[id].numberOfComps,
             sumOfWins: thirdChoiceAugmentObject[id].numberOfWins

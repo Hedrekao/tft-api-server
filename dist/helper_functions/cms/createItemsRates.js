@@ -1,8 +1,11 @@
 import { PrismaClient } from '@prisma/client';
+import { getDataDragonItemInfo } from '../getDataDragonItemInfo.js';
 import { ItemUnit, UnitItems } from '../../types/classes.js';
 const prisma = new PrismaClient();
 const createItemsRates = async (compositionInput, itemsData, dataDragon) => {
     const set8Data = dataDragon?.items;
+    if (set8Data == undefined)
+        return;
     const unitItemsArr = [];
     for (const unit of compositionInput.units) {
         let itemRates = [];
@@ -14,12 +17,8 @@ const createItemsRates = async (compositionInput, itemsData, dataDragon) => {
                 if (set8Data == undefined) {
                     break;
                 }
-                const dataDragonItem = set8Data[item];
-                const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
-                const icon = iconWithWrongExt
-                    ?.substring(0, iconWithWrongExt.length - 3)
-                    .concat('png');
-                const itemUnit = new ItemUnit(`https://raw.communitydragon.org/latest/game/${icon}`, dataDragonItem.name, parseFloat(rate));
+                const { name, src } = getDataDragonItemInfo(set8Data, item);
+                const itemUnit = new ItemUnit(src, name, parseFloat(rate));
                 itemRates.push(itemUnit);
             }
         }

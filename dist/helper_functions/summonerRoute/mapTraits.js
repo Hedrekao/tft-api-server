@@ -1,18 +1,17 @@
+import { getDataDragonTraitInfo } from '../getDataDragonTraitInfo.js';
 const mapTraits = (rawTraits, dataDragon) => {
     const set8Data = dataDragon?.sets[8].traits;
+    if (set8Data == undefined)
+        return [];
     rawTraits = rawTraits.filter((trait) => {
         return trait.style != 0;
     });
     const traits = rawTraits.map((trait) => {
-        const dataDragonTrait = set8Data.find((traitData) => traitData.apiName == trait.name);
-        const iconWithWrongExt = dataDragonTrait?.icon.toLowerCase();
-        const icon = iconWithWrongExt
-            ?.substring(0, iconWithWrongExt.length - 3)
-            .concat('png');
+        const { name, src } = getDataDragonTraitInfo(set8Data, trait.name);
         const result = {
             apiName: trait.name,
-            name: dataDragonTrait?.name,
-            icon: `https://raw.communitydragon.org/latest/game/${icon}`,
+            name: name,
+            icon: src,
             currentTrait: trait.num_units,
             style: trait.style
         };

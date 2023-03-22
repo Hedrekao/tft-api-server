@@ -1,3 +1,4 @@
+import { getDataDragonItemInfo } from '../getDataDragonItemInfo.js';
 import { ItemUnit, UnitItems } from '../../types/classes.js';
 export async function reanalyzeItemsPerformance(compId, compositionInput, itemsData, dataDragon, prisma) {
     const set8Data = dataDragon.items;
@@ -31,14 +32,9 @@ export async function reanalyzeItemsPerformance(compId, compositionInput, itemsD
             if (item != 'numberOfAppearances') {
                 let rate;
                 const itemAppearances = itemsData[unit.id][item].numberOfComps;
-                const dataDragonItem = set8Data[item];
-                if (!dataDragonItem) {
+                const { name, src } = getDataDragonItemInfo(set8Data, item);
+                if (name == '')
                     continue;
-                }
-                const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
-                const icon = iconWithWrongExt
-                    ?.substring(0, iconWithWrongExt.length - 3)
-                    .concat('png');
                 if (currentUnit) {
                     const currentItem = currentUnit.items.find((i) => i.itemId === item);
                     if (currentItem) {
@@ -80,7 +76,7 @@ export async function reanalyzeItemsPerformance(compId, compositionInput, itemsD
                         }
                     });
                 }
-                const itemUnit = new ItemUnit(`https://raw.communitydragon.org/latest/game/${icon}`, dataDragonItem?.name, parseFloat(rate));
+                const itemUnit = new ItemUnit(src, name, parseFloat(rate));
                 itemRates.push(itemUnit);
             }
         }

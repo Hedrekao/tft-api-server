@@ -1,3 +1,4 @@
+import { getDataDragonItemInfo } from '../getDataDragonItemInfo.js';
 import { getDataDragonUnitInfo } from '../getDataDragonUnitInfo.js';
 const analyzeItems = (inputData, itemsData, numberOfMatchingComps, dataDragon) => {
     const set8DataItems = dataDragon?.items;
@@ -14,15 +15,11 @@ const analyzeItems = (inputData, itemsData, numberOfMatchingComps, dataDragon) =
         const items = itemsData[unit.name];
         let analyzedItems = new Array();
         for (const item in items) {
-            const dataDragonItem = set8DataItems[items[item].name];
-            const iconWithWrongExt = dataDragonItem?.icon.toLowerCase();
-            const icon = iconWithWrongExt
-                ?.substring(0, iconWithWrongExt.length - 3)
-                .concat('png');
+            const { name, src } = getDataDragonItemInfo(set8DataItems, items[item].name);
             const analyzedItem = {
                 id: items[item].name,
-                name: dataDragonItem.name,
-                icon: `https://raw.communitydragon.org/latest/game/${icon}`,
+                name: name,
+                icon: src,
                 playRate: ((items[item].numberOfComps / numberOfMatchingComps) *
                     100).toFixed(2),
                 avgPlace: (items[item].sumOfPlacements / items[item].numberOfComps).toFixed(2)

@@ -1,14 +1,15 @@
+import { getDataDragonUnitInfo } from '../getDataDragonUnitInfo.js';
 const analyzeItems = (inputData, itemsData, numberOfMatchingComps, dataDragon) => {
     const set8DataItems = dataDragon?.items;
     const set8DataChampions = dataDragon?.sets[8].champions;
+    if (set8DataItems == undefined || set8DataChampions == undefined)
+        return;
     for (const unit of inputData) {
-        const dataDragonUnit = set8DataChampions[unit.name];
-        const iconWithWrongExt = dataDragonUnit?.icon.toLowerCase();
-        const urlArr = iconWithWrongExt.split('/');
-        const elementUrl = urlArr[4];
-        const url = `https://raw.communitydragon.org/latest/game/assets/characters/${unit.name.toLowerCase()}/hud/${elementUrl
-            .replace('.dds', '')
-            .toLowerCase()}.png`;
+        const unitInfo = getDataDragonUnitInfo(set8DataChampions, unit.name);
+        let url = 'Error';
+        if (unitInfo != undefined) {
+            url = unitInfo.url;
+        }
         unit.icon = url;
         const items = itemsData[unit.name];
         let analyzedItems = new Array();

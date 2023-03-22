@@ -1,3 +1,4 @@
+import { getDataDragonUnitInfo } from '../getDataDragonUnitInfo.js';
 import getCostOfUnit from './getCostOfUnit.js';
 import mapItems from './mapItems.js';
 
@@ -6,14 +7,16 @@ const mapUnits = (
   dataDragon: DataDragon | undefined
 ) => {
   const set8Data = dataDragon?.sets[8].champions;
+  if (set8Data == undefined) return;
   const units = rawUnits.map((unit) => {
-    const dataDragonUnit = set8Data![unit.character_id];
-    const iconWithWrongExt = dataDragonUnit?.icon.toLowerCase();
-    const urlArr: string[] = iconWithWrongExt.split('/');
-    const elementUrl = urlArr[4];
-    const url = `https://raw.communitydragon.org/latest/game/assets/characters/${unit.character_id.toLowerCase()}/hud/${elementUrl
-      ?.replace('.dds', '')
-      .toLowerCase()}.png`;
+    const unitInfo = getDataDragonUnitInfo(set8Data, unit.character_id);
+
+    let url = 'Error';
+    let name = 'Error';
+    if (unitInfo != undefined) {
+      url = unitInfo.url;
+      name = unitInfo.name;
+    }
 
     const cost: number = getCostOfUnit(unit.rarity);
 
@@ -21,7 +24,7 @@ const mapUnits = (
 
     const result = {
       id: unit.character_id,
-      name: dataDragonUnit?.name,
+      name: name,
       icon: url,
       level: unit.tier,
       cost: cost,

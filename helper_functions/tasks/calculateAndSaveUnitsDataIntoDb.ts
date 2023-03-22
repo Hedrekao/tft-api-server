@@ -1,4 +1,5 @@
 import { PrismaClient, traits } from '@prisma/client';
+import { getDataDragonUnitInfo } from '../getDataDragonUnitInfo.js';
 
 const prisma = new PrismaClient();
 const calculateAndSaveUnitsDataIntoDb = async (
@@ -8,6 +9,7 @@ const calculateAndSaveUnitsDataIntoDb = async (
   const set8DataChampions = dataDragon?.sets[8].champions;
   const set8DataTraits = dataDragon?.sets[8].traits;
 
+  if (set8DataChampions == undefined || set8DataTraits == undefined) return;
   for (const id in unitsObject) {
     try {
       const numOfRecords = await prisma.champions_ranking.count({
@@ -27,13 +29,14 @@ const calculateAndSaveUnitsDataIntoDb = async (
           }
         });
       } else {
-        const dataDragonUnit = set8DataChampions![id];
-        const unitIconWithWrongExt = dataDragonUnit?.icon.toLowerCase();
-        const urlArr: string[] = unitIconWithWrongExt.split('/');
-        const elementUrl = urlArr[4];
-        const url = `https://raw.communitydragon.org/latest/game/assets/characters/${id.toLowerCase()}/hud/${elementUrl
-          .replace('.dds', '')
-          .toLowerCase()}.png`;
+        const unitInfo = getDataDragonUnitInfo(set8DataChampions, id);
+        const dataDragonUnit = set8DataChampions[id];
+        let url = 'Error';
+        let name = 'Error';
+        if (unitInfo != undefined) {
+          url = unitInfo.url;
+          name = unitInfo.name;
+        }
 
         const traits: traits[] = [];
         for (const traitName of dataDragonUnit.traits) {
@@ -60,7 +63,6 @@ const calculateAndSaveUnitsDataIntoDb = async (
           }
           traits.push(traitFromDb);
         }
-        const name = dataDragonUnit?.name;
         await prisma.champions_ranking.create({
           data: {
             id: id,

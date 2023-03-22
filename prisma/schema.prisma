@@ -63,7 +63,7 @@ model compositionJSON {
 
 model compsAugments {
   compId          BigInt
-  comp            compositionJSON @relation(fields: [compId], references: [id])
+  comp            compositionJSON @relation(fields: [compId], references: [id], onDelete: Cascade)
   augmentId       String
   sumOfPlacements Int
   numOfWins       Int
@@ -84,7 +84,7 @@ model compsItems {
 
 model compsUnits {
   compId      BigInt
-  comp        compositionJSON @relation(fields: [compId], references: [id])
+  comp        compositionJSON @relation(fields: [compId], references: [id], onDelete: Cascade)
   unitId      String
   numOfAppear Int
   items       compsItems[]

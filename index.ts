@@ -29,7 +29,8 @@ import { collectDataAboutCompositions } from './task_functions/collectDataAboutC
 import {
   getGuideByTitle,
   getAllGuidesWithoutDetails,
-  saveGuide
+  saveGuide,
+  deleteGuide
 } from './routes_functions/guidesRoutes.js';
 
 dotenv.config();
@@ -808,6 +809,26 @@ app.get<{ Params: { title: string } }>('/guides/:title', async (req, res) => {
     return res.code(502).send({ error: error.message });
   }
 });
+
+app.delete<{ Params: { title: string }; Headers: { 'x-api-key': string } }>(
+  '/guides/:title',
+  async (req, res) => {
+    try {
+      if (req.headers['x-api-key'] == process.env.CMS_API_KEY) {
+        const title = req.params.title;
+        const isDeleted = await deleteGuide(title);
+        if (!isDeleted) {
+          throw new Error('no guide found');
+        }
+        return res.code(200).send({ message: 'guide has been deleted' });
+      } else {
+        res.code(401).send({ error: 'You are not authorized' });
+      }
+    } catch (error: any) {
+      return res.code(502).send({ error: error.message });
+    }
+  }
+);
 
 app.post<{ Body: { guide: Guide }; Headers: { 'x-api-key': string } }>(
   '/guides',

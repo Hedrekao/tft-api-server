@@ -28,6 +28,16 @@ export async function getGuideByTitle(title) {
     guide[0]?.elements.sort((a, b) => a.order - b.order);
     return guide[0];
 }
+export async function deleteGuide(title) {
+    const prisma = new PrismaClient();
+    const correctTitle = title.replaceAll('-', ' ');
+    await prisma.guides.deleteMany({
+        where: {
+            title: { equals: correctTitle, mode: 'insensitive' }
+        }
+    });
+    return true;
+}
 export async function saveGuide(guide) {
     const prisma = new PrismaClient();
     const currentDate = new Date();

@@ -154,7 +154,7 @@ model guideElements {
   type       String
   content    String?
   guideTitle String
-  guide      guides  @relation(fields: [guideTitle], references: [title])
+  guide      guides  @relation(fields: [guideTitle], references: [title], onDelete: Cascade)
 
   @@id([order, guideTitle])
 }

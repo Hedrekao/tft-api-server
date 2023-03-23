@@ -22,7 +22,7 @@ import timeSince from './helper_functions/summonerRoute/timeSince.js';
 import { cache } from './helper_functions/singletonCache.js';
 import { refreshCompsData } from './routes_functions/cmsRefreshCompsRoute.js';
 import { refreshAllCompsData } from './routes_functions/cmsRefreshAllCompsRoute.js';
-import { getGuideByTitle, getAllGuidesWithoutDetails, saveGuide } from './routes_functions/guidesRoutes.js';
+import { getGuideByTitle, getAllGuidesWithoutDetails, saveGuide, deleteGuide } from './routes_functions/guidesRoutes.js';
 dotenv.config();
 axios.defaults.headers.common['X-Riot-Token'] = process.env.API_KEY;
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
@@ -665,6 +665,24 @@ app.get('/guides/:title', async (req, res) => {
             throw new Error('no guide found');
         }
         return res.code(200).send(guide);
+    }
+    catch (error) {
+        return res.code(502).send({ error: error.message });
+    }
+});
+app.delete('/guides/:title', async (req, res) => {
+    try {
+        if (req.headers['x-api-key'] == process.env.CMS_API_KEY) {
+            const title = req.params.title;
+            const isDeleted = await deleteGuide(title);
+            if (!isDeleted) {
+                throw new Error('no guide found');
+            }
+            return res.code(200).send({ message: 'guide has been deleted' });
+        }
+        else {
+            res.code(401).send({ error: 'You are not authorized' });
+        }
     }
     catch (error) {
         return res.code(502).send({ error: error.message });

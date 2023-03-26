@@ -38,6 +38,8 @@ const collectDataAboutRankings = async (limitOfMatches) => {
         const challengersData = challengerDataResponse.data.entries;
         while (totalNumberOfMatches < limitOfMatches) {
             let challengerArrayId = Math.floor(Math.random() * challengersData.length);
+            if (usedChallengersIdArray.length == challengersData.length)
+                break;
             let challengerData = challengersData[challengerArrayId];
             while (challengerData == undefined ||
                 usedChallengersIdArray.includes(challengerArrayId)) {
@@ -74,7 +76,7 @@ const collectDataAboutRankings = async (limitOfMatches) => {
                 }
             });
             for (const matchData of resolvedPromisesData) {
-                if (matchData.info.tft_set_core_name == 'TFTSet8_2')
+                if (matchData.info.tft_set_core_name != 'TFTSet8_2')
                     continue;
                 const participants = matchData.info.participants;
                 const gameVersionFragments = matchData.info.game_version.split('.');

@@ -59,12 +59,15 @@ export async function reanalyzeComps(
         Math.random() * challengersData.length
       );
 
+      if (usedChallengersIdArray.length == challengersData.length) break;
+
       let challengerData = challengersData[challengerArrayId];
       while (
         challengerData == undefined ||
         usedChallengersIdArray.includes(challengerArrayId)
       ) {
         if (usedChallengersIdArray.length - 1 == challengersData.length) break;
+
         challengerArrayId = Math.floor(Math.random() * challengersData.length);
         challengerData = challengersData[challengerArrayId];
       }
@@ -122,7 +125,7 @@ export async function reanalyzeComps(
       });
 
       for (const matchData of resolvedPromisesData) {
-        if (matchData.info.tft_set_core_name == 'TFTSet8_2') continue;
+        if (matchData.info.tft_set_core_name != 'TFTSet8_2') continue;
 
         const participants = matchData.info.participants;
         totalNumberOfMatches++;

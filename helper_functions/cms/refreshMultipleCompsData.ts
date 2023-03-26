@@ -45,6 +45,7 @@ export async function refreshMultipleCompsData(
       let challengerArrayId = Math.floor(
         Math.random() * challengersData.length
       );
+      if (usedChallengersIdArray.length == challengersData.length) break;
 
       let challengerData = challengersData[challengerArrayId];
       while (

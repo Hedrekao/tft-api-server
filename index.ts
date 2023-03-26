@@ -914,10 +914,10 @@ async function commitToDb<T>(promise: Promise<T>) {
   return data;
 }
 
-// cron.schedule('0 */12 * * *', () => {
-//   collectDataAboutRankings(1000);
-// });
+cron.schedule('0 */12 * * *', () => {
+  collectDataAboutRankings(1000);
+});
 
-// cron.schedule('0 3 * * *', () => {
-//   collectDataAboutCompositions();
-// });
+cron.schedule('0 3 * * *', () => {
+  collectDataAboutCompositions();
+});

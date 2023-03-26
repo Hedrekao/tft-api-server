@@ -25,6 +25,8 @@ const find4MostFrequentItemsOnCoreUnits = async (compositionInput) => {
         const challengersData = challengerDataResponse.data.entries;
         while (totalNumberOfMatchesOverall < 1000) {
             let challengerArrayId = Math.floor(Math.random() * challengersData.length);
+            if (usedChallengersIdArray.length == challengersData.length)
+                break;
             let challengerData = challengersData[challengerArrayId];
             while (challengerData == undefined ||
                 usedChallengersIdArray.includes(challengerArrayId)) {

@@ -19,6 +19,8 @@ const getPerformanceForCoreUnits = async (inputData, sampleSize, maxNumberOfMatc
         const challengersData = challengerDataResponse.data.entries;
         while (totalNumberOfMatchesOverall < maxNumberOfMatches) {
             let challengerArrayId = Math.floor(Math.random() * challengersData.length);
+            if (usedChallengersIdArray.length == challengersData.length)
+                break;
             let challengerData = challengersData[challengerArrayId];
             while (challengerData == undefined ||
                 usedChallengersIdArray.includes(challengerArrayId)) {
